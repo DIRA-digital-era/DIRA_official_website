@@ -6,25 +6,42 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - Tech Solutions</title>
+    <title>About Us - DIRA Tech Solutions</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-   <link rel="stylesheet" href="about.css">
+    <link rel="stylesheet" href="./style/header.css">
+    <link rel="stylesheet" href="./style/about.css">
 </head>
 
 <body>
-     <header>
-            <div class="logo-section">
-                <img src="logo.jpg" style="width: 100px; height: 100px;">
+    <header>
+        <div class="logo-section">
+            <img src="./images/logo.jpg" alt="DIRA Logo">
+            <span class="logo-text">DIRA</span>
+        </div>
+        <button class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav id="navMenu">
+            <a href="index.html">HOME</a>
+            <a href="services.html">SOLUTIONS</a>
+            <a href="contact.html">CONTACTS</a>
+            <a href="portfolio.html">GALLERY</a>
+            <div class="dropdown">
+                <button class="dropdown-toggle" onclick="toggleDropdown(event)">
+                    ECO-LINK <span class="dropdown-arrow">▼</span>
+                </button>
+                <ul class="dropdown-content">
+                    <div class="dropdown-section">Internal Projects</div>
+                    <li><a href="training.html">DHUB</a></li>
+                    <li><a href="training.html">Tech Fest</a></li>
+                    <div class="dropdown-section">Client Work</div>
+                    <li><a href="portfolio.html">View All Projects</a></li>
+                </ul>
             </div>
-            <nav>
-                <a href="index.html">Home</a>
-                <a href="about.html">About</a>
-                <a href="portfolio.html">Portfolio</a>
-                <a href="services.html">Services</a>
-                <a href="training.html">Trainings</a>
-                <a href="contact.html">Contact us</a>
-            </nav>
-        </header>
+        </nav>
+    </header>
     <div class="container">
         <!-- Hero Section -->
         <section class="about-hero">
@@ -208,6 +225,30 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const hamburger = document.querySelector('.hamburger');
+            navMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        function toggleDropdown(e) {
+            e.preventDefault();
+        }
+
+        document.addEventListener('click', function(event) {
+            const navMenu = document.getElementById('navMenu');
+            const hamburger = document.querySelector('.hamburger');
+            const header = document.querySelector('header');
+            
+            if (!header.contains(event.target)) {
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+    </script>
 
     <script>
         // Animated counter for statistics

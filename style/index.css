@@ -24,55 +24,6 @@ body {
     padding: 0 20px;
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 40px 0;
-    background: var(--primary-color);
- ;
-}
-
-.logo-section img {
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid var(--secondary-color);
-}
-
-nav {
-    display: flex;
-    gap: 25px;
-    padding-right:10px;
-}
-
-nav a {
-    text-decoration: none;
-    color: var(--background-color);
-    font-weight: 600;
-    font-size: 16px;
-    transition: color 0.3s;
-    position: relative;
-}
-
-nav a:hover {
-    color: var(--background-color);
-}
-
-nav a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -5px;
-    left: 0;
-    background-color: var(--background-color);
-    transition: width 0.3s;
-}
-
-nav a:hover::after {
-    width: 100%;
-}
-
 .hero {
     background: linear-gradient(rgba(25, 29, 54, 0.8), rgba(25, 29, 54, 0.8)), url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3') center/cover no-repeat;
     color: white;
@@ -443,15 +394,8 @@ footer {
 }
 
 @media (max-width: 768px) {
-    header {
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    nav {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
+    
+    
 
     .hero h1 {
         font-size: 36px;

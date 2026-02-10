@@ -23,55 +23,6 @@ body {
     max-width: 1200px;
     margin: 0 auto;
 }
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 40px 0;
-    background: var(--primary-color);
- ;
-}
-
-.logo-section img {
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid var(--secondary-color);
-}
-
-nav {
-    display: flex;
-    gap: 25px;
-    padding-right:10px;
-}
-
-nav a {
-    text-decoration: none;
-    color: var(--background-color);
-    font-weight: 600;
-    font-size: 16px;
-    transition: color 0.3s;
-    position: relative;
-}
-
-nav a:hover {
-    color: var(--background-color);
-}
-
-nav a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -5px;
-    left: 0;
-    background-color: var(--background-color);
-    transition: width 0.3s;
-}
-
-nav a:hover::after {
-    width: 100%;
-}
 #category {
   width: 100%;
   max-width: 400px;
@@ -318,15 +269,8 @@ footer {
 }
 
 @media (max-width: 768px) {
-    header {
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    nav {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
+    
+    
 
     .hero h1 {
         font-size: 36px;

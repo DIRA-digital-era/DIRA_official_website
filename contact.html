@@ -5,8 +5,9 @@
     <link rel="icon" href="logo.ico" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Tech Solutions</title>
+    <title>Contact Us - DIRA Tech Solutions</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="./style/header.css">
     <style>
         * {
             margin: 0;
@@ -250,6 +251,36 @@
 </head>
 
 <body>
+    <header>
+        <div class="logo-section">
+            <img src="./images/logo.jpg" alt="DIRA Logo">
+            <span class="logo-text">DIRA</span>
+        </div>
+        <button class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav id="navMenu">
+            <a href="index.html">HOME</a>
+            <a href="services.html">SOLUTIONS</a>
+            <a href="contact.html">CONTACTS</a>
+            <a href="portfolio.html">GALLERY</a>
+            <div class="dropdown">
+                <button class="dropdown-toggle" onclick="toggleDropdown(event)">
+                    ECO-LINK <span class="dropdown-arrow">▼</span>
+                </button>
+                <ul class="dropdown-content">
+                    <div class="dropdown-section">Internal Projects</div>
+                    <li><a href="training.html">DHUB</a></li>
+                    <li><a href="training.html">Tech Fest</a></li>
+                    <div class="dropdown-section">Client Work</div>
+                    <li><a href="portfolio.html">View All Projects</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
     <div class="contact-container">
         <div class="contact-info">
             <h2>Get In Touch</h2>
@@ -261,7 +292,7 @@
                     <i class="fas fa-map-marker-alt"></i>
                     <div>
                         <h4>Address</h4>
-                        <p>Cameroon, Bambili</p>
+                        <p>Bambili, Cameroon</p>
                     </div>
                 </div>
 
@@ -269,7 +300,7 @@
                     <i class="fas fa-phone"></i>
                     <div>
                         <h4>Phone</h4>
-                        <p>+273 679667032</p>
+                        <p>+237 679 66 70 32</p>
                     </div>
                 </div>
 
@@ -512,6 +543,29 @@
                 initializeEmailJS();
             }
         }, 2000);
+    </script>
+    <script>
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const hamburger = document.querySelector('.hamburger');
+            navMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        function toggleDropdown(e) {
+            e.preventDefault();
+        }
+
+        document.addEventListener('click', function(event) {
+            const navMenu = document.getElementById('navMenu');
+            const hamburger = document.querySelector('.hamburger');
+            const header = document.querySelector('header');
+            
+            if (!header.contains(event.target)) {
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
     </script>
 </body>
 
