@@ -59,7 +59,7 @@
         </section>
 
         <section class="portfolio" id="portfolio">
-            <div class="container">
+            <div class="container" id="projects-container">
                 <h2 class="section-title">My Work</h2>
 
                 <!-- Portfolio Item 1 -->
@@ -273,29 +273,8 @@
             });
         </script>
 
-    <script>
-        function toggleMenu() {
-            const navMenu = document.getElementById('navMenu');
-            const hamburger = document.querySelector('.hamburger');
-            navMenu.classList.toggle('active');
-            hamburger.classList.toggle('active');
-        }
-
-        function toggleDropdown(e) {
-            e.preventDefault();
-        }
-
-        document.addEventListener('click', function(event) {
-            const navMenu = document.getElementById('navMenu');
-            const hamburger = document.querySelector('.hamburger');
-            const header = document.querySelector('header');
-            
-            if (!header.contains(event.target)) {
-                navMenu.classList.remove('active');
-                hamburger.classList.remove('active');
-            }
-        });
-    </script>
+        <script src="./js/portfolio.js"></script>
+        <script src="./js/header.js"></script>
 </body>
 
 </html>
