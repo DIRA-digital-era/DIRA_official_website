@@ -119,101 +119,10 @@ body {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.portfolio-header {
-    padding: 1.5rem;
-    background: var(--primary-color);
-    color: var(--button-text);
-}
+/* Carousel styles moved to portfolio1.css (card-specific styling) to avoid duplication */
 
-.portfolio-header h3 {
-    font-size: 1.5rem;
-}
 
-.carousel {
-    position: relative;
-    overflow: hidden;
-    height: 400px;
-}
 
-.carousel-inner {
-    display: flex;
-    transition: transform 0.5s ease;
-    height: 100%;
-}
-
-.carousel-item {
-    min-width: 100%;
-    height: 100%;
-}
-
-.carousel-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.carousel-control {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background 0.3s;
-    z-index: 10;
-}
-
-.carousel-control:hover {
-    background: rgba(0, 0, 0, 0.8);
-}
-
-.carousel-control.prev {
-    left: 15px;
-}
-
-.carousel-control.next {
-    right: 15px;
-}
-
-.carousel-indicators {
-    position: absolute;
-    bottom: 15px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 8px;
-    z-index: 10;
-}
-
-.carousel-indicator {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.carousel-indicator.active {
-    background: white;
-}
-
-.portfolio-description {
-    padding: 1.5rem;
-}
-
-.portfolio-description p {
-    margin-bottom: 1rem;
-}
 
 .btn {
     display: inline-block;
@@ -235,6 +144,9 @@ footer {
     color: var(--button-text);
     padding: 2rem 0;
     text-align: center;
+    width: 100%;
+    position: absolute;
+    left: 0px;
 }
 
 .social-links {
@@ -263,9 +175,6 @@ footer {
         display: none;
     }
 
-    .carousel {
-        height: 300px;
-    }
 }
 
 @media (max-width: 768px) {
