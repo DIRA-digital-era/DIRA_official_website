@@ -88,6 +88,10 @@ nav a, nav .dropdown-toggle {
     background: none;
 }
 
+nav a.active {
+    color: var(--accent-color);
+}
+
 nav a:hover, nav .dropdown-toggle:hover {
     color: var(--accent-color);
 }
@@ -293,7 +297,8 @@ nav a:hover::after, nav .dropdown-toggle:hover::after {
         transition: all 0.3s ease;
     }
 
-    .dropdown:hover .dropdown-content {
+    .dropdown:hover .dropdown-content,
+    .dropdown-content.active {
         opacity: 1;
         visibility: visible;
         max-height: 300px;

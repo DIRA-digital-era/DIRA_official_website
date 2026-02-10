@@ -17,18 +17,19 @@
             <img src="./images/logo.jpg" alt="DIRA Logo">
             <span class="logo-text">DIRA</span>
         </div>
-        <button class="hamburger" onclick="toggleMenu()">
+        <button class="hamburger">
             <span></span>
             <span></span>
             <span></span>
         </button>
         <nav id="navMenu">
             <a href="index.html">HOME</a>
+            <a href="about.html">ABOUT</a>
             <a href="services.html">SOLUTIONS</a>
             <a href="contact.html">CONTACTS</a>
             <a href="portfolio.html">GALLERY</a>
             <div class="dropdown">
-                <button class="dropdown-toggle" onclick="toggleDropdown(event)">
+                <button class="dropdown-toggle">
                     ECO-LINK <span class="dropdown-arrow">▼</span>
                 </button>
                 <ul class="dropdown-content">
@@ -345,29 +346,7 @@
         </div>
     </footer>
 
-    <script>
-        function toggleMenu() {
-            const navMenu = document.getElementById('navMenu');
-            const hamburger = document.querySelector('.hamburger');
-            navMenu.classList.toggle('active');
-            hamburger.classList.toggle('active');
-        }
-
-        function toggleDropdown(e) {
-            e.preventDefault();
-        }
-
-        document.addEventListener('click', function(event) {
-            const navMenu = document.getElementById('navMenu');
-            const hamburger = document.querySelector('.hamburger');
-            const header = document.querySelector('header');
-            
-            if (!header.contains(event.target)) {
-                navMenu.classList.remove('active');
-                hamburger.classList.remove('active');
-            }
-        });
-    </script>
+    <script src="./js/header.js"></script>
 
     <script>
         // Animated counter for statistics

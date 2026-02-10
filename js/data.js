@@ -1,59 +1,67 @@
-[
-  {
-    "id": "web",
-    "category": "Web Development",
-    "description": "Complete redesign of an e-commerce website focusing on improving user experience and conversion rates. Implemented modern design principles and streamlined checkout process.",
-    "images": [
-      {
-        "src": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-        "alt": "E-Commerce Website"
-      },
-      {
-        "src": "https://images.unsplash.com/photo-1563014959-7aaa83350992?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80",
-        "alt": "E-Commerce Product Page"
-      },
-      {
-        "src": "https://images.unsplash.com/photo-1556155092-490a1ba16284?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-        "alt": "E-Commerce Checkout"
-      }
-    ]
-  },
-  {
-    "id": "app",
-    "category": "App Development And Deployment",
-    "description": "Designed a sleek and intuitive user interface for a fitness tracking mobile application. Focused on creating an engaging user experience with smooth animations and clear data visualization.",
-    "images": [
-      {
-        "src": "https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80",
-        "alt": "Mobile App Screens"
-      },
-      {
-        "src": "https://images.unsplash.com/photo-1581276879432-15e50529f34b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-        "alt": "Mobile App Design"
-      },
-      {
-        "src": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
-        "alt": "Mobile App Interface"
-      }
-    ]
-  },
-  {
-    "id": "graphic",
-    "category": "Flyers and Graphic Design",
-    "description": "Developed a comprehensive brand identity for a tech startup, including logo design, color palette, typography, and brand guidelines. Created a cohesive visual language across all platforms.",
-    "images": [
-      {
-        "src": "https://images.unsplash.com/photo-1626785774573-4b799315345d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80",
-        "alt": "Brand Identity"
-      },
-      {
-        "src": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=958&q=80",
-        "alt": "Brand Logo"
-      },
-      {
-        "src": "https://images.unsplash.com/photo-1601933470096-0e34634ffcde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-        "alt": "Brand Materials"
-      }
-    ]
-  }
-]
+
+    {
+        id: "agrichain",
+        title: "AgriChain AI",
+        status: "Health Score: 55/100",
+        link: "https://agrichainproject-by-dira.netlify.app",
+        tags: ["Blockchain", "AI", "AgriTech"],
+        description: "A blockchain and AI-driven agricultural supply chain solution designed to enhance transparency and efficiency for farmers and distributors.",
+        images: [
+            { url: "https://images.unsplash.com/photo-1560306627-99d8d8b25821?w=800", alt: "Smart Agriculture" },
+            { url: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800", alt: "Blockchain Concept" },
+            { url: "https://images.unsplash.com/photo-1595079676339-1534801ad6cf?w=800", alt: "Supply Chain AI" }
+        ]
+    },
+
+    {
+        id: "medtechies",
+        title: "MedTechies",
+        status: "Prototype / In Development",
+        link: "https://medtechies.netlify.app",
+        tags: ["Health-Tech"],
+        description: "A health-tech project focused on medical data management and accessibility, currently in development.",
+        images: [
+            { url: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800", alt: "Medical Tech" },
+            { url: "https://images.unsplash.com/photo-1504868584819-f8e905263543?w=800", alt: "Data Management" },
+            { url: "https://images.unsplash.com/photo-1530497610245-94d3c16cda28?w=800", alt: "Healthcare App" }
+        ]
+    },
+    {
+        id: "foundation",
+        title: "DIRA Foundation",
+        status: "Live / Active",
+        link: "https://dirafoundation.netlify.app",
+        tags: ["Philanthropy", "Digital Literacy"],
+        description: "The philanthropic arm of the Digital Era Initiative, focusing on digital literacy and community empowerment.",
+        images: [
+            { url: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800", alt: "Community Empowerment" },
+            { url: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800", alt: "Education" },
+            { url: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800", alt: "Digital Literacy" }
+        ]
+    },
+    {
+        id: "cybfc",
+        title: "Camer Young Boyz FC",
+        status: "Live",
+        link: "https://cameryoungboyzfc.com/",
+        tags: ["External Client", "Sports"],
+        description: "Official sports website for talent showcasing. Designed for high performance and athlete visibility.",
+        images: [
+            { url: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800", alt: "Football Stadium" },
+            { url: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=800", alt: "Soccer Action" },
+            { url: "https://images.unsplash.com/photo-1431324155629-1a6eda1eedfa?w=800", alt: "Talent Showcase" }
+        ]
+    },
+    {
+        id: "opendreams",
+        title: "Open Dreams",
+        status: "Live",
+        link: "https://open-dreams.org",
+        tags: ["Educational", "Scholarship"],
+        description: "Educational consultancy and scholarship portal providing resources for international academic opportunities.",
+        images: [
+            { url: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800", alt: "Graduation" },
+            { url: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800", alt: "Students Collaborating" },
+            { url: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800", alt: "Academic Success" }
+        ]
+    }
