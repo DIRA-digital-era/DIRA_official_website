@@ -1,9 +1,11 @@
 // Toggle hamburger menu
 function toggleMenu() {
     const navMenu = document.getElementById('navMenu');
+    const header = document.querySelector('header');
     const hamburger = document.querySelector('.hamburger');
     if (navMenu) navMenu.classList.toggle('active');
     if (hamburger) hamburger.classList.toggle('active');
+    header.style.height = "fit-content";
 }
 
 // Toggle dropdown menu
