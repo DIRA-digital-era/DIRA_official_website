@@ -5,12 +5,14 @@
 
 :root {
     --background-color: #ffffff;
-    --primary-color: #191d36;
-    --secondary-color: #3b4697;
-    --accent-color: #7DF9FF;
+    --primary-color: #071A2F; /* Deep Space Blue */
+    --primary-rgb: 7,26,47;
+    --secondary-color: #0F3B5A;
+    --accent-color: #00E6D6; /* Digital Mint / Electric Cyan */
+    --accent-rgb: 0,230,214;
     --button-text: white;
-    --glass-bg: rgba(25, 29, 54, 0.85);
-    --glass-blur: 12px;
+    --glass-bg: rgba(7, 26, 47, 0.75); /* primary-colored glass */
+    --glass-blur: 14px;
 }
 
 /* Sticky Header with Glassmorphism */
@@ -19,11 +21,11 @@ header {
     top: 0;
     width: 100%;
     z-index: 1000;
-    background: var(--glass-bg);
+    background: linear-gradient(180deg, rgba(var(--primary-rgb),0.18), var(--glass-bg));
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 8px 40px rgba(2, 6, 12, 0.25);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -42,11 +44,11 @@ header {
 .logo-section img {
     width: 60px;
     height: 60px;
-    border-radius: 50%;
+    border-radius: 12px;
     object-fit: cover;
-    border: 3px solid var(--secondary-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 12px rgba(59, 70, 151, 0.3);
+    border: 2px solid rgba(var(--accent-rgb),0.9);
+    transition: transform 0.28s cubic-bezier(.2,.9,.3,1), box-shadow 0.28s ease;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25), 0 0 18px rgba(var(--accent-rgb),0.06) inset;
 }
 
 .logo-section img:hover {
@@ -75,9 +77,9 @@ nav {
 nav a, nav .dropdown-toggle {
     text-decoration: none;
     color: var(--background-color);
-    font-weight: 600;
-    font-size: 16px;
-    transition: all 0.3s ease;
+    font-weight: 700;
+    font-size: 15px;
+    transition: color 0.22s ease, transform 0.22s ease;
     position: relative;
     display: flex;
     align-items: center;
@@ -94,6 +96,7 @@ nav a.active {
 
 nav a:hover, nav .dropdown-toggle:hover {
     color: var(--accent-color);
+    transform: translateY(-2px);
 }
 
 /* Underline Animation */
@@ -104,7 +107,7 @@ nav a::after, nav .dropdown-toggle::after {
     height: 2px;
     bottom: -8px;
     left: 0;
-    background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
+    background: linear-gradient(90deg, var(--accent-color), rgba(var(--accent-rgb),0.6));
     transition: width 0.3s ease;
 }
 
