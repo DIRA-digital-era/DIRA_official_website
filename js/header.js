@@ -22,7 +22,7 @@ function injectHeader(){
                 </button>
                 <ul class="dropdown-content">
                     <div class="dropdown-section">Internal Projects</div>
-                    <li><a href="training.html">DHUB</a></li>
+                    <li><a href="index.html">DHUB</a></li>
                     <li><a href="https://diratechfest.netlify.app/">Tech Fest</a></li>
                     <div class="dropdown-section">Client Work</div>
                     <li><a href="portfolio.html">View All Projects</a></li>
@@ -89,7 +89,163 @@ function injectFooter(){
     `
 }
 
+function injectContact(){
+    const contactSection = document.getElementById('contactSection');
+    contactSection.innerHTML = `
+        <div class="contact-info">
+            <h2>Get In Touch</h2>
+            <p>Have questions or want to discuss your project? Our team is ready to help you find the best solutions for
+                your business.</p>
+
+            <div class="contact-details">
+                <div class="contact-detail">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="12" cy="9" r="2.2" fill="currentColor" />
+                    </svg>
+                    <div>
+                        <h4>Address</h4>
+                        <p>Bambili, Cameroon</p>
+                    </div>
+                </div>
+
+                <div class="contact-detail">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.86 19.86 0 0 1 3 5.18 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.72c.12.97.37 1.91.73 2.79a2 2 0 0 1-.45 2.11L9.91 12.09a16 16 0 0 0 6 6l1.47-1.47a2 2 0 0 1 2.11-.45c.88.36 1.82.61 2.79.73A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <div>
+                        <h4>Phone</h4>
+                        <p>+237 679 66 70 32</p>
+                    </div>
+                </div>
+
+                <div class="contact-detail">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.2" fill="none"/>
+                        <path d="M3 7l9 6 9-6" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <div>
+                        <h4>Email</h4>
+                        <p>diradigitalera@gmail.com</p>
+                    </div>
+                </div>
+
+                <div class="contact-detail">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.2" fill="none"/>
+                        <path d="M12 7v6l4 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </svg>
+                    <div>
+                        <h4>Business Hours</h4>
+                        <p>Monday-Friday: 8am - 8pm</p>
+                        <p>Saturdays and sundays: 12pm - 7pm</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="social-links" style="display:flex;gap:12px;">
+                <a href="https://www.facebook.com/share/14qRrb4bvE/" aria-label="Facebook">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22 12a10 10 0 1 0-11.5 9.9v-7h-2.3v-2.9h2.3V9.4c0-2.3 1.4-3.6 3.5-3.6 1 0 2 .08 2 .08v2.2h-1.1c-1.1 0-1.4.66-1.4 1.3v1.6h2.4l-.4 2.9h-2v7A10 10 0 0 0 22 12z" stroke="currentColor" stroke-width="0.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+                <a href="#" aria-label="Twitter">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53A4.48 4.48 0 0 0 22.43 1s-1.82.99-2.83 1.28A4.5 4.5 0 0 0 12 6.47V7a10.66 10.66 0 0 1-7.72-3.9s-4 8 5 11.5c-2.5.69-5 0-6.5-1.73 0 0 5.2 3.5 10.5 3.5A11 11 0 0 0 23 3z" stroke="currentColor" stroke-width="0.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+                <a href="#" aria-label="LinkedIn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 8a6 6 0 0 1 6 6v6h-4v-6a2 2 0 0 0-4 0v6h-4V6h4v2" stroke="currentColor" stroke-width="0.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        <rect x="2" y="6" width="4" height="12" rx="1" stroke="currentColor" stroke-width="0.8" fill="none"/>
+                        <circle cx="4" cy="4" r="1.6" stroke="currentColor" stroke-width="0.8" fill="none"/>
+                    </svg>
+                </a>
+                <a href="https://www.instagram.com/digital_era_dira/" aria-label="Instagram">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="0.8" fill="none"/>
+                        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="0.8" fill="none"/>
+                        <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" />
+                    </svg>
+                </a>
+                <a href="https://www.tiktok.com/@digital.era.dira" aria-label="TikTok">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 8.5a4 4 0 0 0 4 4h1v-3a6 6 0 0 1-6-6v5.5z" stroke="currentColor" stroke-width="0.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M7 8v8a4 4 0 0 0 4 4h1" stroke="currentColor" stroke-width="0.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+            </div>
+
+            <div class="map-container">
+                <i class="fas fa-map-marked-alt"></i>
+                <p>View on Google Maps</p>
+            </div>
+        </div>
+
+        <div class="contact-form">
+            <h3>Send Us a Message</h3>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" name="name" placeholder="Your Name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" placeholder="Your Email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" placeholder="Your Phone">
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject *</label>
+                    <select id="subject" name="subject" required>
+                        <option value="">Select a subject</option>
+                        <option value="General Inquiry">General Inquiry</option>
+                        <option value="Services">Services</option>
+                        <option value="Training Programs">Training Programs</option>
+                        <option value="Technical Support">Technical Support</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message *</label>
+                    <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span class="spinner" id="spinner"></span>
+                    <span>Send Message</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="notification success" id="successNotification">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right:8px;">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.2" fill="none"/>
+            <path d="M7 12l3 3 7-7" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Your message has been sent successfully!</span>
+    </div>
+
+    <div class="notification error" id="errorNotification">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right:8px;">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.2" fill="none"/>
+            <path d="M12 8v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="16.2" r="0.6" fill="currentColor" />
+        </svg>
+        <span>There was an error sending your message. Please try again.</span>
+    </div>
+    `
+}
+
 injectHeader();
+// injectContact();
 injectFooter();
 // Toggle hamburger menu
 function toggleMenu() {

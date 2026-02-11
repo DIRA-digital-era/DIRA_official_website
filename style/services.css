@@ -74,7 +74,7 @@ body {
 
 .service-card {
     flex: 1;
-    background: linear-gradient(180deg, #ffffff, rgba(0,0,0,0.01));
+    background: linear-gradient(180deg, #ffffff, rgba(0,0,0,0.1));
     padding: 36px 28px;
     border-radius: 12px;
     box-shadow: 0 12px 40px rgba(4, 10, 20, 0.06), 0 0 0 1px rgba(7,26,47,0.02) inset;
@@ -111,6 +111,9 @@ body {
     font-weight: 700;
     display: inline-flex;
     align-items: center;
+    background-color: white;
+    border-radius: 4rem;
+    padding: 1rem;
     transition: color 0.22s ease, transform 0.18s ease;
 }
 
@@ -130,6 +133,7 @@ body {
     padding: 100px 0;
     background: linear-gradient(to bottom, #f8f9fc, #fff);
     text-align: center;
+    border-radius: 4rem;
 }
 
 .numbers-container {
@@ -344,6 +348,7 @@ body {
 /* Process Section */
 .process-section {
     padding: 100px 0;
+    border-radius: 4rem;
     background: linear-gradient(to bottom, #f8f9fc, #fff);
 }
 

@@ -181,7 +181,10 @@ function injectProjects(){
         <div class="tag-container">${tagsHtml}</div>
         <h3 class="card-title">${project.title}</h3>
         <p class="card-desc">${project.description}</p>
-      </div>
+        </div>
+        <span class = "project-link">
+          <a href="${project.link}" class="card-link" target="blank">View Project</a>
+        </span>
     `;
 
     container.appendChild(card);

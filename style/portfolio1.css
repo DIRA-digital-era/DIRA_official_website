@@ -4,15 +4,19 @@
     --bg-surface: #ffffff;
     --text-main: #111827;
     --text-muted: #6b7280;
+    --accent-color: #00E6D6;
 }
 
 .portfolio-card {
-    background: var(--bg-surface);
+    background: rgb(255, 255, 255, 0.8);
     border-radius: var(--card-radius);
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     transition: transform 0.3s ease;
     border: 1px solid #f3f4f6;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .portfolio-card:hover {
@@ -22,8 +26,30 @@
 /* CAROUSEL STYLING */
 .card-carousel {
     position: relative;
-    height: 250px;
+    height: 300px;
     overflow: hidden;
+}
+
+.project-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0.75rem;
+    width: 100%;
+}
+
+.project-link a {
+    background: var(--accent-color);
+    color: #062026;
+    text-decoration: none;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    font-weight: 700;
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .carousel-inner {
@@ -105,6 +131,10 @@
 /* CONTENT STYLING */
 .card-body {
     padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    justify-content: space-between;
 }
 
 .tag-container {

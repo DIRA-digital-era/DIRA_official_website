@@ -25,7 +25,7 @@ body {
 }
 
 .hero {
-    background: linear-gradient(rgba(25, 29, 54, 0.8), rgba(25, 29, 54, 0.8)), url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3') center/cover no-repeat;
+    background: linear-gradient(rgba(25, 29, 54, 0.8), rgba(25, 29, 54, 0.8)), url('../images/photos/IMG_1544.jpg') center/cover no-repeat;
     color: white;
     padding: 100px 0;
     text-align: center;
@@ -70,9 +70,9 @@ body {
     padding: 40px;
     border-radius: 10px;
     text-align: center;
-    margin: -30px auto 80px;
+    margin: 30px auto 100px;
     max-width: 800px;
-    position: relative;
+    /* position: relative; */
     box-shadow: 0 10px 30px rgba(59, 70, 151, 0.2);
 }
 
@@ -199,6 +199,8 @@ body {
 
 .section-light {
     background-color: #f8f9fc;
+    border-radius: 4rem;
+    padding: 2rem;
 }
 
 .content-container {

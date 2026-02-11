@@ -373,6 +373,8 @@ footer {
     margin-top: 100px;
     border-top: 1px solid rgba(var(--accent-rgb), 0.1);
     position: relative;
+    bottom: 0;
+    width: 100%;
 }
 
 footer::before {
@@ -518,7 +520,7 @@ footer::before {
 
 /* Footer Bottom */
 .footer-bottom {
-    max-width: 1200px;
+    max-width: 100%;
     margin: 0 auto;
     padding: 30px 20px 0;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -593,7 +595,6 @@ footer::before {
     footer {
         padding: 40px 0 25px;
         margin-top: 60px;
-        text-align: ;
     }
 
     .footer-content {
