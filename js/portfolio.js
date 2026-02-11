@@ -67,9 +67,9 @@ const projects = [
         tags: ["Blockchain", "AI", "AgriTech"],
         description: "A blockchain and AI-driven agricultural supply chain solution designed to enhance transparency and efficiency for farmers and distributors.",
         images: [
-            { url: "../images/portfolio/agrichain0.png", alt: "Smart Agriculture" },
-            { url: "../images/portfolio/agrichain1.png", alt: "Smart Agriculture" },
-            { url: "../images/portfolio/agrichain2.png", alt: "Smart Agriculture" },
+            { url: "./images/portfolio/agrichain0.png", alt: "Smart Agriculture" },
+            { url: "./images/portfolio/agrichain1.png", alt: "Smart Agriculture" },
+            { url: "./images/portfolio/agrichain2.png", alt: "Smart Agriculture" },
             { url: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800", alt: "Blockchain Concept" },
         ]
     },
@@ -82,9 +82,9 @@ const projects = [
         tags: ["Health-Tech"],
         description: "A health-tech project focused on medical data management and accessibility, currently in development.",
         images: [
-            { url: "../images/portfolio/medtechies0.png", alt: "Medical Tech" },
-            { url: "../images/portfolio/medtechies1.png", alt: "Data Management" },
-            { url: "../images/portfolio/medtechies2.png", alt: "Healthcare App" }
+            { url: "./images/portfolio/medtechies0.png", alt: "Medical Tech" },
+            { url: "./images/portfolio/medtechies1.png", alt: "Data Management" },
+            { url: "./images/portfolio/medtechies2.png", alt: "Healthcare App" }
         ]
     },
     {
@@ -95,10 +95,10 @@ const projects = [
         tags: ["Philanthropy", "Digital Literacy"],
         description: "The philanthropic arm of the Digital Era Initiative, focusing on digital literacy and community empowerment.",
         images: [
-            { url: "../images/portfolio/foundation0.png", alt: "Community Empowerment" },
-            { url: "../images/portfolio/foundation1.png", alt: "Education" },
-            { url: "../images/portfolio/foundation2.png", alt: "Digital Literacy" },
-            { url: "../images/portfolio/foundation3.png", alt: "Digital Literacy" }
+            { url: "./images/portfolio/foundation0.png", alt: "Community Empowerment" },
+            { url: "./images/portfolio/foundation1.png", alt: "Education" },
+            { url: "./images/portfolio/foundation2.png", alt: "Digital Literacy" },
+            { url: "./images/portfolio/foundation3.png", alt: "Digital Literacy" }
         ]
     },
     {
@@ -110,9 +110,9 @@ const projects = [
         description: "Official sports website for talent showcasing. Designed for high performance and athlete visibility.",
         images: [
             { url: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800", alt: "Football Stadium" },
-            { url: "../images/portfolio/youngboyz0.png", alt: "Soccer Action" },
-            { url: "../images/portfolio/youngboyz1.png", alt: "Soccer Action" },
-            { url: "../images/portfolio/youngboyz2.png", alt: "Soccer Action" },
+            { url: "./images/portfolio/youngboyz0.png", alt: "Soccer Action" },
+            { url: "./images/portfolio/youngboyz1.png", alt: "Soccer Action" },
+            { url: "./images/portfolio/youngboyz2.png", alt: "Soccer Action" },
         ]
     },
     {
@@ -123,9 +123,9 @@ const projects = [
         tags: ["Educational", "Scholarship"],
         description: "Educational consultancy and scholarship portal providing resources for international academic opportunities.",
         images: [
-            { url: "../images/portfolio/opendreams.png", alt: "Graduation" },
-            { url: "../images/portfolio/opendreams1.png", alt: "Students Collaborating" },
-            { url: "../images/portfolio/opendreams2.png", alt: "Academic Success" }
+            { url: "./images/portfolio/opendreams.png", alt: "Graduation" },
+            { url: "./images/portfolio/opendreams1.png", alt: "Students Collaborating" },
+            { url: "./images/portfolio/opendreams2.png", alt: "Academic Success" }
         ]
     }
 ];

@@ -93,67 +93,11 @@
             </div>
         </div>
     </footer>
-
-        <!-- <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                // Initialize all carousels
-                const carousels = document.querySelectorAll('.carousel');
-
-                carousels.forEach(carousel => {
-                    const inner = carousel.querySelector('.carousel-inner');
-                    const items = carousel.querySelectorAll('.carousel-item');
-                    const prevBtn = carousel.querySelector('.carousel-control.prev');
-                    const nextBtn = carousel.querySelector('.carousel-control.next');
-                    const indicators = carousel.querySelectorAll('.carousel-indicator');
-
-                    let currentIndex = 0;
-                    const totalItems = items.length;
-
-                    // Function to update carousel position
-                    function updateCarousel() {
-                        inner.style.transform = `translateX(-${currentIndex * 100}%)`;
-
-                        // Update indicators
-                        indicators.forEach((indicator, index) => {
-                            if (index === currentIndex) {
-                                indicator.classList.add('active');
-                            } else {
-                                indicator.classList.remove('active');
-                            }
-                        });
-                    }
-
-                    // Next button event
-                    nextBtn.addEventListener('click', () => {
-                        currentIndex = (currentIndex + 1) % totalItems;
-                        updateCarousel();
-                    });
-
-                    // Previous button event
-                    prevBtn.addEventListener('click', () => {
-                        currentIndex = (currentIndex - 1 + totalItems) % totalItems;
-                        updateCarousel();
-                    });
-
-                    // Indicator click events
-                    indicators.forEach((indicator, index) => {
-                        indicator.addEventListener('click', () => {
-                            currentIndex = index;
-                            updateCarousel();
-                        });
-                    });
-
-                    // Auto-advance carousel (optional)
-                    setInterval(() => {
-                        currentIndex = (currentIndex + 1) % totalItems;
-                        updateCarousel();
-                    }, 5000);
-                });
-            });
-        </script> -->
-
         <script src="./js/portfolio.js"></script>
         <script src="./js/header.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.halo.min.js"></script>
+        <script src="./js/animate.js"></script>
 </body>
 
 </html>
