@@ -22,7 +22,7 @@ function injectHeader(){
                 </button>
                 <ul class="dropdown-content">
                     <div class="dropdown-section">Internal Projects</div>
-                    <li><a href="index.html">DHUB</a></li>
+                    <li><a href="training.html">DHUB</a></li>
                     <li><a href="https://diratechfest.netlify.app/">Tech Fest</a></li>
                     <div class="dropdown-section">Client Work</div>
                     <li><a href="portfolio.html">View All Projects</a></li>
@@ -244,9 +244,6 @@ function injectContact(){
     `
 }
 
-injectHeader();
-// injectContact();
-injectFooter();
 // Toggle hamburger menu
 function toggleMenu() {
     const navMenu = document.getElementById('navMenu');
@@ -339,3 +336,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Re-check active link on every navigation
 window.addEventListener('hashchange', setActiveNavLink);
  
+
+injectHeader();
+injectFooter();
+injectContact();

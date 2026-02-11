@@ -19,6 +19,7 @@
             border-radius: 10px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+            color: white;
         }
 
         .contact-info {
@@ -37,6 +38,7 @@
         .contact-info p {
             margin-bottom: 30px;
             opacity: 0.9;
+            color: white;
         }
 
         .contact-details {
