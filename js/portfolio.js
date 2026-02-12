@@ -149,7 +149,7 @@ function injectProjects(){
 
   projects.forEach(project => {
     const card = document.createElement('div');
-    card.className = 'portfolio-card';
+    card.className = 'portfolio-card reveal-card';
     card.id = project.id;
 
     // Generate Images
@@ -220,7 +220,7 @@ function injectProjects(){
 
     // Auto-advance every 3 seconds
     if (autoIntervals[project.id]) clearInterval(autoIntervals[project.id]);
-    autoIntervals[project.id] = setInterval(() => moveCarousel(project.id, 1), 5000);
+    autoIntervals[project.id] = setInterval(() => moveCarousel(project.id, 1), 3500);
   });
 }
 
