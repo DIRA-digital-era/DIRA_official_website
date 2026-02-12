@@ -1,69 +1,70 @@
 const galleryContainer = document.getElementById('video-gallery');
 
-const youtubeVideos = [
-    {
-        // NOTE: This ID appears to be invalid. YouTube IDs are 11 characters long.
-        id: "UsR6sdo3JcyYwkA1", 
-        title: "Dira Keynote 2024 Recap",
-        description: "Recap Video for Dira, the all in one company Keynote 2024."
-    },
-    {
-        // NOTE: This ID appears to be invalid.
-        id: "Wu-VIxkKgWLLI3_Y", 
-        title: "AgriChain",
-        description: "The Feature of Agriculture."
-    },
-    {
-        // NOTE: This ID appears to be invalid.
-        id: "zizZzeAsc4K6-J-O", 
-        title: "Agrichani",
-        description: "Agrichain a sustainable agriculture, powered by Dira"
-    },
-    {
-        id: "2Vv-BfVoq4g",
-        title: "Office Tour",
-        description: "A look inside our creative headquarters."
-    }
-    // Removed two duplicate "Office Tour" entries and the redundant/incorrect 'link' properties from all objects.
-];
+// const youtubeVideos = [
+//     {
+//         id: "UsR6sdo3JcyYwkA1", 
+//         title: "Dira Keynote 2024 Recap",
+//         description: "Recap Video for Dira, the all in one company Keynote 2024."
+//     },
+//     {
+//         id: "Wu-VIxkKgWLLI3_Y", 
+//         title: "AgriChain",
+//         description: "The Feature of Agriculture."
+//     },
+//     {
+//         id: "zizZzeAsc4K6-J-O", 
+//         title: "Agrichani",
+//         description: "Agrichain a sustainable agriculture, powered by Dira"
+//     },
+//     {
+//         id: "2Vv-BfVoq4g",
+//         title: "Office Tour",
+//         description: "A look inside our creative headquarters."
+//     }
+// ];
 
-function buildGallery(videoList) {
-    videoList.forEach(video => {
-        // 1. Create the card element
-        const card = document.createElement('div');
-        card.className = 'video-card';
+// function buildGallery(videoList) {
+//     videoList.forEach(video => {
+//         // 1. Create the card element
+//         const card = document.createElement('div');
+//         card.className = 'video-card';
 
-        // 2. Construct the Iframe and Text content
-        // Note: we use ?rel=0 to show only related videos from the same channel
-        card.innerHTML = `
-            <div class="iframe-wrapper">
-                <iframe 
-                    src="https://www.youtube.com/embed/${video.id}?rel=0" 
-                    title="${video.title}" 
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
-            </div>
-            <div class="card-info">
-                <h3>${video.title}</h3>
-                <p>${video.description}</p>
-            </div>
-        `;
+//         // 2. Construct the Iframe and Text content
+//         // Note: we use ?rel=0 to show only related videos from the same channel
+//         card.innerHTML = `
+//             <div class="iframe-wrapper">
+//                 <iframe 
+//                     src="https://www.youtube.com/embed/${video.id}?rel=0" 
+//                     title="${video.title}" 
+//                     frameborder="0" 
+//                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+//                     allowfullscreen>
+//                 </iframe>
+//             </div>
+//             <div class="card-info">
+//                 <h3>${video.title}</h3>
+//                 <p>${video.description}</p>
+//             </div>
+//         `;
 
-        // 3. Add to the gallery
-        galleryContainer.appendChild(card);
-    });
-}
+//         // 3. Add to the gallery
+//         galleryContainer.appendChild(card);
+//     });
+// }
 
 // Run the function
-buildGallery(youtubeVideos);
+// buildGallery(youtubeVideos);
 
 // Example data for Instagram
+
 const instagramPosts = [
-    { id: "DUGiognjCi2", title: "New Summer Collection" },
-    { id: "DUGiognjCi2", title: "Behind the Scenes" }
-    // https://www.instagram.com/p/DUGiognjCi2/?igsh=Z2Y2czJxNHp3ajJx
+    { id: "DTX8P_3jMvo", title: "Behind the Scenes" },
+    { id: "DSx4JvLDKfT", title: "Behind the Scenes" },
+    { id: "DUGiognjCi2", title: "Behind the Scenes" },
+    { id: "DN2nbSr2AZ4", title: "Behind the Scenes" },
+    { id: "DQM0t-IDDZW", title: "Behind the Scenes" },
+    { id: "DORY9YuDNI8", title: "Behind the Scenes" },
+    { id: "DP18uxRAKzG", title: "Behind the Scenes" },
 ];
 
 function injectInstagram(posts) {
@@ -97,3 +98,37 @@ function injectInstagram(posts) {
 }
 
 injectInstagram(instagramPosts);
+
+// Example data for TikTok
+const tiktokVideos = [
+    { id: "7547699137915964728", user: "dira_official", title: "Future of Tech" },
+    { id: "7605618260033228052", user: "dira_official", title: "Coding Challenge" }
+];
+
+function injectTikTok(videos) {
+    const container = document.getElementById('video-gallery');
+
+    // Ensure TikTok script is loaded if not already present
+    if (!document.querySelector('script[src*="tiktok.com/embed.js"]')) {
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = "https://www.tiktok.com/embed.js";
+        document.body.appendChild(script);
+    }
+
+    videos.forEach(video => {
+        const card = document.createElement('div');
+        card.className = 'tiktok-card';
+        card.innerHTML = `
+            <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@${video.user}/video/${video.id}" data-video-id="${video.id}" data-video-autoplay="false" style="max-width: 325px; width: 100%;">
+                <section>
+                    <a target="_blank" title="@${video.user}" href="https://www.tiktok.com/@${video.user}?refer=embed">@${video.user}</a>
+                    <p>${video.title}</p>
+                </section>
+            </blockquote>
+        `;
+        container.appendChild(card);
+    });
+}
+
+injectTikTok(tiktokVideos);

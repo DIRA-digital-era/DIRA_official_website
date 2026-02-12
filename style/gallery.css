@@ -12,10 +12,12 @@
 }
 
 body {
+    display: flex;
+    flex-direction: column;
     font-family: sans-serif;
     background: #f4f4f4;
-    margin: 0;
-    overflow-x: hidden; /* Prevent horizontal overflow caused by embeds */
+    overflow-x: hidden;
+    min-height: 100dvh;
 }
 
 header { 
@@ -35,12 +37,11 @@ header {
 
 .gallery-grid {
     display: grid;
-    /* Use auto-fit to allow items to grow and fill space, with a more suitable min-width */
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 20px;
-    max-width: 1200px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 10px;
+    max-width: 70%;
     margin: 0 auto;
-    padding: 0 20px; /* Add horizontal padding for better spacing on all screen sizes */
+    padding: 0 10px 40px; 
 }
 
 .card {
@@ -50,18 +51,34 @@ header {
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-.card img { width: 100%; display: block; height: 200px; object-fit: cover; }
-
-.card-content { padding: 15px; }
-.badge { 
-    font-size: 12px; font-weight: bold; text-transform: uppercase;
-    padding: 2px 8px; border-radius: 4px; color: white;
+.card img { width: 100%; 
+    display: block; 
+    height: 200px; 
+    object-fit: cover; 
 }
-.instagram { background: var(--ig-color); }
-.youtube { background: var(--yt-color); }
-.tiktok { background: var(--tk-color); }
 
-/* Video Gallery Styling */
+.card-content { 
+    padding: 15px; 
+}
+
+.badge { 
+    font-size: 12px; 
+    font-weight: bold; 
+    text-transform: uppercase;
+    padding: 2px 8px; 
+    border-radius: 4px; 
+    color: white;
+}
+.instagram { 
+    background: var(--ig-color); }
+.youtube { 
+    background: var(--yt-color); 
+}
+.tiktok { 
+    background: var(--tk-color); 
+}
+
+Video Gallery Styling
 .video-card {
     background: white;
     border-radius: 12px;
@@ -122,6 +139,20 @@ header {
 }
 
 .instagram-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+
+.tiktok-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 10px;
+}
+
+.tiktok-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 12px 30px rgba(0,0,0,0.15);
 }
