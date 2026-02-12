@@ -12,10 +12,10 @@ function injectHeader(){
         </button>
         <nav id="navMenu">
             <a href="index.html">HOME</a>
-            <a href="about.html">ABOUT</a>
             <a href="services.html">SOLUTIONS</a>
+            <a href="gallery.html">GALLERY</a>
+            <a href="about.html">ABOUT</a>
             <a href="contact.html">CONTACTS</a>
-            <a href="portfolio.html">GALLERY</a>
             <div class="dropdown">
                 <button class="dropdown-toggle">
                     ECO-LINK <span class="dropdown-arrow">▼</span>
@@ -91,6 +91,7 @@ function injectFooter(){
 
 function injectContact(){
     const contactSection = document.getElementById('contactSection');
+    if(!contactSection) return 0
     contactSection.innerHTML = `
         <div class="contact-info">
             <h2>Get In Touch</h2>
