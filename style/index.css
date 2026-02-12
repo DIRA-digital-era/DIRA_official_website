@@ -65,7 +65,7 @@ body {
 }
 
 .overlay-content {
-    background-color: var(--secondary-color);
+    background-color: rgba(59, 70, 151, 0.8);
     color: white;
     padding: 40px;
     border-radius: 10px;

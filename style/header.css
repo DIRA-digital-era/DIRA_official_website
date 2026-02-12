@@ -672,3 +672,34 @@ footer::before {
         color: #666;
     }
 }
+
+
+/* custom animations */
+
+/* Elements will have this class by default */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out;
+}
+
+/* This class will be added via JavaScript when scrolled into view */
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* reveal card */
+
+.reveal-card {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease-out;
+  /* Use the variable, or default to 0ms */
+  transition-delay: var(--delay, 0ms);
+}
+
+.reveal-card.active {
+  opacity: 1;
+  transform: translateY(0);
+}

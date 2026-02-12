@@ -93,7 +93,7 @@ function injectContact(){
     const contactSection = document.getElementById('contactSection');
     if(!contactSection) return 0
     contactSection.innerHTML = `
-        <div class="contact-info">
+        <div class="contact-info reveal">
             <h2>Get In Touch</h2>
             <p>Have questions or want to discuss your project? Our team is ready to help you find the best solutions for
                 your business.</p>
