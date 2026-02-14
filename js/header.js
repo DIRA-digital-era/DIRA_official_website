@@ -117,7 +117,7 @@ function injectContact(){
                     </svg>
                     <div>
                         <h4>Address</h4>
-                        <p>Bambili, Cameroon</p>
+                        <p>AWICCUL Building, Commercial Avenue Bamenda, Cameroon</p>
                     </div>
                 </div>
 
