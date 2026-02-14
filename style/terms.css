@@ -1,0 +1,113 @@
+:root {
+    --primary: #2563eb;
+    --text-dark: #3b4697;
+    --text-normal: #374151;
+    --text-light: #6b7280;
+    --bg-page: #fdfdfd;
+    --bg-card: #ffffff;
+    --border: #e5e7eb;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-normal);
+    background-color: var(--bg-page);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 60px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Changed from 'header' tag to class to support your custom header */
+.document-header {
+    text-align: center;
+    border-bottom: 2px solid var(--primary);
+    margin-bottom: 50px;
+    padding-bottom: 30px;
+}
+
+.dira-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 20px;
+    border-radius: 50dvh;
+}
+
+h1 {
+    font-size: 2rem;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.version {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+h2 {
+    font-size: 1.5rem;
+    color: var(--text-dark);
+    border-bottom: 1px solid var(--border);
+    margin-top: 50px;
+    padding-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+h3 {
+    font-size: 1.2rem;
+    color: var(--text-dark);
+    margin-top: 30px;
+}
+
+p,
+li {
+    margin-bottom: 15px;
+}
+
+ul {
+    padding-left: 20px;
+    list-style-type: disc;
+}
+
+.legal-block {
+    background: #f9fafb;
+    padding: 20px;
+    border-left: 4px solid #9ca3af;
+    font-size: 0.9rem;
+    margin: 20px 0;
+}
+
+.caps {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.footer {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-light);
+    font-size: 0.85rem;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        margin: 0;
+        border: none;
+    }
+}
