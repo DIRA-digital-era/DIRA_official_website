@@ -19,6 +19,7 @@ body {
     background-color: var(--bg-page);
     margin: 0;
     padding: 0;
+    zoom: 0.9;
 }
 
 .container {

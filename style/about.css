@@ -16,6 +16,7 @@ body {
     background-color: var(--background-color);
     color: var(--primary-color);
     line-height: 1.6;
+    zoom: 0.9;
 }
 
 .container {
@@ -27,7 +28,7 @@ body {
 /* Hero Section */
 .about-hero {
     background: linear-gradient(rgba(25, 29, 54, 0.8), rgba(25, 29, 54, 0.8)), url('../images/photos/IMG_9933.jpg') center/cover no-repeat;
-  color: white;
+    color: white;
     padding: 100px 0;
     text-align: center;
     border-radius: 10px;
@@ -360,8 +361,8 @@ footer {
 }
 
 @media (max-width: 768px) {
-    
-    
+
+
 
     .about-hero h1 {
         font-size: 36px;

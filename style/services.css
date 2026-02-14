@@ -1,11 +1,13 @@
 :root {
     --background-color: #ffffff;
-    --primary-color: #071A2F; /* Deep Space Blue */
-    --primary-rgb: 7,26,47;
+    --primary-color: #071A2F;
+    /* Deep Space Blue */
+    --primary-rgb: 7, 26, 47;
     --secondary-color: #0F3B5A;
     --slate-gray: #708090;
-    --accent-color: #00E6D6; /* Digital Mint */
-    --accent-rgb: 0,230,214;
+    --accent-color: #00E6D6;
+    /* Digital Mint */
+    --accent-rgb: 0, 230, 214;
     --button-text: white;
 }
 
@@ -20,6 +22,7 @@ body {
     background-color: var(--background-color);
     color: var(--primary-color);
     line-height: 1.6;
+    zoom: 0.9;
 }
 
 .container {
@@ -74,17 +77,17 @@ body {
 
 .service-card {
     flex: 1;
-    background: linear-gradient(180deg, #ffffff, rgba(0,0,0,0.2));
+    background: linear-gradient(180deg, #ffffff, rgba(0, 0, 0, 0.2));
     padding: 36px 28px;
     border-radius: 12px;
-    box-shadow: 0 12px 40px rgba(4, 10, 20, 0.06), 0 0 0 1px rgba(7,26,47,0.02) inset;
+    box-shadow: 0 12px 40px rgba(4, 10, 20, 0.06), 0 0 0 1px rgba(7, 26, 47, 0.02) inset;
     text-align: center;
-    transition: transform 0.35s cubic-bezier(.2,.9,.3,1), box-shadow 0.35s ease;
+    transition: transform 0.35s cubic-bezier(.2, .9, .3, 1), box-shadow 0.35s ease;
 }
 
 .service-card:hover {
     transform: translateY(-14px) scale(1.01);
-    box-shadow: 0 22px 60px rgba(2,8,20,0.18), 0 0 28px rgba(var(--accent-rgb),0.07);
+    box-shadow: 0 22px 60px rgba(2, 8, 20, 0.18), 0 0 28px rgba(var(--accent-rgb), 0.07);
 }
 
 .service-card i {
@@ -218,10 +221,10 @@ body {
     padding: 34px;
     border-radius: 14px;
     box-shadow: 0 14px 40px rgba(6, 12, 24, 0.06);
-    transition: transform 0.38s cubic-bezier(.2,.9,.3,1), box-shadow 0.38s ease;
+    transition: transform 0.38s cubic-bezier(.2, .9, .3, 1), box-shadow 0.38s ease;
     position: relative;
     overflow: hidden;
-    border-top: 5px solid rgba(0,0,0,0.03);
+    border-top: 5px solid rgba(0, 0, 0, 0.03);
 }
 
 /* animated data-stream overlay */
@@ -233,10 +236,10 @@ body {
     width: 180%;
     height: 140%;
     pointer-events: none;
-    background: linear-gradient(115deg, transparent 30%, rgba(var(--accent-rgb),0.12) 45%, rgba(var(--accent-rgb),0.06) 50%, transparent 60%);
+    background: linear-gradient(115deg, transparent 30%, rgba(var(--accent-rgb), 0.12) 45%, rgba(var(--accent-rgb), 0.06) 50%, transparent 60%);
     transform: translateX(-100%);
     opacity: 0;
-    transition: opacity 0.28s ease, transform 0.6s cubic-bezier(.2,.9,.3,1);
+    transition: opacity 0.28s ease, transform 0.6s cubic-bezier(.2, .9, .3, 1);
 }
 
 .service-item:hover::after {
@@ -247,7 +250,7 @@ body {
 /* subtle accent glow on hover */
 .service-item:hover {
     transform: translateY(-12px);
-    box-shadow: 0 26px 80px rgba(2,8,20,0.18), 0 0 34px rgba(var(--accent-rgb),0.08);
+    box-shadow: 0 26px 80px rgba(2, 8, 20, 0.18), 0 0 34px rgba(var(--accent-rgb), 0.08);
 }
 
 /* Image Styling */
@@ -257,7 +260,7 @@ body {
     border-radius: 8px;
     object-fit: cover;
     transition: transform 0.36s ease, filter 0.36s ease;
-    box-shadow: 0 8px 30px rgba(2,8,20,0.06) inset;
+    box-shadow: 0 8px 30px rgba(2, 8, 20, 0.06) inset;
 }
 
 .service-item:hover .service-image {
@@ -265,20 +268,54 @@ body {
 }
 
 /* Individual Card Identities */
-.is-app { border-top-color: #4A90E2; }
-.is-infra { border-top-color: #50E3C2; }
-.is-data { border-top-color: #F5A623; }
-.is-ai { border-top-color: #BD10E0; }
-.is-ecommerce { border-top-color: #FF5252; }
-.is-consulting { border-top-color: #417505; }
+.is-app {
+    border-top-color: #4A90E2;
+}
+
+.is-infra {
+    border-top-color: #50E3C2;
+}
+
+.is-data {
+    border-top-color: #F5A623;
+}
+
+.is-ai {
+    border-top-color: #BD10E0;
+}
+
+.is-ecommerce {
+    border-top-color: #FF5252;
+}
+
+.is-consulting {
+    border-top-color: #417505;
+}
 
 /* Unique Hover States - Background Glow (subtle) */
-.is-app:hover { background: linear-gradient(to bottom, #ffffff, #f0f7ff); }
-.is-infra:hover { background: linear-gradient(to bottom, #ffffff, #effffb); }
-.is-data:hover { background: linear-gradient(to bottom, #ffffff, #fff9f0); }
-.is-ai:hover { background: linear-gradient(to bottom, #ffffff, #fcf0ff); }
-.is-ecommerce:hover { background: linear-gradient(to bottom, #ffffff, #fff5f5); }
-.is-consulting:hover { background: linear-gradient(to bottom, #ffffff, #f7fff0); }
+.is-app:hover {
+    background: linear-gradient(to bottom, #ffffff, #f0f7ff);
+}
+
+.is-infra:hover {
+    background: linear-gradient(to bottom, #ffffff, #effffb);
+}
+
+.is-data:hover {
+    background: linear-gradient(to bottom, #ffffff, #fff9f0);
+}
+
+.is-ai:hover {
+    background: linear-gradient(to bottom, #ffffff, #fcf0ff);
+}
+
+.is-ecommerce:hover {
+    background: linear-gradient(to bottom, #ffffff, #fff5f5);
+}
+
+.is-consulting:hover {
+    background: linear-gradient(to bottom, #ffffff, #f7fff0);
+}
 
 /* Replace FontAwesome check icons with inline SVG via CSS pseudo-element */
 .service-features {
@@ -286,12 +323,15 @@ body {
     padding: 0;
     margin: 20px 0 0;
 }
+
 .service-features li {
     position: relative;
     padding-left: 30px;
     margin-bottom: 12px;
-    color: #123; /* will be overridden by section color */
+    color: #123;
+    /* will be overridden by section color */
 }
+
 .service-features li::before {
     content: '';
     position: absolute;
@@ -304,7 +344,10 @@ body {
     background-size: contain;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M20 6L9 17l-5-5' stroke='currentColor' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
 }
-.service-features li i { display: none; }
+
+.service-features li i {
+    display: none;
+}
 
 /* Program features lists (training page) reuse the same styled SVG check */
 .program-features {
@@ -312,11 +355,13 @@ body {
     padding: 0;
     margin: 12px 0 0;
 }
+
 .program-features li {
     position: relative;
     padding-left: 30px;
     margin-bottom: 10px;
 }
+
 .program-features li::before {
     content: '';
     position: absolute;
@@ -329,15 +374,35 @@ body {
     background-size: contain;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M20 6L9 17l-5-5' stroke='currentColor' stroke-width='2.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
 }
-.program-features li i { display: none; }
+
+.program-features li i {
+    display: none;
+}
 
 /* Custom Checkmark Colors per Section */
-.is-app .service-features li { color: #4A90E2; }
-.is-infra .service-features li { color: #50E3C2; }
-.is-data .service-features li { color: #F5A623; }
-.is-ai .service-features li { color: #BD10E0; }
-.is-ecommerce .service-features li { color: #FF5252; }
-.is-consulting .service-features li { color: #417505; }
+.is-app .service-features li {
+    color: #4A90E2;
+}
+
+.is-infra .service-features li {
+    color: #50E3C2;
+}
+
+.is-data .service-features li {
+    color: #F5A623;
+}
+
+.is-ai .service-features li {
+    color: #BD10E0;
+}
+
+.is-ecommerce .service-features li {
+    color: #FF5252;
+}
+
+.is-consulting .service-features li {
+    color: #417505;
+}
 
 /* Production Badge for E-commerce */
 .is-ecommerce .service-features li:last-child {
@@ -345,6 +410,7 @@ body {
     opacity: 0.8;
     font-size: 0.9em;
 }
+
 /* Process Section */
 .process-section {
     padding: 100px 0;
@@ -437,10 +503,10 @@ body {
 }
 
 .cta-button:hover {
-    background: linear-gradient(90deg, rgba(var(--accent-rgb),0.12), rgba(var(--accent-rgb),0.06));
+    background: linear-gradient(90deg, rgba(var(--accent-rgb), 0.12), rgba(var(--accent-rgb), 0.06));
     color: var(--primary-color);
     transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(var(--accent-rgb),0.08);
+    box-shadow: 0 12px 40px rgba(var(--accent-rgb), 0.08);
 }
 
 /* Contact Form Section */
@@ -597,8 +663,8 @@ footer {
 }
 
 @media (max-width: 768px) {
-    
-    
+
+
 
     .services-hero h1 {
         font-size: 36px;
@@ -626,6 +692,7 @@ footer {
         gap: 50px;
     }
 }
+
 @media (max-width: 768px) {
     header {
         flex-direction: column;

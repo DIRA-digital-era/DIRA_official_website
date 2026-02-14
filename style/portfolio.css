@@ -17,6 +17,7 @@ body {
     background-color: var(--background-color);
     color: var(--primary-color);
     line-height: 1.6;
+    zoom: 0.9;
 }
 
 .container {
@@ -24,51 +25,52 @@ body {
     max-width: 1200px;
     margin: 0 auto;
 }
+
 #category {
-  width: 100%;
-  max-width: 400px;
-  padding: 12px;
-  border: 2px solid #333;
-  border-radius: 5px;
-  background-color: #fff;
-  color: #000;
-  font-size: 1rem;
-  appearance: none;
-  background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 16px 16px;
-  box-sizing: border-box;
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    border: 2px solid #333;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #000;
+    font-size: 1rem;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px 16px;
+    box-sizing: border-box;
 }
 
 /* Smartphones */
 @media (max-width: 480px) {
-  #category {
-    font-size: 0.9rem;
-    padding: 10px;
-  }
+    #category {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
 }
 
 /* Tablets */
 @media (min-width: 481px) and (max-width: 768px) {
-  #category {
-    font-size: 1rem;
-    padding: 12px;
-  }
+    #category {
+        font-size: 1rem;
+        padding: 12px;
+    }
 }
 
 /* Small laptops */
 @media (min-width: 769px) and (max-width: 1024px) {
-  #category {
-    font-size: 1.05rem;
-  }
+    #category {
+        font-size: 1.05rem;
+    }
 }
 
 /* Desktops */
 @media (min-width: 1025px) {
-  #category {
-    font-size: 1.1rem;
-  }
+    #category {
+        font-size: 1.1rem;
+    }
 }
 
 .hero {
@@ -141,8 +143,8 @@ body {
 }
 
 @media (max-width: 768px) {
-    
-    
+
+
 
     .hero h1 {
         font-size: 36px;
