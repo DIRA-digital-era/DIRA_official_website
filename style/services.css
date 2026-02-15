@@ -498,8 +498,7 @@ body {
     text-decoration: none;
     border-radius: 30px;
     font-weight: 600;
-    transition: all 0.3s;
-    font-size: 18px;
+    transition: 8px;
 }
 
 .cta-button:hover {

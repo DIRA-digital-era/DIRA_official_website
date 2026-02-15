@@ -147,6 +147,17 @@ function injectProjects(){
   const container = document.getElementById('portfolio-grid');
   if (!container) return;
 
+  // Observer to pause/play auto-scroll based on visibility
+  const carouselObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        restartAuto(entry.target.id);
+      } else {
+        if (autoIntervals[entry.target.id]) clearInterval(autoIntervals[entry.target.id]);
+      }
+    });
+  }, { threshold: 0.5 });
+
   projects.forEach(project => {
     const card = document.createElement('div');
     card.className = 'portfolio-card reveal-card';
@@ -219,8 +230,8 @@ function injectProjects(){
     }
 
     // Auto-advance every 3 seconds
-    if (autoIntervals[project.id]) clearInterval(autoIntervals[project.id]);
-    autoIntervals[project.id] = setInterval(() => moveCarousel(project.id, 1), 3500);
+    // Instead of starting immediately, we let the observer handle it
+    carouselObserver.observe(card);
   });
 }
 
