@@ -11,23 +11,25 @@ function injectHeader(){
             <span></span>
         </button>
         <nav id="navMenu">
-            <a href="index.html">HOME</a>
-            <a href="services.html">SOLUTIONS</a>
-            <a href="gallery.html">GALLERY</a>
-            <a href="training.html">TRAINING</a>
-            <a href="about.html">ABOUT</a>
-            <a href="contact.html">CONTACTS</a>
-            <div class="dropdown">
-                <button class="dropdown-toggle">
-                    ECO-LINK <span class="dropdown-arrow">▼</span>
-                </button>
-                <ul class="dropdown-content">
-                    <div class="dropdown-section">Internal Projects</div>
-                    <li><a href="https://dhubcmr.netlify.app/" target="_blank">DHUB</a></li>
-                    <li><a href="https://diratechfest.netlify.app/" target="_blank">Tech Fest</a></li>
-                    <div class="dropdown-section">Client Work</div>
-                    <li><a href="portfolio.html">View All Projects</a></li>
-                </ul>
+            <div class="nav-wrapper">
+                <a href="index.html">HOME</a>
+                <a href="services.html">SOLUTIONS</a>
+                <a href="gallery.html">GALLERY</a>
+                <a href="training.html">TRAINING</a>
+                <a href="about.html">ABOUT</a>
+                <a href="contact.html">CONTACTS</a>
+                <div class="dropdown">
+                    <button class="dropdown-toggle">
+                        ECO-LINK <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <ul class="dropdown-content">
+                        <div class="dropdown-section">Internal Projects</div>
+                        <li><a href="https://dhubcmr.netlify.app/" target="_blank">DHUB</a></li>
+                        <li><a href="https://diratechfest.netlify.app/" target="_blank">Tech Fest</a></li>
+                        <div class="dropdown-section">Client Work</div>
+                        <li><a href="portfolio.html">View All Projects</a></li>
+                    </ul>
+                </div>
             </div>
         </nav>
     `
