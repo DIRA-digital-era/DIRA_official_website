@@ -1,21 +1,71 @@
-// try {
-//   VANTA.HALO({
-//     el: "body",
-//     mouseControls: true,
-//     touchControls: true,
-//     gyroControls: false,
-//     minHeight: 200.00,
-//     minWidth: 200.00,
-//     baseColor: 0x40421,
-//     backgroundColor: 0xbabad3,
-//     amplitudeFactor: 1.70,
-//     xOffset: -0.04,
-//     yOffset: 0.15,
-//     size: 0.80
-//   })
-// } catch (error) {
-//   console.log("Vanta animation failed to initialize", error);
-// }
+document.addEventListener("DOMContentLoaded", () => {
+  // Initialize GSAP plugins if available
+  if (typeof gsap !== 'undefined') {
+    if (typeof ScrollTrigger !== 'undefined') {
+      gsap.registerPlugin(ScrollTrigger);
+    }
+    initBackgroundAnimation();
+  }
+  
+  // Initialize other animations
+  animategeneral();
+  animateCards();
+});
+
+function initBackgroundAnimation() {
+  // 1. Create container if missing
+  let bg = document.querySelector('.animated-background');
+  if (!bg) {
+    bg = document.createElement('div');
+    bg.classList.add('animated-background');
+    document.body.prepend(bg);
+  }
+
+  // 2. Define Colors
+  const colors = ["var(--accent-color)", "var(--secondary-color)", "#3b82f6"];
+  
+  // Clear existing blobs to prevent duplicates on re-run
+  bg.innerHTML = '';
+
+  for(let i = 0; i < 3; i++) {
+    const blob = document.createElement('div');
+    blob.classList.add('blob');
+    blob.style.background = colors[i];
+    bg.appendChild(blob);
+
+    // 3. Set Initial Random Position
+    gsap.set(blob, {
+      x: gsap.utils.random(0, window.innerWidth),
+      y: gsap.utils.random(0, window.innerHeight),
+      scale: gsap.utils.random(0.8, 1.5)
+    });
+
+    // 4. Animate Position (Floating)
+    gsap.to(blob, {
+      x: "random(0, " + window.innerWidth + ")",
+      y: "random(0, " + window.innerHeight + ")",
+      rotation: "random(-180, 180)",
+      duration: gsap.utils.random(10, 20),
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut"
+    });
+  }
+
+  // 5. Scroll Parallax Effect
+  if (typeof ScrollTrigger !== 'undefined') {
+      gsap.to(".blob", {
+          yPercent: -50, // Move up as user scrolls
+          ease: "none",
+          scrollTrigger: {
+              trigger: "body",
+              start: "top top",
+              end: "bottom bottom",
+              scrub: 1
+          }
+      });
+  }
+}
 
 // custom animation
 function animategeneral(){
@@ -64,5 +114,3 @@ function animateCards(){
     observer.observe(el);
   });
 }
-animategeneral();
-animateCards();
