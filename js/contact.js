@@ -3,7 +3,8 @@ let emailJSInitialized = false;
 
 function initializeEmailJS() {
     try {
-        emailjs.init("MoJiTEo61wDfp46UC");
+        // emailjs.init("MoJiTEo61wDfp46UC");
+        emailjs.init("IpbpvYAPgPg1vPr2T");
         emailJSInitialized = true;
         console.log('EmailJS initialized successfully');
     } catch (error) {
@@ -63,8 +64,10 @@ contactForm.addEventListener('submit', async function(e) {
         
         // Send email using EmailJS - Fixed variable names to match template
         const response = await emailjs.send(
-            'service_dps558e', // Your EmailJS service ID
-            'template_tyhafh1', // Your EmailJS template ID
+            // 'service_dps558e', // Your EmailJS service ID olde
+            'service_n1udg9h',
+            // 'template_tyhafh1', // Your EmailJS template ID
+            'template_z3lzet8', // Your EmailJS template ID
             {
                 name: name,
                 email: email,

@@ -17,7 +17,7 @@ function injectHeader(){
                 <a href="gallery.html">GALLERY</a>
                 <a href="training.html">TRAINING</a>
                 <a href="about.html">ABOUT</a>
-                <a href="contact.html">CONTACTS</a>
+                <a href="contact.html">CONTACT</a>
                 <div class="dropdown">
                     <button class="dropdown-toggle">
                         ECO-LINK <span class="dropdown-arrow">▼</span>
@@ -58,7 +58,7 @@ function injectFooter(){
                 <div class="footer-section">
                     <h3>Connect With Us</h3>
                     <div class="social-links">
-                        <a href="https://www.facebook.com/share/1RapbDFC99/?mibextid=wwXIfr" aria-label="Facebook" target="_blank" class="social-icon" title="Facebook">
+                        <a href="https://www.facebook.com/profile.php?id=61583966202064" aria-label="Facebook" target="_blank" class="social-icon" title="Facebook">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M22 12a10 10 0 1 0-11.5 9.9v-7h-2.3v-2.9h2.3V9.4c0-2.3 1.4-3.6 3.5-3.6 1 0 2 .08 2 .08v2.2h-1.1c-1.1 0-1.4.66-1.4 1.3v1.6h2.4l-.4 2.9h-2v7A10 10 0 0 0 22 12z" stroke="currentColor" stroke-width="0.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
@@ -129,7 +129,7 @@ function injectContact(){
                     </svg>
                     <div>
                         <h4>Phone</h4>
-                        <p>+237 679 66 70 32</p>
+                        <p>+237 6 82 36 64 72.</p>
                     </div>
                 </div>
 
