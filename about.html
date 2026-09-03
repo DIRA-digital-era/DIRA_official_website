@@ -3,14 +3,98 @@
 
 <head>
     <link rel="icon" href="./images/logo.ico" type="image/x-icon">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - DIRA Tech Solutions</title>
-    <!-- Using custom SVG icons; removed FontAwesome to avoid generic icons -->
+    <title>About DIRA | Technology Company, Bamenda, Cameroon</title>
+    <meta name="description" content="DIRA is a technology company founded in Bamenda, Cameroon by Fru Allen-Brian Njimbong. We build secure systems, custom platforms, and technology services for institutions and businesses.">
+    <meta property="og:title" content="About DIRA">
+    <meta property="og:description" content="DIRA was founded by Fru Allen-Brian Njimbong, recognized as Cameroon's Best Computer Science Student for the 2024 GCE Advanced Level session.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="./images/logo.jpg">
+    <link rel="canonical" href="about.html">
     <link rel="stylesheet" href="./style/header.css">
     <link rel="stylesheet" href="./style/about.css">
     <link rel="stylesheet" href="./style/contact.css">
+    <style>
+        /* Recognition section */
+        .recognition-section {
+            padding: 4rem 2rem;
+            background: #f8f9fa;
+        }
+        .recognition-section .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .recognition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .recognition-card {
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+        .recognition-card .rec-img-wrap {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            background: #e9eef2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .recognition-card .rec-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .recognition-card .rec-img-placeholder {
+            color: #9aabb8;
+            font-size: 0.85rem;
+            padding: 1rem;
+            text-align: center;
+        }
+        .recognition-card .rec-body {
+            padding: 1.25rem 1.5rem;
+        }
+        .recognition-card .rec-body figcaption {
+            font-size: 0.9rem;
+            color: #444;
+            line-height: 1.6;
+        }
+        /* Group teaser */
+        .group-teaser {
+            background: #0F3B5A;
+            color: #fff;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        .group-teaser h2 { color: #fff; margin-bottom: 1rem; }
+        .group-teaser p { color: #a8c7e0; max-width: 680px; margin: 0 auto 2rem; line-height: 1.7; }
+        .group-teaser a.button {
+            background: #fff;
+            color: #0F3B5A;
+            padding: 0.75rem 2rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .group-teaser a.button:hover { background: #e2ecf4; }
+        /* Mission section */
+        .mission-section {
+            padding: 3rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .mission-section h2 { margin-bottom: 1rem; }
+        .mission-section p { line-height: 1.8; font-size: 1.05rem; color: #333; }
+    </style>
 </head>
 
 <body>
@@ -21,112 +105,174 @@
         <!-- Hero Section -->
         <section class="about-hero">
             <h6>Our Story</h6>
-            <h1>Pioneering Tech Solutions for a Digital World</h1>
-            <p>Founded in 2025, we've been at the forefront of digital transformation, helping businesses leverage
-                technology to achieve their goals and drive innovation in an ever-evolving digital landscape.</p>
+            <h1>Built in Bamenda. Built to Last.</h1>
+            <p>DIRA was founded by Fru Allen-Brian Njimbong, then nineteen and recognized as Cameroon's Best Computer Science Student for the 2024 GCE Advanced Level session. Registered under OHADA law in Bamenda, DIRA started as a small technical team and has grown into a group of ventures: DIRA's core technology and consulting practice, DHUB, DIRA Foundation, and DIRA Content Studio. The team today numbers nine, several of whom joined after training through DIRA's own programs.</p>
         </section>
 
-        <!-- Grid Overlay Section -->
+        <!-- Differentiators / Values -->
         <div class="grid-overlay">
             <div class="grid-card">
                 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9 18h6M10 22h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
-                        stroke-linejoin="round" />
-                    <path d="M9.5 14a3.5 3.5 0 1 1 5 0 5 5 0 1 0-5 0z" stroke="currentColor" stroke-width="1.2"
-                        fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+                    <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
-                <h3>Innovation</h3>
-                <p>We constantly explore new technologies and methodologies to deliver cutting-edge solutions that give
-                    our clients a competitive advantage.</p>
+                <h3>Named Accountability</h3>
+                <p>Every engagement is led by a named, credentialed team member, not a general claim. Sensitive work is handled by people who stay answerable for it.</p>
             </div>
             <div class="grid-card">
                 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2 12l7 7 13-13" stroke="currentColor" stroke-width="1.2" fill="none"
-                        stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+                    <polyline points="9 22 9 12 15 12 15 22" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
-                <h3>Partnership</h3>
-                <p>We believe in building long-term relationships with our clients, working closely with them to
-                    understand their unique challenges and goals.</p>
+                <h3>Government-Tested</h3>
+                <p>DIRA's work has been presented directly to senior government officials and recognized by regional ministry delegates, not just claimed in marketing copy.</p>
             </div>
             <div class="grid-card">
                 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2 20s4-2 6-4 4-6 4-6 2 2 4 4 4 6 4 6-6-2-10 0z" stroke="currentColor" stroke-width="1.1"
-                        fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M12 3l9 4-9 4-9-4 9-4z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M12 11v10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M3 7l9 4 9-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
-                <h3>Growth</h3>
-                <p>Our solutions are designed to scale with your business, ensuring that technology becomes an enabler
-                    for growth rather than a limitation.</p>
+                <h3>Youth-Built</h3>
+                <p>DIRA trains the talent it hires. Multiple current team members came up through DIRA's own training programs before joining the company.</p>
             </div>
         </div>
+
+        <!-- Mission Section -->
+        <section class="mission-section">
+            <h6 style="text-align:center;letter-spacing:0.1em;text-transform:uppercase;font-size:0.8rem;color:#0F3B5A;font-weight:600;margin-bottom:0.5rem;">Our Mission</h6>
+            <h2>Why DIRA Exists</h2>
+            <p>DIRA exists to build the digital infrastructure institutions and businesses run on, starting from Bamenda. We design secure systems, custom platforms, and technology services for the organizations that need software they can actually trust, and we extend that same capability to the community around us through DIRA Foundation.</p>
+        </section>
 
         <!-- Numbers Section -->
         <section class="numbers-section">
             <div class="numbers-container">
-                <h2>Numbers Don't Lie</h2>
-                <p>Our track record speaks for itself. Here's a glimpse of what we've achieved over the years.</p>
+                <h2>Numbers That Are Real</h2>
+                <p>Figures from DIRA's verified work and programs.</p>
 
                 <div class="stats-container">
                     <div class="stat">
-                        <div class="stat-number" data-target="95">0%</div>
-                        <div class="stat-text">Client Satisfaction</div>
+                        <div class="stat-number" data-target="1000" data-suffix="+">1,000+</div>
+                        <div class="stat-text">TechFest Attendees</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-number" data-target="350">0</div>
-                        <div class="stat-text">Projects Completed</div>
+                        <div class="stat-number" data-target="108">108</div>
+                        <div class="stat-text">People Trained</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-number" data-target="2">0</div>
-                        <div class="stat-text">Years of Experience</div>
+                        <div class="stat-number" data-target="45">45</div>
+                        <div class="stat-text">Vendors Hosted</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- What We Do Best Section -->
+        <!-- What We Do Best / Expertise with real image -->
         <section class="expertise-section">
             <div class="section-header">
-                <h6>Our Expertise</h6>
-                <h2>What We Do Best</h2>
+                <h6>Our Approach</h6>
+                <h2>How We Work</h2>
             </div>
 
             <div class="expertise-container">
                 <div class="expertise-content">
                     <div class="expertise-item">
-                        <h3>Custom Software Development</h3>
-                        <p>We create tailored software solutions that address your specific business needs, from
-                            enterprise applications to specialized tools that streamline your operations.</p>
+                        <h3>We Build for Institutions</h3>
+                        <p>Our primary clients are organizations with serious accountability requirements: associations, government-adjacent bodies, companies managing significant data or transaction volume. We build for the audit, not just for launch day.</p>
                     </div>
                     <div class="expertise-item">
-                        <h3>Cloud Infrastructure & Migration</h3>
-                        <p>Our team helps businesses transition to the cloud seamlessly, ensuring scalability, security,
-                            and cost-efficiency in their infrastructure decisions.</p>
+                        <h3>We Stay in the Room</h3>
+                        <p>DIRA does not hand off deliverables and disappear. Our engagements include follow-through, and the team members who build the system are the same ones who answer for it afterward.</p>
                     </div>
                     <div class="expertise-item">
-                        <h3>Data Analytics & AI Solutions</h3>
-                        <p>We transform your data into actionable insights, implementing advanced analytics and AI
-                            solutions that drive informed decision-making.</p>
+                        <h3>We Train Our Own Pipeline</h3>
+                        <p>Several of the engineers on DIRA's team were identified through DIRA's own training programs. That is by design: we develop the technical talent this region produces rather than importing it.</p>
                     </div>
                     <div class="expertise-item">
-                        <h3>Cybersecurity & Compliance</h3>
-                        <p>Protecting your digital assets is our priority. We implement robust security measures and
-                            ensure compliance with industry regulations.</p>
+                        <h3>We Are Part of a Broader Group</h3>
+                        <p>DIRA is the operating core of a group of ventures that extends the same standard of work into housing, philanthropy, and media production across the region.</p>
                     </div>
                 </div>
                 <div class="expertise-image">
-                    <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                        alt="Our Expertise">
+                    <img src="./images/photos/IMG_9933.jpg" alt="DIRA team, Bamenda" loading="lazy">
                 </div>
+            </div>
+        </section>
+
+        <!-- DIRA Group Teaser -->
+        <section class="group-teaser">
+            <h6 style="letter-spacing:0.1em;text-transform:uppercase;font-size:0.8rem;color:#a8c7e0;font-weight:600;margin-bottom:0.75rem;">Beyond the Core</h6>
+            <h2>The DIRA Group</h2>
+            <p>DIRA is the operating core of a small group of ventures, each built to extend the same standard of work into a different part of the community: DHUB, Cameroon's verified housing marketplace; DIRA Foundation, our philanthropic and pro-bono technology arm; and DIRA Content Studio, our media production facility.</p>
+            <a href="group.html" class="button">Explore the DIRA Group</a>
+        </section>
+
+        <!-- Recognition & Engagements Section -->
+        <section class="recognition-section">
+            <div class="section-header">
+                <h6 style="letter-spacing:0.1em;text-transform:uppercase;font-size:0.8rem;color:#0F3B5A;font-weight:600;margin-bottom:0.5rem;">Recognition</h6>
+                <h2>Recognition &amp; Engagements</h2>
+                <p style="max-width:600px;margin:0.75rem auto 0;color:#555;line-height:1.6;">The following are factual records of DIRA's institutional engagements. No quotes have been attributed that were not stated.</p>
+            </div>
+
+            <div class="recognition-grid">
+                <!-- Entry 1 -->
+                <figure class="recognition-card">
+                    <div class="rec-img-wrap">
+                        <!-- Replace src below with the actual photo path when available -->
+                        <div class="rec-img-placeholder">
+                            [Photo: Fru Allen-Brian Njimbong with H.E. Paul Tasong at MINEPAT]<br>
+                            <small>Add image file to images/photos/ and update src</small>
+                        </div>
+                    </div>
+                    <div class="rec-body">
+                        <figcaption>DIRA presents its work, including the SHESA Connect platform, to H.E. Paul Tasong, Minister Delegate at MINEPAT (Ministry of Economy, Planning and Regional Development), in charge of Planning.</figcaption>
+                    </div>
+                </figure>
+
+                <!-- Entry 2 -->
+                <figure class="recognition-card">
+                    <div class="rec-img-wrap">
+                        <div class="rec-img-placeholder">
+                            [Photo: Fru Allen-Brian Njimbong with H.E. Felix Mbayu at MINREX]<br>
+                            <small>Add image file to images/photos/ and update src</small>
+                        </div>
+                    </div>
+                    <div class="rec-body">
+                        <figcaption>DIRA's work is presented to H.E. Felix Mbayu, Minister Delegate to the Minister of External Relations (MINREX), in charge of Relations with the Commonwealth.</figcaption>
+                    </div>
+                </figure>
+
+                <!-- Entry 3 -->
+                <figure class="recognition-card">
+                    <div class="rec-img-wrap">
+                        <img src="./images/photos/IMG_9933.jpg" alt="DIRA team with Dr. Bama Irene, Regional Delegate of MINRESI, at DIRA TechFest 2026" loading="lazy">
+                    </div>
+                    <div class="rec-body">
+                        <figcaption>Dr. Bama Irene, Regional Delegate of MINRESI (Northwest Region), commended DIRA at the closing of DIRA TechFest 2026, calling it one of the most promising technology companies she had encountered in Bamenda.</figcaption>
+                    </div>
+                </figure>
+
+                <!-- Entry 4 -->
+                <figure class="recognition-card">
+                    <div class="rec-img-wrap">
+                        <img src="./images/photos/IMG_1544.jpg" alt="DIRA team with representatives of the MINPMEESA Northwest Regional Delegation at DIRA TechFest 2026" loading="lazy">
+                    </div>
+                    <div class="rec-body">
+                        <figcaption>DIRA was recognized at DIRA TechFest 2026 by the Regional Delegate of MINPMEESA, Mr. Ngangjo Cliff, represented by Mr. Ngonejo Gilbert and Mr. Atanga Nelson.</figcaption>
+                    </div>
+                </figure>
             </div>
         </section>
 
         <!-- Contact Form Section -->
         <div class="contact-container" id="contactSection">
-            <!-- contact injectted from js -->
+            <!-- contact injected from js -->
         </div>
     </div>
 
     <footer>
-
     </footer>
 
     <script src="./js/header.js"></script>
@@ -135,19 +281,21 @@
         // Animated counter for statistics
         function animateValue(element, start, end, duration) {
             let startTimestamp = null;
+            const suffix = element.dataset.suffix || '';
             const step = (timestamp) => {
                 if (!startTimestamp) startTimestamp = timestamp;
                 const progress = Math.min((timestamp - startTimestamp) / duration, 1);
                 const value = Math.floor(progress * (end - start) + start);
-                element.textContent = element.dataset.target.endsWith('%') ? value + "%" : value;
+                element.textContent = value.toLocaleString() + suffix;
                 if (progress < 1) {
                     window.requestAnimationFrame(step);
+                } else {
+                    element.textContent = end.toLocaleString() + suffix;
                 }
             };
             window.requestAnimationFrame(step);
         }
 
-        // Intersection Observer to trigger animation when element is in view
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -159,7 +307,6 @@
             });
         }, { threshold: 0.5 });
 
-        // Observe all stat-number elements
         document.querySelectorAll('.stat-number').forEach(stat => {
             observer.observe(stat);
         });
