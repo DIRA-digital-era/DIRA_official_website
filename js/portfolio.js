@@ -5,6 +5,7 @@ const projects = [
     category: "Flagship Product",
     tags: ["Flagship Product", "PropTech", "Verified Marketplace"],
     status: "Live & Operating",
+    caseStudyPage: "project-dhub.html",
     link: "https://dhubcmr.netlify.app/",
     description: "Cameroon's verified housing marketplace. Search, book, and pay securely, with every listing checked before it goes live.",
     problemSolved: "Finding safe, verified student and residential housing in Cameroon has historically been plagued by unverified brokers, duplicate listings, and fraudulent advance deposits. DHUB solves this by creating a closed-loop marketplace where agents and listings are physically verified before publication, paired with transparent booking workflows.",
@@ -26,17 +27,18 @@ const projects = [
     category: "Institutional Platform",
     tags: ["Institutional Platform", "Alumni Network", "Governance"],
     status: "Delivered & Presented",
-    link: "",
+    caseStudyPage: "project-shesa.html",
+    link: "https://shesaconnect.com",
     description: "SHESA Connect is a full membership platform built for SHESA's alumni network: events, leadership records, project tracking, and a media gallery in one system. It's the largest completed platform engagement in DIRA's portfolio to date, and has been presented directly to senior government officials including Minister Delegates at MINEPAT and MINREX.",
     problemSolved: "Global alumni networks with thousands of members across multiple chapters frequently suffer from scattered member databases, untracked development projects, and fractured communication channels. SHESA Connect centralized verified membership registers, historical executive records, chapter project funding, and institutional media in a single secure environment.",
     techInfo: "Multi-tier membership platform, historical executive records database, project milestone tracker, event registration engine, and institutional role-based access control.",
     images: [
       {
-        url: "./images/photos/IMG_9933.jpg",
+        url: "./images/photos/dira-team-techfest-2026.jpg",
         alt: "SHESA project signing and institutional presentation"
       },
       {
-        url: "./images/photos/IMG_1544.jpg",
+        url: "./images/photos/dira-technical-training.jpg",
         alt: "DIRA team presenting platform capabilities"
       }
     ]
@@ -47,6 +49,7 @@ const projects = [
     category: "NGO & Community",
     tags: ["NGO Portal", "Community Development", "Non-Profit"],
     status: "Live & Active",
+    caseStudyPage: "project-aswedo.html",
     link: "https://aswedo.org",
     description: "Official web platform for the Association for the Welfare of the Disadvantaged and Vulnerable (ASWEDO Cameroon), supporting community development, women empowerment, and educational outreach.",
     problemSolved: "Grassroots humanitarian organizations need credible, transparent digital portals to communicate their field activities to international partners, donors, and regulatory bodies without costly proprietary maintenance overhead.",
@@ -68,6 +71,7 @@ const projects = [
     category: "Commercial Platform",
     tags: ["Enterprise Platform", "E-Commerce", "Multi-Vendor"],
     status: "Delivered (Client Redacted)",
+    caseStudyPage: "project-marketplace.html",
     link: "",
     description: "A high-capacity multi-vendor marketplace platform built for cross-border African commerce, engineered for multi-currency handling and verified merchant catalogs. (Details redacted in accordance with commercial confidentiality agreements).",
     problemSolved: "Cross-border African commerce involves complex currency conversions, high transaction abandonment due to untrusted sellers, and friction in reconciling vendor settlements. This platform engineered automated vendor vetting, transaction escrow, and multi-currency pricing to secure trust between buyers and sellers.",
@@ -89,6 +93,7 @@ const projects = [
     category: "Sports & Talent",
     tags: ["External Client", "Sports", "Talent Showcase"],
     status: "Live",
+    caseStudyPage: "project-cybfc.html",
     link: "https://cameryoungboyzfc.com/",
     description: "Official sports website for talent showcasing. Designed for high performance, athlete visibility, and international scout recruitment.",
     problemSolved: "Talented young footballers in Cameroon often lack an authoritative digital repository of verified statistics, tournament footage, and scout contact channels, limiting their exposure to international academies.",
@@ -239,12 +244,20 @@ function openCaseStudyModal(projectId) {
   
   const actionsContainer = document.getElementById('modalActions');
   actionsContainer.innerHTML = '';
+  if (p.caseStudyPage) {
+    const pageBtn = document.createElement('a');
+    pageBtn.href = p.caseStudyPage;
+    pageBtn.className = 'modal-btn-primary';
+    pageBtn.textContent = 'Full Case Study Page \u2192';
+    actionsContainer.appendChild(pageBtn);
+  }
   if (p.link) {
     const liveBtn = document.createElement('a');
     liveBtn.href = p.link;
     liveBtn.target = '_blank';
     liveBtn.rel = 'noopener';
     liveBtn.className = 'modal-btn-primary';
+    liveBtn.style.background = '#0284c7';
     liveBtn.textContent = 'Visit Live Platform';
     actionsContainer.appendChild(liveBtn);
   }
@@ -315,7 +328,8 @@ function injectProjects() {
         <p class="card-desc">${project.description}</p>
       </div>
       <div class="card-actions-row">
-        <button type="button" class="btn-case-study" onclick="openCaseStudyModal('${project.id}')">View Case Study</button>
+        ${project.caseStudyPage ? `<a href="${project.caseStudyPage}" class="btn-case-study" style="text-decoration:none;">Case Study &rarr;</a>` : `<button type="button" class="btn-case-study" onclick="openCaseStudyModal('${project.id}')">View Details</button>`}
+        <button type="button" class="btn-case-study" style="background:#4b5563;" onclick="openCaseStudyModal('${project.id}')">Overview</button>
         ${liveLinkHtml}
       </div>
     `;

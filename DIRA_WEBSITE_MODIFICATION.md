@@ -111,7 +111,12 @@ This document records all modifications made to the official DIRA website codeba
 ## 4. New Pages Created
 
 - **`group.html` (DIRA Group):** Dedicated ecosystem page presenting DIRA as the operating core of DHUB, DIRA Foundation, DIRA TechFest, and DIRA Content Studio.
-- **`sitemap.xml`:** XML sitemap containing all active, public URLs.
+- **`project-shesa.html`:** Dedicated standalone case study page for SHESA Connect.
+- **`project-dhub.html`:** Dedicated standalone case study page for DHUB.
+- **`project-aswedo.html`:** Dedicated standalone case study page for ASWEDO Cameroon.
+- **`project-cybfc.html`:** Dedicated standalone case study page for Camer Young Boyz FC.
+- **`project-marketplace.html`:** Dedicated standalone case study page for the Pan-African Multi-Vendor Marketplace (redacted).
+- **`sitemap.xml`:** XML sitemap containing all active, public URLs including standalone project case studies.
 - **`robots.txt`:** Standard search crawler configuration referencing the sitemap.
 - **`gallery.html`:** Updated with automatic redirect to `portfolio.html` to preserve backward compatibility.
 

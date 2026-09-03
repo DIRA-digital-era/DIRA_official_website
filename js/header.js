@@ -111,7 +111,7 @@ function injectFooter(){
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2026 DIRA. All rights reserved.</p>
+                <p>&copy; 2026 DIRA. All rights reserved. DIRA SAS, AWICUL Building, Commercial Avenue, Bamenda, Northwest Region, Cameroon RC.BDA.2026.B-000339 | <a href="mailto:info@diracmr.com" style="color:inherit;">info@diracmr.com</a> | <a href="tel:+237682366472" style="color:inherit;">+237 682 366 472</a></p>
             </div>
         </div>
     `
