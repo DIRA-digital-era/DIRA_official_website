@@ -1,133 +1,192 @@
 const projects = [
   {
-    id: "web",
-    title: "Web Development",
-    tags: [],
-    description: "Complete redesign of an e-commerce website focusing on improving user experience and conversion rates. Implemented modern design principles and streamlined checkout process.",
+    id: "dhub",
+    title: "DHUB",
+    category: "Flagship Product",
+    tags: ["Flagship Product", "PropTech", "Verified Marketplace"],
+    status: "Live & Operating",
+    link: "https://dhubcmr.netlify.app/",
+    description: "Cameroon's verified housing marketplace. Search, book, and pay securely, with every listing checked before it goes live.",
+    problemSolved: "Finding safe, verified student and residential housing in Cameroon has historically been plagued by unverified brokers, duplicate listings, and fraudulent advance deposits. DHUB solves this by creating a closed-loop marketplace where agents and listings are physically verified before publication, paired with transparent booking workflows.",
+    techInfo: "Custom marketplace platform, verified property onboarding workflow, high-availability hosting, geolocation search, and secure inquiry pipelines.",
     images: [
       {
-        url: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-        alt: "E-Commerce Website"
+        url: "./images/utils/development.jpg",
+        alt: "DHUB verified housing marketplace platform architecture"
       },
       {
-        url: "https://images.unsplash.com/photo-1563014959-7aaa83350992?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80",
-        alt: "E-Commerce Product Page"
-      },
-      {
-        url: "https://images.unsplash.com/photo-1556155092-490a1ba16284?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-        alt: "E-Commerce Checkout"
+        url: "./images/utils/cloud.jpg",
+        alt: "DHUB property management infrastructure"
       }
     ]
   },
   {
-    id: "app",
-    title: "App Development And Deployment",
-    tags: [],
-    description: "Designed a sleek and intuitive user interface for a fitness tracking mobile application. Focused on creating an engaging user experience with smooth animations and clear data visualization.",
+    id: "shesa",
+    title: "SHESA Connect",
+    category: "Institutional Platform",
+    tags: ["Institutional Platform", "Alumni Network", "Governance"],
+    status: "Delivered & Presented",
+    link: "",
+    description: "SHESA Connect is a full membership platform built for SHESA's alumni network: events, leadership records, project tracking, and a media gallery in one system. It's the largest completed platform engagement in DIRA's portfolio to date, and has been presented directly to senior government officials including Minister Delegates at MINEPAT and MINREX.",
+    problemSolved: "Global alumni networks with thousands of members across multiple chapters frequently suffer from scattered member databases, untracked development projects, and fractured communication channels. SHESA Connect centralized verified membership registers, historical executive records, chapter project funding, and institutional media in a single secure environment.",
+    techInfo: "Multi-tier membership platform, historical executive records database, project milestone tracker, event registration engine, and institutional role-based access control.",
     images: [
       {
-        url: "https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80",
-        alt: "Mobile App Screens"
+        url: "./images/photos/IMG_9933.jpg",
+        alt: "SHESA project signing and institutional presentation"
       },
       {
-        url: "https://images.unsplash.com/photo-1581276879432-15e50529f34b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-        alt: "Mobile App Design"
-      },
-      {
-        url: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
-        alt: "Mobile App Interface"
+        url: "./images/photos/IMG_1544.jpg",
+        alt: "DIRA team presenting platform capabilities"
       }
     ]
   },
   {
-    id: "graphic",
-    tags: [],
-    title: "Flyers and Graphic Design",
-    description: "Developed a comprehensive brand identity for a tech startup, including logo design, color palette, typography, and brand guidelines. Created a cohesive visual language across all platforms.",
+    id: "aswedo",
+    title: "ASWEDO Cameroon",
+    category: "NGO & Community",
+    tags: ["NGO Portal", "Community Development", "Non-Profit"],
+    status: "Live & Active",
+    link: "https://aswedo.org",
+    description: "Official web platform for the Association for the Welfare of the Disadvantaged and Vulnerable (ASWEDO Cameroon), supporting community development, women empowerment, and educational outreach.",
+    problemSolved: "Grassroots humanitarian organizations need credible, transparent digital portals to communicate their field activities to international partners, donors, and regulatory bodies without costly proprietary maintenance overhead.",
+    techInfo: "Accessible, responsive web architecture, structured field reporting modules, donation inquiries, and optimized mobile-first performance.",
     images: [
       {
-        url: "https://images.unsplash.com/photo-1626785774573-4b799315345d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80",
-        alt: "Brand Identity"
+        url: "./images/portfolio/foundation0.png",
+        alt: "ASWEDO Cameroon community welfare platform"
       },
       {
-        url: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=958&q=80",
-        alt: "Brand Logo"
-      },
-      {
-        url: "https://images.unsplash.com/photo-1601933470096-0e34634ffcde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-        alt: "Brand Materials"
+        url: "./images/portfolio/foundation1.png",
+        alt: "ASWEDO educational outreach program"
       }
     ]
   },
-    {
-        id: "agrichain",
-        title: "AgriChain AI",
-        status: "Health Score: 55/100",
-        link: "https://agrichainproject-by-dira.netlify.app",
-        tags: ["Blockchain", "AI", "AgriTech"],
-        description: "A blockchain and AI-driven agricultural supply chain solution designed to enhance transparency and efficiency for farmers and distributors.",
-        images: [
-            { url: "./images/portfolio/agrichain0.png", alt: "Smart Agriculture" },
-            { url: "./images/portfolio/agrichain1.png", alt: "Smart Agriculture" },
-            { url: "./images/portfolio/agrichain2.png", alt: "Smart Agriculture" },
-            { url: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800", alt: "Blockchain Concept" },
-        ]
-    },
-
-    {
-        id: "medtechies",
-        title: "MedTechies",
-        status: "Prototype / In Development",
-        link: "https://medtechies.netlify.app",
-        tags: ["Health-Tech"],
-        description: "A health-tech project focused on medical data management and accessibility, currently in development.",
-        images: [
-            { url: "./images/portfolio/medtechies0.png", alt: "Medical Tech" },
-            { url: "./images/portfolio/medtechies1.png", alt: "Data Management" },
-            { url: "./images/portfolio/medtechies2.png", alt: "Healthcare App" }
-        ]
-    },
-    {
-        id: "foundation",
-        title: "DIRA Foundation",
-        status: "Live / Active",
-        link: "https://dirafoundation.netlify.app",
-        tags: ["Philanthropy", "Digital Literacy"],
-        description: "The philanthropic arm of the Digital Era Initiative, focusing on digital literacy and community empowerment.",
-        images: [
-            { url: "./images/portfolio/foundation0.png", alt: "Community Empowerment" },
-            { url: "./images/portfolio/foundation1.png", alt: "Education" },
-            { url: "./images/portfolio/foundation2.png", alt: "Digital Literacy" },
-            { url: "./images/portfolio/foundation3.png", alt: "Digital Literacy" }
-        ]
-    },
-    {
-        id: "cybfc",
-        title: "Camer Young Boyz FC",
-        status: "Live",
-        link: "https://cameryoungboyzfc.com/",
-        tags: ["External Client", "Sports"],
-        description: "Official sports website for talent showcasing. Designed for high performance and athlete visibility.",
-        images: [
-            { url: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800", alt: "Football Stadium" },
-            { url: "./images/portfolio/youngboyz0.png", alt: "Soccer Action" },
-            { url: "./images/portfolio/youngboyz1.png", alt: "Soccer Action" },
-            { url: "./images/portfolio/youngboyz2.png", alt: "Soccer Action" },
-        ]
-    },
-    {
-        id: "opendreams",
-        title: "Open Dreams",
-        status: "Live",
-        link: "https://open-dreams.org",
-        tags: ["Educational", "Scholarship"],
-        description: "Educational consultancy and scholarship portal providing resources for international academic opportunities.",
-        images: [
-            { url: "./images/portfolio/opendreams.png", alt: "Graduation" },
-            { url: "./images/portfolio/opendreams1.png", alt: "Students Collaborating" },
-            { url: "./images/portfolio/opendreams2.png", alt: "Academic Success" }
-        ]
-    }
+  {
+    id: "marketplace",
+    title: "Pan-African Multi-Vendor Marketplace",
+    category: "Commercial Platform",
+    tags: ["Enterprise Platform", "E-Commerce", "Multi-Vendor"],
+    status: "Delivered (Client Redacted)",
+    link: "",
+    description: "A high-capacity multi-vendor marketplace platform built for cross-border African commerce, engineered for multi-currency handling and verified merchant catalogs. (Details redacted in accordance with commercial confidentiality agreements).",
+    problemSolved: "Cross-border African commerce involves complex currency conversions, high transaction abandonment due to untrusted sellers, and friction in reconciling vendor settlements. This platform engineered automated vendor vetting, transaction escrow, and multi-currency pricing to secure trust between buyers and sellers.",
+    techInfo: "Multi-tenant merchant dashboards, distributed transaction logging, automated vendor audit verification, and resilient catalog search.",
+    images: [
+      {
+        url: "./images/utils/Wavy_Bus-19_Single-05.jpg",
+        alt: "Pan-African multi-vendor platform architecture"
+      },
+      {
+        url: "./images/utils/security.jpg",
+        alt: "Secure multi-currency transaction escrow"
+      }
+    ]
+  },
+  {
+    id: "cybfc",
+    title: "Camer Young Boyz FC",
+    category: "Sports & Talent",
+    tags: ["External Client", "Sports", "Talent Showcase"],
+    status: "Live",
+    link: "https://cameryoungboyzfc.com/",
+    description: "Official sports website for talent showcasing. Designed for high performance, athlete visibility, and international scout recruitment.",
+    problemSolved: "Talented young footballers in Cameroon often lack an authoritative digital repository of verified statistics, tournament footage, and scout contact channels, limiting their exposure to international academies.",
+    techInfo: "Fast-loading media showcase, individual athlete statistical cards, responsive match calendar, and secure scouting inquiry integration.",
+    images: [
+      {
+        url: "./images/portfolio/youngboyz0.png",
+        alt: "Camer Young Boyz FC official website"
+      },
+      {
+        url: "./images/portfolio/youngboyz1.png",
+        alt: "Player match highlights and statistics"
+      },
+      {
+        url: "./images/portfolio/youngboyz2.png",
+        alt: "Academy match schedule and roster"
+      }
+    ]
+  },
+  {
+    id: "foundation",
+    title: "DIRA Foundation",
+    category: "Philanthropy & Community",
+    tags: ["Philanthropy", "Digital Literacy", "Community"],
+    status: "Live & Active",
+    link: "https://dirafoundation.netlify.app",
+    description: "The philanthropic and pro-bono technology arm of the DIRA Group, providing digital literacy training, cybersecurity workshops, and technical support to nonprofits across Cameroon.",
+    problemSolved: "Addresses systemic barriers to technology education in secondary schools and grassroots organizations through subsidized bootcamps, equipment donations, and open educational resources.",
+    techInfo: "Community portal, workshop registration pipelines, resource repository, and volunteer mentorship coordination.",
+    images: [
+      {
+        url: "./images/portfolio/foundation0.png",
+        alt: "DIRA Foundation community empowerment workshop"
+      },
+      {
+        url: "./images/portfolio/foundation1.png",
+        alt: "DIRA Foundation digital education program"
+      },
+      {
+        url: "./images/portfolio/foundation2.png",
+        alt: "Community digital literacy session"
+      },
+      {
+        url: "./images/portfolio/foundation3.png",
+        alt: "Hands-on technology training for young students"
+      }
+    ]
+  },
+  {
+    id: "opendreams",
+    title: "Open Dreams Portal",
+    category: "Education & Scholarships",
+    tags: ["Educational", "Scholarship Portal"],
+    status: "Live",
+    link: "https://open-dreams.org",
+    description: "Educational consultancy and scholarship portal providing resources and mentoring pipelines for high-achieving low-income students seeking international academic opportunities.",
+    problemSolved: "Streamlines international college preparation, standardized testing resources, and volunteer mentor coordination for underprivileged African scholars.",
+    techInfo: "Educational resource delivery architecture, scholar alumni profiles, and university partnership showcase.",
+    images: [
+      {
+        url: "./images/portfolio/opendreams.png",
+        alt: "Open Dreams scholar graduation and achievements"
+      },
+      {
+        url: "./images/portfolio/opendreams1.png",
+        alt: "Scholars collaborating in academic mentorship program"
+      },
+      {
+        url: "./images/portfolio/opendreams2.png",
+        alt: "International scholarship success stories"
+      }
+    ]
+  },
+  {
+    id: "agrichain",
+    title: "AgriChain AI",
+    category: "Research Prototype",
+    tags: ["Research Prototype", "AgriTech", "Traceability"],
+    status: "Prototype / Research Stage",
+    link: "https://agrichainproject-by-dira.netlify.app",
+    description: "An experimental agricultural supply chain prototype exploring tamper-evident record keeping and provenance tracking for smallholder farmers in Cameroon.",
+    problemSolved: "Explores methods to prevent product adulteration and provide verifiable batch origin data to agricultural exporters.",
+    techInfo: "Experimental immutable batch logging, distributor verification dashboard, and decentralized record proofs.",
+    images: [
+      {
+        url: "./images/portfolio/agrichain0.png",
+        alt: "AgriChain AI supply chain dashboard prototype"
+      },
+      {
+        url: "./images/portfolio/agrichain1.png",
+        alt: "Farmer batch registration interface"
+      },
+      {
+        url: "./images/portfolio/agrichain2.png",
+        alt: "Crop provenance verification proof"
+      }
+    ]
+  }
 ];
 
 // Keeps track of current index per carousel
@@ -135,19 +194,81 @@ const currentIndices = {};
 const autoIntervals = {};
 
 function moveCarousel(id, direction) {
-  if (!currentIndices[id]) currentIndices[id] = 0;
+  if (currentIndices[id] === undefined) currentIndices[id] = 0;
   const inner = document.getElementById(`inner-${id}`);
   if (!inner) return;
   const totalImages = inner.children.length || 1;
   currentIndices[id] = (currentIndices[id] + direction + totalImages) % totalImages;
   inner.style.transform = `translateX(-${currentIndices[id] * 100}%)`;
+  updateIndicators(id, currentIndices[id]);
 }
 
-function injectProjects(){
+function setCarouselIndex(id, idx) {
+  const inner = document.getElementById(`inner-${id}`);
+  if (!inner) return;
+  const total = inner.children.length || 1;
+  const newIdx = ((idx % total) + total) % total;
+  currentIndices[id] = newIdx;
+  inner.style.transform = `translateX(-${newIdx * 100}%)`;
+  updateIndicators(id, newIdx);
+}
+
+function updateIndicators(id, activeIdx) {
+  const indicators = document.querySelectorAll(`#indicators-${id} .carousel-indicator`);
+  indicators.forEach((el, i) => {
+    if (i === activeIdx) el.classList.add('active');
+    else el.classList.remove('active');
+  });
+}
+
+function restartAuto(id) {
+  if (autoIntervals[id]) clearInterval(autoIntervals[id]);
+  autoIntervals[id] = setInterval(() => moveCarousel(id, 1), 3500);
+}
+
+function openCaseStudyModal(projectId) {
+  const p = projects.find(item => item.id === projectId);
+  if (!p) return;
+  
+  const modal = document.getElementById('case-study-modal');
+  document.getElementById('modalBadge').textContent = p.category || p.tags[0] || 'Project';
+  document.getElementById('modalTitle').textContent = p.title;
+  document.getElementById('modalDesc').textContent = p.description;
+  document.getElementById('modalProblem').textContent = p.problemSolved || 'Details provided upon request.';
+  document.getElementById('modalTech').textContent = p.techInfo || 'Built with custom platform architecture.';
+  
+  const actionsContainer = document.getElementById('modalActions');
+  actionsContainer.innerHTML = '';
+  if (p.link) {
+    const liveBtn = document.createElement('a');
+    liveBtn.href = p.link;
+    liveBtn.target = '_blank';
+    liveBtn.rel = 'noopener';
+    liveBtn.className = 'modal-btn-primary';
+    liveBtn.textContent = 'Visit Live Platform';
+    actionsContainer.appendChild(liveBtn);
+  }
+  const closeBtn = document.createElement('button');
+  closeBtn.type = 'button';
+  closeBtn.className = 'modal-btn-primary';
+  closeBtn.style.background = '#6b7280';
+  closeBtn.textContent = 'Close';
+  closeBtn.onclick = closeCaseStudyModal;
+  actionsContainer.appendChild(closeBtn);
+
+  modal.classList.add('active');
+}
+
+function closeCaseStudyModal() {
+  const modal = document.getElementById('case-study-modal');
+  if (modal) modal.classList.remove('active');
+}
+
+function injectProjects() {
   const container = document.getElementById('portfolio-grid');
   if (!container) return;
+  container.innerHTML = '';
 
-  // Observer to pause/play auto-scroll based on visibility
   const carouselObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -166,12 +287,16 @@ function injectProjects(){
     // Generate Images
     const imagesHtml = project.images.map(img => `
       <div class="carousel-item">
-        <img src="${img.url}" alt="${img.alt}">
+        <img src="${img.url}" alt="${img.alt}" loading="lazy">
       </div>
     `).join('');
 
     // Generate Tags
     const tagsHtml = project.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+
+    const liveLinkHtml = project.link ? `
+      <a href="${project.link}" class="card-link" target="_blank" rel="noopener">Visit Live</a>
+    ` : '';
 
     card.innerHTML = `
       <div class="card-carousel">
@@ -179,12 +304,8 @@ function injectProjects(){
           ${imagesHtml}
         </div>
         <div class="carousel-controls">
-          <button class="carousel-btn prev" data-project="${project.id}">
-            <i class="fas fa-chevron-left"></i>
-          </button>
-          <button class="carousel-btn next" data-project="${project.id}">
-            <i class="fas fa-chevron-right"></i>
-          </button>
+          <button class="carousel-btn prev" data-project="${project.id}" aria-label="Previous image">&#10094;</button>
+          <button class="carousel-btn next" data-project="${project.id}" aria-label="Next image">&#10095;</button>
         </div>
         <div class="carousel-indicators" id="indicators-${project.id}"></div>
       </div>
@@ -192,15 +313,15 @@ function injectProjects(){
         <div class="tag-container">${tagsHtml}</div>
         <h3 class="card-title">${project.title}</h3>
         <p class="card-desc">${project.description}</p>
-        </div>
-        <span class = "project-link">
-          <a href="${project.link}" class="card-link" target="blank">View Project</a>
-        </span>
+      </div>
+      <div class="card-actions-row">
+        <button type="button" class="btn-case-study" onclick="openCaseStudyModal('${project.id}')">View Case Study</button>
+        ${liveLinkHtml}
+      </div>
     `;
 
     container.appendChild(card);
 
-    // Initialize state and controls for this carousel
     currentIndices[project.id] = 0;
     const inner = document.getElementById(`inner-${project.id}`);
     if (inner) inner.style.transform = 'translateX(0)';
@@ -220,6 +341,7 @@ function injectProjects(){
         const btn = document.createElement('button');
         btn.className = 'carousel-indicator' + (i === 0 ? ' active' : '');
         btn.setAttribute('data-index', i);
+        btn.setAttribute('aria-label', `Slide ${i + 1}`);
         btn.addEventListener('click', (e) => {
           const idx = parseInt(e.currentTarget.getAttribute('data-index'), 10);
           setCarouselIndex(project.id, idx);
@@ -229,38 +351,8 @@ function injectProjects(){
       }
     }
 
-    // Auto-advance every 3 seconds
-    // Instead of starting immediately, we let the observer handle it
     carouselObserver.observe(card);
   });
-}
-
-function setCarouselIndex(id, idx) {
-  const inner = document.getElementById(`inner-${id}`);
-  if (!inner) return;
-  const total = inner.children.length || 1;
-  const newIdx = ((idx % total) + total) % total;
-  currentIndices[id] = newIdx;
-  inner.style.transform = `translateX(-${newIdx * 100}%)`;
-
-  // update indicators
-  const indicators = document.querySelectorAll(`#indicators-${id} .carousel-indicator`);
-  indicators.forEach((el, i) => {
-    if (i === newIdx) el.classList.add('active'); else el.classList.remove('active');
-  });
-}
-
-function restartAuto(id) {
-  if (autoIntervals[id]) clearInterval(autoIntervals[id]);
-  autoIntervals[id] = setInterval(() => moveCarousel(id, 1), 3000);
-}
-
-function moveCarousel(id, direction) {
-  if (currentIndices[id] === undefined) currentIndices[id] = 0;
-  const inner = document.getElementById(`inner-${id}`);
-  if (!inner) return;
-  const totalImages = inner.children.length || 1;
-  setCarouselIndex(id, currentIndices[id] + direction);
 }
 
 injectProjects();
