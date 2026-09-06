@@ -5,10 +5,10 @@
     <link rel="icon" href="./images/logo.ico" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIRA Group | Ventures &amp; Ecosystem</title>
-    <meta name="description" content="DIRA is the operating core of a group of ventures: DHUB verified housing marketplace, DIRA Foundation, DIRA Content Studio, and DIRA TechFest.">
-    <meta property="og:title" content="DIRA Group | Ventures &amp; Ecosystem">
-    <meta property="og:description" content="DIRA is the operating core of a small group of ventures, each built to extend the same standard of work into a different part of the community.">
+    <title>The DIRA Group | Ventures &amp; Ecosystem</title>
+    <meta name="description" content="The DIRA Group comprises DIRA and the ventures it has established to extend its work into housing, philanthropy, events, and media production.">
+    <meta property="og:title" content="The DIRA Group | Ventures &amp; Ecosystem">
+    <meta property="og:description" content="You Dream It, We Build It. The DIRA Group comprises DIRA, its parent technology company, and its established ventures.">
     <meta property="og:type" content="website">
     <meta property="og:image" content="./images/logo.jpg">
     <link rel="canonical" href="group.html">
@@ -17,37 +17,39 @@
     <link rel="stylesheet" href="./style/contact.css">
     <style>
         .group-hero {
-            padding: 4rem 1.5rem;
+            padding: 4.5rem 1.5rem 3.5rem;
             text-align: center;
             background: linear-gradient(135deg, #0F3B5A 0%, #164d75 100%);
             color: #fff;
         }
         .group-hero h6 {
-            color: #a8c7e0;
+            color: #00E6D6;
             text-transform: uppercase;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.15em;
             font-size: 0.85rem;
-            margin-bottom: 0.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
         }
         .group-hero h1 {
-            font-size: 2.75rem;
+            font-size: 2.85rem;
             color: #fff;
             margin-bottom: 1.25rem;
             line-height: 1.2;
+            font-weight: 800;
         }
         .group-hero p {
-            max-width: 750px;
+            max-width: 820px;
             margin: 0 auto;
             color: #e2ecf4;
             font-size: 1.15rem;
-            line-height: 1.7;
+            line-height: 1.8;
         }
         .ventures-container {
-            max-width: 1100px;
+            max-width: 1160px;
             margin: 4rem auto;
             padding: 0 1.5rem;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 2.5rem;
         }
         .venture-card {
@@ -55,7 +57,7 @@
             border-radius: 12px;
             border: 1px solid #e5e9f0;
             overflow: hidden;
-            box-shadow: 0 4px 16px rgba(15, 59, 90, 0.08);
+            box-shadow: 0 4px 16px rgba(15, 59, 90, 0.06);
             display: flex;
             flex-direction: column;
             transition: transform 0.25s ease, box-shadow 0.25s ease;
@@ -65,66 +67,62 @@
             box-shadow: 0 12px 28px rgba(15, 59, 90, 0.12);
         }
         .venture-card-header {
-            padding: 1.75rem 2rem 1rem;
+            padding: 1.75rem 2rem 1.25rem;
             border-bottom: 1px solid #f0f4f8;
+            background: #fafcff;
         }
         .venture-badge {
             display: inline-block;
             font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
+            letter-spacing: 0.05em;
             padding: 0.25rem 0.6rem;
             border-radius: 4px;
             background: #eef5fa;
             color: #0F3B5A;
             margin-bottom: 0.75rem;
         }
+        .venture-badge.forthcoming {
+            background: #fef3c7;
+            color: #92400e;
+        }
         .venture-card-header h2 {
-            font-size: 1.6rem;
+            font-size: 1.65rem;
             color: #0F3B5A;
-            margin-bottom: 0.5rem;
+            margin: 0;
+            font-weight: 700;
         }
         .venture-card-body {
-            padding: 1.75rem 2rem;
+            padding: 2rem;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
         }
         .venture-card-body p {
-            color: #4b5563;
-            line-height: 1.7;
-            font-size: 1rem;
-            margin-bottom: 1.5rem;
-            flex-grow: 1;
+            color: #475569;
+            line-height: 1.75;
+            font-size: 0.98rem;
+            margin-bottom: 1.25rem;
         }
-        .venture-features {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 1.5rem 0;
-        }
-        .venture-features li {
-            padding: 0.4rem 0;
-            color: #374151;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-        }
-        .venture-features li::before {
-            content: "✓";
-            color: #0F3B5A;
-            font-weight: bold;
-            margin-right: 0.6rem;
+        .venture-card-body p:last-of-type {
+            margin-bottom: 2rem;
         }
         .venture-btn {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
             text-align: center;
             background: #0F3B5A;
             color: #fff;
-            padding: 0.75rem 1.5rem;
+            padding: 0.8rem 1.6rem;
             border-radius: 6px;
             font-weight: 600;
             text-decoration: none;
             transition: background 0.2s ease;
+            align-self: flex-start;
         }
         .venture-btn:hover {
             background: #164d75;
@@ -136,6 +134,12 @@
         .venture-btn.secondary:hover {
             background: #e0ecf5;
         }
+        .venture-status-note {
+            display: inline-block;
+            color: #64748b;
+            font-size: 0.88rem;
+            font-style: italic;
+        }
     </style>
 </head>
 
@@ -144,12 +148,12 @@
         <!-- injected from header.js -->
     </header>
 
-    <div class="container">
-        <!-- Hero Section -->
+    <main>
+        <!-- Hero Section: Page Introduction -->
         <section class="group-hero">
-            <h6>The Ecosystem</h6>
+            <h6>You Dream It, We Build It.</h6>
             <h1>The DIRA Group</h1>
-            <p>DIRA is the operating core of a small group of ventures, each built to extend the same standard of work into a different part of the community.</p>
+            <p>The DIRA Group comprises DIRA, its parent technology company, and the ventures it has established to extend its work into new sectors and audiences. Each venture operates independently and serves a distinct purpose, while drawing on the same technical team and the same operating standard. This page provides an overview of each.</p>
         </section>
 
         <!-- Ventures Grid -->
@@ -157,81 +161,105 @@
             <!-- Venture 1: DHUB -->
             <article class="venture-card">
                 <div class="venture-card-header">
-                    <span class="venture-badge">Flagship Venture</span>
+                    <span class="venture-badge">Housing Marketplace</span>
                     <h2>DHUB</h2>
                 </div>
                 <div class="venture-card-body">
-                    <p>Cameroon's verified housing marketplace. Search, book, and pay securely, with every listing checked before it goes live.</p>
-                    <ul class="venture-features">
-                        <li>Every property physically audited</li>
-                        <li>Eliminates fake listings and broker fraud</li>
-                        <li>Direct, secure booking and payment workflows</li>
-                        <li>Operating across student and urban hubs</li>
-                    </ul>
-                    <a href="https://dhubcmr.netlify.app/" target="_blank" rel="noopener" class="venture-btn">Explore DHUB &rarr;</a>
+                    <div>
+                        <p>DHUB is a housing marketplace developed for the Cameroonian rental market. It addresses a problem widely experienced across Bamenda: the difficulty of finding verified rental listings without relying on informal agents, unverifiable claims, or upfront fees paid before a property has been seen. DHUB connects tenants directly with verified landlords, removing the intermediary layer that has historically made the local rental process slow and, in many cases, exploitative.</p>
+                        <p>DHUB was developed and is maintained by DIRA, and represents the company's first consumer product following its founding as a client services business. Its continued development reflects DIRA's broader strategy of identifying regional gaps and building durable products to close them, rather than limiting its work to commissioned projects alone.</p>
+                    </div>
+                    <a href="https://dhubcmr.netlify.app/" target="_blank" rel="noopener" class="venture-btn">
+                        <span>Visit DHUB</span> &rarr;
+                    </a>
                 </div>
             </article>
 
             <!-- Venture 2: DIRA Foundation -->
             <article class="venture-card">
                 <div class="venture-card-header">
-                    <span class="venture-badge">Philanthropic Arm</span>
+                    <span class="venture-badge">Philanthropy &amp; Community</span>
                     <h2>DIRA Foundation</h2>
                 </div>
                 <div class="venture-card-body">
-                    <p>DIRA's philanthropic and pro-bono technology arm, providing web development, cybersecurity, and digital support to nonprofits and community organizations across the region.</p>
-                    <ul class="venture-features">
-                        <li>Subsidized website and software development</li>
-                        <li>Defensive cybersecurity audits for NGOs</li>
-                        <li>Digital literacy and youth workshops</li>
-                        <li>Open community development tools</li>
-                    </ul>
-                    <a href="https://dirafoundation.netlify.app" target="_blank" rel="noopener" class="venture-btn">Visit DIRA Foundation &rarr;</a>
+                    <div>
+                        <p>DIRA Foundation is the philanthropic and community-facing arm of the DIRA Group. Its purpose is to extend DIRA's technical capability to organisations that require it but could not otherwise commission it: nonprofit organisations, community associations, and alumni networks operating with limited budgets and no in-house technical staff.</p>
+                        <p>Through DIRA Foundation, DIRA has delivered web development, cybersecurity support, and digital infrastructure to a number of community and nonprofit organisations, applying the same standards of quality and delivery used in its commercial engagements. DIRA Foundation reflects the company's position that technical capability, once developed, should also serve the community in which the company operates.</p>
+                    </div>
+                    <a href="https://dirafoundation.netlify.app" target="_blank" rel="noopener" class="venture-btn">
+                        <span>Visit DIRA Foundation</span> &rarr;
+                    </a>
                 </div>
             </article>
 
-            <!-- Venture 3: DIRA TechFest -->
+            <!-- Venture 3: DIRA Tech Fest -->
             <article class="venture-card">
                 <div class="venture-card-header">
-                    <span class="venture-badge">Annual Flagship Event</span>
-                    <h2>DIRA TechFest</h2>
+                    <span class="venture-badge">Annual Flagship Festival</span>
+                    <h2>DIRA Tech Fest</h2>
                 </div>
                 <div class="venture-card-body">
-                    <p>DIRA's annual flagship event. The 2026 edition trained 108 young people and drew over 1,000 attendees to Bamenda.</p>
-                    <ul class="venture-features">
-                        <li>Over 1,000 attendees in Bamenda (2026 edition)</li>
-                        <li>108 young developers and students trained</li>
-                        <li>45 regional tech and business vendors hosted</li>
-                        <li>Commended by ministerial and regional delegates</li>
-                    </ul>
-                    <a href="https://diratechfest.netlify.app/" target="_blank" rel="noopener" class="venture-btn">Visit DIRA TechFest &rarr;</a>
+                    <div>
+                        <p>DIRA Tech Fest is the DIRA Group's annual technology festival, held in Bamenda. The festival combines structured technical training, product development, and public programming over a three-day period, and has become the Group's most visible public initiative to date.</p>
+                        <p>The inaugural 2026 edition trained over one hundred participants across ten technical tracks, supported ten teams through a forty-eight-hour product development sprint, and convened representatives of three government ministries, a regional financial institution, and industry participants for a public discussion on the digital economy of the Northwest Region. The festival also served as the public launch platform for DHUB. Subsequent editions are planned on an expanded scale.</p>
+                    </div>
+                    <a href="https://diratechfest.netlify.app/" target="_blank" rel="noopener" class="venture-btn">
+                        <span>Visit DIRA Tech Fest</span> &rarr;
+                    </a>
                 </div>
             </article>
 
             <!-- Venture 4: DIRA Content Studio -->
             <article class="venture-card">
                 <div class="venture-card-header">
-                    <span class="venture-badge">Media Production Facility</span>
+                    <span class="venture-badge">Commercial Production Arm</span>
                     <h2>DIRA Content Studio</h2>
                 </div>
                 <div class="venture-card-body">
-                    <p>Video, podcast, and branded content production for DIRA's own ventures and for outside clients.</p>
-                    <ul class="venture-features">
-                        <li>Multi-camera studio video production</li>
-                        <li>Podcast recording and audio mastering</li>
-                        <li>Branded social content and executive headshots</li>
-                        <li>Comprehensive event and conference coverage</li>
-                    </ul>
-                    <a href="contact.html?subject=Content+Studio" class="venture-btn secondary">See our work &rarr;</a>
+                    <div>
+                        <p>DIRA Content Studio is a production arm of DIRA and a distinct revenue line for the company, rather than a venture of the wider Group. It provides video production, photography, podcast recording, and branded content services to businesses, institutions, and independent creators.</p>
+                        <p>The Studio also produces all media published across the DIRA Group, and is developing a regional technology and business reporting function covering the digital economy of the Northwest Region.</p>
+                    </div>
+                    <a href="content-studio.html" class="venture-btn secondary">
+                        <span>Explore Content Studio</span> &rarr;
+                    </a>
+                </div>
+            </article>
+
+            <!-- Venture 5: DRIVE -->
+            <article class="venture-card">
+                <div class="venture-card-header">
+                    <span class="venture-badge forthcoming">Forthcoming Venture</span>
+                    <h2>DRIVE</h2>
+                </div>
+                <div class="venture-card-body">
+                    <div>
+                        <p>DRIVE is a forthcoming venture of the DIRA Group, currently entering its development phase. Further information will be published as the project progresses.</p>
+                    </div>
+                    <span class="venture-status-note">Development phase active</span>
+                </div>
+            </article>
+
+            <!-- Venture 6: DIRA Headquarters -->
+            <article class="venture-card">
+                <div class="venture-card-header">
+                    <span class="venture-badge forthcoming">Infrastructure Development</span>
+                    <h2>DIRA Headquarters</h2>
+                </div>
+                <div class="venture-card-body">
+                    <div>
+                        <p>The DIRA Group is developing a permanent headquarters in Bamenda to serve as the long-term operational base for its ventures. Further information will be published as the project progresses.</p>
+                    </div>
+                    <span class="venture-status-note">Project in progress in Bamenda</span>
                 </div>
             </article>
         </div>
 
-        <!-- Contact Section -->
+        <!-- Contact Section Container -->
         <div class="contact-container" id="contactSection">
-            <!-- contact injected from js -->
+            <!-- contact injected from header.js -->
         </div>
-    </div>
+    </main>
 
     <footer>
         <!-- injected from header.js -->

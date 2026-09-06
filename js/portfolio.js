@@ -34,7 +34,7 @@ const projects = [
     techInfo: "Multi-tier membership platform, historical executive records database, project milestone tracker, event registration engine, and institutional role-based access control.",
     images: [
       {
-        url: "./images/photos/dira-team-techfest-2026.jpg",
+        url: "./images/photos/dira-team-Tech Fest-2026.jpg",
         alt: "SHESA project signing and institutional presentation"
       },
       {

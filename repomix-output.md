@@ -4374,7 +4374,7 @@ footer {
                 <div class="stats-container">
                     <div class="stat">
                         <div class="stat-number" data-target="1000" data-suffix="+">1,000+</div>
-                        <div class="stat-text">TechFest Attendees</div>
+                        <div class="stat-text">Tech Fest Attendees</div>
                     </div>
                     <div class="stat">
                         <div class="stat-number" data-target="108">108</div>
@@ -4467,20 +4467,20 @@ footer {
                 <!-- Entry 3 -->
                 <figure class="recognition-card">
                     <div class="rec-img-wrap">
-                        <img src="./images/photos/IMG_9933.jpg" alt="DIRA team with Dr. Bama Irene, Regional Delegate of MINRESI, at DIRA TechFest 2026" loading="lazy">
+                        <img src="./images/photos/IMG_9933.jpg" alt="DIRA team with Dr. Bama Irene, Regional Delegate of MINRESI, at DIRA Tech Fest 2026" loading="lazy">
                     </div>
                     <div class="rec-body">
-                        <figcaption>Dr. Bama Irene, Regional Delegate of MINRESI (Northwest Region), commended DIRA at the closing of DIRA TechFest 2026, calling it one of the most promising technology companies she had encountered in Bamenda.</figcaption>
+                        <figcaption>Dr. Bama Irene, Regional Delegate of MINRESI (Northwest Region), commended DIRA at the closing of DIRA Tech Fest 2026, calling it one of the most promising technology companies she had encountered in Bamenda.</figcaption>
                     </div>
                 </figure>
 
                 <!-- Entry 4 -->
                 <figure class="recognition-card">
                     <div class="rec-img-wrap">
-                        <img src="./images/photos/IMG_1544.jpg" alt="DIRA team with representatives of the MINPMEESA Northwest Regional Delegation at DIRA TechFest 2026" loading="lazy">
+                        <img src="./images/photos/IMG_1544.jpg" alt="DIRA team with representatives of the MINPMEESA Northwest Regional Delegation at DIRA Tech Fest 2026" loading="lazy">
                     </div>
                     <div class="rec-body">
-                        <figcaption>DIRA was recognized at DIRA TechFest 2026 by the Regional Delegate of MINPMEESA, Mr. Ngangjo Cliff, represented by Mr. Ngonejo Gilbert and Mr. Atanga Nelson.</figcaption>
+                        <figcaption>DIRA was recognized at DIRA Tech Fest 2026 by the Regional Delegate of MINPMEESA, Mr. Ngangjo Cliff, represented by Mr. Ngonejo Gilbert and Mr. Atanga Nelson.</figcaption>
                     </div>
                 </figure>
             </div>
@@ -6471,7 +6471,7 @@ function injectHeader(){
                         <li><a href="group.html">DIRA Group Overview</a></li>
                         <li><a href="https://dhubcmr.netlify.app/" target="_blank">DHUB</a></li>
                         <li><a href="https://dirafoundation.netlify.app" target="_blank">DIRA Foundation</a></li>
-                        <li><a href="https://diratechfest.netlify.app/" target="_blank">DIRA TechFest</a></li>
+                        <li><a href="https://diraTech Fest.netlify.app/" target="_blank">DIRA Tech Fest</a></li>
                     </ul>
                 </div>
             </div>
@@ -6491,7 +6491,7 @@ function injectFooter(){
                         DIRA SAS<br>
                         AWICUL Building, Commercial Avenue<br>
                         Bamenda, Northwest Region, Cameroon<br>
-                        RC.BDA.2026.B-000339
+                        RC.Bda.2026.B.000339
                     </p>
                 </div>
 
@@ -6511,7 +6511,7 @@ function injectFooter(){
 
                 <div class="footer-section">
                     <h3>Contact</h3>
-                    <p><a href="mailto:info@diracmr.com" style="color:#ccc;">info@diracmr.com</a></p>
+                    <p><a href="mailto:diradigitalera@gmail.com" style="color:#ccc;">diradigitalera@gmail.com</a></p>
                     <p><a href="tel:+237682366472" style="color:#ccc;">+237 682 366 472</a></p>
                     <div class="social-links" style="margin-top:1rem;">
                         <a href="https://www.facebook.com/profile.php?id=61583966202064" aria-label="Facebook" target="_blank" class="social-icon" title="Facebook">
@@ -6598,7 +6598,7 @@ function injectContact(){
                     </svg>
                     <div>
                         <h4>Email</h4>
-                        <p><a href="mailto:info@diracmr.com" style="color:inherit;">info@diracmr.com</a></p>
+                        <p><a href="mailto:diradigitalera@gmail.com" style="color:inherit;">diradigitalera@gmail.com</a></p>
                     </div>
                 </div>
 
@@ -6820,7 +6820,7 @@ injectContact();
       "legalName": "DIRA SAS",
       "url": "https://diracmr.com",
       "logo": "./images/logo.jpg",
-      "email": "info@diracmr.com",
+      "email": "diradigitalera@gmail.com",
       "telephone": "+237682366472",
       "address": {
         "@type": "PostalAddress",
@@ -6916,7 +6916,7 @@ injectContact();
                 <div class="stats-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem;padding:2rem 1rem 0;">
                     <div class="stat-item" style="text-align:center;">
                         <div class="stat-number" data-target="1000" data-suffix="+" style="font-size:2.5rem;font-weight:700;color:#fff;">1,000+</div>
-                        <div class="stat-text" style="color:#a8c7e0;margin-top:0.5rem;">TechFest Attendees</div>
+                        <div class="stat-text" style="color:#a8c7e0;margin-top:0.5rem;">Tech Fest Attendees</div>
                     </div>
                     <div class="stat-item" style="text-align:center;">
                         <div class="stat-number" data-target="108" style="font-size:2.5rem;font-weight:700;color:#fff;">108</div>

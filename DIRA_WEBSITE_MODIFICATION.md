@@ -9,10 +9,10 @@ This document records all modifications made to the official DIRA website codeba
 
 - **Operating Name:** Standardized company name to **DIRA** across all page titles, headings, navigation elements, legal agreements, and structured data. Removed all instances of "DIRA Tech Solutions", "Digital Era", and "DIRA - Birth of the Digital Era".
 - **Digital Era Reference:** Clarified solely on the About page ("DIRA stands for Digital Era.") as authorized.
-- **Email:** Globally replaced `diradigitalera@gmail.com` with `info@diracmr.com`.
+- **Email:** Globally replaced `diradigitalera@gmail.com` with `diradigitalera@gmail.com`.
 - **Phone:** Globally replaced `+237 679 66 70 32` with `+237 682 366 472`.
 - **Address:** Corrected typographical error `AWICCUL Building` to `AWICUL Building, Commercial Avenue, Bamenda, Northwest Region, Cameroon`.
-- **RCCM Registration:** Added official OHADA registration number `RC.BDA.2026.B-000339` to the global footer, contact page, and terms of service.
+- **RCCM Registration:** Added official OHADA registration number `RC.Bda.2026.B.000339` to the global footer, contact page, and terms of service.
 - **Copyright:** Standardized global footer to `© 2026 DIRA. All rights reserved.`
 
 ---
@@ -26,7 +26,7 @@ This document records all modifications made to the official DIRA website codeba
   - TRAINING (`training.html`)
   - ABOUT (`about.html`)
   - CONTACT (`contact.html`)
-  - DIRA GROUP dropdown: Overview (`group.html`), DHUB, DIRA Foundation, DIRA TechFest.
+  - DIRA GROUP dropdown: Overview (`group.html`), DHUB, DIRA Foundation, DIRA Tech Fest.
 - **Footer Injection:** Centralized footer injection with verified address, registration number, contact email, phone, and verified social media links (Facebook, X/Twitter, LinkedIn, Instagram, TikTok, YouTube).
 - **Inline Contact Injection:** Standardized contact details in `injectContact()` for pages containing inline contact sections.
 
@@ -39,12 +39,12 @@ This document records all modifications made to the official DIRA website codeba
   - Motto: *Dare to Dream. From Ideas to Products.*
   - Tagline: *Building Africa's digital infrastructure, from Cameroon.*
   - Supporting text: *DIRA designs secure systems, custom platforms, and technology services for institutions and businesses across Cameroon and beyond.*
-- **Introduction:** Added approved paragraph highlighting DIRA's registration under OHADA law, the 2026 TechFest training 108 youths and drawing 1,000+ attendees, the launch of DHUB, and platform presentations to senior government officials.
+- **Introduction:** Added approved paragraph highlighting DIRA's registration under OHADA law, the 2026 Tech Fest training 108 youths and drawing 1,000+ attendees, the launch of DHUB, and platform presentations to senior government officials.
 - **Services Teaser:** Replaced generic IT cards with the three real service cards linking to in-page anchors:
   - Secure Systems -> `services.html#secure-systems`
   - Custom Platforms -> `services.html#custom-platforms`
   - Technology Services -> `services.html#consulting`
-- **Counters:** Replaced broken counter animations with verified statistics: 1,000+ TechFest attendees, 108 people trained, 45 vendors hosted, 9 core team members.
+- **Counters:** Replaced broken counter animations with verified statistics: 1,000+ Tech Fest attendees, 108 people trained, 45 vendors hosted, 9 core team members.
 - **Structured Data:** Implemented Schema.org `Organization` JSON-LD.
 
 ### About Page (`about.html`)
@@ -77,7 +77,7 @@ This document records all modifications made to the official DIRA website codeba
 - **Image Alt Attributes:** Replaced placeholder `alt="clud"` attributes with descriptive text.
 
 ### Training Page (`training.html`)
-- **Pricing Corrections:** Removed unverified "FREE!" labels across all programs and added approved copy: *"Practical technical training across six tracks. Some programs are offered free through DIRA TechFest and community partnerships; contact us for current availability and pricing."*
+- **Pricing Corrections:** Removed unverified "FREE!" labels across all programs and added approved copy: *"Practical technical training across six tracks. Some programs are offered free through DIRA Tech Fest and community partnerships; contact us for current availability and pricing."*
 - **Testimonials Removed:** Completely eliminated fabricated testimonials and stock portraits (`randomuser.me`).
 - **Counters Updated:** Replaced fabricated stats with real figures (108 young people trained, 1,000+ attendees).
 - **Curriculum:** Aligned tracks with real technical offerings (Full-Stack Web, Mobile Apps, Cybersecurity, Custom Platform Architecture, Cloud Infrastructure, UI/UX).
@@ -110,7 +110,7 @@ This document records all modifications made to the official DIRA website codeba
 
 ## 4. New Pages Created
 
-- **`group.html` (DIRA Group):** Dedicated ecosystem page presenting DIRA as the operating core of DHUB, DIRA Foundation, DIRA TechFest, and DIRA Content Studio.
+- **`group.html` (DIRA Group):** Dedicated ecosystem page presenting DIRA as the operating core of DHUB, DIRA Foundation, DIRA Tech Fest, and DIRA Content Studio.
 - **`project-shesa.html`:** Dedicated standalone case study page for SHESA Connect.
 - **`project-dhub.html`:** Dedicated standalone case study page for DHUB.
 - **`project-aswedo.html`:** Dedicated standalone case study page for ASWEDO Cameroon.

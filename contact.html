@@ -5,14 +5,13 @@
     <link rel="icon" href="./images/logo.ico" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact DIRA | Technology Company, Bamenda, Cameroon</title>
-    <meta name="description" content="Get in touch with DIRA. Located at AWICUL Building, Commercial Avenue, Bamenda, Cameroon. Email: info@diracmr.com | Phone: +237 682 366 472.">
-    <meta property="og:title" content="Contact DIRA | Bamenda, Cameroon">
-    <meta property="og:description" content="Reach out to DIRA for secure systems, custom platform development, and technology consulting.">
+    <title>Contact &amp; Social Hub | DIRA</title>
+    <meta name="description" content="Connect with DIRA in Bamenda, Cameroon. Submit inquiries, explore our social hub, and view the latest updates from Instagram, TikTok, and our verified community.">
+    <meta property="og:title" content="Contact &amp; Social Hub | DIRA">
+    <meta property="og:description" content="Reach our engineering team, explore our active social media feed, and see us in action across Cameroon.">
     <meta property="og:type" content="website">
     <meta property="og:image" content="./images/logo.jpg">
     <link rel="canonical" href="contact.html">
-    <!-- Using custom SVG icons; removed FontAwesome to avoid generic icons -->
     <link rel="stylesheet" href="./style/header.css">
     <link rel="stylesheet" href="./style/contact.css">
 </head>
@@ -22,200 +21,332 @@
         <!-- injected from header.js -->
     </header>
 
-    <div class="contact-container">
-        <div class="contact-info">
-            <h2>Get In Touch</h2>
-            <p>Have questions or want to discuss a project? Our team in Bamenda is ready to help you architect and deploy reliable software.</p>
+    <main class="contact-hub-wrapper">
+        <!-- Top Section: Form on Left, Social Hub on Right -->
+        <section class="contact-main-grid">
+            <!-- Left Column: Contact Form & Quick Info -->
+            <div class="form-card">
+                <h2>Send Us a Message</h2>
+                <p class="form-card-subtitle">Have questions, need an institutional platform, or want to discuss a custom build? Send our engineering team a message.</p>
 
-            <div class="contact-details">
-                <div class="contact-detail">
-                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
-                            stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <circle cx="12" cy="9" r="2.2" fill="currentColor" />
-                    </svg>
-                    <div>
-                        <h4>Address</h4>
-                        <p>AWICUL Building, Commercial Avenue<br>Bamenda, Northwest Region, Cameroon</p>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
                     </div>
-                </div>
 
-                <div class="contact-detail">
-                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M22 16.92v3a2 2 0 0 1-2.18 2A19.86 19.86 0 0 1 3 5.18 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.72c.12.97.37 1.91.73 2.79a2 2 0 0 1-.45 2.11L9.91 12.09a16 16 0 0 0 6 6l1.47-1.47a2 2 0 0 1 2.11-.45c.88.36 1.82.61 2.79.73A2 2 0 0 1 22 16.92z"
-                            stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                    <div>
-                        <h4>Phone</h4>
-                        <p><a href="tel:+237682366472" style="color:inherit;">+237 682 366 472</a></p>
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" placeholder="Your Email" required>
                     </div>
-                </div>
 
-                <div class="contact-detail">
-                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.2"
-                            fill="none" />
-                        <path d="M3 7l9 6 9-6" stroke="currentColor" stroke-width="1.2" fill="none"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <div>
-                        <h4>Email</h4>
-                        <p><a href="mailto:info@diracmr.com" style="color:inherit;">info@diracmr.com</a></p>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="Your Phone (+237 ...)">
                     </div>
-                </div>
 
-                <div class="contact-detail">
-                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.2" fill="none" />
-                        <path d="M12 7v6l4 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"
-                            stroke-linejoin="round" fill="none" />
-                    </svg>
-                    <div>
-                        <h4>Business Hours</h4>
-                        <p>Monday to Friday: 8am - 8pm</p>
-                        <p>Saturday and Sunday: 12pm - 7pm</p>
+                    <div class="form-group">
+                        <label for="subject">Subject *</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Select a subject</option>
+                            <option value="General Inquiry">General Inquiry</option>
+                            <option value="Services">Services &amp; Custom Platforms</option>
+                            <option value="Training Programs">Training Programs &amp; Cohorts</option>
+                            <option value="Content Studio">DIRA Content Studio</option>
+                            <option value="Technical Support">Technical Support</option>
+                            <option value="Other">Other</option>
+                        </select>
                     </div>
-                </div>
 
-                <div class="contact-detail">
-                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                        <polyline points="14 2 14 8 20 8" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                        <line x1="16" y1="13" x2="8" y2="13" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <line x1="16" y1="17" x2="8" y2="17" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <div>
-                        <h4>Company Registration</h4>
-                        <p>DIRA SAS &bull; RC.BDA.2026.B-000339</p>
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" placeholder="Describe your project or inquiry..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <span class="spinner" id="spinner"></span>
+                        <span>Send Message</span>
+                    </button>
+                </form>
+
+                <!-- Direct Contact Details Strip -->
+                <div class="contact-quick-strip">
+                    <div class="quick-contact-item">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="12" cy="9" r="2.2" fill="currentColor"/>
+                        </svg>
+                        <div>
+                            <h4>Address</h4>
+                            <p>AWICUL Building, Commercial Avenue<br>Bamenda, Northwest Region, Cameroon</p>
+                        </div>
+                    </div>
+
+                    <div class="quick-contact-item">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.86 19.86 0 0 1 3 5.18 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.72c.12.97.37 1.91.73 2.79a2 2 0 0 1-.45 2.11L9.91 12.09a16 16 0 0 0 6 6l1.47-1.47a2 2 0 0 1 2.11-.45c.88.36 1.82.61 2.79.73A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <div>
+                            <h4>Phone</h4>
+                            <p><a href="tel:+237682366472">+237 682 366 472</a></p>
+                        </div>
+                    </div>
+
+                    <div class="quick-contact-item">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.2" fill="none"/>
+                            <path d="M3 7l9 6 9-6" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <div>
+                            <h4>Email</h4>
+                            <p><a href="mailto:diradigitalera@gmail.com">diradigitalera@gmail.com</a></p>
+                        </div>
+                    </div>
+
+                    <div class="quick-contact-item">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            <polyline points="14 2 14 8 20 8" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <div>
+                            <h4>Registration</h4>
+                            <p>DIRA SAS &bull; RC.BDA.2026.B-000339</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="social-links" style="display:flex;gap:12px;margin-top:1.5rem;">
-                <a href="https://www.facebook.com/profile.php?id=61583966202064" aria-label="Facebook" target="_blank">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M22 12a10 10 0 1 0-11.5 9.9v-7h-2.3v-2.9h2.3V9.4c0-2.3 1.4-3.6 3.5-3.6 1 0 2 .08 2 .08v2.2h-1.1c-1.1 0-1.4.66-1.4 1.3v1.6h2.4l-.4 2.9h-2v7A10 10 0 0 0 22 12z"
-                            stroke="currentColor" stroke-width="0.8" fill="none" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                </a>
-                <a href="https://x.com/diradigitalera" aria-label="X / Twitter" target="_blank">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M23 3a10.9 10.9 0 0 1-3.14 1.53A4.48 4.48 0 0 0 22.43 1s-1.82.99-2.83 1.28A4.5 4.5 0 0 0 12 6.47V7a10.66 10.66 0 0 1-7.72-3.9s-4 8 5 11.5c-2.5.69-5 0-6.5-1.73 0 0 5.2 3.5 10.5 3.5A11 11 0 0 0 23 3z"
-                            stroke="currentColor" stroke-width="0.8" fill="none" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                </a>
-                <a href="https://www.linkedin.com/company/dira-digital-era/" aria-label="LinkedIn" target="_blank">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M16 8a6 6 0 0 1 6 6v6h-4v-6a2 2 0 0 0-4 0v6h-4V6h4v2" stroke="currentColor"
-                            stroke-width="0.8" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-                        <rect x="2" y="6" width="4" height="12" rx="1" stroke="currentColor" stroke-width="0.8"
-                            fill="none" />
-                        <circle cx="4" cy="4" r="1.6" stroke="currentColor" stroke-width="0.8" fill="none" />
-                    </svg>
-                </a>
-                <a href="https://www.instagram.com/digital_era_dira/" aria-label="Instagram" target="_blank">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="0.8"
-                            fill="none" />
-                        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="0.8" fill="none" />
-                        <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" />
-                    </svg>
-                </a>
-                <a href="https://www.tiktok.com/@digital.era.dira" aria-label="TikTok" target="_blank">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M16 8.5a4 4 0 0 0 4 4h1v-3a6 6 0 0 1-6-6v5.5z" stroke="currentColor" stroke-width="0.8"
-                            fill="none" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M7 8v8a4 4 0 0 0 4 4h1" stroke="currentColor" stroke-width="0.8" fill="none"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </a>
-                <a href="https://www.youtube.com/@DIRA_DIGITAL_ERA" aria-label="YouTube" target="_blank">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
-                        <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </a>
+            <!-- Right Column: Social Hub & Profiles -->
+            <div class="social-hub-panel">
+                <div class="social-hub-header">
+                    <span class="social-hub-kicker">Social Hub &amp; Community</span>
+                    <h2>Connect With Us</h2>
+                    <p>Follow our journey across all verified DIRA channels for live announcements, engineering updates, and community tech events.</p>
+                </div>
+
+                <div class="social-accounts-grid">
+                    <!-- Instagram -->
+                    <a href="https://www.instagram.com/digital_era_dira/" target="_blank" rel="noopener" class="social-account-card is-instagram" title="Follow DIRA on Instagram">
+                        <div class="social-card-left">
+                            <div class="social-icon-wrapper">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.2" fill="none"/>
+                                    <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.2" fill="none"/>
+                                    <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor"/>
+                                </svg>
+                            </div>
+                            <div class="social-card-text">
+                                <h4>Instagram</h4>
+                                <p class="social-card-handle">@digital_era_dira</p>
+                            </div>
+                        </div>
+                        <div class="social-card-right">
+                            <span class="social-follower-badge">1.2K+ followers</span>
+                            <span class="social-card-arrow">&rarr;</span>
+                        </div>
+                    </a>
+
+                    <!-- TikTok -->
+                    <a href="https://www.tiktok.com/@digital.era.dira" target="_blank" rel="noopener" class="social-account-card is-tiktok" title="Follow DIRA on TikTok">
+                        <div class="social-card-left">
+                            <div class="social-icon-wrapper">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16 8.5a4 4 0 0 0 4 4h1v-3a6 6 0 0 1-6-6v5.5z" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M7 8v8a4 4 0 0 0 4 4h1" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="social-card-text">
+                                <h4>TikTok</h4>
+                                <p class="social-card-handle">@digital.era.dira</p>
+                            </div>
+                        </div>
+                        <div class="social-card-right">
+                            <span class="social-follower-badge">2.5K+ community</span>
+                            <span class="social-card-arrow">&rarr;</span>
+                        </div>
+                    </a>
+
+                    <!-- Facebook -->
+                    <a href="https://www.facebook.com/profile.php?id=61583966202064" target="_blank" rel="noopener" class="social-account-card is-facebook" title="Follow DIRA on Facebook">
+                        <div class="social-card-left">
+                            <div class="social-icon-wrapper">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M22 12a10 10 0 1 0-11.5 9.9v-7h-2.3v-2.9h2.3V9.4c0-2.3 1.4-3.6 3.5-3.6 1 0 2 .08 2 .08v2.2h-1.1c-1.1 0-1.4.66-1.4 1.3v1.6h2.4l-.4 2.9h-2v7A10 10 0 0 0 22 12z" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="social-card-text">
+                                <h4>Facebook</h4>
+                                <p class="social-card-handle">DIRA Official</p>
+                            </div>
+                        </div>
+                        <div class="social-card-right">
+                            <span class="social-follower-badge">1.8K+ followers</span>
+                            <span class="social-card-arrow">&rarr;</span>
+                        </div>
+                    </a>
+
+                    <!-- WhatsApp Channel -->
+                    <a href="https://whatsapp.com/channel/0029VaDIRAOfficial" target="_blank" rel="noopener" class="social-account-card is-whatsapp" title="Join DIRA WhatsApp Channel">
+                        <div class="social-card-left">
+                            <div class="social-icon-wrapper">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="social-card-text">
+                                <h4>WhatsApp Channel</h4>
+                                <p class="social-card-handle">DIRA Official</p>
+                            </div>
+                        </div>
+                        <div class="social-card-right">
+                            <span class="social-follower-badge">Official Channel</span>
+                            <span class="social-card-arrow">&rarr;</span>
+                        </div>
+                    </a>
+
+                    <!-- X (Twitter) -->
+                    <a href="https://x.com/diradigitalera" target="_blank" rel="noopener" class="social-account-card is-x" title="Follow DIRA on X">
+                        <div class="social-card-left">
+                            <div class="social-icon-wrapper">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53A4.48 4.48 0 0 0 22.43 1s-1.82.99-2.83 1.28A4.5 4.5 0 0 0 12 6.47V7a10.66 10.66 0 0 1-7.72-3.9s-4 8 5 11.5c-2.5.69-5 0-6.5-1.73 0 0 5.2 3.5 10.5 3.5A11 11 0 0 0 23 3z" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="social-card-text">
+                                <h4>X (Twitter)</h4>
+                                <p class="social-card-handle">@diradigitalera</p>
+                            </div>
+                        </div>
+                        <div class="social-card-right">
+                            <span class="social-follower-badge">Announcements</span>
+                            <span class="social-card-arrow">&rarr;</span>
+                        </div>
+                    </a>
+
+                    <!-- LinkedIn -->
+                    <a href="https://www.linkedin.com/company/dira-digital-era/" target="_blank" rel="noopener" class="social-account-card is-linkedin" title="Follow DIRA on LinkedIn">
+                        <div class="social-card-left">
+                            <div class="social-icon-wrapper">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16 8a6 6 0 0 1 6 6v6h-4v-6a2 2 0 0 0-4 0v6h-4V6h4v2" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <rect x="2" y="6" width="4" height="12" rx="1" stroke="currentColor" stroke-width="1.2" fill="none"/>
+                                    <circle cx="4" cy="4" r="1.6" stroke="currentColor" stroke-width="1.2" fill="none"/>
+                                </svg>
+                            </div>
+                            <div class="social-card-text">
+                                <h4>LinkedIn</h4>
+                                <p class="social-card-handle">DIRA</p>
+                            </div>
+                        </div>
+                        <div class="social-card-right">
+                            <span class="social-follower-badge">Company Page</span>
+                            <span class="social-card-arrow">&rarr;</span>
+                        </div>
+                    </a>
+
+                    <!-- YouTube -->
+                    <a href="https://www.youtube.com/@DIRA_DIGITAL_ERA" target="_blank" rel="noopener" class="social-account-card is-youtube" title="Subscribe to DIRA on YouTube">
+                        <div class="social-card-left">
+                            <div class="social-icon-wrapper">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="social-card-text">
+                                <h4>YouTube</h4>
+                                <p class="social-card-handle">@DIRA_DIGITAL_ERA</p>
+                            </div>
+                        </div>
+                        <div class="social-card-right">
+                            <span class="social-follower-badge">Keynotes &amp; Demos</span>
+                            <span class="social-card-arrow">&rarr;</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Location Map Card -->
+                <div class="hub-map-card">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d992.0657652633015!2d10.15028151037128!3d5.958451589604248!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sAWICUL%20Building%2C%20Commercial%20Avenue%20Bamenda!5e0!3m2!1sen!2scm!4v1771256041620!5m2!1sen!2scm"
+                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                        title="DIRA headquarters location map"></iframe>
+                    <a target="_blank" rel="noopener" href="https://maps.google.com/?q=AWICUL+Building,+Commercial+Avenue,+Bamenda,+Cameroon" class="hub-map-link">
+                        View Headquarters on Google Maps &rarr;
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Embedded Social Feed & Mini Gallery Section -->
+        <section class="social-gallery-section" id="social-gallery">
+            <div class="social-gallery-header">
+                <span class="social-gallery-kicker">Follow Our Journey</span>
+                <h2>Latest From Our Socials</h2>
+                <p>Live post previews directly from our verified WhatsApp Channel, TikTok, Facebook, and Instagram.</p>
             </div>
 
-            <div class="map-container">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d992.0657652633015!2d10.15028151037128!3d5.958451589604248!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sAWICUL%20Building%2C%20Commercial%20Avenue%20Bamenda!5e0!3m2!1sen!2scm!4v1771256041620!5m2!1sen!2scm"
-                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade" title="DIRA location map"></iframe>
-                <a target="_blank"
-                    href="https://maps.google.com/?q=AWICUL+Building,+Commercial+Avenue,+Bamenda,+Cameroon">View
-                    on Google Maps
-                </a>
+            <div class="social-gallery-grid" id="socialGalleryGrid">
+                <!-- 4 Social Post Cards Injected by contact.js -->
             </div>
-        </div>
 
-        <div class="contact-form">
-            <h3>Send Us a Message</h3>
-            <form id="contactForm">
-                <div class="form-group">
-                    <label for="name">Full Name *</label>
-                    <input type="text" id="name" name="name" placeholder="Your Name" required>
+            <!-- Gallery Bottom CTA -->
+            <div class="social-gallery-cta">
+                <h3>Stay Connected with DIRA</h3>
+                <p>Follow our channels for software updates, platform launches, and tech community highlights.</p>
+                <div class="social-gallery-cta-buttons">
+                    <a href="https://whatsapp.com/channel/0029VaDIRAOfficial" target="_blank" rel="noopener" class="cta-social-btn whatsapp" style="background:#25D366; color:#ffffff;">
+                        <span>WhatsApp Channel</span> &rarr;
+                    </a>
+                    <a href="https://www.tiktok.com/@digital.era.dira" target="_blank" rel="noopener" class="cta-social-btn tiktok">
+                        <span>TikTok</span> &rarr;
+                    </a>
+                    <a href="https://www.facebook.com/profile.php?id=61583966202064" target="_blank" rel="noopener" class="cta-social-btn facebook" style="background:#1877F2; color:#ffffff;">
+                        <span>Facebook</span> &rarr;
+                    </a>
+                    <a href="https://www.instagram.com/digital_era_dira/" target="_blank" rel="noopener" class="cta-social-btn instagram">
+                        <span>Instagram</span> &rarr;
+                    </a>
                 </div>
+            </div>
+        </section>
+    </main>
 
-                <div class="form-group">
-                    <label for="email">Email Address *</label>
-                    <input type="email" id="email" name="email" placeholder="Your Email" required>
+    <!-- Social Lightbox Modal -->
+    <div class="social-lightbox-overlay" id="socialLightbox" onclick="if(event.target === this) closeSocialLightbox();">
+        <div class="social-lightbox-dialog">
+            <button class="lightbox-close-btn" onclick="closeSocialLightbox()" aria-label="Close Lightbox">&times;</button>
+            <div class="lightbox-media-container" id="lightboxMedia">
+                <!-- Media or embed rendered dynamically -->
+            </div>
+            <div class="lightbox-content-box">
+                <span class="lightbox-badge" id="lightboxBadge">Instagram</span>
+                <h3 class="lightbox-title" id="lightboxTitle">Post Title</h3>
+                <p class="lightbox-caption" id="lightboxCaption">Post description and details.</p>
+                <div class="lightbox-footer-actions">
+                    <a href="#" target="_blank" rel="noopener" class="btn-lightbox-launch" id="lightboxLink">
+                        <span>Open on Original Profile</span> &rarr;
+                    </a>
+                    <button type="button" class="btn-lightbox-dismiss" onclick="closeSocialLightbox()">Close</button>
                 </div>
-
-                <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" placeholder="Your Phone">
-                </div>
-
-                <div class="form-group">
-                    <label for="subject">Subject *</label>
-                    <select id="subject" name="subject" required>
-                        <option value="">Select a subject</option>
-                        <option value="General Inquiry">General Inquiry</option>
-                        <option value="Services">Services &amp; Custom Platforms</option>
-                        <option value="Training Programs">Training Programs</option>
-                        <option value="Content Studio">DIRA Content Studio</option>
-                        <option value="Technical Support">Technical Support</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="message">Message *</label>
-                    <textarea id="message" name="message" placeholder="Your Message" required></textarea>
-                </div>
-
-                <button type="submit" class="submit-btn" id="submitBtn">
-                    <span class="spinner" id="spinner"></span>
-                    <span>Send Message</span>
-                </button>
-            </form>
+            </div>
         </div>
     </div>
 
+    <!-- Notifications for Form -->
     <div class="notification success" id="successNotification">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-            style="margin-right:8px;">
-            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.2" fill="none" />
-            <path d="M7 12l3 3 7-7" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"
-                stroke-linejoin="round" />
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right:8px;">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.2" fill="none"/>
+            <path d="M7 12l3 3 7-7" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         <span>Your message has been sent successfully!</span>
     </div>
 
     <div class="notification error" id="errorNotification">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-            style="margin-right:8px;">
-            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.2" fill="none" />
-            <path d="M12 8v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-            <circle cx="12" cy="16.2" r="0.6" fill="currentColor" />
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right:8px;">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.2" fill="none"/>
+            <path d="M12 8v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="16.2" r="0.6" fill="currentColor"/>
         </svg>
         <span>There was an error sending your message. Please try again.</span>
     </div>
@@ -224,7 +355,7 @@
         <!-- injected from header.js -->
     </footer>
 
-    <!-- Load EmailJS SDK -->
+    <!-- EmailJS SDK & Scripts -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="./js/contact.js"></script>
     <script src="./js/header.js"></script>
