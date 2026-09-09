@@ -2182,7 +2182,7 @@ footer {
             written consent; DIRA may assign them without restriction.</p>
 
         <h3>14. Contact Information</h3>
-        <p>If you have questions about these Terms, please contact us at <strong>diradigitalera@gmail.com</strong> or
+        <p>If you have questions about these Terms, please contact us at <strong>info@diracmr.com</strong> or
             write
             to Digital Era Legal Department, AWICCUL Building, Commercial Avenue Bamenda Cameroon.</p>
 
@@ -2220,7 +2220,7 @@ footer {
         <h3>5. Your Privacy Rights</h3>
         <p>Depending on location, you may have the right to access, correction, deletion, portability, objection,
             restriction, and opt-out of certain processing. To exercise these rights, contact
-            <strong>diradigitalera@gmail.com</strong>. We may verify your identity before processing requests.
+            <strong>info@diracmr.com</strong>. We may verify your identity before processing requests.
         </p>
 
         <h3>6. Children's Privacy</h3>
@@ -2240,7 +2240,7 @@ footer {
             protection authority.</p>
 
         <h3>9. Contact Us</h3>
-        <p>For privacy questions or requests: <strong>diradigitalera@gmail.com</strong> | Phone: +237 6 82 36 64 72. |
+        <p>For privacy questions or requests: <strong>info@diracmr.com</strong> | Phone: +237 6 82 36 64 72. |
             Address:
             Digital Era Privacy Office, AWICCUL Building, Commercial Avenue Bamenda, Cameroon</p>
     </div>
@@ -6285,7 +6285,7 @@ footer::before {
                     </svg>
                     <div>
                         <h4>Email</h4>
-                        <p>diradigitalera@gmail.com</p>
+                        <p>info@diracmr.com</p>
                     </div>
                 </div>
 
@@ -6511,7 +6511,7 @@ function injectFooter(){
 
                 <div class="footer-section">
                     <h3>Contact</h3>
-                    <p><a href="mailto:diradigitalera@gmail.com" style="color:#ccc;">diradigitalera@gmail.com</a></p>
+                    <p><a href="mailto:info@diracmr.com" style="color:#ccc;">info@diracmr.com</a></p>
                     <p><a href="tel:+237682366472" style="color:#ccc;">+237 682 366 472</a></p>
                     <div class="social-links" style="margin-top:1rem;">
                         <a href="https://www.facebook.com/profile.php?id=61583966202064" aria-label="Facebook" target="_blank" class="social-icon" title="Facebook">
@@ -6598,7 +6598,7 @@ function injectContact(){
                     </svg>
                     <div>
                         <h4>Email</h4>
-                        <p><a href="mailto:diradigitalera@gmail.com" style="color:inherit;">diradigitalera@gmail.com</a></p>
+                        <p><a href="mailto:info@diracmr.com" style="color:inherit;">info@diracmr.com</a></p>
                     </div>
                 </div>
 
@@ -6820,7 +6820,7 @@ injectContact();
       "legalName": "DIRA SAS",
       "url": "https://diracmr.com",
       "logo": "./images/logo.jpg",
-      "email": "diradigitalera@gmail.com",
+      "email": "info@diracmr.com",
       "telephone": "+237682366472",
       "address": {
         "@type": "PostalAddress",

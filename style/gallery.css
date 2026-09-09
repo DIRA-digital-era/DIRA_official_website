@@ -1,3 +1,10 @@
+:root {
+    --background-color: #ffffff;
+    --primary-color: #191d36;
+    --secondary-color: #3b4697;
+    --button-text: white;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -5,169 +12,775 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-:root {
-    --ig-color: #e1306c;
-    --yt-color: #ff0000;
-    --tk-color: #00f2ea;
-}
-
 body {
-    display: flex;
-    flex-direction: column;
-    font-family: sans-serif;
-    background: #f4f4f4;
-    overflow-x: hidden;
-    min-height: 100dvh;
+    background-color: var(--background-color);
+    color: var(--primary-color);
+    line-height: 1.6;
     zoom: 0.9;
 }
 
-header {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.filters {
-    margin-bottom: 20px;
-}
-
-.filter-btn {
-    padding: 10px 20px;
-    margin: 5px;
-    cursor: pointer;
-    border: none;
-    background: white;
-    border-radius: 20px;
-    transition: 0.3s;
-}
-
-.filter-btn.active {
-    background: #333;
-    color: white;
-}
-
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 10px;
-    max-width: 70%;
+.container {
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 10px 40px;
+    padding: 0 20px;
 }
 
-.card {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.card img {
-    width: 100%;
-    display: block;
-    height: 200px;
-    object-fit: cover;
-}
-
-.card-content {
-    padding: 15px;
-}
-
-.badge {
-    font-size: 12px;
-    font-weight: bold;
-    text-transform: uppercase;
-    padding: 2px 8px;
-    border-radius: 4px;
+.hero {
+    background: linear-gradient(rgba(25, 29, 54, 0.8), rgba(25, 29, 54, 0.8)), url('../images/photos/IMG_1544.jpg') center/cover no-repeat;
     color: white;
+    padding: 100px 0;
+    text-align: center;
+    border-radius: 10px;
+    margin: 30px 0;
 }
 
-.instagram {
-    background: var(--ig-color);
+.hero h6 {
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    color: #aab2e6;
 }
 
-.youtube {
-    background: var(--yt-color);
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 30px;
+    line-height: 1.2;
 }
 
-.tiktok {
-    background: var(--tk-color);
+.button {
+    display: inline-block;
+    background-color: var(--secondary-color);
+    color: var(--button-text);
+    padding: 15px 35px;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 600;
+    transition: all 0.3s;
+    border: 2px solid var(--secondary-color);
 }
 
-Video Gallery Styling .video-card {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+.button:hover {
+    background-color: transparent;
+    color: var(--secondary-color);
+}
+
+/* ==========================================================================
+   Gallery Hero Enhancements
+   ========================================================================== */
+.gallery-hero {
+    position: relative;
+    padding: 80px 20px;
+}
+
+.gallery-hero p {
+    font-size: 18px;
+    max-width: 780px;
+    margin: 0 auto 25px;
+    color: #e2e6ff;
+    line-height: 1.7;
+}
+
+.gallery-stats-strip {
     display: flex;
-    flex-direction: column;
-    height: 100%;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
 }
 
-.video-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+.gallery-stat-pill {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 14px;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
-.iframe-wrapper {
+.gallery-stat-pill strong {
+    color: #aab2e6;
+    font-size: 16px;
+}
+
+/* ==========================================================================
+   Controls & Filter Toolbar
+   ========================================================================== */
+.gallery-controls-section {
+    margin: 20px 0 40px;
+}
+
+.gallery-controls-bar {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #eef0f8;
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.filter-pills-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.filter-pill {
+    border: 1px solid #e2e6f0;
+    background: #f8f9fc;
+    color: #555;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    outline: none;
+}
+
+.filter-pill:hover {
+    background: #eef2fb;
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.filter-pill.active {
+    background: var(--secondary-color);
+    color: white;
+    border-color: var(--secondary-color);
+    box-shadow: 0 4px 12px rgba(59, 70, 151, 0.3);
+}
+
+.gallery-count-badge {
+    background: #f0f3fa;
+    color: var(--secondary-color);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+/* ==========================================================================
+   Pinterest-Style Masonry Grid
+   ========================================================================== */
+.gallery-content-section {
+    margin-bottom: 60px;
+}
+
+.masonry-grid {
+    column-count: 4;
+    column-gap: 24px;
+    width: 100%;
+}
+
+.masonry-pin {
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 24px;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #eef0f8;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    text-align: left;
+}
+
+.masonry-pin:hover,
+.masonry-pin:focus-visible {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(59, 70, 151, 0.18);
+    outline: none;
+}
+
+.pin-media-wrapper {
     position: relative;
     width: 100%;
-    padding-bottom: 56.25%;
-    /* 16:9 Aspect Ratio */
-    height: 0;
-    background-color: #000;
+    overflow: hidden;
+    background: var(--primary-color);
 }
 
-.iframe-wrapper iframe {
+.pin-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.masonry-pin:hover .pin-img {
+    transform: scale(1.04);
+}
+
+.pin-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(25, 29, 54, 0.4) 0%, rgba(25, 29, 54, 0.1) 40%, rgba(25, 29, 54, 0.85) 100%);
+    opacity: 0;
+    visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 14px;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+    z-index: 2;
+}
+
+.masonry-pin:hover .pin-overlay,
+.masonry-pin:focus-visible .pin-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+
+.pin-overlay-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pin-badge {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    color: white;
+}
+
+.pin-badge.events,
+.lightbox-category-badge.events {
+    background: #2563eb;
+}
+
+.pin-badge.production,
+.lightbox-category-badge.production {
+    background: #9333ea;
+}
+
+.pin-badge.platforms,
+.lightbox-category-badge.platforms {
+    background: #059669;
+}
+
+.pin-badge.training,
+.lightbox-category-badge.training {
+    background: #d97706;
+}
+
+.pin-action-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-color);
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+}
+
+.pin-action-btn:hover {
+    transform: scale(1.1);
+}
+
+.pin-overlay-bottom {
+    transform: translateY(6px);
+    transition: transform 0.25s ease;
+}
+
+.masonry-pin:hover .pin-overlay-bottom {
+    transform: translateY(0);
+}
+
+.pin-overlay-title {
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.pin-details {
+    padding: 16px 18px;
+}
+
+.pin-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 6px;
+    line-height: 1.35;
+}
+
+.pin-desc {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.55;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Empty State */
+.gallery-empty-state {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: 10px;
+    border: 1px dashed #ccd3e5;
+    max-width: 550px;
+    margin: 30px auto;
+}
+
+.gallery-empty-state svg {
+    color: #99a5c4;
+    margin-bottom: 15px;
+}
+
+.gallery-empty-state h3 {
+    font-size: 22px;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+}
+
+.gallery-empty-state p {
+    color: #666;
+}
+
+/* ==========================================================================
+   Testimonials Section (Pictures with Captions)
+   ========================================================================== */
+.gallery-testimonials-section {
+    padding: 70px 0 90px;
+    border-top: 1px solid #eef0f8;
+}
+
+.testimonials-header {
+    text-align: center;
+    max-width: 780px;
+    margin: 0 auto 45px;
+}
+
+.testimonials-header h6 {
+    color: var(--secondary-color);
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.testimonials-header h2 {
+    font-size: 36px;
+    color: var(--primary-color);
+    margin-bottom: 16px;
+    line-height: 1.25;
+}
+
+.testimonials-header p {
+    font-size: 17px;
+    color: #666;
+    line-height: 1.6;
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 28px;
+}
+
+.testimonial-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #eef0f8;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin: 0;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 14px 35px rgba(59, 70, 151, 0.16);
+}
+
+.testimonial-img-wrap {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    background: var(--primary-color);
+}
+
+.testimonial-img-wrap img {
     width: 100%;
     height: 100%;
-    border: none;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
 }
 
-.card-info {
-    padding: 20px;
+.testimonial-card:hover .testimonial-img-wrap img {
+    transform: scale(1.05);
+}
+
+.testimonial-badge {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(25, 29, 54, 0.88);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.testimonial-content {
+    padding: 24px 22px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     flex-grow: 1;
 }
 
-.card-info h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-    color: #333;
-    font-weight: 600;
+.testimonial-quote {
+    color: #444;
+    font-size: 14.5px;
+    font-style: italic;
+    line-height: 1.65;
+    margin: 0 0 20px 0;
+    position: relative;
+    padding-left: 14px;
+    border-left: 3px solid var(--secondary-color);
 }
 
-.card-info p {
+.testimonial-author-box {
+    padding-top: 14px;
+    border-top: 1px solid #f0f3fa;
+}
+
+.testimonial-author-box h4 {
+    color: var(--primary-color);
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 3px;
+    line-height: 1.3;
+}
+
+.testimonial-author-box p {
+    color: #777;
+    font-size: 12.5px;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* ==========================================================================
+   Lightbox Modal
+   ========================================================================== */
+.lightbox-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.lightbox-modal.is-active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(25, 29, 54, 0.88);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.lightbox-dialog {
+    position: relative;
+    z-index: 10;
+    max-width: 1050px;
+    width: 100%;
+    max-height: 90vh;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.lightbox-modal.is-active .lightbox-dialog {
+    transform: scale(1);
+}
+
+.lightbox-media-side {
+    background: #0f1222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: 400px;
+    overflow: hidden;
+}
+
+.lightbox-img-element {
+    max-width: 100%;
+    max-height: 80vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.lightbox-img-element.loaded {
+    opacity: 1;
+}
+
+.lightbox-info-side {
+    padding: 35px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: white;
+    overflow-y: auto;
+}
+
+.lightbox-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.lightbox-category-badge {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    color: white;
+}
+
+.lightbox-counter-label {
     font-size: 14px;
-    color: #666;
-    line-height: 1.5;
+    font-weight: 600;
+    color: #777;
 }
 
-.instagram-card {
+.lightbox-main-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-color);
+    line-height: 1.3;
+    margin-bottom: 15px;
+}
+
+.lightbox-desc-text {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+.lightbox-footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 20px;
+    border-top: 1px solid #eef0f8;
+    margin-top: auto;
+}
+
+.lightbox-open-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: var(--secondary-color);
+    color: white;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.lightbox-open-btn:hover {
+    background: var(--primary-color);
+}
+
+.lightbox-btn-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
     background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 20;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
 }
 
-.instagram-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+.lightbox-btn-close:hover {
+    transform: scale(1.1);
 }
 
-.tiktok-card {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    padding: 10px;
+.lightbox-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(25, 29, 54, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 15;
+    transition: all 0.2s;
 }
 
-.tiktok-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+.lightbox-nav-btn:hover {
+    background: var(--secondary-color);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.lightbox-btn-prev {
+    left: 20px;
+}
+
+.lightbox-btn-next {
+    right: 20px;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+@media (max-width: 992px) {
+    .hero h1 {
+        font-size: 38px;
+    }
+
+    .masonry-grid {
+        column-count: 3;
+        column-gap: 20px;
+    }
+
+    .gallery-controls-bar {
+        justify-content: center;
+    }
+
+    .filter-pills-group {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        padding: 60px 0;
+        margin: 20px 0;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+
+    .testimonials-header h2 {
+        font-size: 28px;
+    }
+
+    .masonry-grid {
+        column-count: 2;
+        column-gap: 16px;
+    }
+
+    .testimonials-container {
+        grid-template-columns: 1fr;
+    }
+
+    .lightbox-dialog {
+        grid-template-columns: 1fr;
+        max-height: 92vh;
+        overflow-y: auto;
+    }
+
+    .lightbox-media-side {
+        min-height: 300px;
+    }
+
+    .lightbox-info-side {
+        padding: 25px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .masonry-grid {
+        column-count: 1;
+    }
+
+    .gallery-stats-strip {
+        gap: 10px;
+    }
+
+    .lightbox-nav-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .lightbox-btn-prev {
+        left: 10px;
+    }
+
+    .lightbox-btn-next {
+        right: 10px;
+    }
 }

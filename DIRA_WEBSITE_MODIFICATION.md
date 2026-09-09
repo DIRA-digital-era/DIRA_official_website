@@ -9,7 +9,7 @@ This document records all modifications made to the official DIRA website codeba
 
 - **Operating Name:** Standardized company name to **DIRA** across all page titles, headings, navigation elements, legal agreements, and structured data. Removed all instances of "DIRA Tech Solutions", "Digital Era", and "DIRA - Birth of the Digital Era".
 - **Digital Era Reference:** Clarified solely on the About page ("DIRA stands for Digital Era.") as authorized.
-- **Email:** Globally replaced `diradigitalera@gmail.com` with `diradigitalera@gmail.com`.
+- **Email:** Globally replaced `info@diracmr.com` with `info@diracmr.com`.
 - **Phone:** Globally replaced `+237 679 66 70 32` with `+237 682 366 472`.
 - **Address:** Corrected typographical error `AWICCUL Building` to `AWICUL Building, Commercial Avenue, Bamenda, Northwest Region, Cameroon`.
 - **RCCM Registration:** Added official OHADA registration number `RC.Bda.2026.B.000339` to the global footer, contact page, and terms of service.

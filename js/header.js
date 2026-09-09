@@ -15,6 +15,7 @@ function injectHeader(){
                 <a href="index.html">HOME</a>
                 <a href="services.html">SERVICES</a>
                 <a href="portfolio.html">PORTFOLIO</a>
+                <a href="gallery.html">GALLERY</a>
                 <a href="training.html">TRAINING</a>
                 <a href="about.html">ABOUT</a>
                 <a href="contact.html">CONTACT</a>
@@ -55,11 +56,12 @@ function injectFooter(){
 
                 <div class="footer-section">
                     <h3>Quick Links</h3>
-                    <ul class="footer-links">
+                    <ul class="footer-links" style="align-items:flex-start;">
                         <li><a href="index.html">Home</a></li>
                         <li><a href="about.html">About</a></li>
                         <li><a href="services.html">Services</a></li>
                         <li><a href="portfolio.html">Portfolio</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
                         <li><a href="training.html">Training</a></li>
                         <li><a href="group.html">DIRA Group</a></li>
                         <li><a href="content-studio.html">Content Studio</a></li>

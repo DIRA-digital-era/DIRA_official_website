@@ -297,6 +297,7 @@ body {
 }
 
 .contact-form {
+    width: 100%;
     flex: 1;
     background: white;
     padding: 40px;

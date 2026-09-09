@@ -2,38 +2,222 @@
 <html lang="en">
 
 <head>
+    <link rel="icon" href="./images/logo.ico" type="image/x-icon">
     <meta charset="UTF-8">
-    <link rel="shortcut icon" href="./images/logo.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIRA Portfolio</title>
-    <meta http-equiv="refresh" content="0; url=portfolio.html">
-    <link rel="canonical" href="portfolio.html">
+    <title>DIRA Visual Gallery | Media, Technology & Moments</title>
+    <meta name="description" content="Explore DIRA's visual media gallery: Tech Fest moments, engineering sprints, software systems, training masterclasses, and content studio productions in Bamenda, Cameroon.">
+    <meta property="og:title" content="DIRA Visual Gallery | Technology, Media & Moments">
+    <meta property="og:description" content="Explore photos and visual moments from DIRA's technology operations, platforms, events, and production studio.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="./images/photos/dira-team-techfest-2026.jpg">
+    <link rel="canonical" href="gallery.html">
     <link rel="stylesheet" href="./style/header.css">
-    <style>
-        .redirect-box {
-            max-width: 600px;
-            margin: 6rem auto;
-            text-align: center;
-            padding: 2rem;
-        }
-        .redirect-box h1 {
-            color: #0F3B5A;
-            margin-bottom: 1rem;
-        }
-        .redirect-box a {
-            color: #0F3B5A;
-            font-weight: 700;
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" href="./style/gallery.css">
 </head>
 
 <body>
-    <div class="redirect-box">
-        <h1>DIRA Portfolio</h1>
-        <p>Redirecting to our confirmed engagements and platform portfolio...</p>
-        <p><a href="portfolio.html">Click here if you are not redirected automatically</a></p>
+    <header>
+        <!-- Injected dynamically via js/header.js -->
+    </header>
+
+    <main class="gallery-main">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero gallery-hero">
+                <h6>Visual Showcase</h6>
+                <h1>DIRA Media &amp; Moments</h1>
+                <p>A curated visual window into our software engineering sprints, studio productions, community initiatives, and tech ecosystem in Cameroon.</p>
+                
+                <div class="gallery-stats-strip">
+                    <div class="gallery-stat-pill">
+                        <strong>4+</strong> Key Ecosystem Pillars
+                    </div>
+                    <div class="gallery-stat-pill">
+                        <strong>2026</strong> Tech Fest &amp; Sprint Archive
+                    </div>
+                    <div class="gallery-stat-pill">
+                        <strong>100%</strong> Verified Engagements
+                    </div>
+                </div>
+            </section>
+
+            <!-- Controls / Filter Toolbar -->
+            <section class="gallery-controls-section">
+                <div class="gallery-controls-bar">
+                    <div class="filter-pills-group" role="tablist" aria-label="Filter gallery categories">
+                        <button class="filter-pill active" data-filter="all" role="tab" aria-selected="true">All Moments</button>
+                        <button class="filter-pill" data-filter="events" role="tab" aria-selected="false">Tech Fest &amp; Events</button>
+                        <button class="filter-pill" data-filter="production" role="tab" aria-selected="false">Studio &amp; Media</button>
+                        <button class="filter-pill" data-filter="platforms" role="tab" aria-selected="false">Platforms &amp; Work</button>
+                        <button class="filter-pill" data-filter="training" role="tab" aria-selected="false">Training &amp; Team</button>
+                    </div>
+
+                    <div class="gallery-count-badge" id="galleryCount">0 items</div>
+                </div>
+            </section>
+
+            <!-- Pinterest-Style Masonry Grid -->
+            <section class="gallery-content-section">
+                <div class="masonry-grid" id="masonryGrid" aria-live="polite">
+                    <!-- Pins populated dynamically via js/gallery.js -->
+                </div>
+
+                <!-- Empty State -->
+                <div class="gallery-empty-state" id="galleryEmptyState">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                    <h3>No Media Found</h3>
+                    <p>Try selecting a different filter category above.</p>
+                </div>
+            </section>
+
+            <!-- Testimonials Section (Pictures with Captions) -->
+            <section class="testimonials gallery-testimonials-section">
+                <div class="testimonials-header">
+                    <h6>Partner &amp; Community Voices</h6>
+                    <h2>What People Say About DIRA</h2>
+                    <p>Verified perspectives, institutional endorsements, and community feedback across our tech ecosystem in Cameroon.</p>
+                </div>
+
+                <div class="testimonials-grid">
+                    <!-- Testimonial 1 -->
+                    <figure class="testimonial-card">
+                        <div class="testimonial-img-wrap">
+                            <img src="./images/photos/IMG_9933.jpg" alt="DIRA team with Regional Delegation of MINRESI at DIRA Tech Fest 2026" loading="lazy">
+                            <span class="testimonial-badge">Institutional Endorsement</span>
+                        </div>
+                        <div class="testimonial-content">
+                            <blockquote class="testimonial-quote">
+                                "DIRA represents one of the most dedicated and promising technological initiatives encountered in Bamenda, demonstrating real engineering capacity, accountability, and strong youth talent development."
+                            </blockquote>
+                            <figcaption class="testimonial-author-box">
+                                <h4>Regional Delegation of MINRESI</h4>
+                                <p>Ministry of Scientific Research &amp; Innovation, Northwest Region</p>
+                            </figcaption>
+                        </div>
+                    </figure>
+
+                    <!-- Testimonial 2 -->
+                    <figure class="testimonial-card">
+                        <div class="testimonial-img-wrap">
+                            <img src="./images/photos/IMG_1544.jpg" alt="DIRA team recognized by MINPMEESA Delegation at DIRA Tech Fest 2026" loading="lazy">
+                            <span class="testimonial-badge">Government Recognition</span>
+                        </div>
+                        <div class="testimonial-content">
+                            <blockquote class="testimonial-quote">
+                                "DIRA's structured approach to empowering local small and medium digital enterprises through practical technology infrastructure and verifiable software platforms is commendable."
+                            </blockquote>
+                            <figcaption class="testimonial-author-box">
+                                <h4>MINPMEESA Regional Delegation</h4>
+                                <p>Ministry of Small &amp; Medium Sized Enterprises, Cameroon</p>
+                            </figcaption>
+                        </div>
+                    </figure>
+
+                    <!-- Testimonial 3 -->
+                    <figure class="testimonial-card">
+                        <div class="testimonial-img-wrap">
+                            <img src="./images/photos/dira-team-techfest-2026.jpg" alt="DIRA Tech Fest 2026 Innovation Sprint Cohort" loading="lazy">
+                            <span class="testimonial-badge">Community &amp; Talent</span>
+                        </div>
+                        <div class="testimonial-content">
+                            <blockquote class="testimonial-quote">
+                                "The 48-hour sprint at DIRA Tech Fest 2026 provided direct, production-grade systems experience. The mentorship and technical standards taught us what real software engineering demands."
+                            </blockquote>
+                            <figcaption class="testimonial-author-box">
+                                <h4>Tech Fest 2026 Innovation Cohort</h4>
+                                <p>DIRA Tech Fest Sprint &amp; Hackathon Participants</p>
+                            </figcaption>
+                        </div>
+                    </figure>
+
+                    <!-- Testimonial 4 -->
+                    <figure class="testimonial-card">
+                        <div class="testimonial-img-wrap">
+                            <img src="./images/photos/dira-technical-training.jpg" alt="DIRA Technical Training Masterclass" loading="lazy">
+                            <span class="testimonial-badge">Talent Pipeline</span>
+                        </div>
+                        <div class="testimonial-content">
+                            <blockquote class="testimonial-quote">
+                                "The hands-on technical curriculum and practical problem-solving masterclasses bridged the gap between theoretical knowledge and building deployable applications."
+                            </blockquote>
+                            <figcaption class="testimonial-author-box">
+                                <h4>Technical Training Cohort</h4>
+                                <p>DIRA Software Engineering Masterclass, Bamenda</p>
+                            </figcaption>
+                        </div>
+                    </figure>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Lightbox Modal Viewer -->
+    <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="lightbox-backdrop"></div>
+        
+        <button class="lightbox-btn-close" id="lightboxClose" aria-label="Close image viewer" title="Close (Esc)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+
+        <button class="lightbox-nav-btn lightbox-btn-prev" id="lightboxPrev" aria-label="Previous image" title="Previous (Left Arrow)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+
+        <button class="lightbox-nav-btn lightbox-btn-next" id="lightboxNext" aria-label="Next image" title="Next (Right Arrow)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </button>
+
+        <div class="lightbox-dialog">
+            <div class="lightbox-media-side">
+                <img src="" alt="" id="lightboxImg" class="lightbox-img-element">
+            </div>
+
+            <div class="lightbox-info-side">
+                <div>
+                    <div class="lightbox-header-row">
+                        <span class="lightbox-category-badge" id="lightboxCategory">Category</span>
+                        <span class="lightbox-counter-label" id="lightboxCounter">1 of 1</span>
+                    </div>
+                    <h2 class="lightbox-main-title" id="lightboxTitle">Image Title</h2>
+                    <p class="lightbox-desc-text" id="lightboxDescription">Detailed context and information about the depicted event or system.</p>
+                </div>
+
+                <div class="lightbox-footer-row">
+                    <a href="#" id="lightboxFullLink" target="_blank" class="lightbox-open-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                            <polyline points="15 3 21 3 21 9"></polyline>
+                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                        </svg>
+                        <span>Open Original</span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <footer>
+        <!-- Injected dynamically via js/header.js -->
+    </footer>
+
+    <!-- Scripts -->
+    <script src="./js/header.js"></script>
+    <script src="./js/gallery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="./js/animate.js"></script>
 </body>
 
 </html>
