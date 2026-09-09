@@ -1,7 +1,7 @@
 /**
  * DIRA Visual Gallery
- * Image storage implemented via data arrays with Pinterest-style Masonry layout,
- * real-time filtering, responsive lightbox, and keyboard navigation.
+ * Image storage implemented via data arrays with visual story cards,
+ * responsive lightbox, and keyboard navigation.
  */
 
 // ==========================================
@@ -199,95 +199,95 @@ const galleryImages = [
     }
 ];
 
+const categoryStories = [
+    {
+        category: 'events',
+        role: 'Community, sprints & events',
+        title: 'Events & Tech Fest',
+        affiliation: 'DIRA community programmes, innovation sprints and public technology moments',
+        narrative: 'A visual record of the people, ideas and shared momentum behind DIRA community work and Tech Fest activities.',
+        context: 'Explore the events, community outreach and innovation sprint moments documented by DIRA.'
+    },
+    {
+        category: 'training',
+        role: 'Training & team',
+        title: 'Training & Team',
+        affiliation: 'Skills development, engineering practice and the people building with DIRA',
+        narrative: 'From software architecture to project delivery, these images follow the learning and collaboration that power DIRA work.',
+        context: 'Explore the training, skills development and team practice images from DIRA.'
+    },
+    {
+        category: 'production',
+        role: 'Studio & media',
+        title: 'Studio & Media',
+        affiliation: 'Content production, visual identity and human-centred design at DIRA',
+        narrative: 'A behind-the-scenes view of the studio, design thinking and visual systems that help DIRA communicate ideas clearly.',
+        context: 'Explore studio sessions, design work and DIRA visual identity images.'
+    },
+    {
+        category: 'platforms',
+        role: 'Platforms & systems',
+        title: 'Platforms & Systems',
+        affiliation: 'Digital products, client platforms and the infrastructure behind them',
+        narrative: 'These images trace the systems DIRA designs and delivers for institutions, businesses, communities and teams across Cameroon.',
+        context: 'Explore product interfaces, platform work and technical infrastructure images.'
+    }
+];
+
 // ==========================================
 // 2. STATE & DOM REFERENCES
 // ==========================================
-let currentFilter = 'all';
-let filteredList = [...galleryImages];
-let activeLightboxIndex = 0;
+let activeCategoryImages = [];
 
-const galleryGrid = document.getElementById('masonryGrid');
-const galleryCount = document.getElementById('galleryCount');
-const filterButtons = document.querySelectorAll('.filter-pill');
-const emptyState = document.getElementById('galleryEmptyState');
+const visualStoryGallery = document.getElementById('visualStoryGallery');
 
-// Lightbox Elements
-const lightboxModal = document.getElementById('lightboxModal');
-const lightboxImg = document.getElementById('lightboxImg');
-const lightboxTitle = document.getElementById('lightboxTitle');
-const lightboxCategory = document.getElementById('lightboxCategory');
-const lightboxDescription = document.getElementById('lightboxDescription');
-const lightboxCounter = document.getElementById('lightboxCounter');
-const lightboxClose = document.getElementById('lightboxClose');
-const lightboxPrev = document.getElementById('lightboxPrev');
-const lightboxNext = document.getElementById('lightboxNext');
-const lightboxFullLink = document.getElementById('lightboxFullLink');
+// Category gallery modal elements
+const galleryModal = document.getElementById('galleryModal');
+const galleryModalTitle = document.getElementById('galleryModalTitle');
+const galleryModalDescription = document.getElementById('galleryModalDescription');
+const galleryModalCount = document.getElementById('galleryModalCount');
+const galleryModalGrid = document.getElementById('galleryModalGrid');
+const galleryModalClose = document.getElementById('galleryModalClose');
 
 // ==========================================
-// 3. MASONRY RENDER FUNCTION
+// 3. VISUAL STORY RENDER FUNCTION
 // ==========================================
 function renderGallery() {
-    if (!galleryGrid) return;
+    if (!visualStoryGallery) return;
 
-    // Filter by category
-    filteredList = galleryImages.filter(item => {
-        return currentFilter === 'all' || item.category === currentFilter;
-    });
+    // Build one visual story card for each category.
+    visualStoryGallery.innerHTML = categoryStories.map((story, index) => {
+        const categoryImages = galleryImages.filter(item => item.category === story.category);
+        const coverImage = categoryImages[0];
+        if (!coverImage) return '';
 
-    // Update Counter
-    if (galleryCount) {
-        galleryCount.textContent = `${filteredList.length} ${filteredList.length === 1 ? 'item' : 'items'}`;
-    }
-
-    // Handle Empty State
-    if (filteredList.length === 0) {
-        galleryGrid.innerHTML = '';
-        if (emptyState) emptyState.style.display = 'block';
-        return;
-    } else {
-        if (emptyState) emptyState.style.display = 'none';
-    }
-
-    // Build Pinterest Masonry Cards
-    galleryGrid.innerHTML = filteredList.map((item, index) => {
         return `
-            <article class="masonry-pin aspect-${item.aspect}" data-index="${index}" tabindex="0" role="button" aria-label="View photo: ${escapeHtml(item.title)}">
-                <div class="pin-media-wrapper">
-                    <img src="${item.src}" alt="${escapeHtml(item.title)}" loading="lazy" class="pin-img">
-                    <div class="pin-overlay">
-                        <div class="pin-overlay-top">
-                            <span class="pin-badge ${item.category}">${escapeHtml(item.categoryLabel)}</span>
-                            <button class="pin-action-btn" aria-label="Expand image" title="Expand">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="15 3 21 3 21 9"></polyline>
-                                    <polyline points="9 21 3 21 3 15"></polyline>
-                                    <line x1="21" y1="3" x2="14" y2="10"></line>
-                                    <line x1="3" y1="21" x2="10" y2="14"></line>
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="pin-overlay-bottom">
-                            <h3 class="pin-overlay-title">${escapeHtml(item.title)}</h3>
-                        </div>
-                    </div>
+            <article class="interview-card reveal" data-category="${story.category}" tabindex="0" role="button" aria-label="View ${escapeHtml(story.title)} photos">
+                <div class="interview-photo">
+                    <img src="${coverImage.src}" alt="${escapeHtml(story.title)}" loading="lazy">
                 </div>
-                <div class="pin-details">
-                    <h3 class="pin-title">${escapeHtml(item.title)}</h3>
-                    <p class="pin-desc">${escapeHtml(item.description)}</p>
+                <div class="interview-content">
+                    <div class="interview-role">${escapeHtml(story.role)}</div>
+                    <div class="interview-name">${escapeHtml(story.title)}</div>
+                    <div class="interview-affil">${escapeHtml(story.affiliation)}</div>
+                    <div class="interview-quote">
+                        <p>"${escapeHtml(story.narrative)}"</p>
+                    </div>
+                    <div class="interview-context">${escapeHtml(story.context)} Click to view all ${categoryImages.length} images in this collection.</div>
                 </div>
             </article>
         `;
     }).join('');
 
-    // Attach Click and Keyboard Listeners to Pins
-    const pinElements = galleryGrid.querySelectorAll('.masonry-pin');
-    pinElements.forEach(pin => {
-        const index = parseInt(pin.dataset.index, 10);
-        pin.addEventListener('click', () => openLightbox(index));
-        pin.addEventListener('keydown', (e) => {
+    // Attach click and keyboard listeners to each visual story.
+    const storyCards = visualStoryGallery.querySelectorAll('.interview-card');
+    storyCards.forEach(card => {
+        const category = card.dataset.category;
+        card.addEventListener('click', () => openCategoryGallery(category));
+        card.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                openLightbox(index);
+                openCategoryGallery(category);
             }
         });
     });
@@ -307,59 +307,32 @@ function escapeHtml(str) {
 // ==========================================
 // 4. LIGHTBOX CONTROLLER
 // ==========================================
-function openLightbox(index) {
-    if (!filteredList[index]) return;
-    activeLightboxIndex = index;
-    updateLightboxContent();
+function openCategoryGallery(category) {
+    activeCategoryImages = galleryImages.filter(item => item.category === category);
+    const story = categoryStories.find(item => item.category === category);
+    if (!activeCategoryImages.length || !story || !galleryModal) return;
 
-    if (lightboxModal) {
-        lightboxModal.classList.add('is-active');
-        lightboxModal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-    }
+    galleryModalTitle.textContent = story.title;
+    galleryModalDescription.textContent = story.affiliation;
+    galleryModalCount.textContent = `${activeCategoryImages.length} ${activeCategoryImages.length === 1 ? 'image' : 'images'}`;
+    galleryModalGrid.innerHTML = activeCategoryImages.map(item => `
+        <a class="category-gallery-item" href="${item.src}" target="_blank" rel="noopener" aria-label="Open ${escapeHtml(item.title)}">
+            <img src="${item.src}" alt="${escapeHtml(item.title)}" loading="lazy">
+            <span>${escapeHtml(item.title)}</span>
+        </a>
+    `).join('');
+
+    galleryModal.classList.add('is-active');
+    galleryModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
 }
 
-function closeLightbox() {
-    if (lightboxModal) {
-        lightboxModal.classList.remove('is-active');
-        lightboxModal.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-    }
-}
-
-function updateLightboxContent() {
-    const item = filteredList[activeLightboxIndex];
-    if (!item) return;
-
-    if (lightboxImg) {
-        lightboxImg.classList.remove('loaded');
-        lightboxImg.src = item.src;
-        lightboxImg.alt = item.title;
-        lightboxImg.onload = () => {
-            lightboxImg.classList.add('loaded');
-        };
-    }
-
-    if (lightboxTitle) lightboxTitle.textContent = item.title;
-    if (lightboxCategory) {
-        lightboxCategory.textContent = item.categoryLabel;
-        lightboxCategory.className = `lightbox-category-badge ${item.category}`;
-    }
-    if (lightboxDescription) lightboxDescription.textContent = item.description;
-    if (lightboxCounter) lightboxCounter.textContent = `${activeLightboxIndex + 1} of ${filteredList.length}`;
-    if (lightboxFullLink) lightboxFullLink.href = item.src;
-}
-
-function nextLightbox() {
-    if (filteredList.length === 0) return;
-    activeLightboxIndex = (activeLightboxIndex + 1) % filteredList.length;
-    updateLightboxContent();
-}
-
-function prevLightbox() {
-    if (filteredList.length === 0) return;
-    activeLightboxIndex = (activeLightboxIndex - 1 + filteredList.length) % filteredList.length;
-    updateLightboxContent();
+function closeGalleryModal() {
+    if (!galleryModal) return;
+    galleryModal.classList.remove('is-active');
+    galleryModal.setAttribute('aria-hidden', 'true');
+    galleryModalGrid.innerHTML = '';
+    document.body.style.overflow = '';
 }
 
 // ==========================================
@@ -369,65 +342,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial Render
     renderGallery();
 
-    // Category Filter Buttons
-    filterButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentFilter = btn.dataset.filter || 'all';
-            renderGallery();
-        });
-    });
+    // Category gallery modal controls
+    if (galleryModalClose) galleryModalClose.addEventListener('click', closeGalleryModal);
 
-    // Lightbox Controls
-    if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
-    if (lightboxNext) lightboxNext.addEventListener('click', nextLightbox);
-    if (lightboxPrev) lightboxPrev.addEventListener('click', prevLightbox);
-
-    // Click outside lightbox content to close
-    if (lightboxModal) {
-        lightboxModal.addEventListener('click', (e) => {
-            if (e.target === lightboxModal || e.target.classList.contains('lightbox-backdrop')) {
-                closeLightbox();
+    if (galleryModal) {
+        galleryModal.addEventListener('click', (e) => {
+            if (e.target === galleryModal || e.target.classList.contains('gallery-modal-backdrop')) {
+                closeGalleryModal();
             }
         });
     }
 
-    // Keyboard Navigation
+    // Escape closes the category gallery modal.
     document.addEventListener('keydown', (e) => {
-        if (!lightboxModal || !lightboxModal.classList.contains('is-active')) return;
-
-        if (e.key === 'Escape') {
-            closeLightbox();
-        } else if (e.key === 'ArrowRight') {
-            nextLightbox();
-        } else if (e.key === 'ArrowLeft') {
-            prevLightbox();
+        if (e.key === 'Escape' && galleryModal && galleryModal.classList.contains('is-active')) {
+            closeGalleryModal();
         }
     });
-
-    // Mobile Swipe Support on Lightbox
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    if (lightboxModal) {
-        lightboxModal.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-
-        lightboxModal.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, { passive: true });
-    }
-
-    function handleSwipe() {
-        const threshold = 50;
-        if (touchEndX < touchStartX - threshold) {
-            nextLightbox(); // Swiped left -> next
-        }
-        if (touchEndX > touchStartX + threshold) {
-            prevLightbox(); // Swiped right -> prev
-        }
-    }
 });

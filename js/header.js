@@ -72,7 +72,7 @@ function injectFooter(){
 
                 <div class="footer-section">
                     <h3>Contact</h3>
-                    <p><a href="mailto:diradigitalera@gmail.com" style="color:#ccc;">diradigitalera@gmail.com</a></p>
+                    <p><a href="mailto:info@diracmr.com" style="color:#ccc;">info@diracmr.com</a></p>
                     <p><a href="tel:+237682366472" style="color:#ccc;">+237 682 366 472</a></p>
                     <div class="social-links" style="margin-top:1rem;">
                         <a href="https://www.facebook.com/profile.php?id=61583966202064" aria-label="Facebook" target="_blank" class="social-icon" title="Facebook">
@@ -116,7 +116,7 @@ function injectFooter(){
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2026 DIRA. All rights reserved. DIRA SAS, AWICUL Building, Commercial Avenue, Bamenda, Northwest Region, Cameroon RC.Bda.2026.B.000339 | <a href="mailto:diradigitalera@gmail.com" style="color:inherit;">diradigitalera@gmail.com</a> | <a href="tel:+237682366472" style="color:inherit;">+237 682 366 472</a></p>
+                <p>&copy; 2026 DIRA. All rights reserved. DIRA SAS, AWICUL Building, Commercial Avenue, Bamenda, Northwest Region, Cameroon RC.Bda.2026.B.000339 | <a href="mailto:info@diracmr.com" style="color:inherit;">info@diracmr.com</a> | <a href="tel:+237682366472" style="color:inherit;">+237 682 366 472</a></p>
             </div>
         </div>
     `
@@ -159,7 +159,7 @@ function injectContact(){
                     </svg>
                     <div>
                         <h4>Email</h4>
-                        <p><a href="mailto:diradigitalera@gmail.com" style="color:inherit;">diradigitalera@gmail.com</a></p>
+                        <p><a href="mailto:info@diracmr.com" style="color:inherit;">info@diracmr.com</a></p>
                     </div>
                 </div>
 
