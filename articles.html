@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" href="./images/logo.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles &amp; Engineering Insights | DIRA</title>
+    <meta name="description" content="Technical perspectives, systems architecture, business automation, and digital strategy insights from the DIRA engineering team in Bamenda, Cameroon.">
+    <meta property="og:title" content="Articles &amp; Insights | DIRA">
+    <meta property="og:description" content="Technical perspectives, systems architecture, business automation, and digital strategy insights from the DIRA engineering team.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="./images/logo.jpg">
+    <link rel="canonical" href="articles.html">
+    <link rel="stylesheet" href="./style/header.css">
+    <link rel="stylesheet" href="./style/articles.css">
+    <link rel="stylesheet" href="./style/contact.css">
+</head>
+
+<body>
+    <header>
+        <!-- injected from header.js -->
+    </header>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="articles-hero">
+            <h6>DIRA Insights</h6>
+            <h1>Engineering &amp; Enterprise Perspectives</h1>
+            <p>Thought leadership on software architecture, operational automation, digital identity, and building resilient technology across Cameroon and Central Africa.</p>
+        </section>
+
+        <!-- Search & Filter Controls -->
+        <div class="articles-controls">
+            <div class="category-filters">
+                <button type="button" class="category-filter-btn active" data-category="All">All Topics</button>
+                <button type="button" class="category-filter-btn" data-category="Systems Architecture">Systems Architecture</button>
+                <button type="button" class="category-filter-btn" data-category="Business Automation">Business Automation</button>
+                <button type="button" class="category-filter-btn" data-category="Digital Strategy">Digital Strategy</button>
+                <button type="button" class="category-filter-btn" data-category="Talent & Capacity">Talent &amp; Capacity</button>
+            </div>
+            <div class="search-box">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <input type="text" id="articleSearchInput" placeholder="Search articles, keywords..." aria-label="Search articles">
+            </div>
+        </div>
+
+        <!-- Articles Grid -->
+        <div class="articles-grid" id="articlesGrid">
+            <!-- Injected dynamically from js/articles.js -->
+        </div>
+
+        <!-- Client Intake CTA Banner -->
+        <section style="background: linear-gradient(135deg, #0F3B5A, #191d36); color: #fff; padding: 50px 30px; border-radius: 12px; text-align: center; margin: 40px auto 70px; max-width: 1200px;">
+            <h6 style="color: #00E6D6; letter-spacing: 2px; text-transform: uppercase; font-size: 13px; font-weight: 700; margin-bottom: 12px;">Start an Engagement</h6>
+            <h2 style="font-size: 32px; font-weight: 800; margin-bottom: 15px; color: #fff;">Have a System or Platform to Build?</h2>
+            <p style="max-width: 650px; margin: 0 auto 25px; color: #cbd5e1; font-size: 16px; line-height: 1.6;">Whether you require custom enterprise software, workflow automation, or an institutional digital presence, submit your requirements through our official intake portal.</p>
+            <a href="https://client-intake-form.diracmr.com" target="_blank" rel="noopener" class="reader-cta-btn" style="padding: 14px 32px; font-size: 16px;">Access Client Intake Form &rarr;</a>
+        </section>
+
+        <!-- General contact form  -->
+        <div class="contact-container" id="contactSection">
+            <!-- contact injected from js -->
+        </div>
+    </div>
+
+    <footer>
+        <!-- injected from header.js -->
+    </footer>
+
+    <script src="./js/header.js"></script>
+    <script src="./js/articles.js"></script>
+    <script src="./js/newsletter.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="./js/contact.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="./js/animate.js"></script>
+</body>
+
+</html>

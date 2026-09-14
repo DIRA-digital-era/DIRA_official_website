@@ -363,12 +363,299 @@ body {
 
 
 
-@media (max-width: 768px) {
-    
-    
+/* Dual Hero CTA */
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
 
+.button-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #00E6D6;
+    color: #191d36;
+    padding: 15px 32px;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    border: 2px solid #00E6D6;
+}
+
+.button-primary:hover {
+    background-color: #4ef2e7;
+    border-color: #4ef2e7;
+    transform: translateY(-2px);
+}
+
+.button-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: transparent;
+    color: #ffffff;
+    padding: 15px 32px;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+}
+
+.button-outline:hover {
+    background-color: #ffffff;
+    color: var(--primary-color);
+}
+
+/* Value Props Grid */
+.value-props-section {
+    padding: 70px 0 50px;
+}
+
+.value-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+    margin-top: 40px;
+}
+
+.value-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 32px 24px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
+}
+
+.value-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(15, 59, 90, 0.08);
+    border-color: #cbd5e1;
+}
+
+.value-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    background: rgba(59, 70, 151, 0.08);
+    color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.value-card h3 {
+    font-size: 20px;
+    color: var(--primary-color);
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.value-card p {
+    color: #555;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* Client Intake Section */
+.client-intake-section {
+    background: linear-gradient(135deg, #0F3B5A, #191d36);
+    color: #ffffff;
+    border-radius: 16px;
+    padding: 70px 40px;
+    margin: 60px 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(15, 29, 54, 0.25);
+}
+
+.intake-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.intake-content h6 {
+    color: #00E6D6;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.intake-content h2 {
+    font-size: 36px;
+    color: #ffffff;
+    line-height: 1.25;
+    margin-bottom: 18px;
+    font-weight: 800;
+}
+
+.intake-content p {
+    font-size: 17px;
+    color: #cbd5e1;
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+.intake-guarantees {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 30px;
+}
+
+.guarantee-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.guarantee-item svg {
+    color: #00E6D6;
+    flex-shrink: 0;
+    margin-top: 3px;
+}
+
+.guarantee-item h4 {
+    color: #ffffff;
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.guarantee-item p {
+    color: #a8c7e0;
+    font-size: 14px;
+    margin-bottom: 0;
+    line-height: 1.5;
+}
+
+.intake-cta-wrap {
+    margin-top: 30px;
+}
+
+/* Testimonials Section */
+.testimonials-section {
+    padding: 80px 0;
+    background: #ffffff;
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-top: 45px;
+}
+
+.testimonial-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 35px 30px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 28px rgba(15, 59, 90, 0.08);
+    border-color: #cbd5e1;
+}
+
+.testimonial-quote-icon {
+    color: rgba(59, 70, 151, 0.2);
+    margin-bottom: 16px;
+}
+
+.testimonial-text {
+    font-size: 16px;
+    color: #2d3748;
+    line-height: 1.7;
+    font-style: italic;
+    margin-bottom: 24px;
+    flex-grow: 1;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 18px;
+}
+
+.author-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #0F3B5A;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.author-info h4 {
+    font-size: 15px;
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.author-info p {
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 0;
+}
+
+/* Recent Articles Section */
+.recent-articles-section {
+    padding: 80px 0;
+    background: #ffffff;
+}
+
+.section-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.section-header-flex h6 {
+    color: var(--secondary-color);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.section-header-flex h2 {
+    font-size: 34px;
+    color: var(--primary-color);
+    font-weight: 800;
+}
+
+@media (max-width: 768px) {
     .hero h1 {
-        font-size: 36px;
+        font-size: 34px;
     }
 
     .services-card {
@@ -385,5 +672,18 @@ body {
 
     .overlay-content {
         margin-top: 0;
+    }
+
+    .intake-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .client-intake-section {
+        padding: 40px 20px;
+    }
+
+    .section-header-flex {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }

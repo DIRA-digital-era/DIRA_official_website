@@ -16,6 +16,7 @@ function injectHeader(){
                 <a href="services.html">SERVICES</a>
                 <a href="portfolio.html">PORTFOLIO</a>
                 <a href="gallery.html">GALLERY</a>
+                <a href="articles.html">ARTICLES</a>
                 <a href="training.html">TRAINING</a>
                 <a href="about.html">ABOUT</a>
                 <a href="contact.html">CONTACT</a>
@@ -29,8 +30,9 @@ function injectHeader(){
                         <li><a href="https://dhubcmr.netlify.app/" target="_blank">DHUB</a></li>
                         <li><a href="https://dirafoundation.netlify.app" target="_blank">DIRA Foundation</a></li>
                         <li><a href="https://diratechfest.netlify.app/" target="_blank">DIRA Tech Fest</a></li>
-                        <div class="dropdown-section">Production</div>
+                        <div class="dropdown-section">Production &amp; Disclosures</div>
                         <li><a href="content-studio.html">DIRA Content Studio</a></li>
+                        <li><a href="reports.html">Reports &amp; Publications</a></li>
                     </ul>
                 </div>
             </div>
@@ -62,6 +64,8 @@ function injectFooter(){
                         <li><a href="services.html">Services</a></li>
                         <li><a href="portfolio.html">Portfolio</a></li>
                         <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="articles.html">Articles &amp; Insights</a></li>
+                        <li><a href="reports.html">Reports &amp; Publications</a></li>
                         <li><a href="training.html">Training</a></li>
                         <li><a href="group.html">DIRA Group</a></li>
                         <li><a href="content-studio.html">Content Studio</a></li>
@@ -72,7 +76,7 @@ function injectFooter(){
 
                 <div class="footer-section">
                     <h3>Contact</h3>
-                    <p><a href="mailto:info@diracmr.com" style="color:#ccc;">info@diracmr.com</a></p>
+                    <p><a href="mailto:diradigitalera@gmail.com" style="color:#ccc;">diradigitalera@gmail.com</a></p>
                     <p><a href="tel:+237682366472" style="color:#ccc;">+237 682 366 472</a></p>
                     <div class="social-links" style="margin-top:1rem;">
                         <a href="https://www.facebook.com/profile.php?id=61583966202064" aria-label="Facebook" target="_blank" class="social-icon" title="Facebook">
@@ -116,7 +120,7 @@ function injectFooter(){
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2026 DIRA. All rights reserved. DIRA SAS, AWICUL Building, Commercial Avenue, Bamenda, Northwest Region, Cameroon RC.Bda.2026.B.000339 | <a href="mailto:info@diracmr.com" style="color:inherit;">info@diracmr.com</a> | <a href="tel:+237682366472" style="color:inherit;">+237 682 366 472</a></p>
+                <p>&copy; 2026 DIRA. All rights reserved. DIRA SAS, AWICUL Building, Commercial Avenue, Bamenda, Northwest Region, Cameroon RC.Bda.2026.B.000339 | <a href="mailto:diradigitalera@gmail.com" style="color:inherit;">diradigitalera@gmail.com</a> | <a href="tel:+237682366472" style="color:inherit;">+237 682 366 472</a></p>
             </div>
         </div>
     `
@@ -159,7 +163,7 @@ function injectContact(){
                     </svg>
                     <div>
                         <h4>Email</h4>
-                        <p><a href="mailto:info@diracmr.com" style="color:inherit;">info@diracmr.com</a></p>
+                        <p><a href="mailto:diradigitalera@gmail.com" style="color:inherit;">diradigitalera@gmail.com</a></p>
                     </div>
                 </div>
 
