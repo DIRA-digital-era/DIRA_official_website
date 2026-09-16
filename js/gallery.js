@@ -335,12 +335,154 @@ function closeGalleryModal() {
     document.body.style.overflow = '';
 }
 
+function initializeTestimonialsCarousel() {
+    const carousel = document.getElementById('testimonialsCarousel');
+    if (!carousel) return;
+
+    const viewport = carousel.querySelector('.testimonials-viewport');
+    const track = carousel.querySelector('.testimonials-grid');
+    const cards = Array.from(carousel.querySelectorAll('.testimonial-card'));
+    const previousButton = carousel.querySelector('.testimonial-carousel-prev');
+    const nextButton = carousel.querySelector('.testimonial-carousel-next');
+    const dots = carousel.querySelector('.testimonial-carousel-dots');
+    if (!viewport || !track || !cards.length || !dots) return;
+
+    let activeIndex = 0;
+    let touchStartX = 0;
+    let autoplayInterval;
+
+    cards.forEach((card, index) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'testimonial-carousel-dot';
+        dot.setAttribute('role', 'tab');
+        dot.setAttribute('aria-label', `Show testimonial ${index + 1}`);
+        dot.addEventListener('click', () => showTestimonial(index));
+        dots.appendChild(dot);
+    });
+
+    function showTestimonial(index) {
+        activeIndex = (index + cards.length) % cards.length;
+        track.style.transform = `translateX(-${activeIndex * 100}%)`;
+        cards.forEach((card, cardIndex) => {
+            card.setAttribute('aria-hidden', cardIndex === activeIndex ? 'false' : 'true');
+        });
+        dots.querySelectorAll('.testimonial-carousel-dot').forEach((dot, dotIndex) => {
+            const isActive = dotIndex === activeIndex;
+            dot.classList.toggle('is-active', isActive);
+            dot.setAttribute('aria-selected', String(isActive));
+        });
+    }
+
+    previousButton.addEventListener('click', () => showTestimonial(activeIndex - 1));
+    nextButton.addEventListener('click', () => showTestimonial(activeIndex + 1));
+    carousel.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft') showTestimonial(activeIndex - 1);
+        if (event.key === 'ArrowRight') showTestimonial(activeIndex + 1);
+    });
+    viewport.addEventListener('touchstart', (event) => {
+        touchStartX = event.changedTouches[0].screenX;
+    }, { passive: true });
+    viewport.addEventListener('touchend', (event) => {
+        const touchDistance = event.changedTouches[0].screenX - touchStartX;
+        if (Math.abs(touchDistance) < 45) return;
+        showTestimonial(activeIndex + (touchDistance < 0 ? 1 : -1));
+    }, { passive: true });
+
+    function startAutoplay() {
+        if (autoplayInterval) clearInterval(autoplayInterval);
+        autoplayInterval = setInterval(() => showTestimonial(activeIndex + 1), 3500);
+    }
+
+    function stopAutoplay() {
+        if (autoplayInterval) {
+            clearInterval(autoplayInterval);
+            autoplayInterval = null;
+        }
+    }
+
+    carousel.addEventListener('mouseenter', stopAutoplay);
+    carousel.addEventListener('mouseleave', startAutoplay);
+    carousel.addEventListener('focusin', stopAutoplay);
+    carousel.addEventListener('focusout', (event) => {
+        if (!carousel.contains(event.relatedTarget)) startAutoplay();
+    });
+
+    showTestimonial(0);
+    startAutoplay();
+}
+
+function initializeTestimonialToast() {
+    const testimonialCards = Array.from(document.querySelectorAll('.testimonial-card'));
+    if (!testimonialCards.length || document.getElementById('testimonialToast')) return;
+
+    const toast = document.createElement('aside');
+    toast.id = 'testimonialToast';
+    toast.className = 'testimonial-toast';
+    toast.setAttribute('aria-live', 'polite');
+    toast.setAttribute('aria-hidden', 'true');
+    toast.innerHTML = `
+        <button class="testimonial-toast-close" type="button" aria-label="Dismiss testimonial">&times;</button>
+        <div class="testimonial-toast-label">Client feedback</div>
+        <blockquote class="testimonial-toast-quote"></blockquote>
+        <div class="testimonial-toast-author"></div>
+        <a class="testimonial-toast-cta" href="https://client-intake-form.diracmr.com" target="_blank" rel="noopener">
+            Start a Project With Us Today <span aria-hidden="true">&rarr;</span>
+        </a>
+    `;
+    document.body.appendChild(toast);
+
+    const quote = toast.querySelector('.testimonial-toast-quote');
+    const author = toast.querySelector('.testimonial-toast-author');
+    const closeButton = toast.querySelector('.testimonial-toast-close');
+    let testimonialIndex = 0;
+    let showTimer;
+    let hideTimer;
+
+    function showToast() {
+        const card = testimonialCards[testimonialIndex % testimonialCards.length];
+        const cardQuote = card.querySelector('.testimonial-quote');
+        const cardAuthor = card.querySelector('.testimonial-author-box h4');
+        if (!cardQuote || !cardAuthor) return;
+
+        quote.textContent = cardQuote.textContent.trim();
+        author.textContent = cardAuthor.textContent.trim();
+        testimonialIndex += 1;
+        toast.classList.add('is-visible');
+        toast.setAttribute('aria-hidden', 'false');
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(() => hideToast(true), 9000);
+    }
+
+    function hideToast(scheduleNext) {
+        toast.classList.remove('is-visible');
+        toast.setAttribute('aria-hidden', 'true');
+        if (scheduleNext) scheduleToast(12000);
+    }
+
+    function scheduleToast(delay = 7000) {
+        clearTimeout(showTimer);
+        showTimer = setTimeout(() => {
+            showToast();
+        }, delay);
+    }
+
+    closeButton.addEventListener('click', () => {
+        hideToast(false);
+        scheduleToast(12000);
+    });
+
+    scheduleToast();
+}
+
 // ==========================================
 // 5. EVENT LISTENERS & INITIALIZATION
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     // Initial Render
     renderGallery();
+    initializeTestimonialsCarousel();
+    initializeTestimonialToast();
 
     // Category gallery modal controls
     if (galleryModalClose) galleryModalClose.addEventListener('click', closeGalleryModal);

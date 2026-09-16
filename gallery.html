@@ -57,7 +57,12 @@
                     <p>Verified perspectives and operational feedback from organizations running on DIRA-engineered software systems.</p>
                 </div>
 
-                <div class="testimonials-grid">
+                <div class="testimonials-carousel" id="testimonialsCarousel" aria-label="Client testimonials">
+                    <button class="testimonial-carousel-button testimonial-carousel-prev" type="button" aria-label="Previous testimonial">
+                        <span aria-hidden="true">&#8592;</span>
+                    </button>
+                    <div class="testimonials-viewport">
+                        <div class="testimonials-grid">
                     <!-- Testimonial 1: SHESA Connect -->
                     <figure class="testimonial-card">
                         <div class="testimonial-img-wrap">
@@ -125,6 +130,14 @@
                             </figcaption>
                         </div>
                     </figure>
+                        </div>
+                    </div>
+                    <button class="testimonial-carousel-button testimonial-carousel-next" type="button" aria-label="Next testimonial">
+                        <span aria-hidden="true">&#8594;</span>
+                    </button>
+                    <div class="testimonial-carousel-controls">
+                        <div class="testimonial-carousel-dots" role="tablist" aria-label="Choose a testimonial"></div>
+                    </div>
                 </div>
             </section>
         </div>
