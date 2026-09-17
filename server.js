@@ -1,6 +1,8 @@
 require('dotenv').config();
 
 const path = require('path');
+const fs = require('fs');
+const fsp = fs.promises;
 const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
@@ -8,10 +10,12 @@ const sanitizeHtml = require('sanitize-html');
 const mongoose = require('mongoose');
 const { v2: cloudinary } = require('cloudinary');
 const { Article, CATEGORIES } = require('./models/Article');
+const { Report, REPORT_TYPES } = require('./models/Report');
 
 const app = express();
 const port = Number(process.env.PORT || 3000);
 const publicRoot = __dirname;
+const reportsDirectory = path.join(publicRoot, 'reports');
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 8 * 1024 * 1024 },
@@ -19,6 +23,14 @@ const upload = multer({
     if (!/^image\/(jpeg|png|webp|gif)$/.test(file.mimetype)) {
       return callback(new Error('Images must be JPEG, PNG, WEBP, or GIF files up to 8 MB.'));
     }
+    callback(null, true);
+  }
+});
+const reportUpload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 25 * 1024 * 1024 },
+  fileFilter: (request, file, callback) => {
+    if (file.mimetype !== 'application/pdf') return callback(new Error('Reports must be PDF files up to 25 MB.'));
     callback(null, true);
   }
 });
@@ -59,6 +71,14 @@ function uploadToCloudinary(file) {
     });
     stream.end(file.buffer);
   });
+}
+
+async function saveReportLocally(file, slug) {
+  await fsp.mkdir(reportsDirectory, { recursive: true });
+  const safeSlug = slug.toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '') || 'report';
+  const filename = `${safeSlug}-${Date.now()}.pdf`;
+  await fsp.writeFile(path.join(reportsDirectory, filename), file.buffer, { flag: 'wx' });
+  return `/reports/${filename}`;
 }
 
 app.get('/api/health', (request, response) => {
@@ -116,9 +136,56 @@ app.delete('/api/articles/:id', async (request, response, next) => {
   } catch (error) { next(error); }
 });
 
+app.get('/api/reports', async (request, response, next) => {
+  try {
+    const reports = await Report.find().sort({ createdAt: -1 });
+    response.json(reports.map(toClient));
+  } catch (error) { next(error); }
+});
+
+app.post('/api/reports', reportUpload.single('document'), async (request, response, next) => {
+  try {
+    const { title, slug, type, year, summary } = request.body;
+    if (!title || !slug || !year || !summary || !REPORT_TYPES.includes(type) || !request.file) {
+      return response.status(400).json({ error: 'Title, slug, type, year, summary, and a PDF document are required.' });
+    }
+    const documentUrl = await saveReportLocally(request.file, slug);
+    const report = await Report.create({
+      title,
+      slug,
+      type,
+      year,
+      summary,
+      documentUrl,
+      storage: 'local',
+      documentName: request.file.originalname,
+      documentSize: request.file.size
+    });
+    response.status(201).json(toClient(report));
+  } catch (error) {
+    if (error.code === 11000) return response.status(409).json({ error: 'A report with this slug already exists.' });
+    next(error);
+  }
+});
+
+app.delete('/api/reports/:id', async (request, response, next) => {
+  try {
+    const report = await Report.findById(request.params.id);
+    if (!report) return response.status(404).json({ error: 'Report not found.' });
+    if (report.storage === 'local' && report.documentUrl.startsWith('/reports/')) {
+      const filename = path.basename(report.documentUrl);
+      await fsp.unlink(path.join(reportsDirectory, filename)).catch(error => {
+        if (error.code !== 'ENOENT') throw error;
+      });
+    }
+    await report.deleteOne();
+    response.status(204).end();
+  } catch (error) { next(error); }
+});
+
 app.use(express.static(publicRoot));
 app.use((error, request, response, next) => {
-  if (error instanceof multer.MulterError || error.message.includes('File too large')) return response.status(400).json({ error: 'Images must be JPEG, PNG, WEBP, or GIF files up to 8 MB.' });
+  if (error instanceof multer.MulterError || error.message.includes('File too large') || error.message.includes('Reports must be PDF')) return response.status(400).json({ error: error.message.includes('Reports') ? error.message : 'Uploaded files exceed the allowed size.' });
   if (error.message.includes('Cloudinary is not configured')) return response.status(503).json({ error: error.message });
   console.error(error);
   response.status(500).json({ error: 'An unexpected server error occurred.' });

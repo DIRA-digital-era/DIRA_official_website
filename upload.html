@@ -300,18 +300,26 @@
     <main class="upload-page">
         <div class="upload-hero">
             <h6>DIRA Insights</h6>
-            <h1>Upload a New Article</h1>
-            <p>Publish directly into the Articles &amp; Insights page. New articles appear at the top of the list as soon as you publish.</p>
+            <h1 id="uploadHeading">Upload Content</h1>
+            <p id="uploadDescription">Publish articles or reports directly into the DIRA website. New content appears after it is published.</p>
         </div>
 
         <div class="notice">
             <span>&#9432;</span>
-            <span>Articles are published to the shared DIRA database. Featured images are uploaded securely to Cloudinary and displayed on the Articles page and the individual article page.</span>
+            <span>Articles and reports are published to the shared DIRA database. Article images are stored in Cloudinary, while report PDFs are saved in the project's reports folder.</span>
         </div>
 
         <div class="status-banner" id="statusBanner"></div>
 
         <form class="upload-form" id="uploadForm" novalidate>
+            <div class="field">
+                <label for="contentType">Publish as</label>
+                <select id="contentType">
+                    <option value="article">Article</option>
+                    <option value="report">Report / Publication</option>
+                </select>
+            </div>
+
             <div class="form-row">
                 <div class="field" id="fieldTitle">
                     <label for="title">Title</label>
@@ -327,6 +335,18 @@
                         <option value="Talent & Capacity">Talent &amp; Capacity</option>
                     </select>
                 </div>
+            </div>
+
+            <div class="field report-only" id="fieldReportType" hidden>
+                <label for="reportType">Report type</label>
+                <select id="reportType">
+                    <option value="Annual Report">Annual Report</option>
+                    <option value="Event Audit">Event Audit</option>
+                    <option value="Technical Whitepaper">Technical Whitepaper</option>
+                    <option value="Community Brief">Community Brief</option>
+                    <option value="Institutional Report">Institutional Report</option>
+                    <option value="Research Publication">Research Publication</option>
+                </select>
             </div>
 
             <div class="field" id="fieldSlug">
@@ -346,6 +366,11 @@
                 </div>
             </div>
 
+            <div class="field report-only" id="fieldReportYear" hidden>
+                <label for="reportYear">Report year</label>
+                <input type="text" id="reportYear" placeholder="2026">
+            </div>
+
             <div class="form-row">
                 <div class="field" id="fieldReadTime">
                     <label for="readTime">Read time</label>
@@ -363,8 +388,13 @@
                 <div class="img-preview-wrap"><img id="imgPreview" alt="Featured image preview"></div>
             </div>
 
+            <div class="field report-only" id="fieldDocument" hidden>
+                <label for="document">PDF document <span class="hint">PDF, up to 25 MB</span></label>
+                <input type="file" id="document" accept="application/pdf">
+            </div>
+
             <div class="field" id="fieldExcerpt">
-                <label for="excerpt">Excerpt <span class="char-count" id="excerptCount">0 / 240</span></label>
+                <label for="excerpt"><span id="excerptLabel">Excerpt</span> <span class="char-count" id="excerptCount">0 / 240</span></label>
                 <textarea id="excerpt" maxlength="240" placeholder="One or two sentences shown on the article card."></textarea>
                 <div class="field-error">Excerpt is required.</div>
             </div>
@@ -376,22 +406,28 @@
             </div>
 
             <div class="form-actions">
-                <a href="http://localhost:3000/articles.html" class="btn btn-ghost">Cancel</a>
+                <a href="http://localhost:3000/articles.html" class="btn btn-ghost" id="cancelLink">Cancel</a>
                 <button type="submit" class="btn btn-primary" id="publishBtn">Publish Article</button>
             </div>
         </form>
 
         <section class="uploaded-section">
-            <h2>Your uploaded articles</h2>
-            <p class="sub">Articles published through this studio. The four seeded articles aren't shown here since they can't be removed this way.</p>
+            <h2>Your uploaded content</h2>
+            <p class="sub">Articles and reports published through this studio.</p>
             <div class="uploaded-list" id="uploadedList"></div>
+        </section>
+
+        <section class="uploaded-section">
+            <h2>Uploaded reports</h2>
+            <p class="sub">Reports published through this studio.</p>
+            <div class="uploaded-list" id="uploadedReportsList"></div>
         </section>
     </main>
 
     <div class="modal-scrim" id="deleteModal">
         <div class="modal">
             <h3>Delete this article?</h3>
-            <p id="deleteModalText">This removes it from this browser's local storage. This can't be undone.</p>
+            <p id="deleteModalText">This removes the selected content from the shared database. This can't be undone.</p>
             <div class="modal-actions">
                 <button class="btn btn-ghost btn-sm" id="cancelDelete">Cancel</button>
                 <button class="btn btn-danger btn-sm" id="confirmDelete">Delete</button>
@@ -402,6 +438,7 @@
    
 
     <script src="./js/article-api.js"></script>
+    <script src="./js/reports.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
     <script>
         function slugify(str) {
@@ -441,11 +478,38 @@
             }
         });
 
-        // ---- Slug auto-generation ----
-        let slugManuallyEdited = false;
+        const contentType = document.getElementById('contentType');
+        const reportOnlyFields = document.querySelectorAll('.report-only');
+        const articleOnlyFields = [document.getElementById('fieldAuthor'), document.getElementById('fieldDate'), document.getElementById('fieldReadTime'), document.getElementById('fieldTags'), document.getElementById('fieldImage'), document.getElementById('fieldContent')];
+        const categoryField = document.getElementById('fieldCategory');
+        const categoryLabel = categoryField.querySelector('label');
+        const categorySelect = document.getElementById('category');
         const titleInput = document.getElementById('title');
         const slugInput = document.getElementById('slug');
         const slugPreview = document.getElementById('slugPreview');
+        const reportYearInput = document.getElementById('reportYear');
+        const documentInput = document.getElementById('document');
+        const publishBtn = document.getElementById('publishBtn');
+        const cancelLink = document.getElementById('cancelLink');
+
+        function updateContentType() {
+            const isReport = contentType.value === 'report';
+            reportOnlyFields.forEach(field => { field.hidden = !isReport; });
+            articleOnlyFields.forEach(field => { field.hidden = isReport; });
+            categoryField.hidden = isReport;
+            categoryLabel.textContent = isReport ? 'Category' : 'Category';
+            document.getElementById('uploadHeading').textContent = isReport ? 'Upload a Report' : 'Upload an Article';
+            document.getElementById('uploadDescription').textContent = isReport ? 'Publish a PDF report or publication to the DIRA Reports & Publications page.' : 'Publish an article directly into the Articles & Insights page.';
+            document.getElementById('excerptLabel').textContent = isReport ? 'Summary' : 'Excerpt';
+            document.getElementById('excerpt').placeholder = isReport ? 'A short description shown on the report card.' : 'One or two sentences shown on the article card.';
+            publishBtn.textContent = isReport ? 'Publish Report' : 'Publish Article';
+            cancelLink.href = isReport ? 'http://localhost:3000/reports.html' : 'http://localhost:3000/articles.html';
+        }
+        contentType.addEventListener('change', updateContentType);
+        updateContentType();
+
+        // ---- Slug auto-generation ----
+        let slugManuallyEdited = false;
         titleInput.addEventListener('input', () => {
             if (!slugManuallyEdited) slugInput.value = slugify(titleInput.value);
             slugPreview.textContent = slugInput.value || slugify(titleInput.value) || '...';
@@ -464,6 +528,7 @@
 
         // ---- Default date ----
         document.getElementById('date').value = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+        reportYearInput.value = new Date().getFullYear();
 
         // ---- Image preview ----
         const imageInput = document.getElementById('image');
@@ -485,12 +550,20 @@
 
             const title = titleInput.value.trim();
             const excerpt = excerptInput.value.trim();
+            const isReport = contentType.value === 'report';
             const content = quill.getText().trim();
 
             setInvalid('fieldTitle', !title); if (!title) valid = false;
             setInvalid('fieldExcerpt', !excerpt); if (!excerpt) valid = false;
-            document.getElementById('contentError').style.display = content ? 'none' : 'block';
-            if (!content) valid = false;
+            if (isReport) {
+                const hasDocument = documentInput.files[0] && documentInput.files[0].type === 'application/pdf';
+                setInvalid('fieldReportYear', !reportYearInput.value.trim());
+                setInvalid('fieldDocument', !hasDocument);
+                if (!reportYearInput.value.trim() || !hasDocument) valid = false;
+            } else {
+                document.getElementById('contentError').style.display = content ? 'none' : 'block';
+                if (!content) valid = false;
+            }
 
             return valid;
         }
@@ -506,41 +579,49 @@
             e.preventDefault();
             clearBanner();
             if (!validate()) {
-                showBanner('error', 'Please fill in the title, excerpt and content before publishing.');
+                showBanner('error', contentType.value === 'report' ? 'Please fill in the report title, year, summary, and select a PDF.' : 'Please fill in the title, excerpt and content before publishing.');
                 return;
             }
 
-            const publishBtn = document.getElementById('publishBtn');
             publishBtn.disabled = true;
             publishBtn.textContent = 'Publishing...';
 
             const tagsRaw = document.getElementById('tags').value.trim();
             const readTimeVal = document.getElementById('readTime').value.trim() || estimateReadTime(quill.root.innerHTML);
 
-            const articleData = new FormData();
-            articleData.append('title', titleInput.value.trim());
-            articleData.append('slug', slugInput.value.trim() || slugify(titleInput.value));
-            articleData.append('category', document.getElementById('category').value);
-            articleData.append('author', document.getElementById('author').value.trim() || 'DIRA Team');
-            articleData.append('date', document.getElementById('date').value.trim());
-            articleData.append('readTime', readTimeVal);
-            articleData.append('excerpt', excerptInput.value.trim());
-            articleData.append('content', quill.root.innerHTML);
-            articleData.append('tags', tagsRaw);
-            if (imageInput.files[0]) articleData.append('image', imageInput.files[0]);
-
             try {
-                const saved = await window.DiraArticles.api.createArticle(articleData);
-                showBanner('success', `Published. You can view it on the Articles page, or `);
-                document.getElementById('statusBanner').innerHTML =
-                    `Published. <a href="http://localhost:3000/articles.html" style="color:inherit;text-decoration:underline;">view it on the Articles page</a>, or <a href="article.html?slug=${encodeURIComponent(saved.slug)}" style="color:inherit;text-decoration:underline;">open it directly</a>.`;
+                const isReport = contentType.value === 'report';
+                const formData = new FormData();
+                formData.append('title', titleInput.value.trim());
+                formData.append('slug', slugInput.value.trim() || slugify(titleInput.value));
+                formData.append('summary', excerptInput.value.trim());
+                if (isReport) {
+                    formData.append('type', document.getElementById('reportType').value);
+                    formData.append('year', reportYearInput.value.trim());
+                    formData.append('document', documentInput.files[0]);
+                } else {
+                    formData.append('category', categorySelect.value);
+                    formData.append('author', document.getElementById('author').value.trim() || 'DIRA Team');
+                    formData.append('date', document.getElementById('date').value.trim());
+                    formData.append('readTime', readTimeVal);
+                    formData.append('excerpt', excerptInput.value.trim());
+                    formData.append('content', quill.root.innerHTML);
+                    formData.append('tags', tagsRaw);
+                    if (imageInput.files[0]) formData.append('image', imageInput.files[0]);
+                }
+                const saved = isReport ? await window.DiraReports.api.createReport(formData) : await window.DiraArticles.api.createArticle(formData);
+                const destination = isReport ? 'http://localhost:3000/reports.html' : 'http://localhost:3000/articles.html';
+                showBanner('success', `Published. <a href="${destination}" style="color:inherit;text-decoration:underline;">view it on the ${isReport ? 'Reports' : 'Articles'} page</a>.`);
+                document.getElementById('statusBanner').innerHTML = `Published. <a href="${destination}" style="color:inherit;text-decoration:underline;">view it on the ${isReport ? 'Reports' : 'Articles'} page</a>.`;
                 document.getElementById('uploadForm').reset();
                 quill.setContents([]);
                 slugManuallyEdited = false;
                 imgPreview.style.display = 'none';
                 document.getElementById('date').value = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+                reportYearInput.value = new Date().getFullYear();
                 document.getElementById('excerptCount').textContent = '0 / 240';
                 loadUploadedList();
+                loadUploadedReports();
             } catch (err) {
                 showBanner('error', err.message || 'Something went wrong while publishing. Please try again.');
             } finally {
@@ -578,11 +659,25 @@
             });
         }
 
+        async function loadUploadedReports() {
+            const wrap = document.getElementById('uploadedReportsList');
+            const reports = await window.DiraReports.api.getAll();
+            wrap.innerHTML = reports.length ? reports.map(report => `
+                <div class="uploaded-item" data-id="${escapeHtml(report.id)}">
+                    <div class="ui-body"><div class="ui-title">${escapeHtml(report.title)}</div><div class="ui-meta">${escapeHtml(report.type)} &middot; ${escapeHtml(report.year)}</div></div>
+                    <div class="ui-actions"><a class="btn btn-ghost btn-sm" href="${escapeHtml(report.documentUrl)}" target="_blank" rel="noopener">View PDF</a><button class="btn btn-danger btn-sm report-delete-btn" data-id="${escapeHtml(report.id)}" data-title="${escapeHtml(report.title)}">Delete</button></div>
+                </div>`).join('') : '<div class="uploaded-empty">Nothing uploaded yet. Reports published above will appear here.</div>';
+            wrap.querySelectorAll('.report-delete-btn').forEach(button => button.addEventListener('click', async () => {
+                await window.DiraReports.api.deleteReport(button.dataset.id);
+                loadUploadedReports();
+            }));
+        }
+
         // ---- Delete modal ----
         let pendingDeleteId = null;
         function openDeleteModal(id, title) {
             pendingDeleteId = id;
-            document.getElementById('deleteModalText').textContent = `"${title}" will be removed from this browser's local storage. This can't be undone.`;
+            document.getElementById('deleteModalText').textContent = `"${title}" will be removed from the shared database. This can't be undone.`;
             document.getElementById('deleteModal').classList.add('show');
         }
         document.getElementById('cancelDelete').addEventListener('click', () => {
@@ -601,6 +696,7 @@
         });
 
         loadUploadedList();
+        loadUploadedReports();
     </script>
 </body>
 

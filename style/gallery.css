@@ -255,6 +255,23 @@ body {
     line-height: 1.65;
 }
 
+.interview-button {
+    margin-top: 30px;
+    font-size: 0.85rem;
+    color: var(--purple-light);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.interview-button:hover{
+    text-decoration: underline;
+}
+
 /* ==========================================================================
    Testimonials Section (Pictures with Captions)
    ========================================================================== */
@@ -322,6 +339,12 @@ body {
     flex-direction: column;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     margin: 0;
+}
+@media (min-width: 768px) {
+    .testimonial-card {
+        flex: 0 0 48%;
+        margin: 0 1%;
+    }
 }
 
 .testimonial-card:hover {

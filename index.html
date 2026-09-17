@@ -339,42 +339,8 @@
                     </div>
                     <a href="reports.html" class="button" style="padding: 10px 24px; font-size: 14px; background:#0F3B5A; border-color:#0F3B5A;">Access Document Repository &rarr;</a>
                 </div>
-                <div class="reports-grid" style="margin-bottom:0; padding:0;">
-                    <article class="report-card">
-                        <div class="report-header-badge">
-                            <span class="report-type">Annual Report</span>
-                            <span class="report-year">2026</span>
-                        </div>
-                        <h3 class="report-title">DIRA Annual Impact &amp; Platform Operations Report 2026</h3>
-                        <p class="report-summary">Consolidated audit of institutional platform rollouts, technical training metrics (108 engineers certified), and multi-venture operational milestones.</p>
-                        <div class="report-actions" style="margin-top:auto;">
-                            <a href="reports.html" class="report-btn report-btn-primary">View Report</a>
-                        </div>
-                    </article>
-
-                    <article class="report-card">
-                        <div class="report-header-badge">
-                            <span class="report-type">Technical Whitepaper</span>
-                            <span class="report-year">2026</span>
-                        </div>
-                        <h3 class="report-title">Verifiable Systems Architecture for Central African Institutions</h3>
-                        <p class="report-summary">An engineering specification examining immutable transaction logs, OHADA compliance schemas, and defensive software design principles.</p>
-                        <div class="report-actions" style="margin-top:auto;">
-                            <a href="reports.html" class="report-btn report-btn-primary">View Whitepaper</a>
-                        </div>
-                    </article>
-
-                    <article class="report-card">
-                        <div class="report-header-badge">
-                            <span class="report-type">Event Audit</span>
-                            <span class="report-year">2026</span>
-                        </div>
-                        <h3 class="report-title">DIRA Tech Fest 2026 Official Post-Event &amp; Delegation Brief</h3>
-                        <p class="report-summary">Detailed event analytics, ministerial delegation commendations (MINRESI, MINPMEESA, MINEPAT, MINREX), and workshop outcomes.</p>
-                        <div class="report-actions" style="margin-top:auto;">
-                            <a href="reports.html" class="report-btn report-btn-primary">View Brief</a>
-                        </div>
-                    </article>
+                <div class="reports-grid" id="recentReportsGrid" style="margin-bottom:0; padding:0;">
+                    <p class="reports-empty">Loading reports...</p>
                 </div>
             </div>
         </section>
@@ -391,7 +357,9 @@
 
     <script src="./js/header.js"></script>
     <script src="./js/article-api.js"></script>
+    <script src="./js/reports.js"></script>
     <script src="./js/newsletter.js"></script>
+    <script src="./js/testimonial-toast.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="./js/contact.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>

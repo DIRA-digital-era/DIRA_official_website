@@ -45,6 +45,38 @@
 }
 
 /* Reports Grid */
+.uploaded-reports-section {
+    max-width: 1200px;
+    margin: 0 auto 55px;
+    padding: 0 20px;
+}
+
+.reports-section-heading {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 22px;
+}
+
+.reports-section-heading h2 {
+    color: var(--primary-color);
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+.reports-section-heading p,
+.reports-empty {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.uploaded-report-card {
+    min-height: 100%;
+}
+
+.report-delete-btn {
+    cursor: pointer;
+}
+
 .reports-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));

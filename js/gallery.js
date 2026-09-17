@@ -273,7 +273,8 @@ function renderGallery() {
                     <div class="interview-quote">
                         <p>"${escapeHtml(story.narrative)}"</p>
                     </div>
-                    <div class="interview-context">${escapeHtml(story.context)} Click to view all ${categoryImages.length} images in this collection.</div>
+                    <div class="interview-context">${escapeHtml(story.context)} </div>
+                    <div class="interview-button" aria-hidden="true">View all ${categoryImages.length} Photos &rarr;</div>
                 </div>
             </article>
         `;
@@ -472,7 +473,7 @@ function initializeTestimonialToast() {
         scheduleToast(12000);
     });
 
-    scheduleToast();
+    scheduleToast(2000);
 }
 
 // ==========================================
