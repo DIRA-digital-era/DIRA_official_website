@@ -1,21 +1,41 @@
 /**
  * DIRA Website Newsletter Popup Integration
- * Powered by Resend through the site backend
+ * Powered by Resend and MongoDB Subscriber Intelligence
  *
- * Behavior:
- * - Checks localStorage for 'dira_newsletter_resend_subscribed'. If true, never displays again.
- * - On first page visit, displays after 3 seconds.
- * - If dismissed without subscribing, reappears every 2 minutes (120,000ms).
- * - Sends subscribers to the backend Resend integration.
+ * Features:
+ * - Checks localStorage for 'dira_newsletter_resend_subscribed'.
+ * - Checks backend MongoDB for IP and Client ID to prevent popup for existing subscribers.
+ * - Exponential backoff on dismissal: each exit progressively increases cooldown before next show.
+ * - Captures IP address and client token on subscription.
  */
 
 (function () {
     const STORAGE_KEY = 'dira_newsletter_resend_subscribed';
-    const REAPPEAR_INTERVAL_MS = 2 * 60 * 1000; // 2 minutes
+    const CLIENT_ID_KEY = 'dira_newsletter_client_id';
+    const DISMISS_COUNT_KEY = 'dira_newsletter_dismiss_count';
+    const NEXT_SHOW_KEY = 'dira_newsletter_next_show';
+    
+    const BASE_INTERVAL_MS = 2 * 60 * 1000; // 2 minutes initial cooldown
+    const EXP_FACTOR = 2.5; // Exponential multiplier
+    const MAX_INTERVAL_MS = 7 * 24 * 60 * 60 * 1000; // Max 7 days
+    
     const API_BASE = window.DIRA_API_BASE || (window.location.protocol === 'file:' ? 'http://localhost:3000/api' : '/api');
     let popupTimer = null;
 
-    function isSubscribed() {
+    function getOrCreateClientId() {
+        try {
+            let id = localStorage.getItem(CLIENT_ID_KEY);
+            if (!id) {
+                id = 'dira_' + Math.random().toString(36).substring(2, 11) + '_' + Date.now().toString(36);
+                localStorage.setItem(CLIENT_ID_KEY, id);
+            }
+            return id;
+        } catch (e) {
+            return 'dira_anonymous_' + Date.now();
+        }
+    }
+
+    function isSubscribedLocal() {
         try {
             return localStorage.getItem(STORAGE_KEY) === 'true';
         } catch (error) {
@@ -26,10 +46,65 @@
     function markAsSubscribed() {
         try {
             localStorage.setItem(STORAGE_KEY, 'true');
-        } catch (error) {
-            // The popup can still complete if browser storage is unavailable.
+            localStorage.removeItem(DISMISS_COUNT_KEY);
+            localStorage.removeItem(NEXT_SHOW_KEY);
+        } catch (error) {}
+        if (popupTimer) {
+            clearTimeout(popupTimer);
+            popupTimer = null;
         }
-        if (popupTimer) clearInterval(popupTimer);
+    }
+
+    async function checkSubscriptionStatus() {
+        if (isSubscribedLocal()) return true;
+
+        const clientId = getOrCreateClientId();
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 4000);
+            
+            const res = await fetch(`${API_BASE}/newsletter/check?clientId=${encodeURIComponent(clientId)}`, {
+                signal: controller.signal
+            });
+            clearTimeout(timeoutId);
+
+            if (res.ok) {
+                const data = await res.json();
+                if (data.subscribed) {
+                    markAsSubscribed();
+                    return true;
+                }
+            }
+        } catch (err) {
+            // Offline or server not reachable; continue with local storage check
+        }
+        return false;
+    }
+
+    function calculateNextBackoffDelay() {
+        try {
+            const count = parseInt(localStorage.getItem(DISMISS_COUNT_KEY) || '0', 10) + 1;
+            localStorage.setItem(DISMISS_COUNT_KEY, count.toString());
+            
+            // Exponential formula: Base * (Factor ^ (count - 1))
+            const delay = Math.min(BASE_INTERVAL_MS * Math.pow(EXP_FACTOR, count - 1), MAX_INTERVAL_MS);
+            const nextShow = Date.now() + delay;
+            localStorage.setItem(NEXT_SHOW_KEY, nextShow.toString());
+            return delay;
+        } catch (e) {
+            return BASE_INTERVAL_MS;
+        }
+    }
+
+    function getRemainingCooldown() {
+        try {
+            const nextShow = parseInt(localStorage.getItem(NEXT_SHOW_KEY) || '0', 10);
+            if (!nextShow) return 0;
+            const remaining = nextShow - Date.now();
+            return remaining > 0 ? remaining : 0;
+        } catch (e) {
+            return 0;
+        }
     }
 
     function injectNewsletterModal() {
@@ -46,7 +121,6 @@
                 </div>
 
                 <div id="newsletter-form-container">
-                    <!-- Resend subscription form -->
                     <form id="diraNewsletterForm" class="dira-newsletter-form">
                         <div class="dira-input-group">
                             <input type="email" id="diraNewsletterEmail" name="email" placeholder="Enter your business email" required autocomplete="email">
@@ -269,6 +343,7 @@
                 e.preventDefault();
                 const emailInput = document.getElementById('diraNewsletterEmail');
                 const email = emailInput ? emailInput.value.trim() : '';
+                const clientId = getOrCreateClientId();
 
                 if (email && email.includes('@')) {
                     const submitButton = form.querySelector('.dira-newsletter-submit');
@@ -278,7 +353,7 @@
                         const response = await fetch(`${API_BASE}/newsletter/subscribe`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ email })
+                            body: JSON.stringify({ email, clientId })
                         });
                         const result = await response.json();
                         if (!response.ok) throw new Error(result.error || 'Subscription failed.');
@@ -288,7 +363,7 @@
                         const successView = document.getElementById('diraNewsletterSuccess');
                         if (formContainer) formContainer.style.display = 'none';
                         if (successView) successView.style.display = 'block';
-                        setTimeout(hideModal, 2500);
+                        setTimeout(closeModalWithoutCooldown, 2200);
                     } catch (error) {
                         let message = form.querySelector('.dira-newsletter-error');
                         if (!message) {
@@ -306,7 +381,7 @@
     }
 
     function showModal() {
-        if (isSubscribed()) return;
+        if (isSubscribedLocal()) return;
         injectNewsletterModal();
         const modal = document.getElementById('dira-newsletter-modal');
         if (modal) {
@@ -315,40 +390,58 @@
         }
     }
 
-    function hideModal() {
+    function closeModalWithoutCooldown() {
         const modal = document.getElementById('dira-newsletter-modal');
         if (modal) {
             modal.classList.remove('is-active');
             modal.setAttribute('aria-hidden', 'true');
         }
+    }
 
-        // If not yet subscribed, schedule re-trigger every 2 minutes
-        if (!isSubscribed() && !popupTimer) {
-            popupTimer = setInterval(() => {
-                if (!isSubscribed()) {
-                    showModal();
-                } else if (popupTimer) {
-                    clearInterval(popupTimer);
-                }
-            }, REAPPEAR_INTERVAL_MS);
+    function hideModal() {
+        closeModalWithoutCooldown();
+
+        // Calculate exponential backoff and schedule next show
+        if (!isSubscribedLocal()) {
+            const nextDelay = calculateNextBackoffDelay();
+            if (popupTimer) clearTimeout(popupTimer);
+            popupTimer = setTimeout(async () => {
+                const subscribed = await checkSubscriptionStatus();
+                if (!subscribed) showModal();
+            }, nextDelay);
         }
     }
 
     // Initialize on page load
-    document.addEventListener('DOMContentLoaded', () => {
-        if (!isSubscribed()) {
-            // First display after 2 seconds
-            setTimeout(showModal, 2000);
+    document.addEventListener('DOMContentLoaded', async () => {
+        const subscribed = await checkSubscriptionStatus();
+        if (subscribed) return;
+
+        const remainingCooldown = getRemainingCooldown();
+        if (remainingCooldown > 0) {
+            // Respect existing exponential backoff timer
+            popupTimer = setTimeout(async () => {
+                const isSub = await checkSubscriptionStatus();
+                if (!isSub) showModal();
+            }, remainingCooldown);
+        } else {
+            // Initial appearance after 2.5 seconds
+            popupTimer = setTimeout(async () => {
+                const isSub = await checkSubscriptionStatus();
+                if (!isSub) showModal();
+            }, 2500);
         }
     });
 
-    // Expose utility globally if needed
+    // Expose utility globally
     window.DiraNewsletter = {
         show: showModal,
         hide: hideModal,
         markSubscribed: markAsSubscribed,
         reset: () => {
             localStorage.removeItem(STORAGE_KEY);
+            localStorage.removeItem(DISMISS_COUNT_KEY);
+            localStorage.removeItem(NEXT_SHOW_KEY);
             showModal();
         },
     };

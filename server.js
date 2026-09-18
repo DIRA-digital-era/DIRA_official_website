@@ -3,6 +3,7 @@ require('dotenv').config();
 const path = require('path');
 const fs = require('fs');
 const fsp = fs.promises;
+const https = require('https');
 const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
@@ -11,6 +12,7 @@ const mongoose = require('mongoose');
 const { v2: cloudinary } = require('cloudinary');
 const { Article, CATEGORIES } = require('./models/Article');
 const { Report, REPORT_TYPES } = require('./models/Report');
+const { Subscriber } = require('./models/Subscriber');
 
 const app = express();
 const port = Number(process.env.PORT || 3000);
@@ -51,6 +53,15 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
+function getClientIp(request) {
+  const forwarded = request.headers['x-forwarded-for'];
+  if (forwarded) {
+    return forwarded.split(',')[0].trim().replace(/^::ffff:/, '');
+  }
+  const remote = request.socket?.remoteAddress || request.ip || '';
+  return remote.replace(/^::ffff:/, '');
+}
+
 function toClient(article) {
   return article.toClientJSON ? article.toClientJSON() : article;
 }
@@ -58,6 +69,32 @@ function toClient(article) {
 function parseTags(value) {
   if (Array.isArray(value)) return value.map(tag => String(tag).trim()).filter(Boolean);
   return String(value || '').split(',').map(tag => tag.trim()).filter(Boolean);
+}
+
+function resendRequest(pathname, payload) {
+  return new Promise((resolve, reject) => {
+    const request = https.request({
+      hostname: 'api.resend.com',
+      family: 4,
+      path: pathname,
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json'
+      }
+    }, response => {
+      let body = '';
+      response.setEncoding('utf8');
+      response.on('data', chunk => { body += chunk; });
+      response.on('end', () => {
+        let parsed;
+        try { parsed = JSON.parse(body); } catch (error) { parsed = { message: body }; }
+        resolve({ statusCode: response.statusCode || 500, body: parsed });
+      });
+    });
+    request.on('error', reject);
+    request.end(JSON.stringify(payload));
+  });
 }
 
 function uploadToCloudinary(file) {
@@ -95,19 +132,12 @@ app.post('/api/newsletter/subscribe', async (request, response, next) => {
 
     let resendResponse;
     try {
-      resendResponse = await fetch(`https://api.resend.com/audiences/${encodeURIComponent(process.env.RESEND_AUDIENCE_ID)}/contacts`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, unsubscribed: false })
-      });
+      resendResponse = await resendRequest(`/audiences/${encodeURIComponent(process.env.RESEND_AUDIENCE_ID)}/contacts`, { email, unsubscribed: false });
     } catch (error) {
       return response.status(502).json({ error: 'Resend could not be reached from the server.' });
     }
-    const result = await resendResponse.json();
-    if (!resendResponse.ok) return response.status(502).json({ error: result.message || result.name || 'Resend could not add this subscriber.' });
+    const result = resendResponse.body;
+    if (resendResponse.statusCode < 200 || resendResponse.statusCode >= 300) return response.status(502).json({ error: result.message || result.name || 'Resend could not add this subscriber.' });
     response.status(201).json({ ok: true, id: result.id || null });
   } catch (error) { next(error); }
 });

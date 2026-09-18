@@ -17,11 +17,27 @@
   function reportCard(report, includeDelete) {
     return `<article class="report-card uploaded-report-card">
       <div class="report-header-badge"><span class="report-type">${escapeHtml(report.type)}</span><span class="report-year">${escapeHtml(report.year)}</span></div>
-      <div class="report-icon-box" aria-hidden="true">&#128196;</div>
+      <div class="report-icon-box" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="14 2 14 8 20 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="8" y1="13" x2="16" y2="13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="8" y1="17" x2="13" y2="17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </div>
       <h3 class="report-title">${escapeHtml(report.title)}</h3>
       <p class="report-summary">${escapeHtml(report.summary)}</p>
       <div class="report-metadata"><span>${formatSize(report.documentSize)}</span><span>&bull;</span><span>${escapeHtml(report.documentName)}</span></div>
-      <div class="report-actions"><a href="${escapeHtml(report.documentUrl)}" download="${escapeHtml(report.documentName)}" class="report-btn report-btn-primary">Download PDF</a><a href="${escapeHtml(report.documentUrl)}" target="_blank" rel="noopener" class="report-btn report-btn-outline">Preview</a>${includeDelete ? `<button type="button" class="report-btn report-btn-outline report-delete-btn" data-id="${escapeHtml(report.id)}">Delete</button>` : ''}</div>
+      <div class="report-actions">
+        <a href="${escapeHtml(report.documentUrl)}" download="${escapeHtml(report.documentName)}" class="report-btn report-btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:4px;">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Download PDF
+        </a>
+        <a href="${escapeHtml(report.documentUrl)}" target="_blank" rel="noopener" class="report-btn report-btn-outline">Preview</a>
+        ${includeDelete ? `<button type="button" class="report-btn report-btn-outline report-delete-btn" data-id="${escapeHtml(report.id)}">Delete</button>` : ''}
+      </div>
     </article>`;
   }
 

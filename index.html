@@ -53,19 +53,69 @@
     </header>
 
     <div class="container">
-        <!-- Hero: Selling Value Identity -->
+        <!-- Hero: Selling Value Identity with Background Slideshow & 3-Pillar Text Carousel -->
         <section class="hero reveal">
-            <h6>Enterprise Software &bull; Workflow Automation &bull; Custom Platforms</h6>
-            <h1>Building Dependable Software &amp; Digital Infrastructure for Africa.</h1>
-            <p class="hero-sub">We design secure, audit-proof systems, workflow automation tools, and scalable web platforms for institutions, enterprises, and growing businesses across Cameroon and Central Africa.</p>
-            <div class="hero-buttons">
-                <a href="https://client-intake-form.diracmr.com" target="_blank" rel="noopener" class="button-primary">
-                    <span>Start a Project With Us</span>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </a>
-                <a href="services.html" class="button-outline">Explore Solutions</a>
+            <!-- Background Image Slideshow -->
+            <div class="hero-slideshow" aria-hidden="true">
+                <div class="hero-slide active" style="background-image: url('./images/photos/IMG_1544.jpg');"></div>
+                <div class="hero-slide" style="background-image: url('./images/photos/IMG_9933.jpg');"></div>
+                <div class="hero-slide" style="background-image: url('./images/photos/dira-technical-training.jpg');"></div>
+                <div class="hero-slide" style="background-image: url('./images/photos/dira-team-techfest-2026.jpg');"></div>
+            </div>
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+                <div class="hero-badge">Enterprise Software &bull; Workflow Automation &bull; Custom Platforms</div>
+                <h1>Building Dependable Software &amp; Digital Infrastructure for Africa.</h1>
+                
+                <!-- Rotating Text Carousel for the 3 Core Pillars -->
+                <div class="hero-carousel-container" id="heroCarousel">
+                    <div class="hero-carousel-track">
+                        <!-- Slide 1: Digital Identity & Presence -->
+                        <div class="hero-carousel-slide active" data-index="0">
+                            <div class="hero-pillar-tag">
+                                <span class="pillar-dot"></span>
+                                <span>Digital Identity &amp; Presence</span>
+                            </div>
+                            <p class="hero-sub">We engineer authoritative digital presence, custom web platforms, and verified branding that empower businesses, institutions, and schools to be discovered by global partners and command market trust.</p>
+                        </div>
+
+                        <!-- Slide 2: Operational Automation -->
+                        <div class="hero-carousel-slide" data-index="1">
+                            <div class="hero-pillar-tag">
+                                <span class="pillar-dot"></span>
+                                <span>Operational Automation</span>
+                            </div>
+                            <p class="hero-sub">We replace manual paperwork, messy spreadsheets, and lost hours with custom web tools that automate rosters, client onboarding, inventory, and payment reconciliations seamlessly.</p>
+                        </div>
+
+                        <!-- Slide 3: Authenticity & Integrity -->
+                        <div class="hero-carousel-slide" data-index="2">
+                            <div class="hero-pillar-tag">
+                                <span class="pillar-dot"></span>
+                                <span>Authenticity &amp; Integrity</span>
+                            </div>
+                            <p class="hero-sub">We engineer tamper-evident systems, transparent record architectures, and verifiable data pipelines built to hold up under strict regulatory scrutiny and statutory institutional audits.</p>
+                        </div>
+                    </div>
+
+                    <!-- Carousel Indicators / Navigation Dots -->
+                    <div class="hero-carousel-nav" role="tablist" aria-label="Core Pillars">
+                        <button class="carousel-dot active" role="tab" aria-selected="true" aria-label="Pillar 1: Digital Identity &amp; Presence" data-slide="0"></button>
+                        <button class="carousel-dot" role="tab" aria-selected="false" aria-label="Pillar 2: Operational Automation" data-slide="1"></button>
+                        <button class="carousel-dot" role="tab" aria-selected="false" aria-label="Pillar 3: Authenticity &amp; Integrity" data-slide="2"></button>
+                    </div>
+                </div>
+
+                <div class="hero-buttons">
+                    <a href="https://client-intake-form.diracmr.com" target="_blank" rel="noopener" class="button-primary">
+                        <span>Start a Project With Us</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                    <a href="services.html" class="button-outline">Explore Solutions</a>
+                </div>
             </div>
         </section>
 
@@ -394,6 +444,87 @@
         }, { threshold: 0.5 });
 
         document.querySelectorAll('.stat-number[data-target]').forEach(el => counterObserver.observe(el));
+    </script>
+
+    <!-- Homepage Hero Background Slideshow & Text Carousel Controller -->
+    <script>
+        (function initHeroRotator() {
+            // Background Image Slideshow
+            const bgSlides = document.querySelectorAll('.hero-slideshow .hero-slide');
+            let currentBgIndex = 0;
+            const bgIntervalTime = 5500;
+
+            function nextBgSlide() {
+                if (!bgSlides.length) return;
+                bgSlides[currentBgIndex].classList.remove('active');
+                currentBgIndex = (currentBgIndex + 1) % bgSlides.length;
+                bgSlides[currentBgIndex].classList.add('active');
+            }
+
+            let bgTimer = setInterval(nextBgSlide, bgIntervalTime);
+
+            // 3-Pillar Text Carousel
+            const textSlides = document.querySelectorAll('.hero-carousel-slide');
+            const navDots = document.querySelectorAll('.hero-carousel-nav .carousel-dot');
+            const carouselContainer = document.getElementById('heroCarousel');
+            let currentTextIndex = 0;
+            const textIntervalTime = 5000;
+            let textTimer = null;
+
+            function goToSlide(index) {
+                if (!textSlides.length) return;
+                textSlides.forEach((slide, i) => {
+                    if (i === index) {
+                        slide.classList.add('active');
+                    } else {
+                        slide.classList.remove('active');
+                    }
+                });
+                navDots.forEach((dot, i) => {
+                    const isActive = i === index;
+                    dot.classList.toggle('active', isActive);
+                    dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                });
+                currentTextIndex = index;
+            }
+
+            function nextTextSlide() {
+                const nextIndex = (currentTextIndex + 1) % textSlides.length;
+                goToSlide(nextIndex);
+            }
+
+            function startTextTimer() {
+                stopTextTimer();
+                textTimer = setInterval(nextTextSlide, textIntervalTime);
+            }
+
+            function stopTextTimer() {
+                if (textTimer) {
+                    clearInterval(textTimer);
+                    textTimer = null;
+                }
+            }
+
+            // Navigation dot clicks
+            navDots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const slideIdx = parseInt(dot.getAttribute('data-slide'), 10);
+                    if (!isNaN(slideIdx)) {
+                        goToSlide(slideIdx);
+                        startTextTimer(); // Reset auto timer
+                    }
+                });
+            });
+
+            // Pause rotation on hover
+            if (carouselContainer) {
+                carouselContainer.addEventListener('mouseenter', stopTextTimer);
+                carouselContainer.addEventListener('mouseleave', startTextTimer);
+            }
+
+            // Start auto text rotation
+            startTextTimer();
+        })();
     </script>
 </body>
 
