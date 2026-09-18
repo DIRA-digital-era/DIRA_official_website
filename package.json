@@ -2,7 +2,7 @@
   "name": "dira-official-website",
   "private": true,
   "version": "1.0.0",
-  "description": "DIRA website and article publishing backend",
+  "description": "DIRA website, publishing, and newsletter backend",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

@@ -1,27 +1,19 @@
 /**
  * DIRA Website Newsletter Popup Integration
- * Powered by Sender.net configuration
+ * Powered by Resend through the site backend
  *
  * Behavior:
  * - Checks localStorage for 'dira_newsletter_subscribed'. If true, never displays again.
  * - On first page visit, displays after 3 seconds.
  * - If dismissed without subscribing, reappears every 2 minutes (120,000ms).
- * - Ready for Sender.net embed script or custom form action.
+ * - Sends subscribers to the backend Resend integration.
  */
 
 (function () {
     const STORAGE_KEY = 'dira_newsletter_subscribed';
     const REAPPEAR_INTERVAL_MS = 2 * 60 * 1000; // 2 minutes
+    const API_BASE = window.DIRA_API_BASE || (window.location.protocol === 'file:' ? 'http://localhost:3000/api' : '/api');
     let popupTimer = null;
-
-    // SENDER.NET CONFIGURATION
-    // ----------------------------------------------------
-    // Set your Sender.net form ID or embed script URL below:
-    const SENDER_NET_CONFIG = {
-        enabled: true,
-        formId: 'YOUR_SENDER_FORM_ID', // Replace with your Sender.net Form ID if using API
-        embedScriptUrl: '', // Optional: e.g. 'https://app.sender.net/embed/xxxxxx'
-    };
 
     function isSubscribed() {
         return localStorage.getItem(STORAGE_KEY) === 'true';
@@ -45,8 +37,8 @@
                     <p>Get exclusive monthly insights on custom software, systems architecture, digital transformation, and tech events across Central Africa.</p>
                 </div>
 
-                <div id="sender-embed-container">
-                    <!-- SENDER.NET EMBED CONTAINER: If using Sender.net universal script, it will render here -->
+                <div id="newsletter-form-container">
+                    <!-- Resend subscription form -->
                     <form id="diraNewsletterForm" class="dira-newsletter-form">
                         <div class="dira-input-group">
                             <input type="email" id="diraNewsletterEmail" name="email" placeholder="Enter your business email" required autocomplete="email">
@@ -211,6 +203,12 @@
                 color: #889bb8;
                 line-height: 1.4;
             }
+            .dira-newsletter-error {
+                margin-top: 10px;
+                color: #ffb4ab;
+                font-size: 0.82rem;
+                line-height: 1.4;
+            }
             .dira-newsletter-success {
                 text-align: center;
                 padding: 20px 0;
@@ -259,27 +257,41 @@
         });
 
         if (form) {
-            form.addEventListener('submit', function (e) {
+            form.addEventListener('submit', async function (e) {
                 e.preventDefault();
                 const emailInput = document.getElementById('diraNewsletterEmail');
                 const email = emailInput ? emailInput.value.trim() : '';
 
                 if (email && email.includes('@')) {
-                    // Mark as permanently subscribed in localStorage
-                    markAsSubscribed();
+                    const submitButton = form.querySelector('.dira-newsletter-submit');
+                    submitButton.disabled = true;
+                    submitButton.querySelector('span').textContent = 'Subscribing...';
+                    try {
+                        const response = await fetch(`${API_BASE}/newsletter/subscribe`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email })
+                        });
+                        const result = await response.json();
+                        if (!response.ok) throw new Error(result.error || 'Subscription failed.');
 
-                    // Show success state
-                    const formContainer = document.getElementById('sender-embed-container');
-                    const successView = document.getElementById('diraNewsletterSuccess');
-                    if (formContainer) formContainer.style.display = 'none';
-                    if (successView) successView.style.display = 'block';
-
-                    // Optional: Dispatch event or post to Sender.net / API endpoint
-                    console.log('DIRA Newsletter subscribed:', email);
-
-                    setTimeout(() => {
-                        hideModal();
-                    }, 2500);
+                        markAsSubscribed();
+                        const formContainer = document.getElementById('newsletter-form-container');
+                        const successView = document.getElementById('diraNewsletterSuccess');
+                        if (formContainer) formContainer.style.display = 'none';
+                        if (successView) successView.style.display = 'block';
+                        setTimeout(hideModal, 2500);
+                    } catch (error) {
+                        let message = form.querySelector('.dira-newsletter-error');
+                        if (!message) {
+                            message = document.createElement('p');
+                            message.className = 'dira-newsletter-error';
+                            form.appendChild(message);
+                        }
+                        message.textContent = error.message;
+                        submitButton.disabled = false;
+                        submitButton.querySelector('span').textContent = 'Subscribe';
+                    }
                 }
             });
         }

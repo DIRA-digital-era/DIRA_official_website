@@ -85,6 +85,33 @@ app.get('/api/health', (request, response) => {
   response.json({ ok: true, database: mongoose.connection.readyState === 1 });
 });
 
+app.post('/api/newsletter/subscribe', async (request, response, next) => {
+  try {
+    const email = String(request.body.email || '').trim().toLowerCase();
+    if (!/^\S+@\S+\.\S+$/.test(email)) return response.status(400).json({ error: 'Enter a valid email address.' });
+    if (!process.env.RESEND_API_KEY || !process.env.RESEND_AUDIENCE_ID) {
+      return response.status(503).json({ error: 'Newsletter service is not configured yet.' });
+    }
+
+    let resendResponse;
+    try {
+      resendResponse = await fetch(`https://api.resend.com/audiences/${encodeURIComponent(process.env.RESEND_AUDIENCE_ID)}/contacts`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, unsubscribed: false })
+      });
+    } catch (error) {
+      return response.status(502).json({ error: 'Resend could not be reached from the server.' });
+    }
+    const result = await resendResponse.json();
+    if (!resendResponse.ok) return response.status(502).json({ error: result.message || result.name || 'Resend could not add this subscriber.' });
+    response.status(201).json({ ok: true, id: result.id || null });
+  } catch (error) { next(error); }
+});
+
 app.get('/api/articles', async (request, response, next) => {
   try {
     const filter = request.query.category && request.query.category !== 'All' ? { category: request.query.category } : {};
