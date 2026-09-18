@@ -3,24 +3,32 @@
  * Powered by Resend through the site backend
  *
  * Behavior:
- * - Checks localStorage for 'dira_newsletter_subscribed'. If true, never displays again.
+ * - Checks localStorage for 'dira_newsletter_resend_subscribed'. If true, never displays again.
  * - On first page visit, displays after 3 seconds.
  * - If dismissed without subscribing, reappears every 2 minutes (120,000ms).
  * - Sends subscribers to the backend Resend integration.
  */
 
 (function () {
-    const STORAGE_KEY = 'dira_newsletter_subscribed';
+    const STORAGE_KEY = 'dira_newsletter_resend_subscribed';
     const REAPPEAR_INTERVAL_MS = 2 * 60 * 1000; // 2 minutes
     const API_BASE = window.DIRA_API_BASE || (window.location.protocol === 'file:' ? 'http://localhost:3000/api' : '/api');
     let popupTimer = null;
 
     function isSubscribed() {
-        return localStorage.getItem(STORAGE_KEY) === 'true';
+        try {
+            return localStorage.getItem(STORAGE_KEY) === 'true';
+        } catch (error) {
+            return false;
+        }
     }
 
     function markAsSubscribed() {
-        localStorage.setItem(STORAGE_KEY, 'true');
+        try {
+            localStorage.setItem(STORAGE_KEY, 'true');
+        } catch (error) {
+            // The popup can still complete if browser storage is unavailable.
+        }
         if (popupTimer) clearInterval(popupTimer);
     }
 
@@ -329,8 +337,8 @@
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', () => {
         if (!isSubscribed()) {
-            // First display after 3 seconds
-            setTimeout(showModal, 3000);
+            // First display after 2 seconds
+            setTimeout(showModal, 2000);
         }
     });
 
@@ -339,5 +347,9 @@
         show: showModal,
         hide: hideModal,
         markSubscribed: markAsSubscribed,
+        reset: () => {
+            localStorage.removeItem(STORAGE_KEY);
+            showModal();
+        },
     };
 })();
