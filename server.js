@@ -15,6 +15,7 @@ const { Report, REPORT_TYPES } = require('./models/Report');
 const { Subscriber } = require('./models/Subscriber');
 const { GalleryImage, GALLERY_CATEGORIES, CATEGORY_LABELS, ASPECT_RATIOS } = require('./models/GalleryImage');
 
+const crypto = require('crypto');
 const app = express();
 const port = Number(process.env.PORT || 3000);
 const publicRoot = __dirname;
@@ -41,7 +42,15 @@ const reportUpload = multer({
 const allowedOrigins = (process.env.CORS_ORIGIN || '').split(',').map(origin => origin.trim()).filter(Boolean);
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin) || (process.env.NODE_ENV !== 'production' && origin === 'null')) return callback(null, true);
+    if (
+      !origin ||
+      allowedOrigins.includes(origin) ||
+      process.env.NODE_ENV !== 'production' ||
+      /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin) ||
+      origin === 'null'
+    ) {
+      return callback(null, true);
+    }
     callback(new Error('Origin is not allowed by CORS.'));
   }
 }));
@@ -131,6 +140,52 @@ async function saveReportLocally(file, slug) {
   await fsp.writeFile(path.join(reportsDirectory, filename), file.buffer, { flag: 'wx' });
   return `/reports/${filename}`;
 }
+
+// ── Admin auth ──────────────────────────────────────────────────────────────────
+const ADMIN_EMAIL = 'admin@diracmr.com';
+const ADMIN_PASSWORD = 'diraupload25';
+const ADMIN_TOKEN_SECRET = process.env.ADMIN_TOKEN_SECRET || crypto.randomBytes(32).toString('hex');
+// Token format: base64(payload).base64(signature)  — signed with HMAC-SHA256
+function createAdminToken() {
+  const payload = Buffer.from(JSON.stringify({ email: ADMIN_EMAIL, exp: Date.now() + 8 * 60 * 60 * 1000 })).toString('base64url');
+  const sig = crypto.createHmac('sha256', ADMIN_TOKEN_SECRET).update(payload).digest('base64url');
+  return payload + '.' + sig;
+}
+function verifyAdminToken(token) {
+  if (!token || typeof token !== 'string') return false;
+  const [payload, sig] = token.split('.');
+  if (!payload || !sig) return false;
+  const expected = crypto.createHmac('sha256', ADMIN_TOKEN_SECRET).update(payload).digest('base64url');
+  const sigBuf = Buffer.from(sig);
+  const expBuf = Buffer.from(expected);
+  if (sigBuf.length !== expBuf.length || !crypto.timingSafeEqual(sigBuf, expBuf)) return false;
+  try {
+    const { exp } = JSON.parse(Buffer.from(payload, 'base64url').toString());
+    return Date.now() < exp;
+  } catch { return false; }
+}
+function requireAdmin(request, response, next) {
+  const auth = request.headers['authorization'] || '';
+  const token = auth.startsWith('Bearer ') ? auth.slice(7) : (request.query._t || '');
+  if (!verifyAdminToken(token)) return response.status(401).json({ error: 'Authentication required.' });
+  next();
+}
+
+app.post('/api/admin/login', (request, response) => {
+  const email = String(request.body.email || '').trim().toLowerCase();
+  const password = String(request.body.password || '');
+  if (email !== ADMIN_EMAIL || password !== ADMIN_PASSWORD) {
+    return response.status(401).json({ error: 'Invalid email or password.' });
+  }
+  response.json({ ok: true, token: createAdminToken() });
+});
+
+app.get('/api/admin/verify', (request, response) => {
+  const auth = request.headers['authorization'] || '';
+  const token = auth.startsWith('Bearer ') ? auth.slice(7) : '';
+  if (!verifyAdminToken(token)) return response.status(401).json({ error: 'Token is invalid or expired.' });
+  response.json({ ok: true });
+});
 
 app.get('/api/health', (request, response) => {
   response.json({ ok: true, database: mongoose.connection.readyState === 1 });

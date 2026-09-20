@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" href="./images/logo.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | DIRA</title>
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f2f8;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .login-card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 32px rgba(25, 29, 54, 0.10);
+            padding: 48px 40px 44px;
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .login-logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 28px;
+        }
+
+        .login-logo img {
+            height: 44px;
+            object-fit: contain;
+        }
+
+        .login-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #191d36;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        .login-subtitle {
+            font-size: 14px;
+            color: #6b7280;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .field-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+
+        .field-input {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1.5px solid #e2e4ee;
+            border-radius: 8px;
+            font-size: 14.5px;
+            color: #191d36;
+            background: #fff;
+            outline: none;
+            transition: border-color 0.18s;
+        }
+
+        .field-input:focus {
+            border-color: #3b4697;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #191d36;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.18s, opacity 0.18s;
+            letter-spacing: 0.01em;
+        }
+
+        .login-btn:hover:not(:disabled) { background: #2d3360; }
+        .login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .login-error {
+            display: none;
+            margin-top: 16px;
+            padding: 11px 14px;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            color: #b91c1c;
+            font-size: 13.5px;
+            text-align: center;
+        }
+
+        .login-error.show { display: block; }
+
+        .login-footer {
+            margin-top: 28px;
+            text-align: center;
+            font-size: 12px;
+            color: #9ca3af;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-card">
+        <div class="login-logo">
+            <img src="./images/logo.png" alt="DIRA" onerror="this.style.display='none'">
+        </div>
+        <h1 class="login-title">Admin Access</h1>
+        <p class="login-subtitle">Sign in to manage content</p>
+
+        <form id="loginForm" novalidate>
+            <div class="field-group">
+                <div>
+                    <label class="field-label" for="adminEmail">Email</label>
+                    <input class="field-input" type="email" id="adminEmail" placeholder="Email" autocomplete="email" required>
+                </div>
+                <div>
+                    <label class="field-label" for="adminPassword">Password</label>
+                    <input class="field-input" type="password" id="adminPassword" placeholder="Password" autocomplete="current-password" required>
+                </div>
+            </div>
+            <button class="login-btn" type="submit" id="loginBtn">Sign In</button>
+            <div class="login-error" id="loginError"></div>
+        </form>
+
+        <p class="login-footer">DIRA CMR &mdash; Internal use only</p>
+    </div>
+
+    <script>
+        function getApiBase() {
+            if (window.DIRA_API_BASE) return window.DIRA_API_BASE;
+            if (window.location.protocol === 'file:') return 'http://localhost:3000/api';
+            if ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && window.location.port && window.location.port !== '3000') {
+                return 'http://localhost:3000/api';
+            }
+            return '/api';
+        }
+
+        const API_BASE = getApiBase();
+
+        // If already authenticated, redirect to destination
+        (function () {
+            const token = sessionStorage.getItem('dira_admin_token');
+            const dest = new URLSearchParams(location.search).get('redirect') || 'upload.html';
+            if (token) {
+                fetch(`${API_BASE}/admin/verify`, { headers: { 'Authorization': 'Bearer ' + token } })
+                    .then(async r => {
+                        if (r.ok) {
+                            location.replace(dest);
+                        } else {
+                            sessionStorage.removeItem('dira_admin_token');
+                        }
+                    })
+                    .catch(() => {});
+            }
+        })();
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('loginBtn');
+            const errBox = document.getElementById('loginError');
+            errBox.classList.remove('show');
+            btn.disabled = true;
+            btn.textContent = 'Signing in…';
+
+            const email = document.getElementById('adminEmail').value.trim().toLowerCase();
+            const password = document.getElementById('adminPassword').value;
+
+            if (!email || !password) {
+                errBox.textContent = 'Please enter both email and password.';
+                errBox.classList.add('show');
+                btn.disabled = false;
+                btn.textContent = 'Sign In';
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/admin/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                let data = {};
+                const contentType = res.headers.get('content-type') || '';
+                if (contentType.includes('application/json')) {
+                    data = await res.json();
+                } else {
+                    const text = await res.text();
+                    if (!res.ok) {
+                        throw new Error('Cannot connect to API server. Ensure server.js is running (port 3000).');
+                    }
+                }
+
+                if (!res.ok) {
+                    throw new Error(data.error || 'Invalid email or password.');
+                }
+
+                sessionStorage.setItem('dira_admin_token', data.token);
+                const dest = new URLSearchParams(location.search).get('redirect') || 'upload.html';
+                location.replace(dest);
+            } catch (err) {
+                errBox.textContent = err.message || 'Login failed. Please try again.';
+                errBox.classList.add('show');
+                btn.disabled = false;
+                btn.textContent = 'Sign In';
+            }
+        });
+    </script>
+</body>
+
+</html>

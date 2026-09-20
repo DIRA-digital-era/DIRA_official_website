@@ -413,9 +413,10 @@
     }
 
     // Initialize on page load
-    document.addEventListener('DOMContentLoaded', async () => {
-        const subscribed = await checkSubscriptionStatus();
-        if (subscribed) return;
+    document.addEventListener('DOMContentLoaded', () => {
+        // Only use localStorage for the initial check — no eager backend call.
+        // The backend check runs later, just before the popup is about to show.
+        if (isSubscribedLocal()) return;
 
         const remainingCooldown = getRemainingCooldown();
         if (remainingCooldown > 0) {
