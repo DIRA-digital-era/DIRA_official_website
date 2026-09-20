@@ -21,7 +21,7 @@
     const reader = document.getElementById('articleReader'); if (!reader) return;
     const slug = new URLSearchParams(window.location.search).get('slug');
     const article = articlesSorted().find(item => item.slug === slug);
-    if (!article) { reader.innerHTML = '<div class="article-not-found"><h1>Article not found</h1><p>The article may have been removed or the link is incomplete.</p><a class="reader-cta-btn" href="http://localhost:3000/articles.html">Browse articles</a></div>'; return; }
+    if (!article) { reader.innerHTML = '<div class="article-not-found"><h1>Article not found</h1><p>The article may have been removed or the link is incomplete.</p><a class="reader-cta-btn" href="articles.html">Browse articles</a></div>'; return; }
     document.title = `${article.title} | DIRA`;
     reader.innerHTML = `<div class="reader-header"><span class="reader-badge">${escapeHtml(article.category)}</span><h1>${escapeHtml(article.title)}</h1><div class="reader-meta"><span>${escapeHtml(article.author || 'DIRA Team')}</span><span>&middot;</span><span>${escapeHtml(article.date)}</span><span>&middot;</span><span>${escapeHtml(article.readTime || '4 min read')}</span></div></div><div class="reader-featured-img"><img src="${escapeHtml(article.image || DEFAULT_IMAGE)}" alt="${escapeHtml(article.title)}" onerror="this.src='${DEFAULT_IMAGE}'"></div><div class="reader-prose">${article.content}</div><div class="reader-tags">${(article.tags || []).map(tag => `<span class="reader-tag">${escapeHtml(tag)}</span>`).join('')}</div>`;
   }

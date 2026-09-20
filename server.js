@@ -13,6 +13,7 @@ const { v2: cloudinary } = require('cloudinary');
 const { Article, CATEGORIES } = require('./models/Article');
 const { Report, REPORT_TYPES } = require('./models/Report');
 const { Subscriber } = require('./models/Subscriber');
+const { GalleryImage, GALLERY_CATEGORIES, CATEGORY_LABELS, ASPECT_RATIOS } = require('./models/GalleryImage');
 
 const app = express();
 const port = Number(process.env.PORT || 3000);
@@ -97,6 +98,19 @@ function resendRequest(pathname, payload) {
   });
 }
 
+function uploadImageToCloudinary(file, folder = 'dira/gallery') {
+  if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
+    throw new Error('Cloudinary is not configured. Add its credentials to .env.');
+  }
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream({ folder, resource_type: 'image' }, (error, result) => {
+      if (error) reject(error);
+      else resolve(result);
+    });
+    stream.end(file.buffer);
+  });
+}
+
 function uploadToCloudinary(file) {
   if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
     throw new Error('Cloudinary is not configured. Add its credentials to .env.');
@@ -125,6 +139,8 @@ app.get('/api/health', (request, response) => {
 app.post('/api/newsletter/subscribe', async (request, response, next) => {
   try {
     const email = String(request.body.email || '').trim().toLowerCase();
+    const clientId = String(request.body.clientId || '').trim();
+    const source = String(request.body.source || 'unknown').trim();
     if (!/^\S+@\S+\.\S+$/.test(email)) return response.status(400).json({ error: 'Enter a valid email address.' });
     if (!process.env.RESEND_API_KEY || !process.env.RESEND_AUDIENCE_ID) {
       return response.status(503).json({ error: 'Newsletter service is not configured yet.' });
@@ -138,7 +154,29 @@ app.post('/api/newsletter/subscribe', async (request, response, next) => {
     }
     const result = resendResponse.body;
     if (resendResponse.statusCode < 200 || resendResponse.statusCode >= 300) return response.status(502).json({ error: result.message || result.name || 'Resend could not add this subscriber.' });
+
+    // Upsert subscriber record in MongoDB
+    try {
+      const ip = getClientIp(request);
+      await Subscriber.findOneAndUpdate(
+        { email },
+        { email, ip, clientId, userAgent: request.headers['user-agent'] || '', source, status: 'active', subscribedAt: new Date() },
+        { upsert: true, new: true }
+      );
+    } catch (_) { /* Non-critical — Resend already succeeded */ }
+
     response.status(201).json({ ok: true, id: result.id || null });
+  } catch (error) { next(error); }
+});
+
+app.get('/api/newsletter/check', async (request, response, next) => {
+  try {
+    const clientId = String(request.query.clientId || '').trim();
+    const ip = getClientIp(request);
+    if (!clientId && !ip) return response.json({ subscribed: false });
+    const query = clientId ? { $or: [{ clientId }, { ip }] } : { ip };
+    const existing = await Subscriber.findOne(query).lean();
+    response.json({ subscribed: !!existing, status: existing ? existing.status : null });
   } catch (error) { next(error); }
 });
 
@@ -236,6 +274,53 @@ app.delete('/api/reports/:id', async (request, response, next) => {
       });
     }
     await report.deleteOne();
+    response.status(204).end();
+  } catch (error) { next(error); }
+});
+
+app.get('/api/gallery', async (request, response, next) => {
+  try {
+    const filter = request.query.category && request.query.category !== 'all' ? { category: request.query.category } : {};
+    const images = await GalleryImage.find(filter).sort({ createdAt: -1 });
+    response.json(images.map(toClient));
+  } catch (error) { next(error); }
+});
+
+app.post('/api/gallery', upload.single('image'), async (request, response, next) => {
+  try {
+    const { title, category, description, aspect } = request.body;
+    if (!title || !category || !description || !GALLERY_CATEGORIES.includes(category)) {
+      return response.status(400).json({ error: 'Title, category, and description are required.' });
+    }
+    if (!request.file) {
+      return response.status(400).json({ error: 'An image file (JPEG, PNG, WEBP, GIF up to 8 MB) is required.' });
+    }
+    const uploadResult = await uploadImageToCloudinary(request.file, 'dira/gallery');
+    const image = await GalleryImage.create({
+      title: title.trim(),
+      category,
+      categoryLabel: CATEGORY_LABELS[category] || category,
+      description: description.trim(),
+      src: uploadResult.secure_url,
+      cloudinaryPublicId: uploadResult.public_id || null,
+      aspect: ASPECT_RATIOS.includes(aspect) ? aspect : 'landscape'
+    });
+    response.status(201).json(toClient(image));
+  } catch (error) { next(error); }
+});
+
+app.delete('/api/gallery/:id', async (request, response, next) => {
+  try {
+    const image = await GalleryImage.findById(request.params.id);
+    if (!image) return response.status(404).json({ error: 'Gallery image not found.' });
+    if (image.cloudinaryPublicId) {
+      try {
+        await cloudinary.uploader.destroy(image.cloudinaryPublicId);
+      } catch (cloudErr) {
+        console.warn('Could not delete from Cloudinary:', cloudErr.message);
+      }
+    }
+    await image.deleteOne();
     response.status(204).end();
   } catch (error) { next(error); }
 });

@@ -18,11 +18,44 @@
   }
 
   function articleCard(article) {
-    return `<article class="article-card"><div class="article-img-wrap"><img src="${escapeHtml(article.image || DEFAULT_IMAGE)}" alt="${escapeHtml(article.title)}" onerror="this.src='${DEFAULT_IMAGE}'"><span class="article-badge">${escapeHtml(article.category)}</span></div><div class="article-content"><div class="article-meta"><span>${escapeHtml(article.date)}</span><span>&middot;</span><span>${escapeHtml(article.readTime || '4 min read')}</span></div><h2 class="article-title">${escapeHtml(article.title)}</h2><p class="article-excerpt">${escapeHtml(article.excerpt)}</p><div class="article-footer"><a class="article-read-btn" href="article.html?slug=${encodeURIComponent(article.slug)}">Read article &rarr;</a></div></div></article>`;
+    const imgUrl = article.image || DEFAULT_IMAGE;
+    const slug = article.slug || '';
+    const readTime = article.readTime || '4 min read';
+    const date = article.date || 'Recent';
+    const category = article.category || 'Insights';
+
+    return `
+      <article class="article-card">
+        <div class="article-img-wrap">
+          <img src="${escapeHtml(imgUrl)}" alt="${escapeHtml(article.title)}" onerror="this.src='${DEFAULT_IMAGE}'" loading="lazy">
+          <span class="article-card-badge">${escapeHtml(category)}</span>
+        </div>
+        <div class="article-card-body">
+          <div class="article-card-meta">
+            <span>${escapeHtml(date)}</span>
+            <span>&bull;</span>
+            <span>${escapeHtml(readTime)}</span>
+          </div>
+          <h3 class="article-card-title">
+            <a href="article.html?slug=${encodeURIComponent(slug)}">${escapeHtml(article.title)}</a>
+          </h3>
+          <p class="article-card-excerpt">${escapeHtml(article.excerpt)}</p>
+          <div class="article-card-footer">
+            <a class="article-action-link" href="article.html?slug=${encodeURIComponent(slug)}">
+              View Full Article <span aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+        </div>
+      </article>
+    `;
   }
 
   function renderGrid(grid, articles) {
-    if (grid) grid.innerHTML = articles.length ? articles.map(articleCard).join('') : '<p class="article-not-found">No articles match your search.</p>';
+    if (grid) {
+      grid.innerHTML = articles.length
+        ? articles.map(articleCard).join('')
+        : '<p class="article-not-found">No articles match your selection. Try a different topic or keyword.</p>';
+    }
   }
 
   async function getAll() { return request('/articles'); }
@@ -44,13 +77,90 @@
     const reader = document.getElementById('articleReader');
     if (!reader) return;
     const slug = new URLSearchParams(window.location.search).get('slug');
+    if (!slug) {
+      reader.innerHTML = `<div class="article-not-found"><h1>Article not found</h1><p>Please select an article from the articles page.</p><a class="article-back-link" href="articles.html">&larr; Browse all articles</a></div>`;
+      return;
+    }
     try {
       const article = await getBySlug(slug);
       document.title = `${article.title} | DIRA`;
-      reader.innerHTML = `<div class="reader-header"><span class="reader-badge">${escapeHtml(article.category)}</span><h1>${escapeHtml(article.title)}</h1><div class="reader-meta"><span>${escapeHtml(article.author || 'DIRA Team')}</span><span>&middot;</span><span>${escapeHtml(article.date)}</span><span>&middot;</span><span>${escapeHtml(article.readTime || '4 min read')}</span></div></div><div class="reader-featured-img"><img src="${escapeHtml(article.image || DEFAULT_IMAGE)}" alt="${escapeHtml(article.title)}" onerror="this.src='${DEFAULT_IMAGE}'"></div><div class="reader-prose">${article.content}</div><div class="reader-tags">${(article.tags || []).map(tag => `<span class="reader-tag">${escapeHtml(tag)}</span>`).join('')}</div>`;
+      reader.innerHTML = `
+        <div class="reader-header">
+          <span class="reader-badge">${escapeHtml(article.category)}</span>
+          <h1>${escapeHtml(article.title)}</h1>
+          <div class="reader-meta">
+            <span>${escapeHtml(article.author || 'DIRA Team')}</span>
+            <span>&bull;</span>
+            <span>${escapeHtml(article.date)}</span>
+            <span>&bull;</span>
+            <span>${escapeHtml(article.readTime || '4 min read')}</span>
+          </div>
+        </div>
+        <div class="reader-featured-img">
+          <img src="${escapeHtml(article.image || DEFAULT_IMAGE)}" alt="${escapeHtml(article.title)}" onerror="this.src='${DEFAULT_IMAGE}'">
+        </div>
+        <div class="reader-prose">${article.content}</div>
+        <div class="reader-tags">
+          ${(article.tags || []).map(tag => `<span class="reader-tag">${escapeHtml(tag)}</span>`).join('')}
+        </div>
+      `;
     } catch (error) {
-      reader.innerHTML = `<div class="article-not-found"><h1>Article not found</h1><p>${escapeHtml(error.message)}</p><a class="reader-cta-btn" href="http://localhost:3000/articles.html">Browse articles</a></div>`;
+      reader.innerHTML = `<div class="article-not-found"><h1>Article not found</h1><p>${escapeHtml(error.message)}</p><a class="article-back-link" href="articles.html">&larr; Browse all articles</a></div>`;
     }
+  }
+
+  function setupHeroNewsletter() {
+    const form = document.getElementById('articleNewsletterForm');
+    const emailInput = document.getElementById('heroNewsletterEmail');
+    const submitBtn = document.getElementById('heroNewsletterBtn');
+    const statusBox = document.getElementById('heroNewsletterStatus');
+    if (!form || !emailInput) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = emailInput.value.trim().toLowerCase();
+      if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+        if (statusBox) {
+          statusBox.className = 'hero-newsletter-status show error';
+          statusBox.textContent = 'Please enter a valid email address.';
+        }
+        return;
+      }
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Subscribing...';
+      }
+
+      try {
+        const clientId = localStorage.getItem('dira_newsletter_client_id') || ('client_' + Math.random().toString(36).substring(2, 12));
+        localStorage.setItem('dira_newsletter_client_id', clientId);
+
+        const response = await fetch(`${API_BASE}/newsletter/subscribe`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, clientId, source: 'articles-hero-capsule' })
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Subscription could not be processed.');
+
+        if (statusBox) {
+          statusBox.className = 'hero-newsletter-status show success';
+          statusBox.textContent = 'Thanks for subscribing! You will receive our latest articles and updates.';
+        }
+        form.reset();
+      } catch (err) {
+        if (statusBox) {
+          statusBox.className = 'hero-newsletter-status show error';
+          statusBox.textContent = err.message || 'Something went wrong. Please try again.';
+        }
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Subscribe';
+        }
+      }
+    });
   }
 
   async function initialize() {
@@ -60,22 +170,37 @@
     let articles = [];
     let activeCategory = 'All';
 
+    setupHeroNewsletter();
+
     try {
       articles = await getAll();
       const refreshGrid = () => {
         const query = (searchInput ? searchInput.value : '').trim().toLowerCase();
-        renderGrid(grid, articles.filter(article => (activeCategory === 'All' || article.category === activeCategory) && (!query || `${article.title} ${article.excerpt} ${(article.tags || []).join(' ')}`.toLowerCase().includes(query))));
+        const filtered = articles.filter(article => {
+          const matchCategory = activeCategory === 'All' || article.category === activeCategory;
+          const matchQuery = !query || `${article.title} ${article.excerpt} ${article.category} ${(article.tags || []).join(' ')}`.toLowerCase().includes(query);
+          return matchCategory && matchQuery;
+        });
+        renderGrid(grid, filtered);
       };
+
       if (grid) {
         refreshGrid();
-        document.querySelectorAll('.category-filter-btn').forEach(button => button.addEventListener('click', () => {
-          document.querySelectorAll('.category-filter-btn').forEach(item => item.classList.remove('active'));
-          button.classList.add('active');
-          activeCategory = button.dataset.category || 'All';
-          refreshGrid();
-        }));
+        
+        // Handle filter buttons / tabs
+        const tabButtons = document.querySelectorAll('.category-filter-tab, .category-filter-btn');
+        tabButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            tabButtons.forEach(item => item.classList.remove('active'));
+            button.classList.add('active');
+            activeCategory = button.dataset.category || 'All';
+            refreshGrid();
+          });
+        });
+
         if (searchInput) searchInput.addEventListener('input', refreshGrid);
       }
+
       if (recentGrid) renderGrid(recentGrid, articles.slice(0, 3));
     } catch (error) {
       renderGrid(grid, []);

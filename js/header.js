@@ -64,7 +64,7 @@ function injectFooter(){
                         <li><a href="services.html">Services</a></li>
                         <li><a href="portfolio.html">Portfolio</a></li>
                         <li><a href="gallery.html">Gallery</a></li>
-                        <li><a href="http://localhost:3000/articles.html">Articles &amp; Insights</a></li>
+                        <li><a href="articles.html">Articles &amp; Insights</a></li>
                         <li><a href="reports.html">Reports &amp; Publications</a></li>
                         <li><a href="training.html">Training</a></li>
                         <li><a href="group.html">DIRA Group</a></li>

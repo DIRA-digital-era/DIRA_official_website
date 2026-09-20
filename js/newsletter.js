@@ -131,7 +131,7 @@
                                 </svg>
                             </button>
                         </div>
-                        <p class="dira-newsletter-disclaimer">Zero spam. Actionable engineering &amp; enterprise strategy only. Unsubscribe anytime.</p>
+                        <p class="dira-newsletter-disclaimer">Actionable engineering &amp; enterprise strategy only. Unsubscribe anytime.</p>
                     </form>
                 </div>
 

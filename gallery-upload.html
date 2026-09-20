@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" href="./images/logo.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Gallery Images | DIRA Media Studio</title>
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="description" content="Upload and categorize images for the DIRA visual media gallery.">
+    <link rel="stylesheet" href="./style/header.css">
+    <style>
+        :root {
+            --bg-page: #f8fafc;
+            --bg-card: #ffffff;
+            --primary-color: #191d36;
+            --secondary-color: #3b4697;
+            --accent-cyan: #00E6D6;
+            --accent-blue: #0F3B5A;
+            --border-color: #e2e8f0;
+            --border-focus: #3b4697;
+            --muted-text: #64748b;
+            --error-color: #ef4444;
+            --success-color: #10b981;
+            --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--primary-color);
+            font-family: var(--font-family);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .upload-container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        .upload-hero {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .upload-hero h6 {
+            color: var(--secondary-color);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .upload-hero h1 {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+        }
+
+        .upload-hero p {
+            color: var(--muted-text);
+            font-size: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .quick-nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 18px;
+        }
+
+        .quick-nav-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--secondary-color);
+            text-decoration: none;
+            padding: 6px 14px;
+            background: #eef2ff;
+            border-radius: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .quick-nav-links a:hover {
+            background: var(--secondary-color);
+            color: #ffffff;
+        }
+
+        .status-banner {
+            display: none;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 25px;
+        }
+
+        .status-banner.show { display: flex; }
+        .status-banner.success {
+            background: #ecfdf5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+        .status-banner.error {
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .form-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            margin-bottom: 45px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        @media (max-width: 700px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        .form-group label .hint {
+            font-size: 11.5px;
+            font-weight: 400;
+            color: var(--muted-text);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 14px;
+            font-size: 14px;
+            font-family: inherit;
+            color: var(--primary-color);
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(59, 70, 151, 0.15);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        /* Dropzone & Preview */
+        .dropzone-container {
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            background: #fafafa;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .dropzone-container:hover, .dropzone-container.dragover {
+            border-color: var(--secondary-color);
+            background: #f0f4ff;
+        }
+
+        .dropzone-container input[type="file"] {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .dropzone-icon {
+            color: var(--secondary-color);
+            margin-bottom: 8px;
+        }
+
+        .dropzone-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 4px;
+        }
+
+        .dropzone-subtext {
+            font-size: 12px;
+            color: var(--muted-text);
+        }
+
+        .preview-wrapper {
+            display: none;
+            margin-top: 15px;
+            text-align: center;
+            position: relative;
+            background: #0f172a;
+            border-radius: 10px;
+            overflow: hidden;
+            max-height: 280px;
+        }
+
+        .preview-wrapper.active {
+            display: block;
+        }
+
+        .preview-wrapper img {
+            max-width: 100%;
+            max-height: 280px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .preview-remove-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #ffffff;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .preview-remove-btn:hover {
+            background: var(--error-color);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 14px;
+            margin-top: 10px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            font-size: 14.5px;
+            font-weight: 700;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--secondary-color);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #2b357a;
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--muted-text);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-ghost:hover {
+            background: #f1f5f9;
+            color: var(--primary-color);
+        }
+
+        /* Uploaded Images List */
+        .management-section {
+            margin-top: 40px;
+        }
+
+        .management-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .management-header h2 {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 6px 14px;
+            font-size: 12.5px;
+            font-weight: 600;
+            border-radius: 20px;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            color: var(--muted-text);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-tab.active, .filter-tab:hover {
+            background: var(--secondary-color);
+            color: #ffffff;
+            border-color: var(--secondary-color);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+        }
+
+        .gallery-card-thumb {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: #0f172a;
+            display: block;
+        }
+
+        .gallery-card-body {
+            padding: 16px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .gallery-card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .category-badge {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background: #eef2ff;
+            color: var(--secondary-color);
+        }
+
+        .aspect-badge {
+            font-size: 11px;
+            color: var(--muted-text);
+            text-transform: capitalize;
+        }
+
+        .gallery-card-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+
+        .gallery-card-desc {
+            font-size: 13px;
+            color: var(--muted-text);
+            line-height: 1.5;
+            flex-grow: 1;
+            margin-bottom: 12px;
+        }
+
+        .gallery-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 10px;
+            border-top: 1px solid #f1f5f9;
+            font-size: 11.5px;
+            color: var(--muted-text);
+        }
+
+        .delete-btn {
+            background: transparent;
+            color: var(--error-color);
+            border: 1px solid #fee2e2;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .delete-btn:hover {
+            background: var(--error-color);
+            color: #ffffff;
+            border-color: var(--error-color);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            background: #ffffff;
+            border: 1px dashed var(--border-color);
+            border-radius: 12px;
+            color: var(--muted-text);
+            grid-column: 1 / -1;
+        }
+
+        /* Spinner */
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body>
+    <header><!-- Injected dynamically via js/header.js --></header>
+
+    <div class="upload-container">
+        <!-- Hero -->
+        <section class="upload-hero">
+            <h6>DIRA Visual Archive &bull; Ingestion Portal</h6>
+            <h1>Upload Gallery Images</h1>
+            <p>Upload high-resolution photography, event media, platform UI screenshots, and studio productions directly to Cloudinary and organize them by gallery category.</p>
+            <div class="quick-nav-links">
+                <a href="gallery.html" target="_blank">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+                    View Live Gallery
+                </a>
+                <a href="upload.html">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    Upload Articles / Reports
+                </a>
+            </div>
+        </section>
+
+        <!-- Status Banner -->
+        <div class="status-banner" id="statusBanner" role="alert">
+            <span id="statusText"></span>
+        </div>
+
+        <!-- Upload Form -->
+        <form class="form-card" id="galleryUploadForm" enctype="multipart/form-data">
+            <div class="form-grid">
+                <!-- Title -->
+                <div class="form-group full-width">
+                    <label for="imageTitle">
+                        Image Title / Subject <span class="hint">max 200 characters</span>
+                    </label>
+                    <input type="text" id="imageTitle" class="form-control" placeholder="e.g., DIRA Tech Fest 2026 Keynote Session" required maxlength="200">
+                </div>
+
+                <!-- Category -->
+                <div class="form-group">
+                    <label for="imageCategory">
+                        Gallery Category <span class="hint">Target section</span>
+                    </label>
+                    <select id="imageCategory" class="form-control" required>
+                        <option value="events">Events &amp; Tech Fest</option>
+                        <option value="training">Training &amp; Team</option>
+                        <option value="production">Studio &amp; Media</option>
+                        <option value="platforms">Platforms &amp; Systems</option>
+                    </select>
+                </div>
+
+                <!-- Aspect Ratio -->
+                <div class="form-group">
+                    <label for="imageAspect">
+                        Aspect Ratio / Display Mode <span class="hint">Layout hint</span>
+                    </label>
+                    <select id="imageAspect" class="form-control">
+                        <option value="landscape">Landscape (16:9 / 4:3)</option>
+                        <option value="portrait">Portrait (3:4 / 9:16)</option>
+                        <option value="square">Square (1:1)</option>
+                        <option value="tall">Tall Banner / Flyer</option>
+                    </select>
+                </div>
+
+                <!-- File Upload Dropzone -->
+                <div class="form-group full-width">
+                    <label>
+                        Image File <span class="hint">JPEG, PNG, WEBP, GIF up to 8 MB</span>
+                    </label>
+                    <div class="dropzone-container" id="dropzone">
+                        <input type="file" id="imageFileInput" accept="image/jpeg,image/png,image/webp,image/gif" required>
+                        <div class="dropzone-icon">
+                            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <polyline points="21 15 16 10 5 21"/>
+                            </svg>
+                        </div>
+                        <div class="dropzone-text" id="dropzoneText">Click or Drag &amp; Drop Image Here</div>
+                        <div class="dropzone-subtext">Directly optimized and stored in Cloudinary</div>
+                    </div>
+                    <div class="preview-wrapper" id="previewWrapper">
+                        <img id="imagePreview" src="" alt="Preview">
+                        <button type="button" class="preview-remove-btn" id="removePreviewBtn" title="Remove image">&times;</button>
+                    </div>
+                </div>
+
+                <!-- Description / Caption -->
+                <div class="form-group full-width">
+                    <label for="imageDescription">
+                        Caption / Description <span class="hint" id="charCount">0 / 500</span>
+                    </label>
+                    <textarea id="imageDescription" class="form-control" placeholder="Provide context about this image, who is in it, what software system or event is captured, and its significance." required maxlength="500"></textarea>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <button type="reset" class="btn btn-ghost" id="resetBtn">Reset</button>
+                <button type="submit" class="btn btn-primary" id="submitBtn">
+                    <span id="btnText">Upload to Cloudinary &amp; Gallery</span>
+                    <span class="spinner" id="btnSpinner" style="display: none;"></span>
+                </button>
+            </div>
+        </form>
+
+        <!-- Manage Uploaded Gallery Images -->
+        <section class="management-section">
+            <div class="management-header">
+                <div>
+                    <h2>Uploaded Gallery Media</h2>
+                    <p style="font-size: 13.5px; color: var(--muted-text);">Images stored in Cloudinary and published to DIRA Gallery</p>
+                </div>
+                <div class="filter-tabs" id="filterTabs">
+                    <button class="filter-tab active" data-category="all">All</button>
+                    <button class="filter-tab" data-category="events">Events &amp; Tech Fest</button>
+                    <button class="filter-tab" data-category="training">Training &amp; Team</button>
+                    <button class="filter-tab" data-category="production">Studio &amp; Media</button>
+                    <button class="filter-tab" data-category="platforms">Platforms &amp; Systems</button>
+                </div>
+            </div>
+
+            <div class="gallery-grid" id="galleryGrid">
+                <div class="empty-state">Loading gallery images...</div>
+            </div>
+        </section>
+    </div>
+
+    <footer><!-- Injected dynamically via js/header.js --></footer>
+
+    <script src="./js/header.js"></script>
+    <script>
+        const API_BASE = window.location.protocol === 'file:' ? 'http://localhost:3000/api' : '/api';
+        let allUploadedImages = [];
+        let currentFilter = 'all';
+
+        // Elements
+        const form = document.getElementById('galleryUploadForm');
+        const titleInput = document.getElementById('imageTitle');
+        const categorySelect = document.getElementById('imageCategory');
+        const aspectSelect = document.getElementById('imageAspect');
+        const fileInput = document.getElementById('imageFileInput');
+        const descInput = document.getElementById('imageDescription');
+        const charCount = document.getElementById('charCount');
+        const dropzone = document.getElementById('dropzone');
+        const dropzoneText = document.getElementById('dropzoneText');
+        const previewWrapper = document.getElementById('previewWrapper');
+        const imagePreview = document.getElementById('imagePreview');
+        const removePreviewBtn = document.getElementById('removePreviewBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const btnSpinner = document.getElementById('btnSpinner');
+        const statusBanner = document.getElementById('statusBanner');
+        const statusText = document.getElementById('statusText');
+        const galleryGrid = document.getElementById('galleryGrid');
+        const filterTabs = document.getElementById('filterTabs');
+
+        // Character count
+        descInput.addEventListener('input', () => {
+            charCount.textContent = `${descInput.value.length} / 500`;
+        });
+
+        // File selection & preview
+        function handleFileSelect(file) {
+            if (!file) return;
+            if (!file.type.match(/^image\/(jpeg|png|webp|gif)$/)) {
+                showStatus('Please select a valid image file (JPEG, PNG, WEBP, or GIF).', 'error');
+                return;
+            }
+            if (file.size > 8 * 1024 * 1024) {
+                showStatus('Image file exceeds the 8 MB size limit.', 'error');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imagePreview.src = e.target.result;
+                previewWrapper.classList.add('active');
+                dropzoneText.textContent = file.name;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files[0]) {
+                handleFileSelect(e.target.files[0]);
+            }
+        });
+
+        // Drag & drop handlers
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.classList.add('dragover');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.classList.remove('dragover');
+            }, false);
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files && files[0]) {
+                fileInput.files = files;
+                handleFileSelect(files[0]);
+            }
+        });
+
+        removePreviewBtn.addEventListener('click', () => {
+            fileInput.value = '';
+            imagePreview.src = '';
+            previewWrapper.classList.remove('active');
+            dropzoneText.textContent = 'Click or Drag & Drop Image Here';
+        });
+
+        function showStatus(message, type = 'success') {
+            statusBanner.className = `status-banner show ${type}`;
+            statusText.textContent = message;
+            statusBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            if (type === 'success') {
+                setTimeout(() => {
+                    statusBanner.classList.remove('show');
+                }, 6000);
+            }
+        }
+
+        // Form Submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!fileInput.files || !fileInput.files[0]) {
+                showStatus('Please choose an image file to upload.', 'error');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('title', titleInput.value.trim());
+            formData.append('category', categorySelect.value);
+            formData.append('aspect', aspectSelect.value);
+            formData.append('description', descInput.value.trim());
+            formData.append('image', fileInput.files[0]);
+
+            submitBtn.disabled = true;
+            btnText.textContent = 'Uploading to Cloudinary...';
+            btnSpinner.style.display = 'inline-block';
+
+            try {
+                const response = await fetch(`${API_BASE}/gallery`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                if (!response.ok) {
+                    throw new Error(result.error || 'Failed to upload image.');
+                }
+
+                showStatus(`Image "${result.title}" successfully uploaded to Cloudinary and added to ${result.categoryLabel}!`, 'success');
+                form.reset();
+                removePreviewBtn.click();
+                charCount.textContent = '0 / 500';
+                loadGalleryImages();
+            } catch (error) {
+                showStatus(error.message, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                btnText.textContent = 'Upload to Cloudinary & Gallery';
+                btnSpinner.style.display = 'none';
+            }
+        });
+
+        // Load Uploaded Images
+        async function loadGalleryImages() {
+            try {
+                const response = await fetch(`${API_BASE}/gallery`);
+                if (!response.ok) throw new Error('Could not fetch uploaded gallery images.');
+                allUploadedImages = await response.json();
+                renderGalleryGrid();
+            } catch (error) {
+                galleryGrid.innerHTML = `<div class="empty-state">${escapeHtml(error.message)}</div>`;
+            }
+        }
+
+        function renderGalleryGrid() {
+            const filtered = currentFilter === 'all'
+                ? allUploadedImages
+                : allUploadedImages.filter(img => img.category === currentFilter);
+
+            if (!filtered.length) {
+                galleryGrid.innerHTML = `<div class="empty-state">No uploaded images found in this category. Use the form above to upload images!</div>`;
+                return;
+            }
+
+            galleryGrid.innerHTML = filtered.map(img => {
+                const dateStr = img.createdAt ? new Date(img.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+                return `
+                    <div class="gallery-card">
+                        <img src="${escapeHtml(img.src)}" alt="${escapeHtml(img.title)}" class="gallery-card-thumb" loading="lazy">
+                        <div class="gallery-card-body">
+                            <div class="gallery-card-meta">
+                                <span class="category-badge">${escapeHtml(img.categoryLabel || img.category)}</span>
+                                <span class="aspect-badge">${escapeHtml(img.aspect || 'landscape')}</span>
+                            </div>
+                            <h4 class="gallery-card-title">${escapeHtml(img.title)}</h4>
+                            <p class="gallery-card-desc">${escapeHtml(img.description)}</p>
+                            <div class="gallery-card-footer">
+                                <span>${dateStr}</span>
+                                <button type="button" class="delete-btn" onclick="deleteGalleryImage('${img.id}')">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Delete Gallery Image
+        window.deleteGalleryImage = async function(id) {
+            if (!confirm('Are you sure you want to delete this image from Cloudinary and the gallery?')) return;
+            try {
+                const response = await fetch(`${API_BASE}/gallery/${encodeURIComponent(id)}`, {
+                    method: 'DELETE'
+                });
+                if (!response.ok) throw new Error('Failed to delete image.');
+                showStatus('Image removed successfully.', 'success');
+                allUploadedImages = allUploadedImages.filter(img => img.id !== id);
+                renderGalleryGrid();
+            } catch (error) {
+                showStatus(error.message, 'error');
+            }
+        };
+
+        // Filter Tabs
+        filterTabs.addEventListener('click', (e) => {
+            if (e.target.classList.contains('filter-tab')) {
+                filterTabs.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                e.target.classList.add('active');
+                currentFilter = e.target.dataset.category;
+                renderGalleryGrid();
+            }
+        });
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', loadGalleryImages);
+    </script>
+</body>
+</html>

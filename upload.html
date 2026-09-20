@@ -406,7 +406,7 @@
             </div>
 
             <div class="form-actions">
-                <a href="http://localhost:3000/articles.html" class="btn btn-ghost" id="cancelLink">Cancel</a>
+                <a href="articles.html" class="btn btn-ghost" id="cancelLink">Cancel</a>
                 <button type="submit" class="btn btn-primary" id="publishBtn">Publish Article</button>
             </div>
         </form>
@@ -503,7 +503,7 @@
             document.getElementById('excerptLabel').textContent = isReport ? 'Summary' : 'Excerpt';
             document.getElementById('excerpt').placeholder = isReport ? 'A short description shown on the report card.' : 'One or two sentences shown on the article card.';
             publishBtn.textContent = isReport ? 'Publish Report' : 'Publish Article';
-            cancelLink.href = isReport ? 'http://localhost:3000/reports.html' : 'http://localhost:3000/articles.html';
+            cancelLink.href = isReport ? 'reports.html' : 'articles.html';
         }
         contentType.addEventListener('change', updateContentType);
         updateContentType();
@@ -610,7 +610,7 @@
                     if (imageInput.files[0]) formData.append('image', imageInput.files[0]);
                 }
                 const saved = isReport ? await window.DiraReports.api.createReport(formData) : await window.DiraArticles.api.createArticle(formData);
-                const destination = isReport ? 'http://localhost:3000/reports.html' : 'http://localhost:3000/articles.html';
+                const destination = isReport ? 'reports.html' : 'articles.html';
                 showBanner('success', `Published. <a href="${destination}" style="color:inherit;text-decoration:underline;">view it on the ${isReport ? 'Reports' : 'Articles'} page</a>.`);
                 document.getElementById('statusBanner').innerHTML = `Published. <a href="${destination}" style="color:inherit;text-decoration:underline;">view it on the ${isReport ? 'Reports' : 'Articles'} page</a>.`;
                 document.getElementById('uploadForm').reset();
