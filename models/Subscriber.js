@@ -37,9 +37,6 @@ const subscriberSchema = new mongoose.Schema({
   timestamps: true
 });
 
-subscriberSchema.index({ ip: 1 });
-subscriberSchema.index({ clientId: 1 });
-
 const Subscriber = mongoose.models.Subscriber || mongoose.model('Subscriber', subscriberSchema);
 
 module.exports = { Subscriber };

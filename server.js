@@ -191,24 +191,145 @@ app.get('/api/health', (request, response) => {
   response.json({ ok: true, database: mongoose.connection.readyState === 1 });
 });
 
+function escapeEmailHtml(str) {
+  return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function getNewsletterWelcomeHtml(email) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to DIRA Insights</title>
+</head>
+<body style="margin:0;padding:0;background-color:#0f172a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1e293b;-webkit-font-smoothing:antialiased;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#0f172a;padding:40px 15px;">
+    <tr>
+      <td align="center">
+        <!-- Main Card -->
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:600px;background-color:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 10px 35px rgba(0,0,0,0.3);">
+          
+          <!-- Header Banner -->
+          <tr>
+            <td style="background:#191d36;padding:36px 40px;text-align:center;border-bottom:3px solid #2F80ED;">
+              <div style="display:inline-block;padding:5px 14px;background:rgba(47,128,237,0.2);border:1px solid rgba(47,128,237,0.4);border-radius:20px;color:#00E6D6;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;">
+                DIRA INSIGHTS
+              </div>
+              <h1 style="color:#ffffff;margin:0;font-size:26px;font-weight:800;letter-spacing:-0.5px;line-height:1.2;">
+                Welcome to the Community
+              </h1>
+            </td>
+          </tr>
+
+          <!-- Body Content -->
+          <tr>
+            <td style="padding:40px 40px 30px;">
+              <p style="font-size:16px;line-height:1.6;color:#334155;margin:0 0 20px;">
+                Hello,
+              </p>
+              <p style="font-size:16px;line-height:1.6;color:#334155;margin:0 0 24px;">
+                Thank you for subscribing to <strong>DIRA Insights</strong>. You are now successfully subscribed to our newsletter and will receive our curated engineering insights, research publications, and technological updates directly in your inbox.
+              </p>
+
+              <!-- Feature Highlights Box -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;margin:0 0 28px;">
+                <tr>
+                  <td style="padding:24px;">
+                    <h3 style="margin:0 0 14px;font-size:15px;color:#191d36;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">
+                      What to expect:
+                    </h3>
+                    
+                    <div style="margin-bottom:12px;font-size:14.5px;line-height:1.5;color:#475569;">
+                      <strong style="color:#191d36;"> Technical Breakthroughs:</strong> In-depth articles on custom software, system architectures, and cloud automation.
+                    </div>
+                    
+                    <div style="margin-bottom:12px;font-size:14.5px;line-height:1.5;color:#475569;">
+                      <strong style="color:#191d36;">Industry Reports:</strong> High-impact analyses and publications on the digital ecosystem in Central Africa.
+                    </div>
+
+                    <div style="margin:0;font-size:14.5px;line-height:1.5;color:#475569;">
+                      <strong style="color:#191d36;" Early Announcements:</strong> Priority access to training sessions, tech workshops, and community events.
+                    </div>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Call to Action -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                  <td align="center" style="padding:10px 0 25px;">
+                    <a href="https://diracmr.com/articles.html" target="_blank" style="display:inline-block;background-color:#2F80ED;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;padding:14px 32px;border-radius:8px;box-shadow:0 4px 14px rgba(47,128,237,0.35);">
+                      Explore Latest Articles &rarr;
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="font-size:14px;line-height:1.6;color:#64748b;margin:0;border-top:1px solid #f1f5f9;padding-top:20px;">
+                Have questions or topics you'd love us to cover? Reach out to our team at <a href="mailto:contact@diracmr.com" style="color:#2F80ED;text-decoration:none;">contact@diracmr.com</a>.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color:#f8fafc;padding:25px 40px;border-top:1px solid #e2e8f0;text-align:center;">
+              
+              <p style="margin:0;font-size:12px;color:#94a3b8;line-height:1.5;">
+                You received this email because <strong>${escapeEmailHtml(email)}</strong> was subscribed to the DIRA newsletter.<br>
+                &copy; ${new Date().getFullYear()} DIRA. All rights reserved.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+}
+
+async function sendNewsletterConfirmationEmail(email) {
+  if (!process.env.RESEND_API_KEY) return null;
+  const from = process.env.NEWSLETTER_FROM_EMAIL || 'DIRA Insights <updates@newsletter.diracmr.com>';
+  const payload = {
+    from,
+    to: [email],
+    subject: "Welcome to DIRA Insights – You're Subscribed!",
+    html: getNewsletterWelcomeHtml(email),
+    text: `Welcome to DIRA Insights!\n\nThank you for subscribing to our newsletter. You are successfully subscribed and will receive our curated engineering insights, industry reports, and updates.\n\nExplore our latest articles: https://diracmr.com/articles.html\n\nDIRA CMR - Digital Innovation & Research Alliance`
+  };
+
+  try {
+    const res = await resendRequest('/emails', payload);
+    return res;
+  } catch (err) {
+    console.warn('Could not send newsletter confirmation email:', err.message);
+    return null;
+  }
+}
+
 app.post('/api/newsletter/subscribe', async (request, response, next) => {
   try {
     const email = String(request.body.email || '').trim().toLowerCase();
     const clientId = String(request.body.clientId || '').trim();
     const source = String(request.body.source || 'unknown').trim();
     if (!/^\S+@\S+\.\S+$/.test(email)) return response.status(400).json({ error: 'Enter a valid email address.' });
-    if (!process.env.RESEND_API_KEY || !process.env.RESEND_AUDIENCE_ID) {
+    if (!process.env.RESEND_API_KEY) {
       return response.status(503).json({ error: 'Newsletter service is not configured yet.' });
     }
 
-    let resendResponse;
-    try {
-      resendResponse = await resendRequest(`/audiences/${encodeURIComponent(process.env.RESEND_AUDIENCE_ID)}/contacts`, { email, unsubscribed: false });
-    } catch (error) {
-      return response.status(502).json({ error: 'Resend could not be reached from the server.' });
+    let resendAudienceResult = null;
+    if (process.env.RESEND_AUDIENCE_ID) {
+      try {
+        const resendResponse = await resendRequest(`/audiences/${encodeURIComponent(process.env.RESEND_AUDIENCE_ID)}/contacts`, { email, unsubscribed: false });
+        resendAudienceResult = resendResponse.body;
+      } catch (err) {
+        console.warn('Could not add contact to Resend audience:', err.message);
+      }
     }
-    const result = resendResponse.body;
-    if (resendResponse.statusCode < 200 || resendResponse.statusCode >= 300) return response.status(502).json({ error: result.message || result.name || 'Resend could not add this subscriber.' });
 
     // Upsert subscriber record in MongoDB
     try {
@@ -218,11 +339,26 @@ app.post('/api/newsletter/subscribe', async (request, response, next) => {
         { email, ip, clientId, userAgent: request.headers['user-agent'] || '', source, status: 'active', subscribedAt: new Date() },
         { upsert: true, new: true }
       );
-    } catch (_) { /* Non-critical — Resend already succeeded */ }
+    } catch (dbErr) {
+      console.warn('Could not save subscriber to MongoDB:', dbErr.message);
+    }
 
-    response.status(201).json({ ok: true, id: result.id || null });
+    // Send confirmation welcome email from newsletter.diracmr.com
+    let emailResult = null;
+    try {
+      emailResult = await sendNewsletterConfirmationEmail(email);
+    } catch (mailErr) {
+      console.warn('Confirmation email dispatch warning:', mailErr.message);
+    }
+
+    response.status(201).json({
+      ok: true,
+      id: (resendAudienceResult && resendAudienceResult.id) || (emailResult && emailResult.body && emailResult.body.id) || null,
+      emailSent: !!(emailResult && emailResult.statusCode >= 200 && emailResult.statusCode < 300)
+    });
   } catch (error) { next(error); }
 });
+
 
 app.get('/api/newsletter/check', async (request, response, next) => {
   try {
