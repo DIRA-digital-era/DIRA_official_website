@@ -387,6 +387,169 @@ app.get('/api/articles/:slug', async (request, response, next) => {
   } catch (error) { next(error); }
 });
 
+function getNewArticleEmailHtml(article, articleUrl, imageUrl, siteUrl) {
+  const category = escapeEmailHtml(article.category || 'Insights');
+  const title = escapeEmailHtml(article.title || 'New Publication');
+  const author = escapeEmailHtml(article.author || 'DIRA Team');
+  const readTime = escapeEmailHtml(article.readTime || '4 min read');
+  const date = escapeEmailHtml(article.date || 'Latest');
+  const excerpt = escapeEmailHtml(article.excerpt || '');
+
+  const imageBlock = imageUrl ? `
+    <tr>
+      <td style="padding:0;line-height:0;">
+        <a href="${articleUrl}" target="_blank" style="text-decoration:none;display:block;">
+          <img src="${imageUrl}" alt="${title}" style="width:100%;max-height:300px;object-fit:cover;display:block;border-bottom:1px solid #e2e8f0;" onerror="this.style.display='none'">
+        </a>
+      </td>
+    </tr>
+  ` : '';
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${title} | DIRA Insights</title>
+</head>
+<body style="margin:0;padding:0;background-color:#0f172a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1e293b;-webkit-font-smoothing:antialiased;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#0f172a;padding:40px 15px;">
+    <tr>
+      <td align="center">
+        <!-- Card Container -->
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:600px;background-color:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 10px 35px rgba(0,0,0,0.3);">
+          
+          <!-- Header Banner -->
+          <tr>
+            <td style="background:#191d36;padding:32px 36px;text-align:center;border-bottom:3px solid #2F80ED;">
+              <div style="display:inline-block;padding:5px 14px;background:rgba(47,128,237,0.2);border:1px solid rgba(47,128,237,0.4);border-radius:20px;color:#00E6D6;font-size:11.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">
+                NEW PUBLICATION &bull; ${category}
+              </div>
+              <h2 style="color:#ffffff;margin:0;font-size:22px;font-weight:800;letter-spacing:-0.4px;line-height:1.3;">
+                DIRA Insights Just Published
+              </h2>
+            </td>
+          </tr>
+
+          <!-- Optional Cover Image -->
+          ${imageBlock}
+
+          <!-- Main Article Preview -->
+          <tr>
+            <td style="padding:36px 36px 28px;">
+              <!-- Meta Row -->
+              <div style="font-size:13px;color:#64748b;margin-bottom:12px;font-weight:500;">
+                <span style="color:#2F80ED;font-weight:600;">By ${author}</span> &bull; ${readTime} &bull; ${date}
+              </div>
+
+              <!-- Article Title -->
+              <h1 style="font-size:24px;line-height:1.35;color:#111827;font-weight:800;margin:0 0 16px;letter-spacing:-0.4px;">
+                <a href="${articleUrl}" target="_blank" style="color:#111827;text-decoration:none;">
+                  ${title}
+                </a>
+              </h1>
+
+              <!-- Excerpt Box -->
+              <div style="background-color:#f8fafc;border-left:4px solid #2F80ED;border-radius:0 10px 10px 0;padding:16px 20px;margin:0 0 28px;">
+                <p style="font-size:15px;line-height:1.65;color:#334155;margin:0;">
+                  ${excerpt}
+                </p>
+              </div>
+
+              <!-- Call to Action Button -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                  <td align="center" style="padding:10px 0 25px;">
+                    <a href="${articleUrl}" target="_blank" style="display:inline-block;background-color:#2F80ED;color:#ffffff;text-decoration:none;font-size:15.5px;font-weight:700;padding:15px 36px;border-radius:8px;box-shadow:0 4px 14px rgba(47,128,237,0.35);letter-spacing:0.2px;">
+                      Read Full Article &rarr;
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="font-size:13.5px;line-height:1.6;color:#64748b;margin:0;border-top:1px solid #f1f5f9;padding-top:20px;text-align:center;">
+                Stay ahead with expert perspectives on digital architecture, systems engineering, and tech policy across Central Africa.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color:#f8fafc;padding:24px 36px;border-top:1px solid #e2e8f0;text-align:center;">
+              <p style="margin:0;font-size:11.5px;color:#94a3b8;line-height:1.5;">
+                You are receiving this update because {{RECIPIENT_EMAIL}} is subscribed to DIRA Insights.<br>
+                Visit our website at <a href="${siteUrl}" style="color:#2F80ED;text-decoration:none;">${siteUrl.replace(/^https?:\/\//, '')}</a> &bull; &copy; ${new Date().getFullYear()} DIRA.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+}
+
+async function sendNewArticleNotification(article) {
+  if (!process.env.RESEND_API_KEY) return { total: 0, sent: 0 };
+  
+  try {
+    const subscribers = await Subscriber.find({ status: 'active' }).select('email').lean();
+    if (!subscribers || subscribers.length === 0) {
+      console.log('No active subscribers found in MongoDB to notify.');
+      return { total: 0, sent: 0 };
+    }
+
+    const emails = subscribers.map(s => s.email).filter(Boolean);
+    console.log(`Sending new article notification for "${article.title}" to ${emails.length} subscriber(s)...`);
+
+    const from = process.env.NEWSLETTER_FROM_EMAIL || 'DIRA Insights <updates@newsletter.diracmr.com>';
+    const siteUrl = (process.env.SITE_URL || 'https://diracmr.com').replace(/\/+$/, '');
+    const articleUrl = `${siteUrl}/article.html?slug=${encodeURIComponent(article.slug)}`;
+    
+    let imageUrl = article.image || '';
+    if (imageUrl && !imageUrl.startsWith('http')) {
+      imageUrl = `${siteUrl}/${imageUrl.replace(/^\.?\/+/, '')}`;
+    }
+
+    const htmlTemplate = getNewArticleEmailHtml(article, articleUrl, imageUrl, siteUrl);
+    const textContent = `New Article from DIRA Insights!\n\n${article.title}\nCategory: ${article.category}\nBy ${article.author} | ${article.readTime}\n\n${article.excerpt}\n\nRead the full article here:\n${articleUrl}\n\n---\nDIRA CMR - Digital Innovation & Research Alliance\nhttps://diracmr.com`;
+    const subject = `‼️Important: ${article.title}`;
+
+    const BATCH_SIZE = 100;
+    let sentCount = 0;
+
+    for (let i = 0; i < emails.length; i += BATCH_SIZE) {
+      const batchEmails = emails.slice(i, i + BATCH_SIZE);
+      const batchPayload = batchEmails.map(recipientEmail => ({
+        from,
+        to: [recipientEmail],
+        subject,
+        html: htmlTemplate.replace(/{{RECIPIENT_EMAIL}}/g, escapeEmailHtml(recipientEmail)),
+        text: textContent
+      }));
+
+      try {
+        const batchRes = await resendRequest('/emails/batch', batchPayload);
+        if (batchRes.statusCode >= 200 && batchRes.statusCode < 300) {
+          sentCount += batchEmails.length;
+        } else {
+          console.warn('Batch email warning:', batchRes.body);
+        }
+      } catch (batchErr) {
+        console.error('Batch send error for chunk:', batchErr.message);
+      }
+    }
+
+    console.log(`Article broadcast complete: ${sentCount}/${emails.length} notification emails sent.`);
+    return { total: emails.length, sent: sentCount };
+  } catch (err) {
+    console.error('Failed to notify subscribers about new article:', err.message);
+    return { total: 0, sent: 0, error: err.message };
+  }
+}
+
 app.post('/api/articles', upload.single('image'), async (request, response, next) => {
   try {
     const { title, slug, category, author, date, readTime, excerpt, content } = request.body;
@@ -406,7 +569,16 @@ app.post('/api/articles', upload.single('image'), async (request, response, next
       content: sanitizeHtml(content, { allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']), allowedAttributes: { ...sanitizeHtml.defaults.allowedAttributes, img: ['src', 'alt', 'width', 'height'] } }),
       tags: parseTags(request.body.tags)
     });
+
+    // Respond immediately to the uploader
     response.status(201).json(toClient(article));
+
+    // Asynchronously notify all newsletter subscribers in the background
+    setImmediate(() => {
+      sendNewArticleNotification(article).catch(err => {
+        console.error('Background newsletter notification error:', err.message);
+      });
+    });
   } catch (error) {
     if (error.code === 11000) return response.status(409).json({ error: 'An article with this slug already exists.' });
     next(error);
