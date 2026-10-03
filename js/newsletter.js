@@ -138,8 +138,8 @@
                 <div id="diraNewsletterSuccess" class="dira-newsletter-success" style="display: none;">
                     <div class="dira-success-icon">
                         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="10" stroke="#00E6D6" stroke-width="2"/>
-                            <path d="M8 12l3 3 6-6" stroke="#00E6D6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                            <path d="M8 12l3 3 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
                     <h3>Welcome to the Community!</h3>
@@ -157,165 +157,200 @@
         style.textContent = `
             .dira-newsletter-backdrop {
                 position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(15, 29, 54, 0.75);
-                backdrop-filter: blur(6px);
-                -webkit-backdrop-filter: blur(6px);
-                z-index: 99999;
+                inset: 0;
+                z-index: 100000;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                padding: 20px;
+                padding: 16px;
+                background: rgba(11, 10, 38, 0.64);
+                -webkit-backdrop-filter: blur(4px);
+                backdrop-filter: blur(4px);
                 opacity: 0;
                 visibility: hidden;
-                transition: opacity 0.35s ease, visibility 0.35s ease;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+                font-family: var(--dira-font, 'Plus Jakarta Sans', system-ui, sans-serif);
             }
             .dira-newsletter-backdrop.is-active {
                 opacity: 1;
                 visibility: visible;
             }
             .dira-newsletter-card {
-                background: #191d36;
-                color: #ffffff;
-                border: 1px solid rgba(255, 255, 255, 0.15);
-                border-radius: 16px;
-                max-width: 520px;
-                width: 100%;
-                padding: 40px 35px;
                 position: relative;
-                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
-                transform: scale(0.92) translateY(20px);
-                transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+                width: min(100%, 31rem);
+                max-height: calc(100dvh - 32px);
+                overflow-y: auto;
+                padding: 40px 36px 32px;
+                background: #FFFFFF;
+                border: 1px solid rgba(99, 91, 255, 0.2);
+                border-radius: 2rem;
+                box-shadow: 0 20px 40px -8px rgba(99, 91, 255, 0.28);
+                transform: translateY(16px) scale(0.98);
+                transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
             }
             .dira-newsletter-backdrop.is-active .dira-newsletter-card {
-                transform: scale(1) translateY(0);
+                transform: translateY(0) scale(1);
             }
             .dira-newsletter-close {
                 position: absolute;
                 top: 16px;
-                right: 20px;
-                background: rgba(255, 255, 255, 0.1);
-                border: none;
-                color: #ffffff;
-                font-size: 26px;
-                line-height: 1;
-                width: 36px;
-                height: 36px;
+                right: 16px;
+                width: 40px;
+                height: 40px;
+                padding: 0;
+                border: 1px solid rgba(99, 91, 255, 0.2);
                 border-radius: 50%;
+                background: #F0EEFF;
+                color: #635BFF;
+                font-size: 22px;
+                line-height: 1;
                 cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: background 0.2s ease, transform 0.2s ease;
+                transition: background 0.2s ease;
             }
             .dira-newsletter-close:hover {
-                background: rgba(255, 255, 255, 0.25);
-                transform: rotate(90deg);
+                background: #EAE5FF;
+            }
+            .dira-newsletter-close:focus-visible {
+                outline: 2px solid #635BFF;
+                outline-offset: 2px;
             }
             .dira-newsletter-badge {
                 display: inline-block;
-                background: rgba(0, 230, 214, 0.15);
-                color: #00E6D6;
-                font-size: 0.75rem;
+                margin-bottom: 16px;
+                padding: 6px 14px;
+                border-radius: 9999px;
+                background: rgba(99, 91, 255, 0.08);
+                color: #635BFF;
+                font-size: 11px;
+                line-height: 14px;
                 font-weight: 700;
-                letter-spacing: 2px;
-                text-transform: uppercase;
-                padding: 4px 12px;
-                border-radius: 20px;
-                margin-bottom: 15px;
-                border: 1px solid rgba(0, 230, 214, 0.3);
+                letter-spacing: 0.06em;
             }
             .dira-newsletter-header h2 {
-                font-size: 1.6rem;
-                font-weight: 700;
-                color: #ffffff;
-                line-height: 1.3;
-                margin-bottom: 12px;
+                margin: 0 0 12px;
+                padding-right: 36px;
+                color: #1A173B;
+                font-size: 26px;
+                line-height: 34px;
+                font-weight: 800;
+                letter-spacing: -0.02em;
             }
             .dira-newsletter-header p {
-                color: #b0c2de;
-                font-size: 0.95rem;
-                line-height: 1.6;
-                margin-bottom: 25px;
+                margin: 0 0 24px;
+                color: #464555;
+                font-size: 15px;
+                line-height: 24px;
             }
             .dira-input-group {
                 display: flex;
-                gap: 10px;
-                margin-bottom: 12px;
+                gap: 8px;
+                padding: 6px;
+                background: #F4F4FA;
+                border: 1px solid rgba(99, 91, 255, 0.12);
+                border-radius: 9999px;
+            }
+            .dira-input-group:focus-within {
+                outline: 2px solid #635BFF;
+                background: #FFFFFF;
             }
             .dira-input-group input {
-                flex: 1;
-                padding: 14px 16px;
-                border-radius: 8px;
-                border: 1px solid rgba(255, 255, 255, 0.2);
-                background: rgba(255, 255, 255, 0.07);
-                color: #ffffff;
-                font-size: 0.95rem;
-                outline: none;
-                transition: border-color 0.2s, background 0.2s;
+                flex: 1 1 auto;
+                min-width: 0;
+                padding: 0 16px;
+                border: 0;
+                outline: 0;
+                background: transparent;
+                color: #1A173B;
+                font-family: inherit;
+                font-size: 16px;
             }
             .dira-input-group input:focus {
-                border-color: #00E6D6;
-                background: rgba(255, 255, 255, 0.12);
+                outline: 0;
             }
             .dira-newsletter-submit {
-                background: #00E6D6;
-                color: #191d36;
-                border: none;
-                padding: 14px 22px;
-                border-radius: 8px;
-                font-weight: 700;
-                font-size: 0.95rem;
-                cursor: pointer;
-                display: flex;
+                display: inline-flex;
                 align-items: center;
+                justify-content: center;
                 gap: 8px;
-                transition: background 0.2s ease, transform 0.15s ease;
-                white-space: nowrap;
+                min-height: 46px;
+                padding: 0 22px;
+                border: 0;
+                border-radius: 9999px;
+                background: linear-gradient(135deg, #635BFF 0%, #7E42F5 100%);
+                color: #FFFFFF;
+                font-family: inherit;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: filter 0.2s ease, box-shadow 0.2s ease;
             }
             .dira-newsletter-submit:hover {
-                background: #4ef2e7;
-                transform: translateY(-1px);
+                filter: brightness(1.07);
+                box-shadow: 0 8px 20px rgba(99, 91, 255, 0.35);
+            }
+            .dira-newsletter-submit:focus-visible {
+                outline: 2px solid #1A173B;
+                outline-offset: 2px;
             }
             .dira-newsletter-disclaimer {
-                font-size: 0.78rem;
-                color: #889bb8;
-                line-height: 1.4;
+                margin: 14px 0 0;
+                color: #777587;
+                font-size: 12px;
+                line-height: 18px;
             }
             .dira-newsletter-error {
-                margin-top: 10px;
-                color: #ffb4ab;
-                font-size: 0.82rem;
-                line-height: 1.4;
+                margin: 10px 0 0;
+                color: #BA1A1A;
+                font-size: 13px;
+                font-weight: 600;
             }
             .dira-newsletter-success {
-                text-align: center;
-                padding: 20px 0;
+                padding: 8px 0 4px;
+                text-align: left;
             }
             .dira-success-icon {
-                margin-bottom: 15px;
+                margin-bottom: 12px;
+                color: #635BFF;
             }
             .dira-newsletter-success h3 {
-                color: #ffffff;
-                font-size: 1.4rem;
-                margin-bottom: 8px;
+                margin: 0 0 8px;
+                color: #1A173B;
+                font-size: 22px;
+                line-height: 30px;
+                font-weight: 800;
             }
             .dira-newsletter-success p {
-                color: #a8c7e0;
-                font-size: 0.95rem;
+                margin: 0;
+                color: #464555;
+                font-size: 15px;
+                line-height: 24px;
             }
             @media (max-width: 580px) {
                 .dira-newsletter-card {
-                    padding: 30px 20px;
+                    padding: 32px 22px 24px;
+                    border-radius: 1.5rem;
+                }
+                .dira-newsletter-header h2 {
+                    font-size: 22px;
+                    line-height: 30px;
                 }
                 .dira-input-group {
                     flex-direction: column;
+                    padding: 8px;
+                    border-radius: 1.25rem;
+                }
+                .dira-input-group input {
+                    min-height: 46px;
                 }
                 .dira-newsletter-submit {
-                    justify-content: center;
+                    width: 100%;
+                }
+            }
+            @media (prefers-reduced-motion: reduce) {
+                .dira-newsletter-backdrop,
+                .dira-newsletter-card {
+                    transition: none;
+                    transform: none;
                 }
             }
         `;
