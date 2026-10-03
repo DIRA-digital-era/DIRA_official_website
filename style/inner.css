@@ -1,0 +1,599 @@
+/* ==========================================================================
+   DIRA INNER PAGES (shared layer)
+   Scoped under body.dira-inner. Built on dira-design.css tokens.
+   Page-specific compositions live in their own pg-*.css files.
+   ========================================================================== */
+
+/* Legacy stylesheets ship a universal font and margin reset; pin the typeface. */
+.dira-inner,
+.dira-inner * {
+    font-family: var(--dira-font);
+    box-sizing: border-box;
+}
+
+.dira-inner {
+    --in-section-y: clamp(3.5rem, 7vw, 6rem);
+}
+
+.dira-inner main {
+    display: block;
+    overflow-x: clip;
+}
+
+.dira-inner main h1,
+.dira-inner main h2,
+.dira-inner main h3,
+.dira-inner main h4,
+.dira-inner main p,
+.dira-inner main ol,
+.dira-inner main ul,
+.dira-inner main figure,
+.dira-inner main blockquote {
+    margin: 0;
+    padding: 0;
+}
+
+.dira-inner main a {
+    text-decoration: none;
+}
+
+.dira-inner [id] {
+    scroll-margin-top: calc(var(--dira-header-h) + 1rem);
+}
+
+/* --------------------------------------------------------------------------
+   Sections, eyebrow, heads
+   -------------------------------------------------------------------------- */
+.in-section {
+    position: relative;
+    padding-block: var(--in-section-y);
+}
+
+.in-section--tint {
+    background: var(--dira-surface-low);
+}
+
+.in-section--flush-top {
+    padding-top: 0;
+}
+
+.in-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dira-primary);
+}
+
+.in-eyebrow::before {
+    content: '';
+    width: 1.75rem;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--dira-gradient);
+    flex-shrink: 0;
+}
+
+.dira-dark .in-eyebrow {
+    color: var(--dira-inverse-primary);
+}
+
+.in-head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    max-width: 40rem;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.in-head p {
+    font-size: 16px;
+    line-height: 26px;
+    color: var(--dira-muted);
+}
+
+.dira-dark .in-head h2 {
+    color: #FFFFFF;
+}
+
+.dira-dark .in-head p {
+    color: var(--dira-on-dark-muted);
+}
+
+.in-lede {
+    font-size: 16px;
+    line-height: 26px;
+    color: var(--dira-muted);
+    max-width: 38rem;
+}
+
+@media (min-width: 640px) {
+    .in-lede {
+        font-size: 18px;
+        line-height: 28px;
+    }
+}
+
+.in-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
+    color: var(--dira-primary);
+}
+
+.in-link span {
+    transition: transform var(--dira-dur) var(--dira-ease);
+}
+
+.in-link:hover span {
+    transform: translateX(4px);
+}
+
+.in-link:focus-visible {
+    outline: 2px solid var(--dira-primary);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* Light button for gradient panels */
+.dira-btn--light {
+    background: #FFFFFF;
+    color: var(--dira-primary);
+}
+
+.dira-btn--light:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(11, 10, 38, 0.28);
+}
+
+.dira-btn--light:focus-visible {
+    outline-color: #FFFFFF;
+}
+
+/* --------------------------------------------------------------------------
+   Page hero scaffold
+   -------------------------------------------------------------------------- */
+.in-hero {
+    position: relative;
+    padding-block: clamp(2.5rem, 6vw, 5rem) clamp(2.5rem, 5vw, 4.5rem);
+}
+
+.in-hero__grid {
+    display: grid;
+    gap: 2.5rem;
+    align-items: start;
+}
+
+.in-hero__copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    min-width: 0;
+}
+
+.in-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+@media (min-width: 1025px) {
+    .in-hero__grid {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: var(--dira-gutter);
+        align-items: center;
+    }
+
+    .in-hero__copy {
+        grid-column: 1 / span 6;
+        padding-right: 2rem;
+    }
+
+    .in-hero__aside {
+        grid-column: 7 / span 6;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Metrics band (midnight)
+   -------------------------------------------------------------------------- */
+.in-stats {
+    overflow: hidden;
+}
+
+.in-stats::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 88% 8%, rgba(99, 91, 255, 0.28) 0%, transparent 46%),
+        radial-gradient(circle at 6% 100%, rgba(155, 81, 224, 0.16) 0%, transparent 42%);
+}
+
+.in-stats__row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.5rem 0.75rem;
+    margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+.in-stat {
+    padding-left: 0.75rem;
+    border-left: 1px solid var(--dira-border-on-dark);
+}
+
+.in-stats .stat-number {
+    font-size: 28px;
+    font-variant-numeric: tabular-nums;
+    background-image: linear-gradient(135deg, #C3C0FF 0%, #DEB7FF 100%);
+}
+
+.in-stats .stat-text {
+    color: var(--dira-on-dark-muted);
+}
+
+@media (min-width: 380px) {
+    .in-stats .stat-number {
+        font-size: 36px;
+    }
+
+    .in-stats__row {
+        gap: 2.5rem 1.25rem;
+    }
+
+    .in-stat {
+        padding-left: 1.25rem;
+    }
+}
+
+@media (min-width: 640px) {
+    .in-stats .stat-number {
+        font-size: 48px;
+    }
+}
+
+@media (min-width: 1025px) {
+    .in-stats__row {
+        grid-template-columns: repeat(var(--in-stat-cols, 4), minmax(0, 1fr));
+        gap: var(--dira-gutter);
+    }
+
+    .in-stat {
+        padding-left: 1.75rem;
+    }
+
+    .in-stats .stat-number {
+        font-size: 56px;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Conversion panel (gradient)
+   -------------------------------------------------------------------------- */
+.in-cta {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    padding: clamp(1.75rem, 4vw, 3.5rem);
+    border-radius: var(--dira-radius-lg);
+    background: var(--dira-gradient);
+    color: #FFFFFF;
+    box-shadow: var(--dira-shadow-3);
+}
+
+.in-cta::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.2) 0%, transparent 52%);
+}
+
+.in-cta h2 {
+    color: #FFFFFF;
+}
+
+.in-cta p {
+    font-size: 16px;
+    line-height: 26px;
+    color: #FFFFFF;
+    max-width: 40rem;
+}
+
+.in-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+@media (min-width: 1025px) {
+    .in-cta {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 3rem;
+    }
+}
+
+@media (max-width: 479px) {
+    .dira-inner main .dira-btn {
+        white-space: normal;
+        text-align: center;
+        padding-block: 0.75rem;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Contact block (markup injected by js/header.js; ids and fields untouched)
+   -------------------------------------------------------------------------- */
+.in-contact {
+    padding-top: 0;
+}
+
+.dira-inner #contactSection.contact-container {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: var(--dira-white);
+    color: var(--dira-ink);
+    border: 1px solid var(--dira-border-strong);
+    border-radius: var(--dira-radius-lg);
+    box-shadow: var(--dira-shadow-2);
+}
+
+.dira-inner #contactSection .contact-info {
+    position: relative;
+    isolation: isolate;
+    flex: none;
+    padding: clamp(1.75rem, 4vw, 3rem);
+    background: var(--dira-midnight);
+    color: var(--dira-on-dark);
+    overflow: hidden;
+}
+
+.dira-inner #contactSection .contact-info::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 100% 0%, rgba(99, 91, 255, 0.34) 0%, transparent 55%);
+}
+
+.dira-inner #contactSection .contact-info h2 {
+    margin: 0 0 0.75rem;
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 700;
+    color: #FFFFFF;
+}
+
+.dira-inner #contactSection .contact-info > p {
+    margin: 0 0 2rem;
+    font-size: 15px;
+    line-height: 24px;
+    color: var(--dira-on-dark-muted);
+}
+
+.dira-inner #contactSection .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.dira-inner #contactSection .contact-detail {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.dira-inner #contactSection .contact-detail > svg {
+    width: 44px;
+    height: 44px;
+    padding: 11px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: rgba(99, 91, 255, 0.28);
+    color: var(--dira-inverse-primary);
+    stroke: currentColor;
+}
+
+.dira-inner #contactSection .contact-detail h4 {
+    margin: 0 0 0.25rem;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dira-inverse-primary);
+}
+
+.dira-inner #contactSection .contact-detail p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 22px;
+    color: var(--dira-on-dark);
+}
+
+.dira-inner #contactSection .contact-detail a {
+    color: inherit;
+    border-bottom: 1px solid transparent;
+}
+
+.dira-inner #contactSection .contact-detail a:hover {
+    border-bottom-color: var(--dira-inverse-primary);
+}
+
+.dira-inner #contactSection .social-links {
+    margin-top: 2rem;
+    gap: 0.625rem;
+}
+
+.dira-inner #contactSection .social-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--dira-border-on-dark);
+    color: var(--dira-on-dark);
+    transition: transform var(--dira-dur) var(--dira-ease), background-color var(--dira-dur) var(--dira-ease);
+}
+
+.dira-inner #contactSection .social-links a:hover {
+    transform: translateY(-2px);
+    background: rgba(99, 91, 255, 0.32);
+    color: #FFFFFF;
+}
+
+.dira-inner #contactSection .social-links a:focus-visible,
+.dira-inner #contactSection .contact-detail a:focus-visible {
+    outline: 2px solid var(--dira-inverse-primary);
+    outline-offset: 3px;
+}
+
+.dira-inner #contactSection .map-container,
+.dira-inner #contactSection .contact-map {
+    margin-top: 2rem;
+    overflow: hidden;
+    border-radius: var(--dira-radius);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--dira-border-on-dark);
+    min-height: 0;
+}
+
+.dira-inner #contactSection .map-container a,
+.dira-inner #contactSection .contact-map a {
+    color: var(--dira-inverse-primary);
+    font-weight: 600;
+}
+
+.dira-inner #contactSection .contact-form {
+    width: 100%;
+    flex: none;
+    padding: clamp(1.75rem, 4vw, 3rem);
+    background: var(--dira-white);
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.dira-inner #contactSection .contact-form h3 {
+    margin: 0 0 1.5rem;
+    font-size: 22px;
+    line-height: 30px;
+    font-weight: 700;
+    text-align: left;
+    color: var(--dira-ink);
+}
+
+.dira-inner #contactSection .form-group label {
+    color: var(--dira-ink);
+}
+
+.dira-inner #contactSection .submit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    min-height: var(--dira-control-h);
+    padding: 0 1.5rem;
+    border: 1px solid transparent;
+    border-radius: var(--dira-radius-full);
+    background: var(--dira-gradient-button);
+    color: #FFFFFF;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform var(--dira-dur) var(--dira-ease), box-shadow var(--dira-dur) var(--dira-ease), filter var(--dira-dur) var(--dira-ease);
+}
+
+.dira-inner #contactSection .submit-btn:hover:not(:disabled) {
+    filter: brightness(1.07);
+    transform: translateY(-1px);
+    box-shadow: var(--dira-glow-button);
+}
+
+.dira-inner #contactSection .submit-btn:focus-visible {
+    outline: 2px solid var(--dira-primary);
+    outline-offset: 3px;
+}
+
+.dira-inner #contactSection .submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+@media (min-width: 1025px) {
+    .dira-inner #contactSection.contact-container {
+        grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    .dira-inner * {
+        transition-duration: 0.01ms !important;
+    }
+
+    .in-link:hover span {
+        transform: none;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Form notifications (toasts from js/contact.js). Mechanics live in
+   contact.css (.show); this restyles them to the design system.
+   -------------------------------------------------------------------------- */
+.dira-inner .notification {
+    padding: 0.875rem 1.25rem;
+    border-radius: var(--dira-radius);
+    font-family: var(--dira-font);
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 600;
+    box-shadow: var(--dira-shadow-3);
+}
+
+.dira-inner .notification.success {
+    background: #0F6B4A;
+}
+
+.dira-inner .notification.error {
+    background: var(--dira-error);
+}
+
+/* Eyebrow on the gradient panel */
+.in-cta .in-eyebrow {
+    color: #FFFFFF;
+}
+
+.in-cta .in-eyebrow::before {
+    background: #FFFFFF;
+}

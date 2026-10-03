@@ -12,325 +12,244 @@
     <meta property="og:type" content="website">
     <meta property="og:image" content="./images/logo.jpg">
     <link rel="canonical" href="services.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style/dira-design.css">
     <link rel="stylesheet" href="./style/header.css">
-    <link rel="stylesheet" href="./style/services.css">
     <link rel="stylesheet" href="./style/contact.css">
-    <style>
-        .service-item {
-            background-color: rgba(255, 255, 255, 0.9) !important;
-            backdrop-filter: blur(5px);
-            scroll-margin-top: 90px;
-        }
-    </style>
+    <link rel="stylesheet" href="./style/inner.css">
+    <link rel="stylesheet" href="./style/pg-services.css">
 </head>
 
-<body>
-    <header>
-        <!-- injected from header.js  -->
+<body class="large-header dira-page dira-inner pg-services" data-static-bg>
+        <header>
+        <!-- injected from header.js -->
     </header>
-    <div class="container">
-        <!-- Hero Section -->
-        <section class="services-hero reveal">
-            <h6>Our Capabilities</h6>
-            <h1>Software That Institutions Can Rely On</h1>
-            <p>From tamper-evident verification systems to full enterprise platforms and community initiatives, DIRA delivers technology built to stand up to real operational demands.</p>
+    <main id="main">
+
+        <section class="in-hero dira-atmosphere">
+            <div class="dira-container in-hero__grid">
+                <div class="in-hero__copy reveal">
+                    <p class="in-eyebrow ">Our Capabilities</p>
+                    <h1 class="dira-display">Software That Institutions <span class="dira-gradient-text">Can Rely On</span></h1>
+                    <p class="in-lede">From tamper-evident verification systems to full enterprise platforms and community initiatives, DIRA delivers technology built to stand up to real operational demands.</p>
+                </div>
+                <nav class="in-hero__aside svc-index" aria-label="Service lines">
+                    <ol class="svc-index__list">
+                        <li class="reveal-card">
+                            <a class="svc-index__row" href="#secure-systems">
+                                <span class="svc-index__num" aria-hidden="true">01</span>
+                                <span class="svc-index__body">
+                                    <h3>Secure Records &amp; Verification Systems</h3>
+                                    <p>Tamper-evident, audit-trailed systems for institutions needing provable record integrity.</p>
+                                </span>
+                                <span class="svc-index__go">Learn more <span aria-hidden="true">&rarr;</span></span>
+                            </a>
+                        </li>
+                        <li class="reveal-card">
+                            <a class="svc-index__row" href="#custom-platforms">
+                                <span class="svc-index__num" aria-hidden="true">02</span>
+                                <span class="svc-index__body">
+                                    <h3>Custom Platforms</h3>
+                                    <p>Software built for organizations managing complex data, real transaction volume, or membership at scale.</p>
+                                </span>
+                                <span class="svc-index__go">Learn more <span aria-hidden="true">&rarr;</span></span>
+                            </a>
+                        </li>
+                        <li class="reveal-card">
+                            <a class="svc-index__row" href="#ngo-tech">
+                                <span class="svc-index__num" aria-hidden="true">03</span>
+                                <span class="svc-index__body">
+                                    <h3>NGO &amp; Community Technology</h3>
+                                    <p>Web, mobile, cybersecurity, and media services for nonprofits, delivered through DIRA Foundation.</p>
+                                </span>
+                                <span class="svc-index__go">Learn more <span aria-hidden="true">&rarr;</span></span>
+                            </a>
+                        </li>
+                        <li class="reveal-card">
+                            <a class="svc-index__row" href="#content-media">
+                                <span class="svc-index__num" aria-hidden="true">04</span>
+                                <span class="svc-index__body">
+                                    <h3>Content &amp; Media Production</h3>
+                                    <p>Video production, podcast recording, social media, event coverage, and photography via DIRA Content Studio.</p>
+                                </span>
+                                <span class="svc-index__go">Learn more <span aria-hidden="true">&rarr;</span></span>
+                            </a>
+                        </li>
+                        <li class="reveal-card">
+                            <a class="svc-index__row" href="#consulting">
+                                <span class="svc-index__num" aria-hidden="true">05</span>
+                                <span class="svc-index__body">
+                                    <h3>Technology Consulting</h3>
+                                    <p>System architecture, data protection strategy, and integration, extended with Dunamis Networks for fintech engagements.</p>
+                                </span>
+                                <span class="svc-index__go">Learn more <span aria-hidden="true">&rarr;</span></span>
+                            </a>
+                        </li>
+                        <li class="reveal-card">
+                            <a class="svc-index__row" href="#training-capacity">
+                                <span class="svc-index__num" aria-hidden="true">06</span>
+                                <span class="svc-index__body">
+                                    <h3>Training &amp; Capacity Building</h3>
+                                    <p>Practical technical training across web, mobile, and cybersecurity that directly powers DIRA's hiring pipeline.</p>
+                                </span>
+                                <span class="svc-index__go">Learn more <span aria-hidden="true">&rarr;</span></span>
+                            </a>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
         </section>
 
-        <!-- Grid Overview Section -->
-        <div class="services-grid">
-            <div class="service-card reveal-card">
-                <img src="./images/utils/security.jpg" alt="Secure records and verification systems" class="services-image">
-                <h3>Secure Records &amp; Verification Systems</h3>
-                <p>Tamper-evident, audit-trailed systems for institutions needing provable record integrity.</p>
-                <a href="#secure-systems">Learn more
-                    <svg width="16" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="margin-left:6px;">
-                        <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path d="M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                </a>
-            </div>
-            <div class="service-card reveal-card">
-                <img src="./images/utils/development.jpg" alt="Custom platform development" class="services-image">
-                <h3>Custom Platforms</h3>
-                <p>Software built for organizations managing complex data, real transaction volume, or membership at scale.</p>
-                <a href="#custom-platforms">Learn more
-                    <svg width="16" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="margin-left:6px;">
-                        <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path d="M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                </a>
-            </div>
-            <div class="service-card reveal-card">
-                <img src="./images/utils/cloud.jpg" alt="NGO and community technology" class="services-image">
-                <h3>NGO &amp; Community Technology</h3>
-                <p>Web, mobile, cybersecurity, and media services for nonprofits, delivered through DIRA Foundation.</p>
-                <a href="#ngo-tech">Learn more
-                    <svg width="16" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="margin-left:6px;">
-                        <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path d="M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                </a>
-            </div>
-            <div class="service-card reveal-card">
-                <img src="./images/utils/uiux.jpg" alt="Content and media production" class="services-image">
-                <h3>Content &amp; Media Production</h3>
-                <p>Video production, podcast recording, social media, event coverage, and photography via DIRA Content Studio.</p>
-                <a href="#content-media">Learn more
-                    <svg width="16" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="margin-left:6px;">
-                        <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path d="M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                </a>
-            </div>
-            <div class="service-card reveal-card">
-                <img src="./images/utils/management.jpg" alt="Technology consulting and digital transformation" class="services-image">
-                <h3>Technology Consulting</h3>
-                <p>System architecture, data protection strategy, and integration, extended with Dunamis Networks for fintech engagements.</p>
-                <a href="#consulting">Learn more
-                    <svg width="16" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="margin-left:6px;">
-                        <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path d="M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                </a>
-            </div>
-            <div class="service-card reveal-card">
-                <img src="./images/photos/IMG_1544.jpg" alt="Training and capacity building" class="services-image">
-                <h3>Training &amp; Capacity Building</h3>
-                <p>Practical technical training across web, mobile, and cybersecurity that directly powers DIRA's hiring pipeline.</p>
-                <a href="#training-capacity">Learn more
-                    <svg width="16" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="margin-left:6px;">
-                        <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path d="M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                </a>
-            </div>
-        </div>
-
-        <!-- Numbers Section -->
-        <section class="numbers-section">
-            <div class="numbers-container">
-                <h2>Verified Delivery in Cameroon</h2>
-                <p>Measurable achievements from our software engineering, client engagements, and digital systems.</p>
-
-                <div class="stats-container">
-                    <div class="stat">
-                        <div class="stat-number" data-target="8" data-suffix="+">8+</div>
-                        <div class="stat-text">Delivered Platforms</div>
+        <section class="in-section in-stats dira-dark">
+            <div class="dira-container">
+                <div class="in-head reveal">
+                    <h2 class="dira-headline-lg">Verified Delivery in Cameroon</h2>
+                    <p>Measurable achievements from our software engineering, client engagements, and digital systems.</p>
+                </div>
+                <div class="in-stats__row" style="--in-stat-cols:3;">
+                    <div class="in-stat dira-metric reveal-card">
+                        <div class="stat-number dira-metric__value dira-metric__value--gradient" data-target="8" data-suffix="+">8+</div>
+                        <div class="stat-text dira-metric__label">Delivered Platforms</div>
                     </div>
-                    <div class="stat">
-                        <div class="stat-number" data-target="108" data-suffix="+">108+</div>
-                        <div class="stat-text">Engineers Trained</div>
+                    <div class="in-stat dira-metric reveal-card">
+                        <div class="stat-number dira-metric__value dira-metric__value--gradient" data-target="108" data-suffix="+">108+</div>
+                        <div class="stat-text dira-metric__label">Engineers Trained</div>
                     </div>
-                    <div class="stat">
-                        <div class="stat-number" data-target="100" data-suffix="%">100%</div>
-                        <div class="stat-text">Verified Deployment</div>
+                    <div class="in-stat dira-metric reveal-card">
+                        <div class="stat-number dira-metric__value dira-metric__value--gradient" data-target="100" data-suffix="%">100%</div>
+                        <div class="stat-text dira-metric__label">Verified Deployment</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Services Detailed Showcase Section -->
-        <section class="services-showcase">
-            <div class="section-header">
-                <h6>Detailed Capabilities</h6>
-                <h2>Our Core Service Lines</h2>
-            </div>
-
-            <div class="services-container">
-                <!-- Service 1 -->
-                <div class="service-item" id="secure-systems">
-                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="margin-bottom: 20px; color: #0F3B5A;">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <h3>Secure Records &amp; Verification Systems</h3>
-                    <p>Tamper-evident, fully audit-trailed systems for institutions that need to prove a record was not altered after the fact: exam results, financial transactions, membership registers, and public verification data.</p>
-                    <ul class="service-features">
-                        <li>Cryptographic &amp; Tamper-Evident Architecture</li>
-                        <li>Immutable Verification &amp; Public Proofs</li>
-                        <li>Complete Audit Trails for Institutional Regulators</li>
-                        <li>Protection for Sensitive Records at Scale</li>
-                    </ul>
+        <section class="in-section svc-lines">
+            <div class="dira-container">
+                <div class="in-head reveal">
+                    <p class="in-eyebrow ">Detailed Capabilities</p>
+                    <h2 class="dira-headline-lg">Our Core Service Lines</h2>
                 </div>
-
-                <!-- Service 2 -->
-                <div class="service-item" id="custom-platforms">
-                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="margin-bottom: 20px; color: #0F3B5A;">
-                        <rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                        <line x1="8" y1="21" x2="16" y2="21" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                        <line x1="12" y1="17" x2="12" y2="21" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <h3>Custom Platforms</h3>
-                    <p>Software built for organizations managing complex data, real transaction volume, or membership at scale. DHUB and SHESA Connect are both built and operated on this capability.</p>
-                    <ul class="service-features">
-                        <li>End-to-end Web &amp; Mobile Platform Architecture</li>
-                        <li>High-concurrency Transaction Processing</li>
-                        <li>Membership, Directory, and Governance Portals</li>
-                        <li>Integrated Payment, Analytics, and Data Pipelines</li>
-                    </ul>
-                </div>
-
-                <!-- Service 3 -->
-                <div class="service-item" id="ngo-tech">
-                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="margin-bottom: 20px; color: #0F3B5A;">
-                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                        <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <h3>NGO &amp; Community Technology</h3>
-                    <p>Web development, app development, cybersecurity audits, and visual content for nonprofits and community organizations, delivered through DIRA Foundation.</p>
-                    <ul class="service-features">
-                        <li>Subsidized &amp; Pro-Bono Technical Deployments</li>
-                        <li>Nonprofit Web Portals &amp; Data Collection Tools</li>
-                        <li>Security Assessments for Community Groups</li>
-                        <li>Youth Digital Empowerment Collaborations</li>
-                    </ul>
-                </div>
-
-                <!-- Service 4 -->
-                <div class="service-item" id="content-media">
-                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="margin-bottom: 20px; color: #0F3B5A;">
-                        <polygon points="23 7 16 12 23 17 23 7" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                        <rect x="1" y="5" width="15" height="14" rx="2" ry="2" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <h3>Content &amp; Media Production</h3>
-                    <p>Video production, podcast recording, branded social content, event coverage, and professional photography through DIRA Content Studio.</p>
-                    <ul class="service-features">
-                        <li>Professional Studio Video &amp; Audio Recording</li>
-                        <li>Podcast Production &amp; Post-Production Editing</li>
-                        <li>Conference, Tech Fest, and Corporate Event Coverage</li>
-                        <li>Executive Headshots &amp; Brand Photography</li>
-                    </ul>
-                </div>
-
-                <!-- Service 5 -->
-                <div class="service-item" id="consulting">
-                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="margin-bottom: 20px; color: #0F3B5A;">
-                        <rect x="2" y="7" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <h3>Technology Consulting &amp; Digital Transformation</h3>
-                    <p>Direct advisory work: system architecture, data protection strategy, and systems integration, from planning through deployment. Extended through DIRA's partnership with Dunamis Networks for fintech-grade engagements.</p>
-                    <ul class="service-features">
-                        <li>High-Assurance Architecture Design</li>
-                        <li>Data Protection &amp; Regulatory Alignment</li>
-                        <li>Legacy Systems Integration &amp; Modernization</li>
-                        <li>Fintech Infrastructure Advisory via Dunamis Networks</li>
-                    </ul>
-                </div>
-
-                <!-- Service 6 -->
-                <div class="service-item" id="training-capacity">
-                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="margin-bottom: 20px; color: #0F3B5A;">
-                        <path d="M12 2l10 6.5-10 6.5L2 8.5 12 2z" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M6 11.5v6c0 3 6 4.5 6 4.5s6-1.5 6-4.5v-6" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <h3>Training &amp; Capacity Building</h3>
-                    <p>Practical technical training across web development, mobile development, and cybersecurity. DIRA's own hiring pipeline runs through this program.</p>
-                    <ul class="service-features">
-                        <li>Intensive Web Development Tracks</li>
-                        <li>Mobile Application Engineering</li>
-                        <li>Cybersecurity &amp; System Administration</li>
-                        <li>Direct Hiring Opportunities with DIRA</li>
-                    </ul>
-                </div>
+                <article class="svc-line reveal" id="secure-systems">
+                    <div class="svc-line__head">
+                        <span class="svc-line__num" aria-hidden="true">01</span>
+                        <h3>Secure Records &amp; Verification Systems</h3>
+                    </div>
+                    <div class="svc-line__body">
+                        <p>Tamper-evident, fully audit-trailed systems for institutions that need to prove a record was not altered after the fact: exam results, financial transactions, membership registers, and public verification data.</p>
+                        <ul class="svc-line__features"><li>Cryptographic &amp; Tamper-Evident Architecture</li><li>Immutable Verification &amp; Public Proofs</li><li>Complete Audit Trails for Institutional Regulators</li><li>Protection for Sensitive Records at Scale</li></ul>
+                    </div>
+                </article>
+                <article class="svc-line reveal" id="custom-platforms">
+                    <div class="svc-line__head">
+                        <span class="svc-line__num" aria-hidden="true">02</span>
+                        <h3>Custom Platforms</h3>
+                    </div>
+                    <div class="svc-line__body">
+                        <p>Software built for organizations managing complex data, real transaction volume, or membership at scale. DHUB and SHESA Connect are both built and operated on this capability.</p>
+                        <ul class="svc-line__features"><li>End-to-end Web &amp; Mobile Platform Architecture</li><li>High-concurrency Transaction Processing</li><li>Membership, Directory, and Governance Portals</li><li>Integrated Payment, Analytics, and Data Pipelines</li></ul>
+                    </div>
+                </article>
+                <article class="svc-line reveal" id="ngo-tech">
+                    <div class="svc-line__head">
+                        <span class="svc-line__num" aria-hidden="true">03</span>
+                        <h3>NGO &amp; Community Technology</h3>
+                    </div>
+                    <div class="svc-line__body">
+                        <p>Web development, app development, cybersecurity audits, and visual content for nonprofits and community organizations, delivered through DIRA Foundation.</p>
+                        <ul class="svc-line__features"><li>Subsidized &amp; Pro-Bono Technical Deployments</li><li>Nonprofit Web Portals &amp; Data Collection Tools</li><li>Security Assessments for Community Groups</li><li>Youth Digital Empowerment Collaborations</li></ul>
+                    </div>
+                </article>
+                <article class="svc-line reveal" id="content-media">
+                    <div class="svc-line__head">
+                        <span class="svc-line__num" aria-hidden="true">04</span>
+                        <h3>Content &amp; Media Production</h3>
+                    </div>
+                    <div class="svc-line__body">
+                        <p>Video production, podcast recording, branded social content, event coverage, and professional photography through DIRA Content Studio.</p>
+                        <ul class="svc-line__features"><li>Professional Studio Video &amp; Audio Recording</li><li>Podcast Production &amp; Post-Production Editing</li><li>Conference, Tech Fest, and Corporate Event Coverage</li><li>Executive Headshots &amp; Brand Photography</li></ul>
+                    </div>
+                </article>
+                <article class="svc-line reveal" id="consulting">
+                    <div class="svc-line__head">
+                        <span class="svc-line__num" aria-hidden="true">05</span>
+                        <h3>Technology Consulting &amp; Digital Transformation</h3>
+                    </div>
+                    <div class="svc-line__body">
+                        <p>Direct advisory work: system architecture, data protection strategy, and systems integration, from planning through deployment. Extended through DIRA's partnership with Dunamis Networks for fintech-grade engagements.</p>
+                        <ul class="svc-line__features"><li>High-Assurance Architecture Design</li><li>Data Protection &amp; Regulatory Alignment</li><li>Legacy Systems Integration &amp; Modernization</li><li>Fintech Infrastructure Advisory via Dunamis Networks</li></ul>
+                    </div>
+                </article>
+                <article class="svc-line reveal" id="training-capacity">
+                    <div class="svc-line__head">
+                        <span class="svc-line__num" aria-hidden="true">06</span>
+                        <h3>Training &amp; Capacity Building</h3>
+                    </div>
+                    <div class="svc-line__body">
+                        <p>Practical technical training across web development, mobile development, and cybersecurity. DIRA's own hiring pipeline runs through this program.</p>
+                        <ul class="svc-line__features"><li>Intensive Web Development Tracks</li><li>Mobile Application Engineering</li><li>Cybersecurity &amp; System Administration</li><li>Direct Hiring Opportunities with DIRA</li></ul>
+                    </div>
+                </article>
             </div>
         </section>
 
-        <!-- Process Section -->
-        <section class="process-section">
-            <div class="section-header">
-                <h6>Our Approach</h6>
-                <h2>How We Deliver Work</h2>
-            </div>
-
-            <div class="process-steps">
-                <div class="process-step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
+        <section class="in-section in-section--tint svc-process">
+            <div class="dira-container">
+                <div class="in-head reveal">
+                    <p class="in-eyebrow ">Our Approach</p>
+                    <h2 class="dira-headline-lg">How We Deliver Work</h2>
+                </div>
+                <ol class="svc-steps">
+                    <li class="svc-step reveal-card">
+                        <span class="svc-step__num">1</span>
                         <h3>Discovery &amp; Architecture</h3>
                         <p>We clarify requirements, institutional compliance constraints, and system boundaries before any code is written.</p>
-                    </div>
-                </div>
-
-                <div class="process-step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
+                    </li>
+                    <li class="svc-step reveal-card">
+                        <span class="svc-step__num">2</span>
                         <h3>Secure Implementation</h3>
                         <p>Our engineering team builds with tamper-evidence, strict access controls, and performant data layers from day one.</p>
-                    </div>
-                </div>
-
-                <div class="process-step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
+                    </li>
+                    <li class="svc-step reveal-card">
+                        <span class="svc-step__num">3</span>
                         <h3>Audit &amp; Deployment</h3>
                         <p>Platforms undergo verification testing, documentation reviews, and staged rollouts with institutional stakeholders.</p>
-                    </div>
-                </div>
-
-                <div class="process-step">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
+                    </li>
+                    <li class="svc-step reveal-card">
+                        <span class="svc-step__num">4</span>
                         <h3>Accountability &amp; Support</h3>
                         <p>The named engineers who build your systems remain answerable for ongoing performance, maintenance, and support.</p>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="in-section">
+            <div class="dira-container">
+                <div class="in-cta reveal">
+                    <div>
+                        <h2 class="dira-headline-lg">Ready to Build Software You Can Trust?</h2>
+                        <p style="margin-top:1rem;">Get in touch with our engineering team in Bamenda to discuss your platform or verification requirements.</p>
+                    </div>
+                    <div class="in-cta__actions">
+                        <a href="contact.html" class="dira-btn dira-btn--light dira-btn--arrow">Start a Conversation</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- CTA Section -->
-        <section class="cta-section">
-            <h2>Ready to Build Software You Can Trust?</h2>
-            <p>Get in touch with our engineering team in Bamenda to discuss your platform or verification requirements.</p>
-            <a href="contact.html" class="cta-button">Start a Conversation</a>
+        <!-- General contact form (injected from js/header.js) -->
+        <section class="in-section in-contact">
+            <div class="dira-container">
+                <div class="contact-container dira-form" id="contactSection">
+                    <!-- contact injected from js -->
+                </div>
+            </div>
         </section>
 
-        <!-- Contact Form Section -->
-        <div class="contact-container" id="contactSection">
-            <!-- contact injected from js -->
-        </div>
-    </div>
-
-    <footer>
+    </main>
+<footer>
         <!-- global footer injected from header.js -->
     </footer>
 

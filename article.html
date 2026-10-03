@@ -7,24 +7,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Article | DIRA Insights</title>
     <meta name="description" content="Read DIRA engineering and enterprise insights.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style/dira-design.css">
     <link rel="stylesheet" href="./style/header.css">
-    <link rel="stylesheet" href="./style/articles.css">
     <link rel="stylesheet" href="./style/contact.css">
+    <link rel="stylesheet" href="./style/inner.css">
+    <link rel="stylesheet" href="./style/pg-articles.css">
 </head>
 
-<body>
-    <header>
-        <!-- Injected dynamically via js/header.js -->
+<body class="large-header dira-page dira-inner pg-articles pg-reader" data-static-bg>
+        <header>
+        <!-- injected from header.js -->
     </header>
-
-    <main class="article-reader-page">
-        <a class="article-back-link" href="articles.html">&larr; Back to all articles</a>
-        <article id="articleReader" class="article-reader" aria-live="polite">
-            <div class="article-loading">Loading article...</div>
-        </article>
+    <main id="main" class="article-reader-page">
+        <div class="dira-container art-reader-wrap">
+            <a class="article-back-link in-link" href="articles.html"><span aria-hidden="true">&larr;</span> Back to all articles</a>
+            <article id="articleReader" class="article-reader">
+                <div class="article-loading">Loading article...</div>
+            </article>
+        </div>
     </main>
-
-    <footer>
+<footer>
         <!-- Injected dynamically via js/header.js -->
     </footer>
 

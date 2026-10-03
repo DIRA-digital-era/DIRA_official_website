@@ -12,192 +12,68 @@
     <meta property="og:type" content="article">
     <meta property="og:image" content="./images/logo.jpg">
     <link rel="canonical" href="project-marketplace.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style/dira-design.css">
     <link rel="stylesheet" href="./style/header.css">
-    <link rel="stylesheet" href="./style/about.css">
     <link rel="stylesheet" href="./style/contact.css">
-    <style>
-        .case-hero {
-            padding: 4rem 1.5rem 3rem;
-            background: linear-gradient(135deg, #0F3B5A 0%, #164d75 100%);
-            color: #fff;
-            text-align: center;
-        }
-        .case-badge {
-            display: inline-block;
-            background: #eef5fa;
-            color: #0F3B5A;
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            padding: 0.3rem 0.8rem;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-        }
-        .case-hero h1 {
-            font-size: 2.5rem;
-            color: #fff;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-        .case-hero p {
-            max-width: 800px;
-            margin: 0 auto;
-            color: #e2ecf4;
-            font-size: 1.15rem;
-            line-height: 1.7;
-        }
-        .case-body {
-            max-width: 900px;
-            margin: 3rem auto;
-            padding: 0 1.5rem;
-        }
-        .case-section {
-            margin-bottom: 3rem;
-        }
-        .case-section h2 {
-            font-size: 1.75rem;
-            color: #0F3B5A;
-            margin-bottom: 1rem;
-            position: relative;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #eef5fa;
-        }
-        .case-section p {
-            font-size: 1.05rem;
-            color: #374151;
-            line-height: 1.8;
-            margin-bottom: 1.25rem;
-        }
-        .spec-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin: 2rem 0;
-        }
-        .spec-item h4 {
-            font-size: 0.85rem;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.35rem;
-        }
-        .spec-item p {
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: #0F3B5A;
-            margin: 0;
-        }
-        .nda-notice {
-            background: #fffbeb;
-            border-left: 4px solid #f59e0b;
-            padding: 1rem 1.25rem;
-            border-radius: 4px;
-            margin: 2rem 0;
-            font-size: 0.95rem;
-            color: #92400e;
-        }
-        .case-actions {
-            margin: 3rem 0;
-            text-align: center;
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .btn-primary {
-            background: #0F3B5A;
-            color: #fff;
-            padding: 0.75rem 1.75rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-block;
-        }
-        .btn-primary:hover { background: #164d75; }
-        .btn-secondary {
-            background: #eef5fa;
-            color: #0F3B5A;
-            padding: 0.75rem 1.75rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-block;
-        }
-        .btn-secondary:hover { background: #e0ecf5; }
-    </style>
+    <link rel="stylesheet" href="./style/inner.css">
+    <link rel="stylesheet" href="./style/pg-case.css">
 </head>
 
-<body>
-    <header>
+<body class="large-header dira-page dira-inner pg-case" data-static-bg>
+        <header>
         <!-- injected from header.js -->
     </header>
-
-    <div class="container">
-        <article>
-            <section class="case-hero">
-                <span class="case-badge">Commercial Platform (Redacted Case Study)</span>
-                <h1>Pan-African Multi-Vendor Marketplace</h1>
-                <p>A high-capacity multi-vendor marketplace platform built for cross-border African commerce, engineered for multi-currency handling and verified merchant catalogs.</p>
+    <main id="main">
+        <article class="case">
+            <section class="case-hero dira-dark">
+                <div class="dira-container case-hero__inner reveal">
+                    <span class="case-badge dira-badge dira-badge--on-dark dira-badge--dot">Commercial Platform (Redacted Case Study)</span>
+                    <h1 class="dira-display">Pan-African Multi-Vendor Marketplace</h1>
+                    <p class="case-hero__lede">A high-capacity multi-vendor marketplace platform built for cross-border African commerce, engineered for multi-currency handling and verified merchant catalogs.</p>
+                </div>
             </section>
-
-            <div class="case-body">
-                <div class="nda-notice">
-                    <strong>Confidentiality Notice:</strong> In compliance with commercial non-disclosure obligations, specific client branding, proprietary transaction metrics, and client names have been redacted. The architecture and problem-solving framework are presented for technical due diligence.
+            <div class="dira-container case-body">
+            <div class="nda-notice reveal"><strong>Confidentiality Notice:</strong> In compliance with commercial non-disclosure obligations, specific client branding, proprietary transaction metrics, and client names have been redacted. The architecture and problem-solving framework are presented for technical due diligence.</div>
+            <div class="spec-grid reveal">
+                    <div class="spec-item"><h4>Platform Type</h4><p>Multi-Vendor E-Commerce</p></div>
+                    <div class="spec-item"><h4>Client Sector</h4><p>African Cross-Border Trade</p></div>
+                    <div class="spec-item"><h4>Status</h4><p>Delivered</p></div>
+                    <div class="spec-item"><h4>Confidentiality</h4><p>Commercial NDA</p></div>
+            </div>
+            <section class="case-section reveal">
+                <h2 class="dira-headline-md">The Cross-Border Friction Solved</h2>
+                <div class="case-section__body">
+<p>Cross-border commercial trade across Central and Western Africa faces immense logistical and financial friction. Vendors operating in different currency regimes struggle with real-time exchange rates, delayed bank settlements, and buyer cart abandonment driven by lack of merchant verification.</p>
+<p>DIRA was tasked with engineering an institutional platform capable of hosting thousands of merchant catalogs while providing automated merchant identity verification, escrow payment workflows, and unified order fulfillment tracking.</p>
                 </div>
-
-                <div class="spec-grid">
-                    <div class="spec-item">
-                        <h4>Platform Type</h4>
-                        <p>Multi-Vendor E-Commerce</p>
-                    </div>
-                    <div class="spec-item">
-                        <h4>Client Sector</h4>
-                        <p>African Cross-Border Trade</p>
-                    </div>
-                    <div class="spec-item">
-                        <h4>Status</h4>
-                        <p>Delivered</p>
-                    </div>
-                    <div class="spec-item">
-                        <h4>Confidentiality</h4>
-                        <p>Commercial NDA</p>
-                    </div>
+            </section>
+            <section class="case-section reveal">
+                <h2 class="dira-headline-md">Key Engineering Capabilities Delivered</h2>
+                <div class="case-section__body">
+<ul class="case-features"><li><strong>Multi-Tenant Merchant Dashboards:</strong> Granular inventory controls, payout ledger analytics, and multi-currency pricing tiers.</li><li><strong>Escrow Settlement Engine:</strong> Automated funds release conditional on verified fulfillment proofs, protecting both buyer and seller.</li><li><strong>KYC &amp; Merchant Vetting Pipeline:</strong> Automated document collection and verification audit trails to prevent marketplace fraud.</li><li><strong>High-Concurrency Order Processing:</strong> Resilient database architecture designed for peak transaction volumes without data inconsistency.</li></ul>
                 </div>
-
-                <section class="case-section">
-                    <h2>The Cross-Border Friction Solved</h2>
-                    <p>Cross-border commercial trade across Central and Western Africa faces immense logistical and financial friction. Vendors operating in different currency regimes struggle with real-time exchange rates, delayed bank settlements, and buyer cart abandonment driven by lack of merchant verification.</p>
-                    <p>DIRA was tasked with engineering an institutional platform capable of hosting thousands of merchant catalogs while providing automated merchant identity verification, escrow payment workflows, and unified order fulfillment tracking.</p>
-                </section>
-
-                <section class="case-section">
-                    <h2>Key Engineering Capabilities Delivered</h2>
-                    <ul style="color:#374151; font-size:1.05rem; line-height:1.8; margin-left:1.5rem; margin-bottom:1.5rem;">
-                        <li><strong>Multi-Tenant Merchant Dashboards:</strong> Granular inventory controls, payout ledger analytics, and multi-currency pricing tiers.</li>
-                        <li><strong>Escrow Settlement Engine:</strong> Automated funds release conditional on verified fulfillment proofs, protecting both buyer and seller.</li>
-                        <li><strong>KYC &amp; Merchant Vetting Pipeline:</strong> Automated document collection and verification audit trails to prevent marketplace fraud.</li>
-                        <li><strong>High-Concurrency Order Processing:</strong> Resilient database architecture designed for peak transaction volumes without data inconsistency.</li>
-                    </ul>
-                </section>
-
-                <div class="case-actions">
-                    <a href="contact.html?subject=Services" class="btn-primary">Inquire for Custom Platform Work &rarr;</a>
-                    <a href="portfolio.html" class="btn-secondary">&larr; Back to Portfolio</a>
-                </div>
+            </section>
+            <div class="case-actions reveal">
+                    <a href="contact.html?subject=Services" class="dira-btn dira-btn--primary btn-primary">Inquire for Custom Platform Work →</a>
+                    <a href="portfolio.html" class="dira-btn dira-btn--secondary btn-secondary">← Back to Portfolio</a>
+            </div>
             </div>
         </article>
 
-        <!-- Contact Section -->
-        <div class="contact-container" id="contactSection">
-            <!-- contact injected from js -->
-        </div>
-    </div>
+        <!-- General contact form (injected from js/header.js) -->
+        <section class="in-section in-contact">
+            <div class="dira-container">
+                <div class="contact-container dira-form" id="contactSection">
+                    <!-- contact injected from js -->
+                </div>
+            </div>
+        </section>
 
-    <footer>
+    </main>
+<footer>
         <!-- injected from header.js -->
     </footer>
 

@@ -1,168 +1,227 @@
-/*
-   Header & Navigation Styling
-   Sticky Header with Glassmorphism Effect
-   */
+/* ==========================================================================
+   Shared header, navigation and footer.
+   Loaded by every public page. Built on the tokens in dira-design.css,
+   so dira-design.css must be linked before this file.
 
+   Class names and DOM structure injected by js/header.js are unchanged.
+   The collapse breakpoint for the mobile menu is 1100px and must match
+   NAV_COLLAPSE_QUERY in js/header.js.
+   ========================================================================== */
+
+/* Legacy tokens. Pages that have not been redesigned still read these, so
+   they are kept as they were. Do not use them in new code; use --dira-*. */
 :root {
     --background-color: #eef0f5;
-    /* A light, soft off-white instead of pure white */
     --primary-color: #071A2F;
-    /* Deep Space Blue */
     --primary-rgb: 7, 26, 47;
     --secondary-color: #0F3B5A;
     --accent-color: #00E6D6;
-    /* Digital Mint / Electric Cyan */
     --accent-rgb: 0, 230, 214;
     --button-text: white;
     --glass-bg: rgba(7, 26, 47, 0.75);
-    /* primary-colored glass */
     --glass-blur: 14px;
 }
 
-/* Sticky Header with Glassmorphism */
+/* Some page stylesheets (contact.css) ship a universal "* { font-family }" rule
+   that overrides inherited fonts. Pin the shared header and footer so they are
+   always set in the design-system typeface. */
+header,
+header *,
+footer,
+footer * {
+    font-family: var(--dira-font);
+}
+
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
 header {
     position: sticky;
     top: 0;
-    width: 100%;
     z-index: 1000;
-    background: linear-gradient(180deg, rgba(var(--primary-rgb), 0.18), var(--glass-bg));
-    backdrop-filter: blur(var(--glass-blur));
-    -webkit-backdrop-filter: blur(var(--glass-blur));
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    box-shadow: 0 8px 40px rgba(2, 6, 12, 0.25);
+    width: 100%;
+    box-sizing: border-box;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 20px 30px;
-    height: 5rem;
+    justify-content: space-between;
+    gap: var(--dira-space-lg);
+    min-height: var(--dira-header-h);
+    padding: 0.625rem max(var(--dira-margin), calc((100% - var(--dira-container-max)) / 2));
+    font-family: var(--dira-font);
+    background: rgba(251, 251, 255, 0.88);
+    -webkit-backdrop-filter: blur(14px) saturate(150%);
+    backdrop-filter: blur(14px) saturate(150%);
+    border-bottom: 1px solid var(--dira-border);
 }
 
-/* Logo Section - Top Left Position */
+/* Logo */
 .logo-section {
     display: flex;
     align-items: center;
-    padding: 20px;
-    gap: 1rem;
+    gap: 0.75rem;
+    padding: 0;
+    flex-shrink: 0;
 }
 
 .logo-section img {
-    width: 65px;
-    height: 65px;
-    border-radius: 50dvh;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
     object-fit: cover;
-    transition: transform 0.28s cubic-bezier(.2, .9, .3, 1), box-shadow 0.28s ease;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25), 0 0 18px rgba(var(--accent-rgb), 0.06) inset;
+    border: 1px solid var(--dira-border-strong);
+    box-shadow: none;
+    transition: transform var(--dira-dur) var(--dira-ease);
 }
 
 .logo-section img:hover {
     transform: scale(1.05);
-    box-shadow: 0 6px 16px rgba(59, 70, 151, 0.5);
+    box-shadow: none;
 }
 
 .logo-text {
-    color: var(--primary-color);
-    font-weight: 700;
-    font-size: 1.5rem;
-    letter-spacing: 0.5px;
+    color: var(--dira-ink);
+    font-family: var(--dira-font);
+    font-weight: 800;
+    font-size: 1.25rem;
+    line-height: 1;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    /* display: none; */
 }
 
-/* Navigation */
+/* Navigation (desktop) */
+header nav {
+    min-width: 0;
+}
 
 .nav-wrapper {
     display: flex;
-    gap: 35px;
     align-items: center;
-    flex-wrap: wrap;
     justify-content: flex-end;
+    gap: 0.125rem;
+    flex-wrap: nowrap;
 }
 
-nav a,
-nav .dropdown-toggle {
-    text-decoration: none;
-    color: var(--background-color);
-    font-weight: 700;
-    font-size: 15px;
-    transition: color 0.22s ease, transform 0.22s ease;
+header nav a,
+header nav .dropdown-toggle {
     position: relative;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 8px 0;
-    cursor: pointer;
-    border: none;
+    gap: 0.375rem;
+    padding: 0.5rem 0.625rem;
+    border: 0;
+    border-radius: var(--dira-radius-full);
     background: none;
+    color: var(--dira-ink);
+    font-family: var(--dira-font);
+    font-size: 13px;
+    line-height: 20px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color var(--dira-dur-fast) var(--dira-ease), color var(--dira-dur-fast) var(--dira-ease);
 }
 
-nav a.active {
-    color: var(--accent-color);
+header nav a:hover,
+header nav .dropdown-toggle:hover,
+header nav .dropdown:focus-within > .dropdown-toggle {
+    background: var(--dira-lavender);
+    color: var(--dira-primary);
 }
 
-nav a:hover,
-nav .dropdown-toggle:hover {
-    color: var(--accent-color);
-    transform: translateY(-2px);
+header nav a.active,
+header nav .dropdown-toggle.active {
+    background: var(--dira-lavender);
+    color: var(--dira-primary);
 }
 
-/* Underline Animation */
-nav a::after,
-nav .dropdown-toggle::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -8px;
-    left: 0;
-    background: linear-gradient(90deg, var(--accent-color), rgba(var(--accent-rgb), 0.6));
-    transition: width 0.3s ease;
+header nav a:focus-visible,
+header nav .dropdown-toggle:focus-visible,
+.hamburger:focus-visible {
+    outline: 2px solid var(--dira-primary);
+    outline-offset: 2px;
 }
 
-nav a:hover::after,
-nav .dropdown-toggle:hover::after {
-    width: 100%;
+/* Call to action: the Contact link keeps its destination and gets the primary button treatment */
+header nav .nav-wrapper > a[href="contact.html"] {
+    margin: 0 0.5rem 0 0.25rem;
+    padding: 0.5rem 1rem;
+    background: var(--dira-gradient-button);
+    color: #FFFFFF;
+    transition: transform var(--dira-dur) var(--dira-ease), box-shadow var(--dira-dur) var(--dira-ease), filter var(--dira-dur) var(--dira-ease);
 }
 
-/* Dropdown Menu */
+header nav .nav-wrapper > a[href="contact.html"]::after {
+    content: '\2197';
+    font-size: 1.05em;
+    line-height: 1;
+}
+
+header nav .nav-wrapper > a[href="contact.html"]:hover,
+header nav .nav-wrapper > a[href="contact.html"].active {
+    background: var(--dira-gradient-button);
+    color: #FFFFFF;
+}
+
+header nav .nav-wrapper > a[href="contact.html"]:hover {
+    filter: brightness(1.07);
+    transform: translateY(-1px);
+    box-shadow: var(--dira-glow-button);
+}
+
+header nav .nav-wrapper > a[href="contact.html"]:focus-visible {
+    outline-offset: 3px;
+}
+
+/* Dropdown */
 .dropdown {
     position: relative;
     display: inline-block;
 }
 
-.dropdown-toggle {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
 .dropdown-toggle .dropdown-arrow {
-    transition: transform 0.3s ease;
+    font-size: 8px;
+    line-height: 1;
+    transition: transform var(--dira-dur) var(--dira-ease);
 }
 
-.dropdown:hover .dropdown-arrow {
+.dropdown:hover .dropdown-arrow,
+.dropdown:focus-within .dropdown-arrow {
     transform: rotate(180deg);
 }
 
 .dropdown-content {
     position: absolute;
-    top: 120%;
+    top: calc(100% + 0.5rem);
     right: 0;
-    background: var(--glass-bg);
-    backdrop-filter: blur(var(--glass-blur));
-    -webkit-backdrop-filter: blur(var(--glass-blur));
-    min-width: 280px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 15px 0;
+    z-index: 10;
+    min-width: 17.5rem;
+    margin: 0;
+    padding: 0.5rem;
+    list-style: none;
+    background: var(--dira-white);
+    border: 1px solid var(--dira-border-strong);
+    border-radius: var(--dira-radius);
+    box-shadow: var(--dira-shadow-2);
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-10px);
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-    list-style: none;
+    transform: translateY(-6px);
+    transition: opacity var(--dira-dur) var(--dira-ease), visibility var(--dira-dur) var(--dira-ease), transform var(--dira-dur) var(--dira-ease);
 }
 
-.dropdown:hover .dropdown-content {
+/* Invisible bridge so the menu does not close while the pointer crosses the gap */
+.dropdown-content::before {
+    content: '';
+    position: absolute;
+    top: -0.75rem;
+    left: 0;
+    right: 0;
+    height: 0.75rem;
+}
+
+.dropdown:hover .dropdown-content,
+.dropdown:focus-within .dropdown-content {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
@@ -172,65 +231,66 @@ nav .dropdown-toggle:hover::after {
     padding: 0;
 }
 
-.dropdown-content a {
+header nav .dropdown-content a {
     display: block;
-    padding: 12px 20px;
-    color: var(--background-color);
-    text-decoration: none;
-    font-weight: 500;
+    padding: 0.625rem 0.875rem;
+    border-radius: var(--dira-radius-sm);
+    background: none;
+    color: var(--dira-ink);
     font-size: 14px;
-    transition: background-color 0.3s ease, color 0.3s ease, padding-left 0.3s ease, border-left-color 0.3s ease;
-    border-left: 3px solid transparent;
-    position: relative;
+    line-height: 20px;
+    font-weight: 500;
+    letter-spacing: 0;
+    white-space: normal;
 }
 
-.dropdown-content a::after {
-    display: none;
+header nav .dropdown-content a:hover {
+    background: var(--dira-lavender);
+    color: var(--dira-primary);
 }
 
-.dropdown-content a:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-left-color: var(--accent-color);
-    padding-left: 25px;
-}
-
-/* Section Divider in Dropdown */
+/* Section labels inside the dropdown */
 .dropdown-section {
-    padding: 8px 20px;
-    color: var(--accent-color);
-    font-size: 12px;
+    padding: 0.625rem 0.875rem 0.25rem;
+    margin: 0.25rem 0 0;
+    color: var(--dira-primary);
+    font-size: 11px;
+    line-height: 14px;
     font-weight: 700;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: 8px;
-    margin-bottom: 4px;
 }
 
 .dropdown-section:first-child {
     margin-top: 0;
 }
 
-/* Mobile Menu Toggle */
+/* Hamburger (hidden on desktop) */
 .hamburger {
     display: none;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: 5px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: var(--dira-white);
+    border: 1px solid var(--dira-border-strong);
+    border-radius: var(--dira-radius-sm);
     cursor: pointer;
-    background: none;
-    border: none;
-    padding: 10px;
 }
 
 .hamburger span {
-    width: 25px;
-    height: 3px;
-    background-color: white;
+    width: 20px;
+    height: 2px;
     border-radius: 2px;
-    transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+    background: var(--dira-ink);
+    transition: transform var(--dira-dur) var(--dira-ease), opacity var(--dira-dur-fast) var(--dira-ease);
 }
 
 .hamburger.active span:nth-child(1) {
-    transform: rotate(45deg) translate(8px, 8px);
+    transform: translateY(7px) rotate(45deg);
 }
 
 .hamburger.active span:nth-child(2) {
@@ -238,167 +298,173 @@ nav .dropdown-toggle:hover::after {
 }
 
 .hamburger.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(7px, -7px);
+    transform: translateY(-7px) rotate(-45deg);
 }
 
-/* ============================================
-   Responsive Design
-   ============================================ */
-
-/* Tablets (768px and below) */
-@media (max-width: 768px) {
+/* ==========================================================================
+   HEADER: COLLAPSED (mobile and small tablet)
+   ========================================================================== */
+@media (max-width: 1100px) {
     header {
-        padding: 15px 20px;
         flex-wrap: wrap;
-        gap: 15px;
-    }
-
-    .logo-section {
-        padding: 15px;
-        order: 1;
-    }
-
-    .logo-section img {
-        width: 50px;
-        height: 50px;
+        row-gap: 0;
     }
 
     .hamburger {
         display: flex;
-        order: 2;
     }
 
-    nav {
+    header nav {
         order: 3;
         width: 100%;
         display: grid;
         grid-template-rows: 0fr;
-        transition: grid-template-rows 0.3s ease-out;
+        transition: grid-template-rows var(--dira-dur) var(--dira-ease);
     }
 
-    nav.active {
+    header nav.active {
         grid-template-rows: 1fr;
     }
 
     .nav-wrapper {
+        min-height: 0;
         overflow: hidden;
-        display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
+        align-items: stretch;
+        justify-content: flex-start;
+        gap: 0.25rem;
     }
 
-    nav.active .nav-wrapper {
-        padding: 20px 0;
+    header nav.active .nav-wrapper {
+        padding: 0.5rem 0 1rem;
+        max-height: calc(100dvh - var(--dira-header-h) - 1rem);
+        overflow-y: auto;
+        overscroll-behavior: contain;
     }
 
-    nav a {
+    header nav a,
+    header nav .dropdown-toggle {
         width: 100%;
-        padding: 12px 20px;
-        text-align: left;
+        box-sizing: border-box;
+        justify-content: space-between;
+        padding: 0.75rem 1rem;
+        border-radius: var(--dira-radius);
+        font-size: 14px;
     }
 
-    nav a::after {
-        bottom: -4px;
+    header nav .nav-wrapper > a[href="contact.html"] {
+        justify-content: center;
+        gap: 0.5rem;
+        margin: 0.5rem 0 0.25rem;
+        padding: 0.875rem 1.25rem;
+        order: 99;
+    }
+
+    .dropdown {
+        display: block;
+        width: 100%;
     }
 
     .dropdown-content {
         position: static;
+        min-width: 0;
+        max-height: 0;
+        overflow: hidden;
+        padding: 0 0.5rem;
+        margin: 0;
+        background: var(--dira-lavender);
+        border: 0;
+        border-radius: var(--dira-radius);
+        box-shadow: none;
+        opacity: 0;
+        visibility: hidden;
+        transform: none;
+        transition: max-height var(--dira-dur) var(--dira-ease), opacity var(--dira-dur) var(--dira-ease), padding var(--dira-dur) var(--dira-ease), margin var(--dira-dur) var(--dira-ease), visibility var(--dira-dur) var(--dira-ease);
+    }
+
+    .dropdown-content::before {
+        display: none;
+    }
+
+    /* Tap to open on the collapsed layout; hover must not open it */
+    .dropdown:hover .dropdown-content,
+    .dropdown:focus-within .dropdown-content {
         opacity: 0;
         visibility: hidden;
         max-height: 0;
-        overflow: hidden;
-        background: rgba(59, 70, 151, 0.6);
-        box-shadow: none;
-        border: none;
-        padding: 0;
-        transform: translateY(0);
-        transition: all 0.3s ease;
     }
 
-    .dropdown:hover .dropdown-content,
-    .dropdown-content.active {
+    .dropdown-content.active,
+    .dropdown:hover .dropdown-content.active,
+    .dropdown:focus-within .dropdown-content.active {
         opacity: 1;
         visibility: visible;
-        max-height: 300px;
-        padding: 10px 0;
+        max-height: 30rem;
+        padding: 0.5rem;
+        margin-top: 0.25rem;
     }
 
-    .dropdown-content a {
-        padding: 10px 30px;
-        font-size: 14px;
+    .dropdown:hover:not(.open) .dropdown-arrow,
+    .dropdown:focus-within:not(.open) .dropdown-arrow {
+        transform: none;
     }
 
-    .dropdown-content a:hover {
-        padding-left: 35px;
+    .dropdown.open .dropdown-arrow {
+        transform: rotate(180deg);
+    }
+
+    header nav .dropdown-content a {
+        padding: 0.625rem 0.75rem;
+        justify-content: flex-start;
+    }
+
+    header:has(nav.active) {
+        background: rgba(251, 251, 255, 0.98);
     }
 }
 
-@media (max-width: 768) {
-    .dropdown-content {
-        visibility: visible;
-    }
-}
-
-/* Mobile (480px and below) */
 @media (max-width: 480px) {
-    header {
-        padding: 12px 15px;
-        /* flex-direction: column; */
-        align-items: flex-start;
-    }
-
-    .logo-section {
-        width: 100%;
-        padding: 12px;
-    }
-
     .logo-section img {
-        width: 45px;
-        height: 45px;
+        width: 40px;
+        height: 40px;
     }
 
-    .hamburger {
-        position: absolute;
-        right: 15px;
-        top: 12px;
-    }
-
-    nav {
-        gap: 8px;
-    }
-
-    nav a {
-        font-size: 14px;
-        padding: 10px 0;
-    }
-
-    .dropdown-content {
-        min-width: 200px;
-        visibility: visible;
-    }
-
-    .dropdown-content a {
-        padding: 8px 25px;
-        font-size: 13px;
+    .logo-text {
+        font-size: 1.125rem;
     }
 }
 
-/* ============================================
-   Footer Styling - Professional Design
-   ============================================ */
-
+/* ==========================================================================
+   FOOTER
+   Midnight surface with a single soft violet bloom. Content and links are
+   injected by js/header.js and are unchanged.
+   ========================================================================== */
 footer {
-    background: linear-gradient(135deg, var(--primary-color) 0%, rgba(7, 26, 47, 0.95) 100%);
-    color: white;
-    padding: 60px 0 40px;
-    margin-top: 100px;
-    border-top: 1px solid rgba(var(--accent-rgb), 0.1);
     position: relative;
-    bottom: 0;
+    isolation: isolate;
+    overflow: hidden;
     width: 100%;
+    margin-top: 3rem;
+    padding: 3rem 0 1.75rem;
+    font-family: var(--dira-font);
+    background: var(--dira-midnight);
+    color: var(--dira-on-dark);
 }
 
+@media (min-width: 640px) {
+    footer {
+        margin-top: 4rem;
+        padding: 4rem 0 2rem;
+    }
+}
+
+@media (min-width: 1025px) {
+    footer {
+        margin-top: 5rem;
+    }
+}
+
+/* Top hairline in the brand gradient */
 footer::before {
     content: '';
     position: absolute;
@@ -406,318 +472,285 @@ footer::before {
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(var(--accent-rgb), 0.3), transparent);
+    background: linear-gradient(90deg, transparent 0%, var(--dira-primary) 30%, var(--dira-secondary) 70%, transparent 100%);
+    opacity: 0.7;
+}
+
+/* Soft bloom, bottom right */
+footer::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    right: -10%;
+    bottom: -35%;
+    width: 60%;
+    aspect-ratio: 1;
+    pointer-events: none;
+    background: radial-gradient(circle, rgba(99, 91, 255, 0.20) 0%, transparent 65%);
+}
+
+/* The injected wrapper carries a page-specific .container; neutralize it so the footer is identical everywhere */
+footer > .container {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+}
+
+footer .footer-content,
+footer .footer-bottom {
+    box-sizing: border-box;
+    width: min(100% - (2 * var(--dira-margin)), var(--dira-container-max));
+    max-width: none;
+    margin-inline: auto;
+    padding-inline: 0;
 }
 
 .footer-content {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 50px;
-    margin-bottom: 40px;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 20px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem var(--dira-gutter);
+    margin-bottom: 2.5rem;
+}
+
+@media (min-width: 640px) {
+    .footer-content {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+
+    .footer-section:nth-child(1) {
+        grid-column: 1 / -1;
+    }
+
+    .footer-section:nth-child(2),
+    .footer-section:nth-child(3) {
+        grid-column: span 3;
+    }
+}
+
+@media (min-width: 1025px) {
+    .footer-content {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+
+    .footer-section:nth-child(1) {
+        grid-column: span 5;
+    }
+
+    .footer-section:nth-child(2) {
+        grid-column: span 4;
+    }
+
+    .footer-section:nth-child(3) {
+        grid-column: span 3;
+    }
 }
 
 .footer-section {
     display: flex;
     flex-direction: column;
+    min-width: 0;
 }
 
 .footer-section h3 {
-    font-size: 18px;
+    margin: 0 0 1.25rem;
+    padding: 0;
+    color: var(--dira-inverse-primary);
+    font-family: var(--dira-font);
+    font-size: 12px;
+    line-height: 16px;
     font-weight: 700;
-    margin-bottom: 25px;
-    color: var(--accent-color);
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    position: relative;
-    padding-bottom: 12px;
 }
 
 .footer-section h3::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 40px;
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent-color), rgba(var(--accent-rgb), 0.3));
+    display: none;
 }
 
-.footer-section>p {
-    font-size: 15px;
-    line-height: 1.8;
-    color: rgba(255, 255, 255, 0.75);
+/* First column carries the wordmark */
+.footer-section:first-child h3 {
+    margin-bottom: 0.75rem;
+    color: #FFFFFF;
+    font-size: 1.5rem;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+}
+
+.footer-section > p {
     margin: 0;
+    max-width: 26rem;
+    font-size: 15px;
+    line-height: 24px;
+    color: var(--dira-on-dark-muted);
 }
 
-/* Footer Links */
+.footer-section > p.footer-legal {
+    margin-top: 1rem;
+    font-size: 13px;
+    line-height: 20px;
+    color: var(--dira-on-dark-faint);
+}
+
+.footer-section > p + p {
+    margin-top: 0.5rem;
+}
+
+.footer-contact-link {
+    color: var(--dira-on-dark);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--dira-dur-fast) var(--dira-ease), color var(--dira-dur-fast) var(--dira-ease);
+}
+
+.footer-contact-link:hover {
+    color: #FFFFFF;
+    border-bottom-color: var(--dira-inverse-primary);
+}
+
+/* Links */
 .footer-links {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem 1.5rem;
+    margin: 0;
+    padding: 0;
     list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+}
+
+@media (min-width: 640px) {
+    .footer-links {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 
 .footer-links li a {
-    color: rgba(255, 255, 255, 0.75);
+    display: inline-block;
+    color: var(--dira-on-dark-muted);
+    font-size: 14px;
+    line-height: 20px;
     text-decoration: none;
-    font-size: 15px;
-    transition: color 0.3s ease, padding-left 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    position: relative;
-}
-
-.footer-links li a::before {
-    content: '→';
-    opacity: 0;
-    margin-right: 8px;
-    transform: translateX(-10px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: color var(--dira-dur-fast) var(--dira-ease), transform var(--dira-dur-fast) var(--dira-ease);
 }
 
 .footer-links li a:hover {
-    color: var(--accent-color);
-    padding-left: 20px;
+    color: #FFFFFF;
+    transform: translateX(2px);
 }
 
-.footer-links li a:hover::before {
-    opacity: 1;
-    transform: translateX(0);
+footer a:focus-visible {
+    outline: 2px solid var(--dira-inverse-primary);
+    outline-offset: 3px;
+    border-radius: 4px;
 }
 
-/* Social Links - Professional Design */
+/* Social icons */
 .social-links {
     display: flex;
-    gap: 15px;
     flex-wrap: wrap;
+    gap: 0.625rem;
 }
 
 .social-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 55px;
-    height: 55px;
-    background: rgba(var(--accent-rgb), 0.12);
-    border: 2px solid rgba(var(--accent-rgb), 0.3);
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    color: var(--accent-color);
-    transition: color 0.3s cubic-bezier(0.23, 1, 0.320, 1), border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--dira-border-on-dark);
+    color: var(--dira-on-dark);
     text-decoration: none;
-}
-
-.social-icon::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: var(--accent-color);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: -1;
+    transition: transform var(--dira-dur) var(--dira-ease), background-color var(--dira-dur) var(--dira-ease), border-color var(--dira-dur) var(--dira-ease);
 }
 
 .social-icon:hover {
-    border-color: var(--accent-color);
-    color: white;
-    transform: translateY(-8px);
-    box-shadow: 0 12px 24px rgba(var(--accent-rgb), 0.2);
-}
-
-.social-icon:hover::before {
-    opacity: 0.15;
+    transform: translateY(-2px);
+    background: rgba(99, 91, 255, 0.32);
+    border-color: var(--dira-inverse-primary);
+    color: #FFFFFF;
+    box-shadow: none;
 }
 
 .social-icon svg {
-    width: 20px;
-    height: 20px;
-    stroke: currentColor;
-    transition: stroke 0.3s ease;
+    width: 18px;
+    height: 18px;
+    stroke: none;
 }
 
-/* Footer Bottom */
+/* Bottom bar */
 .footer-bottom {
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 30px 20px 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    text-align: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.10);
+    text-align: left;
 }
 
 .footer-bottom p {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.6);
     margin: 0;
-    letter-spacing: 0.5px;
+    font-size: 13px;
+    line-height: 20px;
+    letter-spacing: 0;
+    color: var(--dira-on-dark-faint);
 }
 
-/* ============================================
-   Footer Responsive Design
-   ============================================ */
-
-@media (max-width: 768px) {
-    footer {
-        padding: 50px 0 30px;
-        margin-top: 80px;
-    }
-
-    .footer-content {
-        grid-template-columns: 1fr;
-        gap: 40px;
-        padding: 0 15px;
-    }
-
-    .footer-section h3 {
-        font-size: 16px;
-        margin-bottom: 20px;
-    }
-
-    .footer-section>p {
-        font-size: 14px;
-    }
-
-    .social-links {
-        justify-content: center;
-    }
-
-    .social-icon {
-        width: 44px;
-        height: 44px;
-    }
-
-    .social-icon svg {
-        width: 18px;
-        height: 18px;
-    }
-
-    .footer-links {
-        align-items: center;
-    }
-
-    .footer-links li a {
-        justify-content: center;
-        font-size: 14px;
-    }
-
-    .footer-bottom {
-        padding: 25px 15px 0;
-    }
-
-    .footer-bottom p {
-        font-size: 13px;
-    }
-}
-
-@media (max-width: 480px) {
-    footer {
-        padding: 40px 0 25px;
-        margin-top: 60px;
-    }
-
-    .footer-content {
-        gap: 35px;
-        padding: 0 10px;
-    }
-
-    .footer-section h3 {
-        font-size: 15px;
-        margin-bottom: 15px;
-    }
-
-    .footer-section>p {
-        font-size: 13px;
-        line-height: 1.6;
-    }
-
-    .footer-section h3::after {
-        width: 30px;
-    }
-
-    .social-icon {
-        width: 40px;
-        height: 40px;
-    }
-
-    .social-icon svg {
-        width: 17px;
-        height: 17px;
-    }
-
-    .social-links {
-        gap: 12px;
-    }
-
-    .footer-bottom {
-        padding: 20px 10px 0;
-    }
-
-    .footer-bottom p {
-        font-size: 12px;
-    }
-}
-
-/* Print Styles */
+/* ==========================================================================
+   PRINT
+   ========================================================================== */
 @media print {
     header {
         position: static;
+        background: #FFFFFF;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
     }
 
     footer {
-        background: white;
-        color: #333;
-        border: 1px solid #ddd;
+        background: #FFFFFF;
+        color: #333333;
+        border-top: 1px solid #DDDDDD;
     }
 
-    .footer-section h3 {
-        color: #333;
-        border-bottom: 2px solid #ddd;
-    }
-
-    .footer-section h3::after {
+    footer::before,
+    footer::after {
         display: none;
+    }
+
+    .footer-section h3,
+    .footer-section:first-child h3,
+    .footer-section > p,
+    .footer-links li a,
+    .footer-contact-link,
+    .footer-bottom p {
+        color: #333333;
     }
 
     .social-icon {
         display: none;
     }
-
-    .footer-links li a {
-        color: #333;
-    }
-
-    .footer-bottom p {
-        color: #666;
-    }
 }
 
-
-/* custom animations */
-
-/* Elements will have this class by default */
+/* ==========================================================================
+   REVEAL ANIMATIONS (behavior driven by js/animate.js, unchanged)
+   Shorter travel and tokenised easing. Content is always shown for users
+   who prefer reduced motion.
+   ========================================================================== */
 .reveal {
     opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transform: translateY(16px);
+    transition: opacity var(--dira-dur-slow) var(--dira-ease), transform var(--dira-dur-slow) var(--dira-ease);
 }
 
-/* This class will be added via JavaScript when scrolled into view */
 .reveal.active {
     opacity: 1;
     transform: translateY(0);
 }
 
-/* reveal card */
-
 .reveal-card {
     opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-    /* Use the variable, or default to 0ms */
+    transform: translateY(16px);
+    transition: opacity var(--dira-dur-slow) var(--dira-ease), transform var(--dira-dur-slow) var(--dira-ease);
     transition-delay: var(--delay, 0ms);
 }
 
@@ -726,9 +759,25 @@ footer::before {
     transform: translateY(0);
 }
 
-/* ============================================
-   GSAP Animated Background
-   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .reveal-card {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    header nav,
+    .dropdown-content,
+    .hamburger span {
+        transition: none;
+    }
+}
+
+/* ==========================================================================
+   ATMOSPHERIC BACKGROUND (js/animate.js creates .animated-background)
+   Recoloured to the brand palette on the design-system canvas and dimmed.
+   ========================================================================== */
 .animated-background {
     position: fixed;
     top: 0;
@@ -736,27 +785,23 @@ footer::before {
     width: 100%;
     height: 100vh;
     z-index: -1;
-    /* Behind everything */
     overflow: hidden;
-    background-color: var(--background-color);
+    background-color: var(--dira-canvas);
     pointer-events: none;
-    /* Let clicks pass through */
 }
 
 .blob {
     position: absolute;
     border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.4;
+    filter: blur(90px);
+    opacity: 0.16;
     width: 50vmin;
-    /* Responsive size */
     height: 50vmin;
 }
 
-/* Mobile optimization */
 @media (max-width: 768px) {
     .blob {
-        filter: blur(50px);
-        opacity: 0.3;
+        filter: blur(60px);
+        opacity: 0.12;
     }
 }

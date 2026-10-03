@@ -12,162 +12,159 @@
     <meta property="og:type" content="website">
     <meta property="og:image" content="./images/photos/dira-team-techfest-2026.jpg">
     <link rel="canonical" href="gallery.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style/dira-design.css">
     <link rel="stylesheet" href="./style/header.css">
-    <link rel="stylesheet" href="./style/gallery.css">
+    <link rel="stylesheet" href="./style/testimonial-toast.css">
+    <link rel="stylesheet" href="./style/inner.css">
+    <link rel="stylesheet" href="./style/pg-gallery.css">
 </head>
 
-<body>
-    <header>
-        <!-- Injected dynamically via js/header.js -->
+<body class="large-header dira-page dira-inner pg-gallery" data-static-bg>
+        <header>
+        <!-- injected from header.js -->
     </header>
+    <main id="main" class="gallery-main">
 
-    <main class="gallery-main">
-        <div class="container">
-            <!-- Hero Section -->
-            <section class="hero gallery-hero">
-                <h6>Visual Showcase</h6>
-                <h1>DIRA Media &amp; Moments</h1>
-                <p>A curated visual showcase of our delivered platforms, software systems, production studio media, and institutional technology in Cameroon.</p>
-                
-                <div class="gallery-stats-strip">
-                    <div class="gallery-stat-pill">
-                        <strong>8+</strong> Delivered Platforms &amp; Systems
-                    </div>
-                    <div class="gallery-stat-pill">
-                        <strong>108+</strong> Engineers &amp; Talent Trained
-                    </div>
-                    <div class="gallery-stat-pill">
-                        <strong>100%</strong> Verified Deployment &amp; Uptime
-                    </div>
+        <section class="in-hero dira-atmosphere gal-hero">
+            <div class="dira-container in-hero__grid">
+                <div class="in-hero__copy reveal">
+                    <p class="in-eyebrow ">Visual Showcase</p>
+                    <h1 class="dira-display">DIRA Media &amp; <span class="dira-gradient-text">Moments</span></h1>
+                    <p class="in-lede">A curated visual showcase of our delivered platforms, software systems, production studio media, and institutional technology in Cameroon.</p>
                 </div>
-            </section>
-
-            <!-- Visual story gallery: alternating image and narrative cards -->
-            <section class="gallery-content-section visual-story-section">
-                <div class="visual-story-gallery" id="visualStoryGallery" aria-live="polite">
-                    <!-- Interview-style visual stories populated via js/gallery.js -->
-                </div>
-            </section>
-
-            <!-- Testimonials Section (Pictures with Captions - Completed Projects) -->
-            <section class="testimonials gallery-testimonials-section">
-                <div class="testimonials-header">
-                    <h6>Client &amp; Partner Feedback</h6>
-                    <h2>Delivered Platforms &amp; Client Feedback</h2>
-                    <p>Verified perspectives and operational feedback from organizations running on DIRA-engineered software systems.</p>
-                </div>
-
-                <div class="testimonials-carousel" id="testimonialsCarousel" aria-label="Client testimonials">
-                    <button class="testimonial-carousel-button testimonial-carousel-prev" type="button" aria-label="Previous testimonial">
-                        <span aria-hidden="true">&#8592;</span>
-                    </button>
-                    <div class="testimonials-viewport">
-                        <div class="testimonials-grid">
-                    <!-- Testimonial 1: SHESA Connect -->
-                    <figure class="testimonial-card">
-                        <div class="testimonial-img-wrap">
-                            <img src="./images/photos/dira-team-techfest-2026.jpg" alt="DIRA team presenting SHESA Connect institutional platform" loading="lazy">
-                            <span class="testimonial-badge">Institutional Platform</span>
-                        </div>
-                        <div class="testimonial-content">
-                            <blockquote class="testimonial-quote">
-                                "SHESA Connect centralized our global alumni register, leadership archives, chapter development funding, and media records into one secure system. DIRA engineered software built to institutional standards."
-                            </blockquote>
-                            <figcaption class="testimonial-author-box">
-                                <h4>Executive Secretariat, SHESA</h4>
-                                <p>Sacred Heart Ex-Students Association (SHESA Connect)</p>
-                            </figcaption>
-                        </div>
-                    </figure>
-
-                    <!-- Testimonial 2: ASWEDO Cameroon -->
-                    <figure class="testimonial-card">
-                        <div class="testimonial-img-wrap">
-                            <img src="./images/portfolio/foundation0.png" alt="ASWEDO Cameroon community welfare platform" loading="lazy">
-                            <span class="testimonial-badge">NGO &amp; Community Portal</span>
-                        </div>
-                        <div class="testimonial-content">
-                            <blockquote class="testimonial-quote">
-                                "The official web platform delivered by DIRA provides transparent reporting for our humanitarian projects, women empowerment initiatives, and international partner outreach across Cameroon."
-                            </blockquote>
-                            <figcaption class="testimonial-author-box">
-                                <h4>ASWEDO Cameroon</h4>
-                                <p>Assoc. for the Welfare of the Disadvantaged &amp; Vulnerable</p>
-                            </figcaption>
-                        </div>
-                    </figure>
-
-                    <!-- Testimonial 3: Open Dreams -->
-                    <figure class="testimonial-card">
-                        <div class="testimonial-img-wrap">
-                            <img src="./images/portfolio/opendreams.png" alt="Open Dreams scholar application and mentorship portal" loading="lazy">
-                            <span class="testimonial-badge">Academic &amp; Scholar Platform</span>
-                        </div>
-                        <div class="testimonial-content">
-                            <blockquote class="testimonial-quote">
-                                "DIRA developed an application tracking and scholar documentation system that streamlines university admissions, document uploads, and international mentorship for African students."
-                            </blockquote>
-                            <figcaption class="testimonial-author-box">
-                                <h4>Open Dreams Academy</h4>
-                                <p>Scholar Admissions &amp; Educational Mentorship Network</p>
-                            </figcaption>
-                        </div>
-                    </figure>
-
-                    <!-- Testimonial 4: Camer Young Boyz FC -->
-                    <figure class="testimonial-card">
-                        <div class="testimonial-img-wrap">
-                            <img src="./images/portfolio/youngboyz0.png" alt="Camer Young Boyz FC official sports platform" loading="lazy">
-                            <span class="testimonial-badge">Sports Management System</span>
-                        </div>
-                        <div class="testimonial-content">
-                            <blockquote class="testimonial-quote">
-                                "The official portal gives our academy verified athlete statistical cards, match fixture schedules, and direct scouting inquiry integration for international player recruitment."
-                            </blockquote>
-                            <figcaption class="testimonial-author-box">
-                                <h4>Management, Camer Young Boyz FC</h4>
-                                <p>Youth Sports Academy &amp; International Scouting Portal</p>
-                            </figcaption>
-                        </div>
-                    </figure>
-                        </div>
-                    </div>
-                    <button class="testimonial-carousel-button testimonial-carousel-next" type="button" aria-label="Next testimonial">
-                        <span aria-hidden="true">&#8594;</span>
-                    </button>
-                    <div class="testimonial-carousel-controls">
-                        <div class="testimonial-carousel-dots" role="tablist" aria-label="Choose a testimonial"></div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </main>
-
-    <!-- Category Mini Gallery Modal -->
-    <div class="gallery-modal" id="galleryModal" role="dialog" aria-modal="true" aria-labelledby="galleryModalTitle" aria-hidden="true">
-        <div class="gallery-modal-backdrop"></div>
-        <div class="gallery-modal-dialog">
-            <div class="gallery-modal-header">
-                <div>
-                    <div class="gallery-modal-kicker">DIRA Visual Archive</div>
-                    <h2 class="gallery-modal-title" id="galleryModalTitle">Category Gallery</h2>
-                    <p class="gallery-modal-description" id="galleryModalDescription"></p>
-                </div>
-                <div class="gallery-modal-heading-meta">
-                    <span id="galleryModalCount">0 images</span>
-                    <button class="gallery-modal-close" id="galleryModalClose" aria-label="Close category gallery" title="Close (Esc)">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-                    </button>
+                <div class="in-hero__aside gal-stats">
+                    <div class="gal-stat reveal-card"><strong class="gal-stat__value">8+</strong><span class="gal-stat__label">Delivered Platforms &amp; Systems</span></div>
+                    <div class="gal-stat reveal-card"><strong class="gal-stat__value">108+</strong><span class="gal-stat__label">Engineers &amp; Talent Trained</span></div>
+                    <div class="gal-stat reveal-card"><strong class="gal-stat__value">100%</strong><span class="gal-stat__label">Verified Deployment &amp; Uptime</span></div>
                 </div>
             </div>
-            <div class="gallery-modal-grid" id="galleryModalGrid"></div>
-        </div>
-    </div>
+        </section>
 
-    <footer>
+        <section class="in-section in-section--flush-top gal-stories">
+            <div class="dira-container">
+                <div id="visualStoryGallery" class="visual-story-gallery gal-mosaic">
+                    <!-- Visual stories populated by js/gallery.js from /api/gallery -->
+                </div>
+            </div>
+        </section>
+
+        <section class="in-section in-section--tint gal-voices">
+            <div class="dira-container">
+                <div class="in-head reveal">
+                    <p class="in-eyebrow ">Client &amp; Partner Feedback</p>
+                    <h2 class="dira-headline-lg">Delivered Platforms &amp; Client Feedback</h2>
+                    <p>Verified perspectives and operational feedback from organizations running on DIRA-engineered software systems.</p>
+                </div>
+                <div aria-label="Client testimonials" class="testimonials-carousel" id="testimonialsCarousel">
+<button aria-label="Previous testimonial" class="testimonial-carousel-button testimonial-carousel-prev" type="button">
+<span aria-hidden="true">←</span>
+</button>
+<div class="testimonials-viewport">
+<div class="testimonials-grid">
+<!-- Testimonial 1: SHESA Connect -->
+<figure class="testimonial-card">
+<div class="testimonial-img-wrap">
+<img alt="DIRA team presenting SHESA Connect institutional platform" loading="lazy" src="./images/photos/web/team-b.jpg"/>
+<span class="testimonial-badge">Institutional Platform</span>
+</div>
+<div class="testimonial-content">
+<blockquote class="testimonial-quote">
+                                "SHESA Connect centralized our global alumni register, leadership archives, chapter development funding, and media records into one secure system. DIRA engineered software built to institutional standards."
+                            </blockquote>
+<figcaption class="testimonial-author-box">
+<h4>Executive Secretariat, SHESA</h4>
+<p>Sacred Heart Ex-Students Association (SHESA Connect)</p>
+</figcaption>
+</div>
+</figure>
+<!-- Testimonial 2: ASWEDO Cameroon -->
+<figure class="testimonial-card">
+<div class="testimonial-img-wrap">
+<img alt="ASWEDO Cameroon community welfare platform" loading="lazy" src="./images/portfolio/foundation0.png"/>
+<span class="testimonial-badge">NGO &amp; Community Portal</span>
+</div>
+<div class="testimonial-content">
+<blockquote class="testimonial-quote">
+                                "The official web platform delivered by DIRA provides transparent reporting for our humanitarian projects, women empowerment initiatives, and international partner outreach across Cameroon."
+                            </blockquote>
+<figcaption class="testimonial-author-box">
+<h4>ASWEDO Cameroon</h4>
+<p>Assoc. for the Welfare of the Disadvantaged &amp; Vulnerable</p>
+</figcaption>
+</div>
+</figure>
+<!-- Testimonial 3: Open Dreams -->
+<figure class="testimonial-card">
+<div class="testimonial-img-wrap">
+<img alt="Open Dreams scholar application and mentorship portal" loading="lazy" src="./images/portfolio/opendreams.png"/>
+<span class="testimonial-badge">Academic &amp; Scholar Platform</span>
+</div>
+<div class="testimonial-content">
+<blockquote class="testimonial-quote">
+                                "DIRA developed an application tracking and scholar documentation system that streamlines university admissions, document uploads, and international mentorship for African students."
+                            </blockquote>
+<figcaption class="testimonial-author-box">
+<h4>Open Dreams Academy</h4>
+<p>Scholar Admissions &amp; Educational Mentorship Network</p>
+</figcaption>
+</div>
+</figure>
+<!-- Testimonial 4: Camer Young Boyz FC -->
+<figure class="testimonial-card">
+<div class="testimonial-img-wrap">
+<img alt="Camer Young Boyz FC official sports platform" loading="lazy" src="./images/portfolio/youngboyz0.png"/>
+<span class="testimonial-badge">Sports Management System</span>
+</div>
+<div class="testimonial-content">
+<blockquote class="testimonial-quote">
+                                "The official portal gives our academy verified athlete statistical cards, match fixture schedules, and direct scouting inquiry integration for international player recruitment."
+                            </blockquote>
+<figcaption class="testimonial-author-box">
+<h4>Management, Camer Young Boyz FC</h4>
+<p>Youth Sports Academy &amp; International Scouting Portal</p>
+</figcaption>
+</div>
+</figure>
+</div>
+</div>
+<button aria-label="Next testimonial" class="testimonial-carousel-button testimonial-carousel-next" type="button">
+<span aria-hidden="true">→</span>
+</button>
+<div class="testimonial-carousel-controls">
+<div aria-label="Choose a testimonial" class="testimonial-carousel-dots" role="tablist"></div>
+</div>
+</div>
+            </div>
+        </section>
+
+        <div aria-hidden="true" aria-labelledby="galleryModalTitle" aria-modal="true" class="gallery-modal" id="galleryModal" role="dialog">
+<div class="gallery-modal-backdrop"></div>
+<div class="gallery-modal-dialog">
+<div class="gallery-modal-header">
+<div>
+<div class="gallery-modal-kicker">DIRA Visual Archive</div>
+<h2 class="gallery-modal-title" id="galleryModalTitle">Category Gallery</h2>
+<p class="gallery-modal-description" id="galleryModalDescription"></p>
+</div>
+<div class="gallery-modal-heading-meta">
+<span id="galleryModalCount">0 images</span>
+<button aria-label="Close category gallery" class="gallery-modal-close" id="galleryModalClose" title="Close (Esc)">
+<svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="22">
+<line x1="18" x2="6" y1="6" y2="18"></line>
+<line x1="6" x2="18" y1="6" y2="18"></line>
+</svg>
+</button>
+</div>
+</div>
+<div class="gallery-modal-grid" id="galleryModalGrid"></div>
+</div>
+</div>
+
+    </main>
+<footer>
         <!-- Injected dynamically via js/header.js -->
     </footer>
 

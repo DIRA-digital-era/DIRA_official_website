@@ -34,11 +34,11 @@ const projects = [
     techInfo: "Multi-tier membership platform, historical executive records database, project milestone tracker, event registration engine, and institutional role-based access control.",
     images: [
       {
-        url: "./images/photos/dira-team-Tech Fest-2026.jpg",
+        url: "./images/photos/web/team-b.jpg",
         alt: "SHESA project signing and institutional presentation"
       },
       {
-        url: "./images/photos/dira-technical-training.jpg",
+        url: "./images/photos/web/team-a.jpg",
         alt: "DIRA team presenting platform capabilities"
       }
     ]
@@ -56,11 +56,11 @@ const projects = [
     techInfo: "Accessible, responsive web architecture, structured field reporting modules, donation inquiries, and optimized mobile-first performance.",
     images: [
       {
-        url: "./images/portfolio/foundation0.png",
+        url: "./images/portfolio/web/foundation0.webp",
         alt: "ASWEDO Cameroon community welfare platform"
       },
       {
-        url: "./images/portfolio/foundation1.png",
+        url: "./images/portfolio/web/foundation1.webp",
         alt: "ASWEDO educational outreach program"
       }
     ]
@@ -100,15 +100,15 @@ const projects = [
     techInfo: "Fast-loading media showcase, individual athlete statistical cards, responsive match calendar, and secure scouting inquiry integration.",
     images: [
       {
-        url: "./images/portfolio/youngboyz0.png",
+        url: "./images/portfolio/web/youngboyz0.webp",
         alt: "Camer Young Boyz FC official website"
       },
       {
-        url: "./images/portfolio/youngboyz1.png",
+        url: "./images/portfolio/web/youngboyz1.webp",
         alt: "Player match highlights and statistics"
       },
       {
-        url: "./images/portfolio/youngboyz2.png",
+        url: "./images/portfolio/web/youngboyz2.webp",
         alt: "Academy match schedule and roster"
       }
     ]
@@ -125,19 +125,19 @@ const projects = [
     techInfo: "Community portal, workshop registration pipelines, resource repository, and volunteer mentorship coordination.",
     images: [
       {
-        url: "./images/portfolio/foundation0.png",
+        url: "./images/portfolio/web/foundation0.webp",
         alt: "DIRA Foundation community empowerment workshop"
       },
       {
-        url: "./images/portfolio/foundation1.png",
+        url: "./images/portfolio/web/foundation1.webp",
         alt: "DIRA Foundation digital education program"
       },
       {
-        url: "./images/portfolio/foundation2.png",
+        url: "./images/portfolio/web/foundation2.webp",
         alt: "Community digital literacy session"
       },
       {
-        url: "./images/portfolio/foundation3.png",
+        url: "./images/portfolio/web/foundation3.webp",
         alt: "Hands-on technology training for young students"
       }
     ]
@@ -154,15 +154,15 @@ const projects = [
     techInfo: "Educational resource delivery architecture, scholar alumni profiles, and university partnership showcase.",
     images: [
       {
-        url: "./images/portfolio/opendreams.png",
+        url: "./images/portfolio/web/opendreams.webp",
         alt: "Open Dreams scholar graduation and achievements"
       },
       {
-        url: "./images/portfolio/opendreams1.png",
+        url: "./images/portfolio/web/opendreams1.webp",
         alt: "Scholars collaborating in academic mentorship program"
       },
       {
-        url: "./images/portfolio/opendreams2.png",
+        url: "./images/portfolio/web/opendreams2.webp",
         alt: "International scholarship success stories"
       }
     ]
@@ -179,15 +179,15 @@ const projects = [
     techInfo: "Experimental immutable batch logging, distributor verification dashboard, and decentralized record proofs.",
     images: [
       {
-        url: "./images/portfolio/agrichain0.png",
+        url: "./images/portfolio/web/agrichain0.webp",
         alt: "AgriChain AI supply chain dashboard prototype"
       },
       {
-        url: "./images/portfolio/agrichain1.png",
+        url: "./images/portfolio/web/agrichain1.webp",
         alt: "Farmer batch registration interface"
       },
       {
-        url: "./images/portfolio/agrichain2.png",
+        url: "./images/portfolio/web/agrichain2.webp",
         alt: "Crop provenance verification proof"
       }
     ]
@@ -228,6 +228,7 @@ function updateIndicators(id, activeIdx) {
 
 function restartAuto(id) {
   if (autoIntervals[id]) clearInterval(autoIntervals[id]);
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   autoIntervals[id] = setInterval(() => moveCarousel(id, 1), 3500);
 }
 
@@ -256,15 +257,13 @@ function openCaseStudyModal(projectId) {
     liveBtn.href = p.link;
     liveBtn.target = '_blank';
     liveBtn.rel = 'noopener';
-    liveBtn.className = 'modal-btn-primary';
-    liveBtn.style.background = '#0284c7';
+    liveBtn.className = 'modal-btn-primary modal-btn-primary--live';
     liveBtn.textContent = 'Visit Live Platform';
     actionsContainer.appendChild(liveBtn);
   }
   const closeBtn = document.createElement('button');
   closeBtn.type = 'button';
-  closeBtn.className = 'modal-btn-primary';
-  closeBtn.style.background = '#6b7280';
+  closeBtn.className = 'modal-btn-primary modal-btn-primary--muted';
   closeBtn.textContent = 'Close';
   closeBtn.onclick = closeCaseStudyModal;
   actionsContainer.appendChild(closeBtn);
@@ -297,12 +296,19 @@ function injectProjects() {
     card.className = 'portfolio-card reveal-card';
     card.id = project.id;
 
-    // Generate Images
-    const imagesHtml = project.images.map(img => `
+    // Generate Images (generic stock illustrations in /images/utils/ are not shown as project work)
+    const shownImages = project.images.filter(img => !/\/images\/utils\//.test(img.url));
+    const hasMultiple = shownImages.length > 1;
+    const imagesHtml = shownImages.length ? shownImages.map(img => `
       <div class="carousel-item">
         <img src="${img.url}" alt="${img.alt}" loading="lazy">
       </div>
-    `).join('');
+    `).join('') : `
+      <div class="carousel-item carousel-item--placeholder" aria-hidden="true">
+        <span class="pf-placeholder__cat">${project.category}</span>
+        <span class="pf-placeholder__title">${project.title}</span>
+      </div>
+    `;
 
     // Generate Tags
     const tagsHtml = project.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
@@ -316,10 +322,10 @@ function injectProjects() {
         <div class="carousel-inner" id="inner-${project.id}">
           ${imagesHtml}
         </div>
-        <div class="carousel-controls">
+        ${hasMultiple ? `<div class="carousel-controls">
           <button class="carousel-btn prev" data-project="${project.id}" aria-label="Previous image">&#10094;</button>
           <button class="carousel-btn next" data-project="${project.id}" aria-label="Next image">&#10095;</button>
-        </div>
+        </div>` : ''}
         <div class="carousel-indicators" id="indicators-${project.id}"></div>
       </div>
       <div class="card-body">
@@ -328,8 +334,8 @@ function injectProjects() {
         <p class="card-desc">${project.description}</p>
       </div>
       <div class="card-actions-row">
-        ${project.caseStudyPage ? `<a href="${project.caseStudyPage}" class="btn-case-study" style="text-decoration:none;">Case Study &rarr;</a>` : `<button type="button" class="btn-case-study" onclick="openCaseStudyModal('${project.id}')">View Details</button>`}
-        <button type="button" class="btn-case-study" style="background:#4b5563;" onclick="openCaseStudyModal('${project.id}')">Overview</button>
+        ${project.caseStudyPage ? `<a href="${project.caseStudyPage}" class="btn-case-study">Case Study &rarr;</a>` : `<button type="button" class="btn-case-study" onclick="openCaseStudyModal('${project.id}')">View Details</button>`}
+        <button type="button" class="btn-case-study btn-case-study--ghost" onclick="openCaseStudyModal('${project.id}')">Overview</button>
         ${liveLinkHtml}
       </div>
     `;
@@ -350,7 +356,7 @@ function injectProjects() {
     const indicatorsContainer = document.getElementById(`indicators-${project.id}`);
     if (indicatorsContainer) {
       indicatorsContainer.innerHTML = '';
-      const total = project.images.length || 1;
+      const total = hasMultiple ? shownImages.length : 0;
       for (let i = 0; i < total; i++) {
         const btn = document.createElement('button');
         btn.className = 'carousel-indicator' + (i === 0 ? ' active' : '');
@@ -365,7 +371,7 @@ function injectProjects() {
       }
     }
 
-    carouselObserver.observe(card);
+    if (hasMultiple) carouselObserver.observe(card);
   });
 }
 

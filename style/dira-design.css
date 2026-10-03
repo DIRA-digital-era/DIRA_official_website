@@ -1,0 +1,807 @@
+/* ==========================================================================
+   DIRA DESIGN SYSTEM  ("Luminous Violet")
+   Single source of truth for the redesign. Values come from DESIGN.md.
+
+   Contents
+   1. Tokens (color, type, spacing, radius, elevation, motion)
+   2. Page base (.dira-page) and atmosphere
+   3. Typography utilities
+   4. Layout: container, 12 / 6 / 1 column grid, sections
+   5. Surfaces and cards
+   6. Buttons
+   7. Badges
+   8. Forms (.dira-form, .dira-field)
+   9. Metrics
+   10. Motion utilities and reduced motion
+
+   Class prefix is "dira-" so nothing collides with legacy page CSS.
+   Legacy pages keep working untouched until they are redesigned.
+
+   Breakpoints (media queries cannot read custom properties):
+     mobile  < 640px
+     tablet  640px to 1024px
+     desktop > 1024px
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. TOKENS
+   -------------------------------------------------------------------------- */
+:root {
+    /* Brand */
+    --dira-primary: #635BFF;
+    --dira-primary-deep: #493EE5;
+    --dira-secondary: #9B51E0;
+    --dira-secondary-deep: #8135C5;
+    --dira-accent-violet: #7E42F5;
+
+    /* Contrast and text */
+    --dira-midnight: #0B0A26;
+    --dira-ink: #1A173B;
+    --dira-muted: #464555;
+    --dira-outline: #777587;
+    --dira-outline-variant: #C7C4D8;
+    --dira-placeholder: #8E8BA7;
+
+    /* Surfaces */
+    --dira-canvas: #FBFBFF;
+    --dira-white: #FFFFFF;
+    --dira-lavender: #F0EEFF;
+    --dira-surface-low: #F6F1FF;
+    --dira-surface: #F0EBFF;
+    --dira-surface-high: #EAE5FF;
+    --dira-surface-highest: #E4DFFF;
+    --dira-field: #F4F4FA;
+
+    /* On dark (midnight) surfaces */
+    --dira-on-dark: #F3EEFF;
+    --dira-on-dark-muted: rgba(243, 238, 255, 0.72);
+    --dira-on-dark-faint: rgba(243, 238, 255, 0.55);
+    --dira-inverse-primary: #C3C0FF;
+
+    /* Semantic (only for real error states) */
+    --dira-error: #BA1A1A;
+    --dira-error-container: #FFDAD6;
+
+    /* Gradients */
+    --dira-gradient: linear-gradient(135deg, #635BFF 0%, #9B51E0 100%);
+    --dira-gradient-button: linear-gradient(135deg, #635BFF 0%, #7E42F5 100%);
+
+    /* Borders */
+    --dira-border: rgba(99, 91, 255, 0.08);
+    --dira-border-field: rgba(99, 91, 255, 0.12);
+    --dira-border-strong: rgba(99, 91, 255, 0.20);
+    --dira-border-on-dark: rgba(195, 192, 255, 0.18);
+
+    /* Typography */
+    --dira-font: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+    /* Spacing */
+    --dira-space-xs: 0.25rem;
+    --dira-space-sm: 0.5rem;
+    --dira-space-md: 1rem;
+    --dira-space-lg: 1.5rem;
+    --dira-space-xl: 2.5rem;
+    --dira-section-y: 2.5rem;
+    --dira-gutter: 0.75rem;
+    --dira-margin: 1.25rem;
+    --dira-container-max: 1200px;
+
+    /* Radius */
+    --dira-radius-sm: 0.5rem;
+    --dira-radius: 1rem;
+    --dira-radius-input: 0.875rem;
+    --dira-radius-md: 1.5rem;
+    --dira-radius-lg: 2rem;
+    --dira-radius-xl: 3rem;
+    --dira-radius-full: 9999px;
+
+    /* Elevation */
+    --dira-shadow-1: 0 4px 20px -2px rgba(99, 91, 255, 0.06), 0 2px 6px rgba(0, 0, 0, 0.02);
+    --dira-shadow-2: 0 12px 32px -4px rgba(26, 23, 59, 0.08), 0 4px 12px rgba(99, 91, 255, 0.08);
+    --dira-shadow-3: 0 20px 40px -8px rgba(99, 91, 255, 0.22);
+    --dira-glow-button: 0 8px 20px rgba(99, 91, 255, 0.35);
+
+    /* Control heights */
+    --dira-control-h: 48px;
+    --dira-header-h: 72px;
+
+    /* Motion */
+    --dira-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --dira-dur-fast: 160ms;
+    --dira-dur: 240ms;
+    --dira-dur-slow: 480ms;
+}
+
+@media (min-width: 640px) {
+    :root {
+        --dira-gutter: 1rem;
+        --dira-margin: 1.5rem;
+    }
+}
+
+@media (min-width: 1025px) {
+    :root {
+        --dira-margin: 2rem;
+        --dira-section-y: 5rem;
+        --dira-control-h: 52px;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   2. PAGE BASE AND ATMOSPHERE
+   Opt in per page with <body class="dira-page">. Legacy pages are not
+   affected until they add the class.
+   -------------------------------------------------------------------------- */
+body.dira-page {
+    zoom: 1;
+    font-family: var(--dira-font);
+    font-size: 14px;
+    line-height: 22px;
+    color: var(--dira-ink);
+    background-color: var(--dira-canvas);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+@media (min-width: 640px) {
+    body.dira-page {
+        font-size: 16px;
+        line-height: 26px;
+    }
+}
+
+/* Atmospheric bloom. Put on a section that needs the soft violet backdrop.
+   Use sparingly: hero and one or two key moments, not every section. */
+.dira-atmosphere {
+    position: relative;
+    isolation: isolate;
+}
+
+.dira-atmosphere::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 80% 20%, rgba(99, 91, 255, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 12% 88%, rgba(155, 81, 224, 0.08) 0%, transparent 45%);
+}
+
+/* Shared font for every design-system element */
+[class*="dira-"] {
+    font-family: var(--dira-font);
+}
+
+/* --------------------------------------------------------------------------
+   3. TYPOGRAPHY UTILITIES
+   Names mirror the DESIGN.md scale. Mobile sizes apply below 640px.
+   -------------------------------------------------------------------------- */
+.dira-display,
+.dira-headline-lg,
+.dira-headline-md,
+.dira-headline-sm {
+    margin: 0;
+    color: var(--dira-ink);
+    text-wrap: balance;
+}
+
+.dira-display {
+    font-size: 30px;
+    line-height: 38px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.dira-headline-lg {
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.dira-headline-md {
+    font-size: 22px;
+    line-height: 30px;
+    font-weight: 700;
+}
+
+.dira-headline-sm {
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 600;
+}
+
+@media (min-width: 640px) {
+    .dira-display {
+        font-size: 40px;
+        line-height: 48px;
+    }
+
+    .dira-headline-lg {
+        font-size: 32px;
+        line-height: 40px;
+    }
+}
+
+.dira-body-lg {
+    font-size: 16px;
+    line-height: 26px;
+    font-weight: 400;
+}
+
+.dira-body-md {
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 400;
+}
+
+.dira-body-sm {
+    font-size: 12px;
+    line-height: 18px;
+    font-weight: 400;
+}
+
+.dira-label-lg {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
+}
+
+.dira-label-md {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 600;
+}
+
+.dira-label-sm {
+    font-size: 11px;
+    line-height: 14px;
+    font-weight: 700;
+}
+
+.dira-text-muted {
+    color: var(--dira-muted);
+}
+
+.dira-text-primary {
+    color: var(--dira-primary);
+}
+
+/* Two-tone headline accent: wrap the highlighted words in this class */
+.dira-gradient-text {
+    background: var(--dira-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   4. LAYOUT
+   Container caps content at 1200px with the design-system margins.
+   Grid: 12 columns desktop, 6 tablet, 1 mobile.
+   -------------------------------------------------------------------------- */
+.dira-container {
+    width: min(100% - (2 * var(--dira-margin)), var(--dira-container-max));
+    margin-inline: auto;
+}
+
+.dira-section {
+    padding-block: var(--dira-section-y);
+}
+
+.dira-section--tight {
+    padding-block: var(--dira-space-xl);
+}
+
+.dira-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--dira-space-lg) var(--dira-gutter);
+}
+
+/* Children span the full row unless a column class says otherwise */
+.dira-grid > * {
+    grid-column: 1 / -1;
+    min-width: 0;
+}
+
+@media (min-width: 640px) {
+    .dira-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1025px) {
+    .dira-grid {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+}
+
+/* Column spans: .dira-tab-N for tablet (1 to 6), .dira-col-N for desktop (1 to 12) */
+@media (min-width: 640px) and (max-width: 1024px) {
+    .dira-tab-1 { grid-column: span 1; }
+    .dira-tab-2 { grid-column: span 2; }
+    .dira-tab-3 { grid-column: span 3; }
+    .dira-tab-4 { grid-column: span 4; }
+    .dira-tab-5 { grid-column: span 5; }
+    .dira-tab-6 { grid-column: span 6; }
+}
+
+@media (min-width: 1025px) {
+    .dira-col-1 { grid-column: span 1; }
+    .dira-col-2 { grid-column: span 2; }
+    .dira-col-3 { grid-column: span 3; }
+    .dira-col-4 { grid-column: span 4; }
+    .dira-col-5 { grid-column: span 5; }
+    .dira-col-6 { grid-column: span 6; }
+    .dira-col-7 { grid-column: span 7; }
+    .dira-col-8 { grid-column: span 8; }
+    .dira-col-9 { grid-column: span 9; }
+    .dira-col-10 { grid-column: span 10; }
+    .dira-col-11 { grid-column: span 11; }
+    .dira-col-12 { grid-column: span 12; }
+}
+
+/* Stack helper: consistent vertical rhythm */
+.dira-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--dira-space-md);
+}
+
+.dira-stack--lg {
+    gap: var(--dira-space-lg);
+}
+
+/* Section header: eyebrow badge, title, lede. Left aligned by default. */
+.dira-section-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--dira-space-md);
+    max-width: 44rem;
+    margin-bottom: var(--dira-space-xl);
+}
+
+.dira-section-header--center {
+    align-items: center;
+    text-align: center;
+    margin-inline: auto;
+}
+
+.dira-section-header p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 26px;
+    color: var(--dira-muted);
+}
+
+/* Dark contrast band for showcase rows, metrics, and closing moments */
+.dira-dark {
+    position: relative;
+    isolation: isolate;
+    background: var(--dira-midnight);
+    color: var(--dira-on-dark);
+}
+
+.dira-dark .dira-display,
+.dira-dark .dira-headline-lg,
+.dira-dark .dira-headline-md,
+.dira-dark .dira-headline-sm {
+    color: #FFFFFF;
+}
+
+.dira-dark .dira-text-muted,
+.dira-dark .dira-section-header p {
+    color: var(--dira-on-dark-muted);
+}
+
+/* --------------------------------------------------------------------------
+   5. SURFACES AND CARDS
+   Level 0 canvas, Level 1 card, Level 2 floating and forms, Level 3 modal.
+   Not everything should be a card. Use these where separation is needed.
+   -------------------------------------------------------------------------- */
+.dira-surface {
+    background: var(--dira-white);
+    border: 1px solid var(--dira-border);
+    border-radius: var(--dira-radius-md);
+    box-shadow: var(--dira-shadow-1);
+}
+
+.dira-surface--float {
+    box-shadow: var(--dira-shadow-2);
+    border-color: var(--dira-border-strong);
+}
+
+.dira-surface--modal {
+    box-shadow: var(--dira-shadow-3);
+    border-color: var(--dira-border-strong);
+}
+
+.dira-surface--tint {
+    background: var(--dira-lavender);
+    box-shadow: none;
+}
+
+.dira-card {
+    background: var(--dira-white);
+    border: 1px solid var(--dira-border);
+    border-radius: var(--dira-radius-md);
+    box-shadow: var(--dira-shadow-1);
+    padding: var(--dira-space-lg);
+    transition: transform var(--dira-dur) var(--dira-ease), box-shadow var(--dira-dur) var(--dira-ease), border-color var(--dira-dur) var(--dira-ease);
+}
+
+.dira-card--interactive:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--dira-shadow-2);
+    border-color: var(--dira-border-strong);
+}
+
+/* Rounded-square icon holder used inside feature and service cards */
+.dira-icon-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--dira-radius);
+    background: var(--dira-lavender);
+    color: var(--dira-primary);
+    flex-shrink: 0;
+}
+
+.dira-icon-badge svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Media frame for images: rounded, clipped, ready for hover movement */
+.dira-media {
+    overflow: hidden;
+    border-radius: var(--dira-radius-md);
+    background: var(--dira-lavender);
+}
+
+.dira-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    object-fit: cover;
+}
+
+.dira-divider {
+    height: 1px;
+    border: 0;
+    background: var(--dira-border-strong);
+    margin: var(--dira-space-lg) 0;
+}
+
+/* --------------------------------------------------------------------------
+   6. BUTTONS
+   Presentation only. Works on <a> and <button>.
+   -------------------------------------------------------------------------- */
+.dira-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--dira-space-sm);
+    min-height: var(--dira-control-h);
+    padding: 0 1.5rem;
+    border: 1px solid transparent;
+    border-radius: var(--dira-radius-full);
+    font-family: var(--dira-font);
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: transform var(--dira-dur) var(--dira-ease), box-shadow var(--dira-dur) var(--dira-ease), filter var(--dira-dur) var(--dira-ease), background-color var(--dira-dur) var(--dira-ease), border-color var(--dira-dur) var(--dira-ease);
+}
+
+.dira-btn:focus-visible {
+    outline: 2px solid var(--dira-primary);
+    outline-offset: 3px;
+}
+
+.dira-btn:disabled,
+.dira-btn[aria-disabled="true"] {
+    opacity: 0.55;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+.dira-btn--primary {
+    background: var(--dira-gradient-button);
+    color: #FFFFFF;
+}
+
+.dira-btn--primary:hover:not(:disabled) {
+    filter: brightness(1.07);
+    transform: translateY(-1px);
+    box-shadow: var(--dira-glow-button);
+}
+
+.dira-btn--secondary {
+    background: var(--dira-lavender);
+    color: var(--dira-primary);
+    border-color: var(--dira-border-strong);
+}
+
+.dira-btn--secondary:hover:not(:disabled) {
+    background: var(--dira-surface-high);
+    transform: translateY(-1px);
+}
+
+/* For buttons that sit on midnight surfaces */
+.dira-btn--on-dark {
+    background: rgba(255, 255, 255, 0.08);
+    color: #FFFFFF;
+    border-color: var(--dira-border-on-dark);
+}
+
+.dira-btn--on-dark:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.14);
+    transform: translateY(-1px);
+}
+
+.dira-btn--on-dark:focus-visible {
+    outline-color: var(--dira-inverse-primary);
+}
+
+/* Optional trailing arrow, as specified for primary CTAs */
+.dira-btn--arrow::after {
+    content: '\2197';
+    font-size: 1.05em;
+    line-height: 1;
+    transition: transform var(--dira-dur) var(--dira-ease);
+}
+
+.dira-btn--arrow:hover::after {
+    transform: translate(2px, -2px);
+}
+
+.dira-btn--sm {
+    min-height: 40px;
+    padding: 0 1.125rem;
+    font-size: 13px;
+}
+
+.dira-btn--block {
+    display: flex;
+    width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   7. BADGES AND PILL CHIPS
+   Categories, status, trust markers. Small UI only.
+   -------------------------------------------------------------------------- */
+.dira-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 6px 14px;
+    border-radius: var(--dira-radius-full);
+    background: #F0EEFF;
+    background: rgba(99, 91, 255, 0.08);
+    color: var(--dira-primary);
+    font-size: 11px;
+    line-height: 14px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.dira-badge--dot::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--dira-primary);
+    flex-shrink: 0;
+}
+
+.dira-badge--title-case {
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.dira-badge--on-dark {
+    background: rgba(195, 192, 255, 0.12);
+    color: var(--dira-inverse-primary);
+}
+
+.dira-badge--on-dark.dira-badge--dot::before {
+    background: var(--dira-inverse-primary);
+}
+
+/* --------------------------------------------------------------------------
+   8. FORMS
+   Opt in by adding class "dira-form" to a form or wrapper. Existing
+   markup (.form-group, label, input, select, textarea) is restyled
+   without changing ids, names, or behavior. New markup can use .dira-field.
+   -------------------------------------------------------------------------- */
+.dira-form .form-group,
+.dira-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--dira-space-sm);
+    margin-bottom: var(--dira-space-md);
+}
+
+.dira-form label,
+.dira-field label {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
+    color: var(--dira-ink);
+}
+
+.dira-form input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="submit"]):not([type="button"]),
+.dira-form select,
+.dira-form textarea,
+.dira-input {
+    width: 100%;
+    min-height: var(--dira-control-h);
+    padding: 0.75rem 1rem;
+    background: var(--dira-field);
+    border: 1px solid var(--dira-border-field);
+    border-radius: var(--dira-radius-input);
+    font-family: var(--dira-font);
+    /* 16px prevents iOS from zooming into focused fields */
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--dira-ink);
+    box-sizing: border-box;
+    transition: border-color var(--dira-dur-fast) var(--dira-ease), background-color var(--dira-dur-fast) var(--dira-ease);
+}
+
+.dira-form textarea,
+textarea.dira-input {
+    min-height: 8rem;
+    resize: vertical;
+}
+
+.dira-form input::placeholder,
+.dira-form textarea::placeholder,
+.dira-input::placeholder {
+    color: var(--dira-placeholder);
+    opacity: 1;
+}
+
+.dira-form input:not([type="checkbox"]):not([type="radio"]):focus,
+.dira-form select:focus,
+.dira-form textarea:focus,
+.dira-input:focus {
+    outline: 2px solid var(--dira-primary);
+    outline-offset: 0;
+    background: var(--dira-white);
+    border-color: transparent;
+}
+
+.dira-form input[type="checkbox"],
+.dira-form input[type="radio"] {
+    accent-color: var(--dira-primary);
+}
+
+.dira-field--error .dira-input,
+.dira-form [aria-invalid="true"] {
+    border-color: var(--dira-error);
+}
+
+.dira-field__hint {
+    font-size: 12px;
+    line-height: 18px;
+    color: var(--dira-muted);
+}
+
+.dira-field__error {
+    font-size: 12px;
+    line-height: 18px;
+    color: var(--dira-error);
+}
+
+/* --------------------------------------------------------------------------
+   9. METRICS
+   Real DIRA figures only. Styling is the only thing defined here.
+   -------------------------------------------------------------------------- */
+.dira-metric {
+    display: flex;
+    flex-direction: column;
+    gap: var(--dira-space-sm);
+}
+
+.dira-metric__value {
+    font-size: 40px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--dira-primary);
+}
+
+.dira-metric__value--gradient {
+    background: var(--dira-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.dira-metric__label {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--dira-muted);
+}
+
+.dira-dark .dira-metric__value {
+    color: var(--dira-inverse-primary);
+}
+
+.dira-dark .dira-metric__label {
+    color: var(--dira-on-dark-muted);
+}
+
+@media (min-width: 1025px) {
+    .dira-metric__value {
+        font-size: 56px;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   10. MOTION UTILITIES AND REDUCED MOTION
+   Subtle reveal, hover lift, image movement. Nothing loops.
+   -------------------------------------------------------------------------- */
+.dira-hover-lift {
+    transition: transform var(--dira-dur) var(--dira-ease), box-shadow var(--dira-dur) var(--dira-ease);
+}
+
+.dira-hover-lift:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--dira-shadow-2);
+}
+
+.dira-media--zoom img {
+    transition: transform var(--dira-dur-slow) var(--dira-ease);
+}
+
+.dira-media--zoom:hover img {
+    transform: scale(1.035);
+}
+
+.dira-visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    [class*="dira-"],
+    [class*="dira-"]::before,
+    [class*="dira-"]::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+
+    .dira-hover-lift:hover,
+    .dira-card--interactive:hover,
+    .dira-btn:hover,
+    .dira-media--zoom:hover img {
+        transform: none;
+    }
+}

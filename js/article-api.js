@@ -2,7 +2,7 @@
   'use strict';
 
   const API_BASE = window.DIRA_API_BASE || (window.location.protocol === 'file:' ? 'http://localhost:3000/api' : '/api');
-  const DEFAULT_IMAGE = './images/photos/IMG_9933.jpg';
+  const DEFAULT_IMAGE = './images/photos/web/team-b.jpg';
 
   async function request(path, options) {
     const response = await fetch(`${API_BASE}${path}`, options);

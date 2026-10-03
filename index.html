@@ -12,11 +12,16 @@
     <meta property="og:type" content="website">
     <meta property="og:image" content="./images/logo.jpg">
     <link rel="canonical" href="index.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style/dira-design.css">
     <link rel="stylesheet" href="./style/header.css">
-    <link rel="stylesheet" href="./style/index.css">
     <link rel="stylesheet" href="./style/articles.css">
     <link rel="stylesheet" href="./style/reports.css">
     <link rel="stylesheet" href="./style/contact.css">
+    <link rel="stylesheet" href="./style/home.css">
+    <link rel="preload" as="image" href="./images/photos/web/hero-1.jpg">
 
     <!-- Organization Structured Data -->
     <script type="application/ld+json">
@@ -47,360 +52,312 @@
     </script>
 </head>
 
-<body class="large-header">
+<body class="large-header dira-page dira-home" data-static-bg>
     <header>
         <!-- injected from header.js -->
     </header>
+    <main id="main">
 
-    <div class="container">
-        <!-- Hero: Selling Value Identity with Background Slideshow & 3-Pillar Text Carousel -->
-        <section class="hero reveal">
-            <!-- Background Image Slideshow -->
-            <div class="hero-slideshow" aria-hidden="true">
-                <div class="hero-slide active" style="background-image: url('./images/photos/IMG_1544.jpg');"></div>
-                <div class="hero-slide" style="background-image: url('./images/photos/IMG_9933.jpg');"></div>
-                <div class="hero-slide" style="background-image: url('./images/photos/dira-technical-training.jpg');"></div>
-                <div class="hero-slide" style="background-image: url('./images/photos/dira-team-techfest-2026.jpg');"></div>
-            </div>
-            <div class="hero-overlay"></div>
-
-            <div class="hero-content">
-                <div class="hero-badge">Enterprise Software &bull; Workflow Automation &bull; Custom Platforms</div>
-                <h1>Building Dependable Software &amp; Digital Infrastructure for Africa.</h1>
-                
-                <!-- Rotating Text Carousel for the 3 Core Pillars -->
-                <div class="hero-carousel-container" id="heroCarousel">
-                    <div class="hero-carousel-track">
-                        <!-- Slide 1: Digital Identity & Presence -->
-                        <div class="hero-carousel-slide active" data-index="0">
-                            <div class="hero-pillar-tag">
-                                <span class="pillar-dot"></span>
-                                <span>Digital Identity &amp; Presence</span>
+        <!-- Hero: asymmetric split. Copy and pillar rotator left, photo slideshow right. -->
+        <section class="home-hero dira-atmosphere">
+            <div class="dira-container home-hero__grid">
+                <div class="home-hero__copy reveal">
+                    <span class="dira-badge dira-badge--dot">Enterprise Software &bull; Workflow Automation &bull; Custom Platforms</span>
+                    <h1 class="dira-display home-hero__title">Building Dependable Software &amp; <span class="dira-gradient-text">Digital Infrastructure for Africa.</span></h1>
+                    <!-- Rotating text carousel for the 3 core pillars (controller script at end of page) -->
+                    <div class="hero-carousel-container" id="heroCarousel">
+                        <div class="hero-carousel-track">
+                            <div class="hero-carousel-slide active" data-index="0">
+                                <div class="hero-pillar-tag">
+                                    <span class="pillar-dot"></span>
+                                    <span>Digital Identity &amp; Presence</span>
+                                </div>
+                                <p class="hero-sub">We engineer authoritative digital presence, custom web platforms, and verified branding that empower businesses, institutions, and schools to be discovered by global partners and command market trust.</p>
                             </div>
-                            <p class="hero-sub">We engineer authoritative digital presence, custom web platforms, and verified branding that empower businesses, institutions, and schools to be discovered by global partners and command market trust.</p>
+                            <div class="hero-carousel-slide" data-index="1">
+                                <div class="hero-pillar-tag">
+                                    <span class="pillar-dot"></span>
+                                    <span>Operational Automation</span>
+                                </div>
+                                <p class="hero-sub">We replace manual paperwork, messy spreadsheets, and lost hours with custom web tools that automate rosters, client onboarding, inventory, and payment reconciliations seamlessly.</p>
+                            </div>
+                            <div class="hero-carousel-slide" data-index="2">
+                                <div class="hero-pillar-tag">
+                                    <span class="pillar-dot"></span>
+                                    <span>Authenticity &amp; Integrity</span>
+                                </div>
+                                <p class="hero-sub">We engineer tamper-evident systems, transparent record architectures, and verifiable data pipelines built to hold up under strict regulatory scrutiny and statutory institutional audits.</p>
+                            </div>
                         </div>
-
-                        <!-- Slide 2: Operational Automation -->
-                        <div class="hero-carousel-slide" data-index="1">
-                            <div class="hero-pillar-tag">
-                                <span class="pillar-dot"></span>
-                                <span>Operational Automation</span>
-                            </div>
-                            <p class="hero-sub">We replace manual paperwork, messy spreadsheets, and lost hours with custom web tools that automate rosters, client onboarding, inventory, and payment reconciliations seamlessly.</p>
-                        </div>
-
-                        <!-- Slide 3: Authenticity & Integrity -->
-                        <div class="hero-carousel-slide" data-index="2">
-                            <div class="hero-pillar-tag">
-                                <span class="pillar-dot"></span>
-                                <span>Authenticity &amp; Integrity</span>
-                            </div>
-                            <p class="hero-sub">We engineer tamper-evident systems, transparent record architectures, and verifiable data pipelines built to hold up under strict regulatory scrutiny and statutory institutional audits.</p>
+                        <div class="hero-carousel-nav" role="tablist" aria-label="Core Pillars">
+                            <button class="carousel-dot active" role="tab" aria-selected="true" aria-label="Pillar 1: Digital Identity &amp; Presence" data-slide="0"></button>
+                            <button class="carousel-dot" role="tab" aria-selected="false" aria-label="Pillar 2: Operational Automation" data-slide="1"></button>
+                            <button class="carousel-dot" role="tab" aria-selected="false" aria-label="Pillar 3: Authenticity &amp; Integrity" data-slide="2"></button>
                         </div>
                     </div>
-
-                    <!-- Carousel Indicators / Navigation Dots -->
-                    <div class="hero-carousel-nav" role="tablist" aria-label="Core Pillars">
-                        <button class="carousel-dot active" role="tab" aria-selected="true" aria-label="Pillar 1: Digital Identity &amp; Presence" data-slide="0"></button>
-                        <button class="carousel-dot" role="tab" aria-selected="false" aria-label="Pillar 2: Operational Automation" data-slide="1"></button>
-                        <button class="carousel-dot" role="tab" aria-selected="false" aria-label="Pillar 3: Authenticity &amp; Integrity" data-slide="2"></button>
+                    <div class="home-hero__actions">
+                        <a href="https://client-intake-form.diracmr.com" target="_blank" rel="noopener" class="dira-btn dira-btn--primary dira-btn--arrow">Start a Project With Us</a>
+                        <a href="services.html" class="dira-btn dira-btn--secondary">Explore Solutions</a>
                     </div>
                 </div>
-
-                <div class="hero-buttons">
-                    <a href="https://client-intake-form.diracmr.com" target="_blank" rel="noopener" class="button-primary">
-                        <span>Start a Project With Us</span>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </a>
-                    <a href="services.html" class="button-outline">Explore Solutions</a>
+                <div class="home-hero__visual reveal">
+                    <div class="home-hero__frame hero-slideshow" aria-hidden="true">
+                        <div class="hero-slide active" style="background-image: url('./images/photos/web/hero-1.jpg');"></div>
+                        <div class="hero-slide" style="background-image: url('./images/photos/web/hero-2.jpg');"></div>
+                        <div class="hero-slide" style="background-image: url('./images/photos/web/hero-3.jpg');"></div>
+                        <div class="hero-slide" style="background-image: url('./images/photos/web/hero-4.jpg');"></div>
+                    </div>
+                    <span class="dira-badge dira-badge--dot dira-badge--on-dark home-hero__chip">Bamenda, Cameroon</span>
                 </div>
             </div>
         </section>
 
-        <!-- Value Proposition Highlights -->
-        <section class="value-props-section reveal">
-            <div class="services-text">
-                <h6>Why Work With DIRA</h6>
-                <h2>Engineered for Reliability &amp; Commercial ROI</h2>
-                <p>We do not deliver template sites and vanish. We build mission-critical digital systems with named accountability and ongoing maintenance.</p>
-            </div>
-            <div class="value-grid">
-                <div class="value-card">
-                    <div class="value-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <h3>Audit-Proof Security</h3>
-                    <p>Tamper-evident records, role-based access controls, and data architectures built to hold up under statutory audit and regulatory compliance.</p>
+        <!-- Value proposition highlights: editorial ledger -->
+        <section class="home-section home-value">
+            <div class="dira-container dira-grid home-value__grid">
+                <div class="home-head dira-col-5 dira-tab-6 reveal">
+                    <p class="home-eyebrow">Why Work With DIRA</p>
+                    <h2 class="dira-headline-lg">Engineered for Reliability &amp; Commercial ROI</h2>
+                    <p>We do not deliver template sites and vanish. We build mission-critical digital systems with named accountability and ongoing maintenance.</p>
                 </div>
-                <div class="value-card">
-                    <div class="value-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
-                            <path d="M8 21h8M12 17v4M7 8l3 3-3 3M13 14h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <h3>Workflow Automation</h3>
-                    <p>Eliminate manual data re-entry, messy spreadsheets, and lost hours with custom tools that automate rosters, client onboarding, and payment reconciliations.</p>
-                </div>
-                <div class="value-card">
-                    <div class="value-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-                            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="currentColor" stroke-width="2"/>
-                        </svg>
-                    </div>
-                    <h3>Authoritative Identity</h3>
-                    <p>Build an undeniable digital presence with custom web platforms that attract international grantmakers, enterprise clients, and institutional partners.</p>
-                </div>
-                <div class="value-card">
-                    <div class="value-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
-                        </svg>
-                    </div>
-                    <h3>Named Accountability</h3>
-                    <p>Every software build is handled by a credentialed engineering lead who remains answerable for the system long after the launch date.</p>
-                </div>
+                <ul class="home-ledger dira-col-7 dira-tab-6">
+                    <li class="home-ledger__item reveal-card">
+                        <span class="dira-icon-badge"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                        <h3>Audit-Proof Security</h3>
+                        <p>Tamper-evident records, role-based access controls, and data architectures built to hold up under statutory audit and regulatory compliance.</p>
+                    </li>
+                    <li class="home-ledger__item reveal-card">
+                        <span class="dira-icon-badge"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 21h8M12 17v4M7 8l3 3-3 3M13 14h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                        <h3>Workflow Automation</h3>
+                        <p>Eliminate manual data re-entry, messy spreadsheets, and lost hours with custom tools that automate rosters, client onboarding, and payment reconciliations.</p>
+                    </li>
+                    <li class="home-ledger__item reveal-card">
+                        <span class="dira-icon-badge"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="currentColor" stroke-width="2"/></svg></span>
+                        <h3>Authoritative Identity</h3>
+                        <p>Build an undeniable digital presence with custom web platforms that attract international grantmakers, enterprise clients, and institutional partners.</p>
+                    </li>
+                    <li class="home-ledger__item reveal-card">
+                        <span class="dira-icon-badge"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/></svg></span>
+                        <h3>Named Accountability</h3>
+                        <p>Every software build is handled by a credentialed engineering lead who remains answerable for the system long after the launch date.</p>
+                    </li>
+                </ul>
             </div>
         </section>
 
-        <!-- Introduction / Credibility -->
-        <section id="journey" class="content-section section-light">
-            <div class="content-container alternate">
-                <div class="text-content reveal">
-                    <h6 style="color:#3b4697; letter-spacing:2px; text-transform:uppercase; font-size:13px; font-weight:700; margin-bottom:10px;">Proven Execution</h6>
-                    <h2 style="margin-bottom:1rem;">Built to Handle Real Operational Volume</h2>
+        <!-- Introduction / credibility -->
+        <section id="journey" class="home-section home-section--tint home-intro">
+            <div class="dira-container dira-grid home-intro__grid">
+                <div class="home-intro__media dira-col-6 dira-tab-6 reveal">
+                    <div class="dira-media">
+                        <img src="./images/photos/web/journey.jpg" alt="DIRA team at work in Bamenda" loading="lazy" width="1400" height="1288">
+                    </div>
+                </div>
+                <div class="home-intro__copy dira-col-5 dira-tab-6 reveal">
+                    <p class="home-eyebrow">Proven Execution</p>
+                    <h2 class="dira-headline-lg">Built to Handle Real Operational Volume</h2>
                     <p class="section-text">DIRA is a technology company based in Bamenda, Cameroon, registered under OHADA law. We build systems that organizations can stake their reputations on: records that resist tampering, platforms that handle live transactional volume, and digital tools tailored to African business realities.</p>
-                    <p class="section-text" style="margin-top:1rem;">In 2026 alone, DIRA organized a 3-day tech festival attracting over 1,000 attendees, trained 108 engineers, launched Cameroon's first verified housing platform (DHUB), and delivered enterprise systems presented directly to senior government officials.</p>
-                    <div style="display:flex; gap:15px; margin-top:1.5rem; flex-wrap:wrap;">
-                        <a href="about.html" class="button" style="display:inline-block;">Our Story &amp; Pillars</a>
-                        <a href="https://client-intake-form.diracmr.com" target="_blank" rel="noopener" class="button" style="background:#0F3B5A; border-color:#0F3B5A; display:inline-block;">Start Your Project &rarr;</a>
+                    <p class="section-text home-intro__facts">In 2026 alone, DIRA organized a 3-day tech festival attracting over 1,000 attendees, trained 108 engineers, launched Cameroon's first verified housing platform (DHUB), and delivered enterprise systems presented directly to senior government officials.</p>
+                    <div class="home-intro__actions">
+                        <a href="about.html" class="dira-btn dira-btn--secondary">Our Story &amp; Pillars</a>
+                        <a href="https://client-intake-form.diracmr.com" target="_blank" rel="noopener" class="dira-btn dira-btn--primary">Start Your Project &rarr;</a>
                     </div>
-                </div>
-                <div class="image-content reveal">
-                    <img src="./images/photos/IMG_9933.jpg" alt="DIRA team at work in Bamenda" loading="lazy">
                 </div>
             </div>
         </section>
 
-        <!-- Core Solutions Grid -->
-        <section class="our-services">
-            <div class="services-container">
-                <div class="services-text reveal">
-                    <h6>Enterprise Solutions</h6>
-                    <h2>What We Build For Our Clients</h2>
+        <!-- Core solutions: numbered editorial rows -->
+        <section class="home-section home-services">
+            <div class="dira-container dira-grid home-services__grid">
+                <div class="home-head home-services__head dira-col-4 dira-tab-6 reveal">
+                    <p class="home-eyebrow">Enterprise Solutions</p>
+                    <h2 class="dira-headline-lg">What We Build For Our Clients</h2>
                     <p>From tamper-evident databases to scalable SaaS platforms and workflow automation engines, explore our core capability areas.</p>
                 </div>
-
-                <div class="services-card">
-                    <div class="card">
-                        <h2>Secure Systems</h2>
+                <ol class="home-caps dira-col-7 dira-tab-6">
+                    <li class="home-cap reveal-card">
+                        <span class="home-cap__num" aria-hidden="true">01</span>
+                        <h3>Secure Systems</h3>
                         <p>Records, verification platforms, and tamper-resistant architectures built to hold up under institutional audits and regulatory oversight.</p>
-                        <a href="services.html#secure-systems" class="card-cta">Explore systems &rarr;</a>
-                    </div>
-                    <div id="middle">
-                        <h2>Custom Platforms</h2>
+                        <a href="services.html#secure-systems" class="home-link">Explore systems <span aria-hidden="true">&rarr;</span></a>
+                    </li>
+                    <li class="home-cap reveal-card">
+                        <span class="home-cap__num" aria-hidden="true">02</span>
+                        <h3>Custom Platforms</h3>
                         <p>Tailored web and mobile applications for enterprises managing complex member data, transaction volumes, or multi-branch operations.</p>
-                        <a href="services.html#custom-platforms" class="card-cta" style="color:#00E6D6; font-weight:700;">Explore platforms &rarr;</a>
-                    </div>
-                    <div class="card">
-                        <h2>Business Automation</h2>
+                        <a href="services.html#custom-platforms" class="home-link">Explore platforms <span aria-hidden="true">&rarr;</span></a>
+                    </li>
+                    <li class="home-cap reveal-card">
+                        <span class="home-cap__num" aria-hidden="true">03</span>
+                        <h3>Business Automation</h3>
                         <p>Custom internal tools, CRM integrations, automated invoicing, and digital workflow systems that eliminate administrative bottlenecks.</p>
-                        <a href="services.html#consulting" class="card-cta">Explore automation &rarr;</a>
-                    </div>
-                </div>
-
-                <div class="card training">
-                    <h2>Technical Capacity &amp; Talent Pipeline</h2>
-                    <p>Intensive hands-on training across modern web development, backend engineering, and cybersecurity. DIRA's engineering pipeline is cultivated directly through this program.</p>
-                    <a href="training.html" class="button" style="margin-top: 1rem; display: inline-block;">Explore Training Program</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Stats Section -->
-        <section class="our-services reveal" style="background: #0F3B5A; color: #fff; padding: 3.5rem 0; border-radius: 16px;">
-            <div class="services-container">
-                <div id="what_we_do" class="services-text">
-                    <h6 style="color:#00E6D6;">Factual Track Record</h6>
-                    <h2 style="color:#fff;">Measurable Groundwork in Cameroon</h2>
-                    <p style="color:#a8c7e0;">Verified outcomes from our engineering deployments, public programs, and tech operations.</p>
-                </div>
-                <div class="stats-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem;padding:2rem 1rem 0;">
-                    <div class="stat-item" style="text-align:center;">
-                        <div class="stat-number" data-target="1000" data-suffix="+" style="font-size:2.8rem;font-weight:800;color:#00E6D6;">1,000+</div>
-                        <div class="stat-text" style="color:#ffffff;margin-top:0.5rem;font-weight:600;">Tech Fest Attendees</div>
-                    </div>
-                    <div class="stat-item" style="text-align:center;">
-                        <div class="stat-number" data-target="108" data-suffix="+" style="font-size:2.8rem;font-weight:800;color:#00E6D6;">108+</div>
-                        <div class="stat-text" style="color:#ffffff;margin-top:0.5rem;font-weight:600;">Engineers Trained</div>
-                    </div>
-                    <div class="stat-item" style="text-align:center;">
-                        <div class="stat-number" data-target="8" data-suffix="+" style="font-size:2.8rem;font-weight:800;color:#00E6D6;">8+</div>
-                        <div class="stat-text" style="color:#ffffff;margin-top:0.5rem;font-weight:600;">Delivered Platforms</div>
-                    </div>
-                    <div class="stat-item" style="text-align:center;">
-                        <div class="stat-number" data-target="100" data-suffix="%" style="font-size:2.8rem;font-weight:800;color:#00E6D6;">100%</div>
-                        <div class="stat-text" style="color:#ffffff;margin-top:0.5rem;font-weight:600;">Verified Deployment</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Client Intake Section (Dedicated CTA) -->
-        <section class="client-intake-section reveal">
-            <div class="intake-grid">
-                <div class="intake-content">
-                    <h6>Ready To Build?</h6>
-                    <h2>Submit Your Requirements to Our Engineering Team</h2>
-                    <p>Whether you need an enterprise database system, a client management portal, or automated operational software, our team conducts thorough scoping and delivers fixed-scope milestones with guaranteed code ownership.</p>
-                    <div class="intake-cta-wrap">
-                        <a href="https://client-intake-form.diracmr.com" target="_blank" rel="noopener" class="button-primary" style="padding:16px 36px; font-size:16px;">
-                            <span>Tell Us About Your Project</span>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                <div class="intake-guarantees">
-                    <div class="guarantee-item">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-                            <path d="M8 12l3 3 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <div>
-                            <h4>Free Technical Scoping</h4>
-                            <p>We review your operational requirements, data schemas, and architecture before quote confirmation.</p>
-                        </div>
-                    </div>
-                    <div class="guarantee-item">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-                            <path d="M8 12l3 3 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <div>
-                            <h4>100% Code &amp; Data Ownership</h4>
-                            <p>You retain full intellectual property, source code, and administrative database rights upon delivery.</p>
-                        </div>
-                    </div>
-                    <div class="guarantee-item">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-                            <path d="M8 12l3 3 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <div>
-                            <h4>Post-Launch Follow-Through</h4>
-                            <p>Our engineers provide active SLA support, staff onboarding, and operational monitoring.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Testimonials Section -->
-        <section class="testimonials-section reveal">
-            <div class="services-text">
-                <h6>Verified Impact</h6>
-                <h2>What Partners &amp; Clients Say</h2>
-                <p>Authentic feedback from organizations, institutions, and community partners that run on DIRA software.</p>
-            </div>
-            <div class="testimonials-grid">
-                <!-- Testimonial 1 -->
-                <div class="testimonial-card">
-                    <div class="testimonial-quote-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
-                        </svg>
-                    </div>
-                    <p class="testimonial-text">"DIRA delivered a resilient platform that consolidated our global alumni membership and digitized our verification process with flawless audit trails and zero downtime."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">SC</div>
-                        <div class="author-info">
-                            <h4>SHESA Connect</h4>
-                            <p>Sacred Heart Ex-Students Association Platform</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Testimonial 2 -->
-                <div class="testimonial-card">
-                    <div class="testimonial-quote-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
-                        </svg>
-                    </div>
-                    <p class="testimonial-text">"Commended as one of the most promising and technically rigorous technology initiatives encountered in Bamenda, setting a new bar for regional youth-built software."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">MR</div>
-                        <div class="author-info">
-                            <h4>MINRESI Regional Delegation</h4>
-                            <p>Ministry of Scientific Research &amp; Innovation (Northwest)</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Testimonial 3 -->
-                <div class="testimonial-card">
-                    <div class="testimonial-quote-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
-                        </svg>
-                    </div>
-                    <p class="testimonial-text">"Their custom web portal and operational automation tools streamlined our community initiatives and eliminated manual tracking errors across all departments."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">AS</div>
-                        <div class="author-info">
-                            <h4>ASWEDO</h4>
-                            <p>Association for the Support of Women's Entrepreneurship and Development</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Recent Articles & Insights Section -->
-        <section class="recent-articles-section reveal">
-            <div class="section-header-flex">
-                <div>
-                    <h6>Engineering &amp; Strategy</h6>
-                    <h2>Latest Articles &amp; Insights</h2>
-                </div>
-                <a href="articles.html" class="button" style="padding: 10px 24px; font-size: 14px;">View All Articles &rarr;</a>
-            </div>
-            <div class="articles-grid" id="recentArticlesGrid" style="margin-bottom:0; padding:0;">
-                <!-- Injected dynamically via js/articles.js -->
-            </div>
-        </section>
-
-        <!-- Reports Teaser Section -->
-        <section class="reports-teaser-section reveal" style="border-radius:16px; margin: 40px 0 60px;">
-            <div class="reports-teaser-container">
-                <div class="reports-teaser-header">
+                        <a href="services.html#consulting" class="home-link">Explore automation <span aria-hidden="true">&rarr;</span></a>
+                    </li>
+                </ol>
+                <div class="home-training dira-col-12 reveal">
                     <div>
-                        <h6>Public Accountability</h6>
-                        <h2>Reports &amp; Whitepapers</h2>
+                        <h3>Technical Capacity &amp; Talent Pipeline</h3>
+                        <p>Intensive hands-on training across modern web development, backend engineering, and cybersecurity. DIRA's engineering pipeline is cultivated directly through this program.</p>
                     </div>
-                    <a href="reports.html" class="button" style="padding: 10px 24px; font-size: 14px; background:#0F3B5A; border-color:#0F3B5A;">Access Document Repository &rarr;</a>
+                    <a href="training.html" class="dira-btn dira-btn--primary">Explore Training Program</a>
                 </div>
-                <div class="reports-grid" id="recentReportsGrid" style="margin-bottom:0; padding:0;">
+            </div>
+        </section>
+
+        <!-- Stats -->
+        <section class="home-section home-stats dira-dark">
+            <div class="dira-container">
+                <div id="what_we_do" class="home-head reveal">
+                    <p class="home-eyebrow">Factual Track Record</p>
+                    <h2 class="dira-headline-lg">Measurable Groundwork in Cameroon</h2>
+                    <p>Verified outcomes from our engineering deployments, public programs, and tech operations.</p>
+                </div>
+                <div class="home-stats__row stats-grid">
+                    <div class="home-stat dira-metric reveal-card stat-item">
+                        <div class="stat-number dira-metric__value dira-metric__value--gradient" data-target="1000" data-suffix="+">1,000+</div>
+                        <div class="stat-text dira-metric__label">Tech Fest Attendees</div>
+                    </div>
+                    <div class="home-stat dira-metric reveal-card stat-item">
+                        <div class="stat-number dira-metric__value dira-metric__value--gradient" data-target="108" data-suffix="+">108+</div>
+                        <div class="stat-text dira-metric__label">Engineers Trained</div>
+                    </div>
+                    <div class="home-stat dira-metric reveal-card stat-item">
+                        <div class="stat-number dira-metric__value dira-metric__value--gradient" data-target="8" data-suffix="+">8+</div>
+                        <div class="stat-text dira-metric__label">Delivered Platforms</div>
+                    </div>
+                    <div class="home-stat dira-metric reveal-card stat-item">
+                        <div class="stat-number dira-metric__value dira-metric__value--gradient" data-target="100" data-suffix="%">100%</div>
+                        <div class="stat-text dira-metric__label">Verified Deployment</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Client intake: the page's conversion panel -->
+        <section class="home-section">
+            <div class="dira-container">
+                <div class="home-cta reveal">
+                    <div class="home-cta__copy">
+                        <p class="home-eyebrow">Ready To Build?</p>
+                        <h2 class="dira-headline-lg">Submit Your Requirements to Our Engineering Team</h2>
+                        <p>Whether you need an enterprise database system, a client management portal, or automated operational software, our team conducts thorough scoping and delivers fixed-scope milestones with guaranteed code ownership.</p>
+                        <a href="https://client-intake-form.diracmr.com" target="_blank" rel="noopener" class="dira-btn dira-btn--light dira-btn--arrow">Tell Us About Your Project</a>
+                    </div>
+                    <ul class="home-cta__list">
+                        <li class="home-cta__item">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M8 12l3 3 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <div>
+                                <h4>Free Technical Scoping</h4>
+                                <p>We review your operational requirements, data schemas, and architecture before quote confirmation.</p>
+                            </div>
+                        </li>
+                        <li class="home-cta__item">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M8 12l3 3 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <div>
+                                <h4>100% Code &amp; Data Ownership</h4>
+                                <p>You retain full intellectual property, source code, and administrative database rights upon delivery.</p>
+                            </div>
+                        </li>
+                        <li class="home-cta__item">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M8 12l3 3 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <div>
+                                <h4>Post-Launch Follow-Through</h4>
+                                <p>Our engineers provide active SLA support, staff onboarding, and operational monitoring.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials: one lead quote, two supporting -->
+        <section class="home-section home-quotes">
+            <div class="dira-container">
+                <div class="home-head reveal">
+                    <p class="home-eyebrow">Verified Impact</p>
+                    <h2 class="dira-headline-lg">What Partners &amp; Clients Say</h2>
+                    <p>Authentic feedback from organizations, institutions, and community partners that run on DIRA software.</p>
+                </div>
+                <div class="dira-grid home-quotes__grid">
+                    <figure class="home-quote home-quote--lead dira-col-7 dira-tab-6 reveal" style="margin:0;">
+                        <svg class="home-quote__mark" width="36" height="36" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+                        <p class="home-quote__text">"DIRA delivered a resilient platform that consolidated our global alumni membership and digitized our verification process with flawless audit trails and zero downtime."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">SC</div>
+                            <div class="author-info">
+                                <h4>SHESA Connect</h4>
+                                <p>Sacred Heart Ex-Students Association Platform</p>
+                            </div>
+                        </div>
+                    </figure>
+                    <div class="home-quote__side dira-col-5 dira-tab-6">
+                        <figure class="home-quote reveal-card" style="margin:0;">
+                            <p class="home-quote__text">"Commended as one of the most promising and technically rigorous technology initiatives encountered in Bamenda, setting a new bar for regional youth-built software."</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">MR</div>
+                                <div class="author-info">
+                                    <h4>MINRESI Regional Delegation</h4>
+                                    <p>Ministry of Scientific Research &amp; Innovation (Northwest)</p>
+                                </div>
+                            </div>
+                        </figure>
+                        <figure class="home-quote reveal-card" style="margin:0;">
+                            <p class="home-quote__text">"Their custom web portal and operational automation tools streamlined our community initiatives and eliminated manual tracking errors across all departments."</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">AS</div>
+                                <div class="author-info">
+                                    <h4>ASWEDO</h4>
+                                    <p>Association for the Support of Women's Entrepreneurship and Development</p>
+                                </div>
+                            </div>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent articles and insights (cards injected by js/article-api.js) -->
+        <section class="home-section home-section--tint home-articles">
+            <div class="dira-container">
+                <div class="home-head home-head--row reveal">
+                    <div>
+                        <p class="home-eyebrow">Engineering &amp; Strategy</p>
+                        <h2 class="dira-headline-lg">Latest Articles &amp; Insights</h2>
+                    </div>
+                    <a href="articles.html" class="dira-btn dira-btn--secondary">View All Articles &rarr;</a>
+                </div>
+                <div class="home-articles__grid" id="recentArticlesGrid">
+                    <!-- Injected dynamically via js/article-api.js -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Reports teaser (cards injected by js/reports.js) -->
+        <section class="home-section home-reports">
+            <div class="dira-container">
+                <div class="home-head home-head--row reveal">
+                    <div>
+                        <p class="home-eyebrow">Public Accountability</p>
+                        <h2 class="dira-headline-lg">Reports &amp; Whitepapers</h2>
+                    </div>
+                    <a href="reports.html" class="dira-btn dira-btn--secondary">Access Document Repository &rarr;</a>
+                </div>
+                <div class="home-reports__grid" id="recentReportsGrid">
                     <p class="reports-empty">Loading reports...</p>
                 </div>
             </div>
         </section>
 
-        <!-- General contact form  -->
-        <div class="contact-container" id="contactSection">
-            <!-- contact injected from js -->
-        </div>
-    </div>
+        <!-- General contact form (injected from js/header.js) -->
+        <section class="home-section home-contact" style="padding-top:0;">
+            <div class="dira-container">
+                <div class="contact-container dira-form" id="contactSection">
+                    <!-- contact injected from js -->
+                </div>
+            </div>
+        </section>
 
+    </main>
     <footer>
         <!-- injected from header.js  -->
     </footer>

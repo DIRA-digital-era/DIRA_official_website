@@ -12,370 +12,187 @@
     <meta property="og:type" content="website">
     <meta property="og:image" content="./images/logo.jpg">
     <link rel="canonical" href="about.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style/dira-design.css">
     <link rel="stylesheet" href="./style/header.css">
-    <link rel="stylesheet" href="./style/about.css">
     <link rel="stylesheet" href="./style/contact.css">
-    <style>
-        /* Recognition section */
-        .recognition-section {
-            padding: 4rem 2rem;
-            background: #f8f9fa;
-        }
-        .recognition-section .section-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        .recognition-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-        .recognition-card {
-            background: #fff;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-        }
-        .recognition-card .rec-img-wrap {
-            width: 100%;
-            height: 220px;
-            overflow: hidden;
-            background: #e9eef2;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .recognition-card .rec-img-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .recognition-card .rec-img-placeholder {
-            color: #9aabb8;
-            font-size: 0.85rem;
-            padding: 1rem;
-            text-align: center;
-        }
-        .recognition-card .rec-body {
-            padding: 1.25rem 1.5rem;
-        }
-        .recognition-card .rec-body figcaption {
-            font-size: 0.9rem;
-            color: #444;
-            line-height: 1.6;
-        }
-        /* Group teaser */
-        .group-teaser {
-            background: #0F3B5A;
-            color: #fff;
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-        .group-teaser h2 { color: #fff; margin-bottom: 1rem; }
-        .group-teaser p { color: #a8c7e0; max-width: 680px; margin: 0 auto 2rem; line-height: 1.7; }
-        .group-teaser a.button {
-            background: #fff;
-            color: #0F3B5A;
-            padding: 0.75rem 2rem;
-            border-radius: 4px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .group-teaser a.button:hover { background: #e2ecf4; }
-        /* Mission section */
-        .mission-section {
-            padding: 3rem 2rem;
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        .mission-section h2 { margin-bottom: 1rem; }
-        .mission-section p { line-height: 1.8; font-size: 1.05rem; color: #333; }
-
-        /* Read More Toggle */
-        .about-text-container {
-            max-width: 820px;
-            padding: 20px;
-            margin: 0 auto;
-            text-align: left;
-        }
-        .about-short {
-            font-size: 1.15rem;
-            line-height: 1.8;
-            color: #ffffff;
-            margin-bottom: 0.5rem;
-        }
-        .about-long p {
-            font-size: 1.05rem;
-            line-height: 1.8;
-            color: #e2ecf4;
-            margin-top: 1.25rem;
-        }
-        .read-more-btn {
-            background: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.35);
-            color: #ffffff;
-            padding: 0.65rem 1.4rem;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            cursor: pointer;
-            margin-top: 1.25rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.25s ease;
-        }
-        .read-more-btn:hover {
-            background: #ffffff;
-            color: #0F3B5A;
-        }
-    </style>
+    <link rel="stylesheet" href="./style/inner.css">
+    <link rel="stylesheet" href="./style/pg-about.css">
 </head>
 
-<body>
-    <header>
+<body class="large-header dira-page dira-inner pg-about" data-static-bg>
+        <header>
         <!-- injected from header.js -->
     </header>
-    <div class="container">
-        <!-- Hero Section -->
-        <section class="about-hero">
-            <h6>About DIRA</h6>
-            <h1>Building Africa’s Digital Infrastructure.</h1>
-            <div class="about-text-container">
-                <p class="about-short">
-                    DIRA is a technology company based in Bamenda, Cameroon, established to provide institutions and businesses with software they can rely on. The company was founded on the premise that the region required more than websites and templates; it required systems built to a professional standard and maintained by a team prepared to stand behind its work. DIRA has since grown into a group of ventures spanning housing, philanthropy, events, and media production, unified under a single technology company.
-                </p>
-                <div class="about-long" id="aboutLongText" style="display: none;">
-                    <p>We envision becoming the entity that digitalizes Africa. Hence the name, Digital Era. Our mission is to guide people and businesses into the future by bringing them fully into the digital era.</p>
-                    <p>
-                        DIRA was established in Bamenda to address a gap that had persisted in the region's technology sector: institutions and businesses required software capable of handling real operational demands, not decorative websites, and few local providers were structured to remain accountable for their work after delivery.
-                    </p>
-                    <p>
-                        The company began with a small technical team and a limited client base. Its early work was defined by an insistence on quality control disproportionate to its size, an approach that shaped its reputation and, over time, its growth. As the company matured, its leadership made a deliberate decision to move beyond client services and to build products the region needed but did not yet have. This decision led to the development of DHUB, the establishment of DIRA Foundation, and the launch of DIRA Tech Fest, the company's annual technology festival.
-                    </p>
-                    <p>
-                        DIRA today operates as the parent company of a small group of ventures, each addressing a distinct need and audience, and each held to the same operating standard the company was founded on. This structure allows DIRA to apply its technical capability across housing, philanthropy, public events, and media production, while remaining, at its core, a single technology company.
-                    </p>
-                </div>
-                <div style="text-align: center;">
-                    <button type="button" id="readMoreBtn" class="read-more-btn" onclick="toggleReadMore()" aria-expanded="false" aria-controls="aboutLongText">
-                        <span>Read More</span> &darr;
+    <main id="main">
+
+        <section class="in-hero dira-atmosphere">
+            <div class="dira-container in-hero__grid">
+                <div class="in-hero__copy reveal">
+                    <p class="in-eyebrow ">About DIRA</p>
+                    <h1 class="dira-display">Building Africa’s <span class="dira-gradient-text">Digital Infrastructure.</span></h1>
+                    <p class="in-lede">DIRA is a technology company based in Bamenda, Cameroon, established to provide institutions and businesses with software they can rely on. The company was founded on the premise that the region required more than websites and templates; it required systems built to a professional standard and maintained by a team prepared to stand behind its work. DIRA has since grown into a group of ventures spanning housing, philanthropy, events, and media production, unified under a single technology company.</p>
+                    <div class="ab-long" id="aboutLongText" style="display: none;">
+                            <p>We envision becoming the entity that digitalizes Africa. Hence the name, Digital Era. Our mission is to guide people and businesses into the future by bringing them fully into the digital era.</p>
+                            <p>DIRA was established in Bamenda to address a gap that had persisted in the region's technology sector: institutions and businesses required software capable of handling real operational demands, not decorative websites, and few local providers were structured to remain accountable for their work after delivery.</p>
+                            <p>The company began with a small technical team and a limited client base. Its early work was defined by an insistence on quality control disproportionate to its size, an approach that shaped its reputation and, over time, its growth. As the company matured, its leadership made a deliberate decision to move beyond client services and to build products the region needed but did not yet have. This decision led to the development of DHUB, the establishment of DIRA Foundation, and the launch of DIRA Tech Fest, the company's annual technology festival.</p>
+                            <p>DIRA today operates as the parent company of a small group of ventures, each addressing a distinct need and audience, and each held to the same operating standard the company was founded on. This structure allows DIRA to apply its technical capability across housing, philanthropy, public events, and media production, while remaining, at its core, a single technology company.</p>
+                    </div>
+                    <button aria-controls="aboutLongText" aria-expanded="false" class="read-more-btn dira-btn dira-btn--secondary" id="readMoreBtn" onclick="toggleReadMore()" type="button">
+<span>Read More</span> ↓
                     </button>
                 </div>
+                <ul class="in-hero__aside ab-principles">
+                    <li class="ab-principle reveal-card"><h3>Named Accountability</h3><p>Every engagement is led by a named, credentialed team member, not a general claim. Sensitive work is handled by people who stay answerable for it.</p></li>
+                    <li class="ab-principle reveal-card"><h3>Government-Tested</h3><p>DIRA's work has been presented directly to senior government officials and recognized by regional ministry delegates, not just claimed in marketing copy.</p></li>
+                    <li class="ab-principle reveal-card"><h3>Youth-Built</h3><p>DIRA trains the talent it hires. Multiple current team members came up through DIRA's own training programs before joining the company.</p></li>
+                </ul>
             </div>
         </section>
 
-        <!-- Differentiators / Values -->
-        <div class="grid-overlay">
-            <div class="grid-card">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-                    <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                <h3>Named Accountability</h3>
-                <p>Every engagement is led by a named, credentialed team member, not a general claim. Sensitive work is handled by people who stay answerable for it.</p>
-            </div>
-            <div class="grid-card">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-                    <polyline points="9 22 9 12 15 12 15 22" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                <h3>Government-Tested</h3>
-                <p>DIRA's work has been presented directly to senior government officials and recognized by regional ministry delegates, not just claimed in marketing copy.</p>
-            </div>
-            <div class="grid-card">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 3l9 4-9 4-9-4 9-4z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M12 11v10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M3 7l9 4 9-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                <h3>Youth-Built</h3>
-                <p>DIRA trains the talent it hires. Multiple current team members came up through DIRA's own training programs before joining the company.</p>
-            </div>
-        </div>
-
-        <!-- Mission Section -->
-        <section class="mission-section">
-            <h6 style="text-align:center;letter-spacing:0.1em;text-transform:uppercase;font-size:0.8rem;color:#0F3B5A;font-weight:600;margin-bottom:0.5rem;">Our Mission</h6>
-            <h2>Why DIRA Exists</h2>
-            <p>DIRA exists to build the digital infrastructure institutions and businesses run on, starting from Bamenda. We design secure systems, custom platforms, and technology services for the organizations that need software they can actually trust, and we extend that same capability to the community around us through DIRA Foundation.</p>
-        </section>
-
-        <!-- Core Pillars Section -->
-        <section class="pillars-section">
-            <div class="section-header">
-                <h6>Foundational Pillars</h6>
-                <h2>How We Deliver Sustainable Value</h2>
-                <p style="color: #555; max-width: 700px; margin: 0 auto; line-height: 1.7;">Our work is rooted in three non-negotiable operational principles engineered to transform businesses, institutions, and community initiatives.</p>
-            </div>
-            <div class="pillars-grid">
-                <div class="pillar-card">
-                    <div class="pillar-icon-wrap">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.6"/>
-                            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="currentColor" stroke-width="1.6"/>
-                        </svg>
-                    </div>
-                    <h3>1. Digital Identity &amp; Presence</h3>
-                    <p>We build authoritative digital platforms, custom branding, and responsive web portals for small businesses, NGOs, and schools. We transform invisible local efforts into credible, discoverable digital identities that attract partners, donors, and customers.</p>
-                </div>
-
-                <div class="pillar-card">
-                    <div class="pillar-icon-wrap">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/>
-                            <path d="M8 21h8M12 17v4M7 8l3 3-3 3M13 14h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <h3>2. Operational Automation</h3>
-                    <p>We eliminate repetitive manual workflows, paper logs, messy spreadsheets, and human error. Our custom web tools and internal portals automate staff rosters, member records, payment reconciliations, and customer communication, saving organizations hundreds of operational hours each month.</p>
-                </div>
-
-                <div class="pillar-card">
-                    <div class="pillar-icon-wrap">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <h3>3. Authenticity &amp; Integrity</h3>
-                    <p>We engineer secure, tamper-evident systems that uphold accountability and trust. From audit-proof data archives to verifiable credentials, our platforms provide institutions with transparent, verifiable proof of impact and service delivery that stands up to audits and regulatory review.</p>
+        <section class="in-section in-section--tint ab-mission">
+            <div class="dira-container">
+                <div class="ab-mission__inner reveal">
+                    <p class="in-eyebrow ">Our Mission</p>
+                    <h2 class="dira-headline-lg">Why DIRA Exists</h2>
+                    <p class="ab-mission__text">DIRA exists to build the digital infrastructure institutions and businesses run on, starting from Bamenda. We design secure systems, custom platforms, and technology services for the organizations that need software they can actually trust, and we extend that same capability to the community around us through DIRA Foundation.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Numbers Section -->
-        <section class="numbers-section">
-            <div class="numbers-container">
-                <h2>Numbers That Are Real</h2>
-                <p>Figures from DIRA's verified platform delivery, technical training, and institutional systems.</p>
+        <section class="in-section ab-pillars">
+            <div class="dira-container">
+                <div class="in-head reveal">
+                    <p class="in-eyebrow ">Foundational Pillars</p>
+                    <h2 class="dira-headline-lg">How We Deliver Sustainable Value</h2>
+                    <p>Our work is rooted in three non-negotiable operational principles engineered to transform businesses, institutions, and community initiatives.</p>
+                </div>
+                <ul class="ab-pillars__list">
+                    <li class="ab-pillar reveal-card">
+                        <span class="dira-icon-badge"><svg fill="none" height="32" viewbox="0 0 24 24" width="32" xmlns="http://www.w3.org/2000/svg">
+<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.6"></circle>
+<path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="currentColor" stroke-width="1.6"></path>
+</svg></span>
+                        <h3>1. Digital Identity &amp; Presence</h3>
+                        <p>We build authoritative digital platforms, custom branding, and responsive web portals for small businesses, NGOs, and schools. We transform invisible local efforts into credible, discoverable digital identities that attract partners, donors, and customers.</p>
+                    </li>
+                    <li class="ab-pillar reveal-card">
+                        <span class="dira-icon-badge"><svg fill="none" height="32" viewbox="0 0 24 24" width="32" xmlns="http://www.w3.org/2000/svg">
+<rect height="14" rx="2" stroke="currentColor" stroke-width="1.6" width="20" x="2" y="3"></rect>
+<path d="M8 21h8M12 17v4M7 8l3 3-3 3M13 14h4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"></path>
+</svg></span>
+                        <h3>2. Operational Automation</h3>
+                        <p>We eliminate repetitive manual workflows, paper logs, messy spreadsheets, and human error. Our custom web tools and internal portals automate staff rosters, member records, payment reconciliations, and customer communication, saving organizations hundreds of operational hours each month.</p>
+                    </li>
+                    <li class="ab-pillar reveal-card">
+                        <span class="dira-icon-badge"><svg fill="none" height="32" viewbox="0 0 24 24" width="32" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"></path>
+<path d="M9 12l2 2 4-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"></path>
+</svg></span>
+                        <h3>3. Authenticity &amp; Integrity</h3>
+                        <p>We engineer secure, tamper-evident systems that uphold accountability and trust. From audit-proof data archives to verifiable credentials, our platforms provide institutions with transparent, verifiable proof of impact and service delivery that stands up to audits and regulatory review.</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
 
-                <div class="stats-container">
-                    <div class="stat">
-                        <div class="stat-number" data-target="8" data-suffix="+">8+</div>
-                        <div class="stat-text">Delivered Platforms</div>
+        <section class="in-section in-stats dira-dark">
+            <div class="dira-container">
+                <div class="in-head reveal">
+                    <h2 class="dira-headline-lg">Numbers That Are Real</h2>
+                    <p>Figures from DIRA's verified platform delivery, technical training, and institutional systems.</p>
+                </div>
+                <div class="in-stats__row" style="--in-stat-cols:3;">
+                    <div class="in-stat dira-metric reveal-card">
+                        <div class="stat-number dira-metric__value dira-metric__value--gradient" data-target="8" data-suffix="+">8+</div>
+                        <div class="stat-text dira-metric__label">Delivered Platforms</div>
                     </div>
-                    <div class="stat">
-                        <div class="stat-number" data-target="108" data-suffix="+">108+</div>
-                        <div class="stat-text">Engineers Trained</div>
+                    <div class="in-stat dira-metric reveal-card">
+                        <div class="stat-number dira-metric__value dira-metric__value--gradient" data-target="108" data-suffix="+">108+</div>
+                        <div class="stat-text dira-metric__label">Engineers Trained</div>
                     </div>
-                    <div class="stat">
-                        <div class="stat-number" data-target="100" data-suffix="%">100%</div>
-                        <div class="stat-text">Verified Deployment</div>
+                    <div class="in-stat dira-metric reveal-card">
+                        <div class="stat-number dira-metric__value dira-metric__value--gradient" data-target="100" data-suffix="%">100%</div>
+                        <div class="stat-text dira-metric__label">Verified Deployment</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- What We Do Best / Expertise with real image -->
-        <section class="expertise-section">
-            <div class="section-header">
-                <h6>Our Approach</h6>
-                <h2>How We Work</h2>
-            </div>
-
-            <div class="expertise-container">
-                <div class="expertise-content">
-                    <div class="expertise-item">
-                        <h3>We Build for Institutions</h3>
-                        <p>Our primary clients are organizations with serious accountability requirements: associations, government-adjacent bodies, companies managing significant data or transaction volume. We build for the audit, not just for launch day.</p>
+        <section class="in-section ab-how">
+            <div class="dira-container dira-grid ab-how__grid">
+                <div class="ab-how__copy dira-col-7 dira-tab-6">
+                    <div class="in-head reveal">
+                        <p class="in-eyebrow ">Our Approach</p>
+                        <h2 class="dira-headline-lg">How We Work</h2>
                     </div>
-                    <div class="expertise-item">
-                        <h3>We Stay in the Room</h3>
-                        <p>DIRA does not hand off deliverables and disappear. Our engagements include follow-through, and the team members who build the system are the same ones who answer for it afterward.</p>
-                    </div>
-                    <div class="expertise-item">
-                        <h3>We Train Our Own Pipeline</h3>
-                        <p>Several of the engineers on DIRA's team were identified through DIRA's own training programs. That is by design: we develop the technical talent this region produces rather than importing it.</p>
-                    </div>
-                    <div class="expertise-item">
-                        <h3>We Are Part of a Broader Group</h3>
-                        <p>DIRA is the operating core of a group of ventures that extends the same standard of work into housing, philanthropy, and media production across the region.</p>
-                    </div>
+                    <ol class="ab-how__list">
+                    <li class="ab-how__item reveal-card"><h3>We Build for Institutions</h3><p>Our primary clients are organizations with serious accountability requirements: associations, government-adjacent bodies, companies managing significant data or transaction volume. We build for the audit, not just for launch day.</p></li>
+                    <li class="ab-how__item reveal-card"><h3>We Stay in the Room</h3><p>DIRA does not hand off deliverables and disappear. Our engagements include follow-through, and the team members who build the system are the same ones who answer for it afterward.</p></li>
+                    <li class="ab-how__item reveal-card"><h3>We Train Our Own Pipeline</h3><p>Several of the engineers on DIRA's team were identified through DIRA's own training programs. That is by design: we develop the technical talent this region produces rather than importing it.</p></li>
+                    <li class="ab-how__item reveal-card"><h3>We Are Part of a Broader Group</h3><p>DIRA is the operating core of a group of ventures that extends the same standard of work into housing, philanthropy, and media production across the region.</p></li>
+                    </ol>
                 </div>
-                <div class="expertise-image">
-                    <img src="./images/photos/IMG_9933.jpg" alt="DIRA team, Bamenda" loading="lazy">
+                <div class="ab-how__media dira-col-5 dira-tab-6 reveal">
+                    <div class="dira-media"><img src="./images/photos/web/team-b.jpg" alt="DIRA team, Bamenda" loading="lazy"></div>
                 </div>
             </div>
         </section>
 
-        <!-- DIRA Group Teaser -->
-        <section class="group-teaser">
-            <h6 style="letter-spacing:0.1em;text-transform:uppercase;font-size:0.8rem;color:#a8c7e0;font-weight:600;margin-bottom:0.75rem;">Beyond the Core</h6>
-            <h2>The DIRA Group</h2>
-            <p>DIRA is the operating core of a small group of ventures, each built to extend the same standard of work into a different part of the community: DHUB, Cameroon's verified housing marketplace; DIRA Foundation, our philanthropic and pro-bono technology arm; and DIRA Content Studio, our media production facility.</p>
-            <a href="group.html" class="button">Explore the DIRA Group</a>
+        <section class="in-section in-section--tint ab-group">
+            <div class="dira-container">
+                <div class="ab-group__inner reveal">
+                    <div>
+                        <p class="in-eyebrow ">Beyond the Core</p>
+                        <h2 class="dira-headline-lg" style="margin-top:1rem;">The DIRA Group</h2>
+                        <p class="in-lede" style="margin-top:1rem;">DIRA is the operating core of a small group of ventures, each built to extend the same standard of work into a different part of the community: DHUB, Cameroon's verified housing marketplace; DIRA Foundation, our philanthropic and pro-bono technology arm; and DIRA Content Studio, our media production facility.</p>
+                    </div>
+                    <a href="group.html" class="dira-btn dira-btn--primary dira-btn--arrow">Explore the DIRA Group</a>
+                </div>
+            </div>
         </section>
 
-        <!-- Recognition & Engagements Section -->
-        <section class="recognition-section">
-            <div class="section-header">
-                <h6 style="letter-spacing:0.1em;text-transform:uppercase;font-size:0.8rem;color:#0F3B5A;font-weight:600;margin-bottom:0.5rem;">Recognition</h6>
-                <h2>Recognition &amp; Engagements</h2>
-                <p style="max-width:600px;margin:0.75rem auto 0;color:#555;line-height:1.6;">The following are factual records of DIRA's institutional engagements. No quotes have been attributed that were not stated.</p>
-            </div>
-
-            <div class="recognition-grid">
-                <!-- Entry 1 -->
-                <figure class="recognition-card">
-                    <div class="rec-img-wrap">
-                        <!-- Replace src below with the actual photo path when available -->
-                        <div class="rec-img-placeholder">
-                            [Photo: DIRA leadership with H.E. Paul Tasong at MINEPAT]<br>
-                            <small>Add image file to images/photos/ and update src</small>
-                        </div>
-                    </div>
-                    <div class="rec-body">
+        <section class="in-section ab-recognition">
+            <div class="dira-container">
+                <div class="in-head reveal">
+                    <p class="in-eyebrow ">Recognition</p>
+                    <h2 class="dira-headline-lg">Recognition &amp; Engagements</h2>
+                    <p>The following are factual records of DIRA's institutional engagements. No quotes have been attributed that were not stated.</p>
+                </div>
+                <div class="ab-records">
+                    <figure class="ab-record ab-record--text reveal-card">
+                        <span class="ab-record__no" aria-hidden="true">01</span>
                         <figcaption>DIRA presents its work, including the SHESA Connect platform, to H.E. Paul Tasong, Minister Delegate at MINEPAT (Ministry of Economy, Planning and Regional Development), in charge of Planning.</figcaption>
-                    </div>
-                </figure>
-
-                <!-- Entry 2 -->
-                <figure class="recognition-card">
-                    <div class="rec-img-wrap">
-                        <div class="rec-img-placeholder">
-                            [Photo: DIRA leadership with H.E. Felix Mbayu at MINREX]<br>
-                            <small>Add image file to images/photos/ and update src</small>
-                        </div>
-                    </div>
-                    <div class="rec-body">
+                    </figure>
+                    <figure class="ab-record ab-record--text reveal-card">
+                        <span class="ab-record__no" aria-hidden="true">02</span>
                         <figcaption>DIRA's work is presented to H.E. Felix Mbayu, Minister Delegate to the Minister of External Relations (MINREX), in charge of Relations with the Commonwealth.</figcaption>
-                    </div>
-                </figure>
-
-                <!-- Entry 3 -->
-                <figure class="recognition-card">
-                    <div class="rec-img-wrap">
-                        <img src="./images/photos/IMG_9933.jpg" alt="DIRA team with Regional Delegation of MINRESI at DIRA Tech Fest 2026" loading="lazy">
-                    </div>
-                    <div class="rec-body">
+                    </figure>
+                    <figure class="ab-record ab-record--photo reveal-card">
+                        <div class="ab-record__img"><img src="./images/photos/web/team-b.jpg" alt="DIRA team with Regional Delegation of MINRESI at DIRA Tech Fest 2026" loading="lazy"></div>
                         <figcaption>The Regional Delegate of MINRESI (Northwest Region) commended DIRA at the closing of DIRA Tech Fest 2026, noting the company as one of the most promising technology initiatives encountered in Bamenda.</figcaption>
-                    </div>
-                </figure>
-
-                <!-- Entry 4 -->
-                <figure class="recognition-card">
-                    <div class="rec-img-wrap">
-                        <img src="./images/photos/IMG_1544.jpg" alt="DIRA team with representatives of the MINPMEESA Northwest Regional Delegation at DIRA Tech Fest 2026" loading="lazy">
-                    </div>
-                    <div class="rec-body">
+                    </figure>
+                    <figure class="ab-record ab-record--photo reveal-card">
+                        <div class="ab-record__img"><img src="./images/photos/web/team-a.jpg" alt="DIRA team with representatives of the MINPMEESA Northwest Regional Delegation at DIRA Tech Fest 2026" loading="lazy"></div>
                         <figcaption>DIRA was officially recognized at DIRA Tech Fest 2026 by representatives of the MINPMEESA Northwest Regional Delegation.</figcaption>
-                    </div>
-                </figure>
+                    </figure>
+                </div>
             </div>
         </section>
 
-        <!-- Contact Form Section -->
-        <div class="contact-container" id="contactSection">
-            <!-- contact injected from js -->
-        </div>
-    </div>
+        <!-- General contact form (injected from js/header.js) -->
+        <section class="in-section in-contact">
+            <div class="dira-container">
+                <div class="contact-container dira-form" id="contactSection">
+                    <!-- contact injected from js -->
+                </div>
+            </div>
+        </section>
 
-    <footer>
+    </main>
+<footer>
     </footer>
 
     <script src="./js/header.js"></script>

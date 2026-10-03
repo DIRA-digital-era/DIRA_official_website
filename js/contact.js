@@ -308,7 +308,7 @@ function initSocialGallery() {
                 <div class="post-fallback-visual" onclick="openSocialLightbox('${post.id}')" title="Click to preview">
                     ${platformSvg}
                     <h4>${info.platformName}</h4>
-                    <p style="font-family: monospace; font-size: 0.8rem; word-break: break-all; color: #94a3b8; max-width: 260px;">
+                    <p class="post-fallback-url">
                         ${info.url}
                     </p>
                     <span class="post-play-badge">

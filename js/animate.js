@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   // Initialize GSAP plugins if available
-  if (typeof gsap !== 'undefined') {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const staticBackground = document.body.hasAttribute('data-static-bg');
+  if (typeof gsap !== 'undefined' && !reduceMotion && !staticBackground) {
     if (typeof ScrollTrigger !== 'undefined') {
       gsap.registerPlugin(ScrollTrigger);
     }
@@ -22,7 +24,7 @@ function initBackgroundAnimation() {
   }
 
   // 2. Define Colors
-  const colors = ["var(--accent-color)", "var(--secondary-color)", "#3b82f6"];
+  const colors = ["var(--dira-primary)", "var(--dira-secondary)", "var(--dira-inverse-primary)"];
   
   // Clear existing blobs to prevent duplicates on re-run
   bg.innerHTML = '';
@@ -107,8 +109,8 @@ function animateCards(){
   const hiddenElements = document.querySelectorAll('.reveal-card');
 
   hiddenElements.forEach((el, index) => {
-    // This line calculates the delay (0ms, 200ms, 400ms, etc.)
-    el.style.setProperty('--delay', `${index * 200}ms`);
+    // Stagger within a row of three (0ms, 90ms, 180ms) so no card waits long to appear
+    el.style.setProperty('--delay', `${(index % 3) * 90}ms`);
     
     // This line tells the observer to watch this specific element
     observer.observe(el);

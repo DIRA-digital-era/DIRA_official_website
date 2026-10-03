@@ -1,0 +1,579 @@
+/* ==========================================================================
+   GALLERY: visual-first
+   Story cards, modal grid and mosaic are rendered by js/gallery.js
+   ========================================================================== */
+
+/* Hero stats */
+.gal-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    border-top: 1px solid var(--dira-border-strong);
+    padding-top: 1.5rem;
+}
+
+.gal-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    min-width: 0;
+}
+
+.gal-stat__value {
+    font-size: 28px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: var(--dira-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.gal-stat__label {
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--dira-muted);
+}
+
+@media (min-width: 640px) {
+    .gal-stat__value {
+        font-size: 40px;
+    }
+}
+
+@media (min-width: 1025px) {
+    .gal-stats {
+        border-top: 0;
+        border-left: 1px solid var(--dira-border-strong);
+        padding: 0 0 0 2.5rem;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.75rem;
+    }
+
+    .gal-stat {
+        flex-direction: row;
+        align-items: baseline;
+        gap: 1.25rem;
+    }
+
+    .gal-stat__value {
+        min-width: 6.5rem;
+        font-size: 48px;
+    }
+}
+
+/* Visual stories: checkerboard mosaic */
+.gal-mosaic {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+}
+
+.interview-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--dira-white);
+    border: 1px solid var(--dira-border);
+    border-radius: var(--dira-radius-lg);
+    box-shadow: var(--dira-shadow-1);
+    cursor: pointer;
+    transition: transform var(--dira-dur) var(--dira-ease), box-shadow var(--dira-dur) var(--dira-ease), border-color var(--dira-dur) var(--dira-ease);
+}
+
+.interview-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--dira-shadow-2);
+    border-color: var(--dira-border-strong);
+}
+
+.interview-card:focus-visible {
+    outline: 2px solid var(--dira-primary);
+    outline-offset: 3px;
+}
+
+.interview-photo {
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    background: var(--dira-lavender);
+}
+
+.interview-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    transition: transform var(--dira-dur-slow) var(--dira-ease);
+}
+
+.interview-card:hover .interview-photo img {
+    transform: scale(1.03);
+}
+
+.interview-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.interview-role {
+    font-size: 11px;
+    line-height: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dira-primary);
+}
+
+.interview-name {
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--dira-ink);
+}
+
+.interview-affil {
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 600;
+    color: var(--dira-muted);
+}
+
+.interview-quote {
+    margin-top: 0.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--dira-primary);
+}
+
+.interview-quote p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 24px;
+    color: var(--dira-ink);
+}
+
+.interview-context {
+    font-size: 13px;
+    line-height: 20px;
+    color: var(--dira-muted);
+}
+
+.interview-button {
+    margin-top: 0.5rem;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
+    color: var(--dira-primary);
+}
+
+@media (min-width: 640px) {
+    .gal-mosaic {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1025px) {
+    .gal-mosaic {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 1.75rem var(--dira-gutter);
+        align-items: stretch;
+    }
+
+    .interview-card:nth-child(4n+1),
+    .interview-card:nth-child(4n+4) {
+        grid-column: span 7;
+    }
+
+    .interview-card:nth-child(4n+2),
+    .interview-card:nth-child(4n+3) {
+        grid-column: span 5;
+    }
+
+    .interview-card:nth-child(4n+1) .interview-photo,
+    .interview-card:nth-child(4n+4) .interview-photo {
+        aspect-ratio: 16 / 11;
+    }
+
+    .interview-card:nth-child(4n+2) .interview-photo,
+    .interview-card:nth-child(4n+3) .interview-photo {
+        aspect-ratio: 4 / 3;
+    }
+
+    .interview-card:only-child {
+        grid-column: 1 / -1;
+    }
+}
+
+/* Testimonials carousel (track movement is driven by js/gallery.js) */
+.testimonials-carousel {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+        "view view view"
+        "prev dots next";
+    align-items: center;
+    gap: 1rem;
+}
+
+.testimonials-viewport {
+    grid-area: view;
+    overflow: hidden;
+    border-radius: var(--dira-radius-lg);
+    min-width: 0;
+}
+
+.testimonials-grid {
+    display: flex;
+    transition: transform var(--dira-dur-slow) var(--dira-ease);
+}
+
+.testimonial-card {
+    flex: 0 0 100%;
+    min-width: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--dira-white);
+    border: 1px solid var(--dira-border);
+    border-radius: var(--dira-radius-lg);
+    box-shadow: var(--dira-shadow-1);
+}
+
+.testimonial-img-wrap {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--dira-lavender);
+}
+
+.testimonial-img-wrap img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+}
+
+.testimonial-badge {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    padding: 6px 14px;
+    border-radius: var(--dira-radius-full);
+    background: rgba(255, 255, 255, 0.94);
+    color: var(--dira-primary);
+    font-size: 11px;
+    line-height: 14px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.testimonial-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.25rem;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.testimonial-quote {
+    margin: 0;
+    font-size: 17px;
+    line-height: 28px;
+    font-weight: 600;
+    color: var(--dira-ink);
+}
+
+.testimonial-author-box h4 {
+    margin: 0;
+    font-size: 15px;
+    line-height: 22px;
+    font-weight: 700;
+    color: var(--dira-ink);
+}
+
+.testimonial-author-box p {
+    margin: 0.125rem 0 0;
+    font-size: 13px;
+    line-height: 20px;
+    color: var(--dira-muted);
+}
+
+.testimonial-carousel-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--dira-border-strong);
+    border-radius: 50%;
+    background: var(--dira-white);
+    color: var(--dira-primary);
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color var(--dira-dur-fast) var(--dira-ease), transform var(--dira-dur-fast) var(--dira-ease);
+}
+
+.testimonial-carousel-button:hover {
+    background: var(--dira-lavender);
+}
+
+.testimonial-carousel-button:focus-visible {
+    outline: 2px solid var(--dira-primary);
+    outline-offset: 2px;
+}
+
+.testimonial-carousel-prev {
+    grid-area: prev;
+}
+
+.testimonial-carousel-next {
+    grid-area: next;
+}
+
+.testimonial-carousel-controls {
+    grid-area: dots;
+    display: flex;
+    justify-content: center;
+}
+
+.testimonial-carousel-dots {
+    display: flex;
+    gap: 0.375rem;
+}
+
+.testimonial-carousel-dot {
+    width: 22px;
+    height: 4px;
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    background: var(--dira-surface-highest);
+    cursor: pointer;
+    transition: width var(--dira-dur) var(--dira-ease), background var(--dira-dur) var(--dira-ease);
+}
+
+.testimonial-carousel-dot.is-active {
+    width: 38px;
+    background: var(--dira-gradient);
+}
+
+.testimonial-carousel-dot:focus-visible {
+    outline: 2px solid var(--dira-primary);
+    outline-offset: 3px;
+}
+
+@media (min-width: 1025px) {
+    .testimonials-carousel {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        grid-template-areas:
+            "prev view next"
+            ". dots .";
+        gap: 1.25rem;
+    }
+
+    .testimonial-card {
+        display: grid;
+        grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    }
+
+    .testimonial-img-wrap {
+        aspect-ratio: auto;
+        min-height: 20rem;
+    }
+
+    .testimonial-img-wrap img {
+        position: absolute;
+        inset: 0;
+    }
+
+    .testimonial-quote {
+        font-size: 20px;
+        line-height: 32px;
+    }
+}
+
+/* Category modal: images keep their natural proportions (no cropping) */
+.gallery-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100001;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.gallery-modal.is-active {
+    display: flex;
+}
+
+.gallery-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(11, 10, 38, 0.72);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+}
+
+.gallery-modal-dialog {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: min(100%, 72rem);
+    max-height: calc(100dvh - 2rem);
+    overflow: hidden;
+    background: var(--dira-white);
+    border: 1px solid var(--dira-border-strong);
+    border-radius: var(--dira-radius-lg);
+    box-shadow: var(--dira-shadow-3);
+}
+
+.gallery-modal-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border-bottom: 1px solid var(--dira-border-strong);
+}
+
+.gallery-modal-kicker {
+    margin-bottom: 0.5rem;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dira-primary);
+}
+
+.gallery-modal-title {
+    margin: 0;
+    font-size: 26px;
+    line-height: 34px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--dira-ink);
+}
+
+.gallery-modal-description {
+    margin: 0.375rem 0 0;
+    max-width: 40rem;
+    font-size: 14px;
+    line-height: 22px;
+    color: var(--dira-muted);
+}
+
+.gallery-modal-heading-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--dira-primary);
+}
+
+.gallery-modal-close {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid var(--dira-border-strong);
+    border-radius: 50%;
+    background: var(--dira-lavender);
+    color: var(--dira-primary);
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.gallery-modal-close:hover {
+    background: var(--dira-surface-high);
+}
+
+.gallery-modal-close:focus-visible {
+    outline: 2px solid var(--dira-primary);
+    outline-offset: 2px;
+}
+
+.gallery-modal-grid {
+    overflow-y: auto;
+    padding: clamp(1rem, 3vw, 1.75rem);
+    column-count: 1;
+    column-gap: 1rem;
+}
+
+@media (min-width: 640px) {
+    .gallery-modal-grid {
+        column-count: 2;
+    }
+}
+
+@media (min-width: 1025px) {
+    .gallery-modal-grid {
+        column-count: 3;
+    }
+}
+
+.category-gallery-item {
+    position: relative;
+    display: block;
+    margin: 0 0 1rem;
+    break-inside: avoid;
+    overflow: hidden;
+    border-radius: var(--dira-radius-md);
+    background: var(--dira-lavender);
+    border: 1px solid var(--dira-border);
+    text-decoration: none;
+}
+
+.category-gallery-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform var(--dira-dur-slow) var(--dira-ease);
+}
+
+.category-gallery-item:hover img {
+    transform: scale(1.02);
+}
+
+.category-gallery-item span {
+    display: block;
+    padding: 0.625rem 0.875rem;
+    background: var(--dira-white);
+    font-size: 13px;
+    line-height: 20px;
+    font-weight: 600;
+    color: var(--dira-ink);
+}
+
+.category-gallery-item:focus-visible {
+    outline: 2px solid var(--dira-primary);
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .interview-card:hover,
+    .interview-card:hover .interview-photo img,
+    .category-gallery-item:hover img {
+        transform: none;
+    }
+
+    .testimonials-grid {
+        transition: none;
+    }
+}

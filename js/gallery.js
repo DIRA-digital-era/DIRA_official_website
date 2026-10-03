@@ -204,6 +204,7 @@ function initializeTestimonialsCarousel() {
 
     function startAutoplay() {
         if (autoplayInterval) clearInterval(autoplayInterval);
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
         autoplayInterval = setInterval(() => showTestimonial(activeIndex + 1), 3500);
     }
 

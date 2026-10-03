@@ -12,522 +12,191 @@
     <meta property="og:type" content="website">
     <meta property="og:image" content="./images/logo.jpg">
     <link rel="canonical" href="content-studio.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style/dira-design.css">
     <link rel="stylesheet" href="./style/header.css">
-    <link rel="stylesheet" href="./style/about.css">
     <link rel="stylesheet" href="./style/contact.css">
-    <style>
-        .studio-hero {
-            padding: 4.5rem 1.5rem 3.5rem;
-            text-align: center;
-            background: linear-gradient(135deg, #0F3B5A 0%, #164d75 100%);
-            color: #fff;
-        }
-        .studio-hero h6 {
-            color: #00E6D6;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            font-size: 0.85rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-        }
-        .studio-hero h1 {
-            font-size: 2.85rem;
-            color: #fff;
-            margin-bottom: 1.5rem;
-            font-weight: 800;
-            line-height: 1.2;
-        }
-        .studio-intro-wrap {
-            max-width: 820px;
-            margin: 0 auto;
-            text-align: left;
-        }
-        .studio-intro-wrap p {
-            color: #e2ecf4;
-            font-size: 1.1rem;
-            line-height: 1.85;
-            margin-bottom: 1.25rem;
-        }
-        .studio-intro-wrap p:last-child {
-            margin-bottom: 0;
-        }
-
-        /* Services and Rates Grid */
-        .rates-section {
-            padding: 5rem 1.5rem 4rem;
-            max-width: 1180px;
-            margin: 0 auto;
-        }
-        .section-heading-center {
-            text-align: center;
-            max-width: 720px;
-            margin: 0 auto 3.5rem;
-        }
-        .section-kicker {
-            display: inline-block;
-            color: #0F3B5A;
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            margin-bottom: 0.5rem;
-        }
-        .section-heading-center h2 {
-            font-size: 2.25rem;
-            color: #0F3B5A;
-            font-weight: 800;
-            margin-bottom: 0.75rem;
-        }
-        .section-heading-center p {
-            color: #64748b;
-            font-size: 1.05rem;
-            line-height: 1.6;
-        }
-        .rates-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-        }
-        .rate-card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 2.25rem 2rem;
-            box-shadow: 0 4px 16px rgba(15, 59, 90, 0.05);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
-        .rate-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(15, 59, 90, 0.1);
-        }
-        .rate-card h3 {
-            font-size: 1.35rem;
-            color: #0F3B5A;
-            margin-bottom: 0.75rem;
-            font-weight: 700;
-        }
-        .rate-card p {
-            color: #475569;
-            font-size: 0.95rem;
-            line-height: 1.65;
-            margin-bottom: 1.5rem;
-            flex-grow: 1;
-        }
-        .rate-price-tag {
-            background: #f1f5f9;
-            border-left: 3px solid #0F3B5A;
-            padding: 0.75rem 1rem;
-            border-radius: 0 6px 6px 0;
-            margin-bottom: 1.25rem;
-        }
-        .rate-price-label {
-            display: block;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #64748b;
-            font-weight: 700;
-            margin-bottom: 0.2rem;
-        }
-        .rate-price-value {
-            font-size: 1.15rem;
-            font-weight: 800;
-            color: #0F3B5A;
-        }
-        .rate-price-value.on-request {
-            color: #64748b;
-            font-size: 0.95rem;
-            font-style: italic;
-        }
-        .rate-card-action {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            color: #0284c7;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        .rate-card-action:hover {
-            text-decoration: underline;
-        }
-
-        /* Portfolio Section */
-        .studio-portfolio {
-            background: #f8fafc;
-            padding: 4.5rem 1.5rem;
-            border-top: 1px solid #eef2f6;
-            border-bottom: 1px solid #eef2f6;
-        }
-        .portfolio-gallery-grid {
-            max-width: 1180px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-        }
-        .portfolio-item-card {
-            background: #ffffff;
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-        .portfolio-media-box {
-            width: 100%;
-            height: 240px;
-            overflow: hidden;
-            background: #0F3B5A;
-            position: relative;
-        }
-        .portfolio-media-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-        .portfolio-item-card:hover .portfolio-media-box img {
-            transform: scale(1.04);
-        }
-        .portfolio-caption-box {
-            padding: 1.25rem 1.5rem;
-        }
-        .portfolio-caption-box h4 {
-            font-size: 1.1rem;
-            color: #0F3B5A;
-            margin-bottom: 0.35rem;
-            font-weight: 700;
-        }
-        .portfolio-caption-box p {
-            font-size: 0.88rem;
-            color: #64748b;
-            line-height: 1.5;
-            margin: 0;
-        }
-
-        /* Booking / Contact Form */
-        .booking-section {
-            padding: 5rem 1.5rem;
-            max-width: 860px;
-            margin: 0 auto;
-        }
-        .booking-card {
-            background: #ffffff;
-            border-radius: 12px;
-            border: 1px solid #e5e9f0;
-            padding: 2.75rem 2.5rem;
-            box-shadow: 0 8px 30px rgba(15, 59, 90, 0.08);
-        }
-        .booking-card h2 {
-            font-size: 2rem;
-            color: #0F3B5A;
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-        }
-        .booking-card p {
-            color: #64748b;
-            font-size: 1rem;
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-        @media (max-width: 640px) {
-            .booking-card {
-                padding: 1.75rem 1.25rem;
-            }
-            .studio-hero h1 {
-                font-size: 2.15rem;
-            }
-            .section-heading-center h2 {
-                font-size: 1.85rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="./style/inner.css">
+    <link rel="stylesheet" href="./style/pg-studio.css">
 </head>
 
-<body>
-    <header>
+<body class="large-header dira-page dira-inner pg-studio" data-static-bg>
+        <header>
         <!-- injected from header.js -->
     </header>
+    <main id="main">
 
-    <main>
-        <!-- Hero Section: Introduction -->
-        <section class="studio-hero">
-            <h6>Commercial Production Arm</h6>
-            <h1>DIRA Content Studio</h1>
-            <div class="studio-intro-wrap">
-                <p>DIRA Content Studio provides video production, photography, and branded content services to businesses, institutions, and independent creators. The Studio also produces all content published by the wider DIRA Group, including coverage of DIRA Tech Fest, product media for DHUB, and campaign material for DIRA Foundation, giving it a level of production experience developed initially through internal work before being offered commercially.</p>
-                <p>Alongside its commercial production work, DIRA Content Studio is a developing a news and media reporting function, covering technology, business, and regional development stories within Bamenda and the wider Northwest Region. This positions the Studio not only as a production service but as an emerging media outlet in its own right, extending DIRA's presence beyond the ventures it builds into the coverage of the sectors it operates in.</p>
-            </div>
-        </section>
-
-        <!-- Services and Rates Section -->
-        <section class="rates-section" id="services-rates">
-            <div class="section-heading-center">
-                <span class="section-kicker">Services &amp; Rates</span>
-                <h2>Production Services</h2>
-                <p>Transparent rates and custom scopes tailored for corporate institutions, creative agencies, and independent creators.</p>
-            </div>
-
-            <div class="rates-grid">
-                <!-- 1. Corporate Content Retainers -->
-                <article class="rate-card">
-                    <div>
-                        <h3>Corporate Content Retainers</h3>
-                        <p>Continuing content production for businesses requiring a sustained output rather than a single engagement.</p>
-                    </div>
-                    <div>
-                        <div class="rate-price-tag">
-                            <span class="rate-price-label">Pricing Scope</span>
-                            <span class="rate-price-value">150,000 to 400,000 FCFA / month</span>
-                        </div>
-                        <a href="#bookingForm" class="rate-card-action">Book Retainer Consultation &rarr;</a>
-                    </div>
-                </article>
-
-                <!-- 2. Studio Rental -->
-                <article class="rate-card">
-                    <div>
-                        <h3>Studio Rental</h3>
-                        <p>Rental of the Studio's facilities, with or without production support.</p>
-                    </div>
-                    <div>
-                        <div class="rate-price-tag">
-                            <span class="rate-price-label">Standard Rates</span>
-                            <span class="rate-price-value">10,000 FCFA / hour &bull; 70,000 FCFA / day</span>
-                        </div>
-                        <a href="#bookingForm" class="rate-card-action">Reserve Studio Time &rarr;</a>
-                    </div>
-                </article>
-
-                <!-- 3. Podcast Production -->
-                <article class="rate-card">
-                    <div>
-                        <h3>Podcast Production</h3>
-                        <p>Recording, editing, and production of podcast episodes.</p>
-                    </div>
-                    <div>
-                        <div class="rate-price-tag">
-                            <span class="rate-price-label">Per Episode</span>
-                            <span class="rate-price-value">50,000 to 100,000 FCFA / episode</span>
-                        </div>
-                        <a href="#bookingForm" class="rate-card-action">Schedule Episode Recording &rarr;</a>
-                    </div>
-                </article>
-
-                <!-- 4. Event Coverage -->
-                <article class="rate-card">
-                    <div>
-                        <h3>Event Coverage</h3>
-                        <p>Photography and videography services for conferences, product launches, and private events.</p>
-                    </div>
-                    <div>
-                        <div class="rate-price-tag">
-                            <span class="rate-price-label">Scale Dependent</span>
-                            <span class="rate-price-value">150,000 to 1,000,000 FCFA</span>
-                        </div>
-                        <a href="#bookingForm" class="rate-card-action">Request Event Quotation &rarr;</a>
-                    </div>
-                </article>
-
-                <!-- 5. Professional Headshot Sessions -->
-                <article class="rate-card">
-                    <div>
-                        <h3>Professional Headshot Sessions</h3>
-                        <p>Individual and team portrait sessions.</p>
-                    </div>
-                    <div>
-                        <div class="rate-price-tag">
-                            <span class="rate-price-label">Rate Status</span>
-                            <span class="rate-price-value on-request">Pricing available on request</span>
-                        </div>
-                        <a href="#bookingForm" class="rate-card-action">Inquire About Sessions &rarr;</a>
-                    </div>
-                </article>
-
-                <!-- 6. Training Workshops -->
-                <article class="rate-card">
-                    <div>
-                        <h3>Training Workshops</h3>
-                        <p>Instruction in content production and media skills, offered to teams and individuals.</p>
-                    </div>
-                    <div>
-                        <div class="rate-price-tag">
-                            <span class="rate-price-label">Rate Status</span>
-                            <span class="rate-price-value on-request">Pricing available on request</span>
-                        </div>
-                        <a href="#bookingForm" class="rate-card-action">Inquire About Workshops &rarr;</a>
-                    </div>
-                </article>
-
-                <!-- 7. Creative Set Rentals -->
-                <article class="rate-card">
-                    <div>
-                        <h3>Creative Set Rentals</h3>
-                        <p>Themed production sets available to musicians and independent content creators.</p>
-                    </div>
-                    <div>
-                        <div class="rate-price-tag">
-                            <span class="rate-price-label">Rate Status</span>
-                            <span class="rate-price-value on-request">Pricing available on request</span>
-                        </div>
-                        <a href="#bookingForm" class="rate-card-action">Inquire About Set Availability &rarr;</a>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <!-- Portfolio Section -->
-        <section class="studio-portfolio" id="portfolio">
-            <div class="section-heading-center">
-                <span class="section-kicker">Archive &amp; Media</span>
-                <h2>Production Archive</h2>
-                <p>Prior media work produced by DIRA Content Studio, including DIRA Tech Fest coverage, product media, and community showcases.</p>
-            </div>
-
-            <div class="portfolio-gallery-grid">
-                <!-- Archive 1 -->
-                <article class="portfolio-item-card">
-                    <div class="portfolio-media-box">
-                        <img src="./images/photos/dira-team-techfest-2026.jpg" alt="DIRA Tech Fest 2026 conference production and stage coverage" loading="lazy">
-                    </div>
-                    <div class="portfolio-caption-box">
-                        <h4>DIRA Tech Fest 2026 Production</h4>
-                        <p>Multi-camera conference documentation, audio recording, and main-stage keynote broadcast.</p>
-                    </div>
-                </article>
-
-                <!-- Archive 2 -->
-                <article class="portfolio-item-card">
-                    <div class="portfolio-media-box">
-                        <img src="./images/photos/dira-technical-training.jpg" alt="DIRA technical workshop and sprint coverage" loading="lazy">
-                    </div>
-                    <div class="portfolio-caption-box">
-                        <h4>Product Sprint &amp; Workshop Media</h4>
-                        <p>Live sprint documentation, interview recording, and training recap media.</p>
-                    </div>
-                </article>
-
-                <!-- Archive 3 -->
-                <article class="portfolio-item-card">
-                    <div class="portfolio-media-box">
-                        <img src="./images/photos/IMG_9933.jpg" alt="Institutional media coverage and delegate presentation" loading="lazy">
-                    </div>
-                    <div class="portfolio-caption-box">
-                        <h4>Institutional Engagement Media</h4>
-                        <p>High-resolution official photography for ministerial and partner presentations.</p>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <!-- Booking and Enquiry Section -->
-        <section class="booking-section" id="bookingForm">
-            <div class="booking-card">
-                <h2>Book Content Studio Services</h2>
-                <p>Submit an enquiry or request a quotation. Our studio production team in Bamenda will respond within one business day.</p>
-
-                <form id="contactForm">
-                    <div class="form-group">
-                        <label for="name">Full Name *</label>
-                        <input type="text" id="name" name="name" placeholder="Your Name" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email">Email Address *</label>
-                        <input type="email" id="email" name="email" placeholder="Your Email" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" name="phone" placeholder="Your Phone (+237 ...)">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="subject">Service Required *</label>
-                        <select id="subject" name="subject" required>
-                            <option value="">Select a service line</option>
-                            <option value="Corporate Content Retainers">Corporate Content Retainers (150,000 to 400,000 FCFA / mo)</option>
-                            <option value="Studio Rental">Studio Rental (10,000 FCFA / hr &bull; 70,000 FCFA / day)</option>
-                            <option value="Podcast Production">Podcast Production (50,000 to 100,000 FCFA / episode)</option>
-                            <option value="Event Coverage">Event Coverage (150,000 to 1,000,000 FCFA)</option>
-                            <option value="Professional Headshot Sessions">Professional Headshot Sessions (Pricing on request)</option>
-                            <option value="Training Workshops">Training Workshops (Pricing on request)</option>
-                            <option value="Creative Set Rentals">Creative Set Rentals (Pricing on request)</option>
-                            <option value="General Studio Enquiry">General Studio Enquiry</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="message">Project Brief or Date Requirements *</label>
-                        <textarea id="message" name="message" placeholder="Provide details regarding your production dates, duration, or deliverable requirements..." required></textarea>
-                    </div>
-
-                    <button type="submit" class="submit-btn" id="submitBtn">
-                        <span class="spinner" id="spinner"></span>
-                        <span>Submit Booking Enquiry</span>
-                    </button>
-                </form>
-
-                <!-- Direct Contact Information Strip -->
-                <div class="contact-quick-strip" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #edf2f7;">
-                    <div class="quick-contact-item">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.3" fill="none"/>
-                            <circle cx="12" cy="9" r="2.2" fill="currentColor"/>
-                        </svg>
-                        <div>
-                            <h4>Studio Location</h4>
-                            <p>AWICUL Building, Commercial Avenue<br>Bamenda, Northwest Region, Cameroon</p>
-                        </div>
-                    </div>
-
-                    <div class="quick-contact-item">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.2" fill="none"/>
-                            <path d="M3 7l9 6 9-6" stroke="currentColor" stroke-width="1.2" fill="none"/>
-                        </svg>
-                        <div>
-                            <h4>Direct Email</h4>
-                            <p><a href="mailto:info@diracmr.com">contentstudio@diracmr.com</a></p>
-                        </div>
-                    </div>
-
-                    <div class="quick-contact-item">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.86 19.86 0 0 1 3 5.18 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.72c.12.97.37 1.91.73 2.79a2 2 0 0 1-.45 2.11L9.91 12.09a16 16 0 0 0 6 6l1.47-1.47a2 2 0 0 1 2.11-.45c.88.36 1.82.61 2.79.73A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="1.2" fill="none"/>
-                        </svg>
-                        <div>
-                            <h4>Studio Line</h4>
-                            <p><a href="tel:+237682366472">+237 682 366 472</a></p>
-                        </div>
-                    </div>
+        <section class="in-hero dira-atmosphere">
+            <div class="dira-container in-hero__grid">
+                <div class="in-hero__copy reveal">
+                    <p class="in-eyebrow ">Commercial Production Arm</p>
+                    <h1 class="dira-display">DIRA <span class="dira-gradient-text">Content Studio</span></h1>
+                </div>
+                <div class="in-hero__aside st-intro reveal">
+                    <p class="in-lede">DIRA Content Studio provides video production, photography, and branded content services to businesses, institutions, and independent creators. The Studio also produces all content published by the wider DIRA Group, including coverage of DIRA Tech Fest, product media for DHUB, and campaign material for DIRA Foundation, giving it a level of production experience developed initially through internal work before being offered commercially.</p>
+                    <p class="st-intro__more">Alongside its commercial production work, DIRA Content Studio is a developing a news and media reporting function, covering technology, business, and regional development stories within Bamenda and the wider Northwest Region. This positions the Studio not only as a production service but as an emerging media outlet in its own right, extending DIRA's presence beyond the ventures it builds into the coverage of the sectors it operates in.</p>
                 </div>
             </div>
         </section>
+
+        <section id="services-rates" class="in-section st-rates">
+            <div class="dira-container">
+                <div class="in-head reveal">
+                    <p class="in-eyebrow ">Services &amp; Rates</p>
+                    <h2 class="dira-headline-lg">Production Services</h2>
+                    <p>Transparent rates and custom scopes tailored for corporate institutions, creative agencies, and independent creators.</p>
+                </div>
+                <ol class="st-rates__list">
+                    <li class="st-rate reveal-card">
+                        <span class="st-rate__num" aria-hidden="true">01</span>
+                        <div class="st-rate__main"><h3>Corporate Content Retainers</h3><p>Continuing content production for businesses requiring a sustained output rather than a single engagement.</p></div>
+                        <div class="st-rate__price"><span class="st-rate__label">Pricing Scope</span><span class="st-rate__value">150,000 to 400,000 FCFA / month</span></div>
+                        <a class="in-link st-rate__action" href="#bookingForm">Book Retainer Consultation <span aria-hidden="true">&rarr;</span></a>
+                    </li>
+                    <li class="st-rate reveal-card">
+                        <span class="st-rate__num" aria-hidden="true">02</span>
+                        <div class="st-rate__main"><h3>Studio Rental</h3><p>Rental of the Studio's facilities, with or without production support.</p></div>
+                        <div class="st-rate__price"><span class="st-rate__label">Standard Rates</span><span class="st-rate__value">10,000 FCFA / hour • 70,000 FCFA / day</span></div>
+                        <a class="in-link st-rate__action" href="#bookingForm">Reserve Studio Time <span aria-hidden="true">&rarr;</span></a>
+                    </li>
+                    <li class="st-rate reveal-card">
+                        <span class="st-rate__num" aria-hidden="true">03</span>
+                        <div class="st-rate__main"><h3>Podcast Production</h3><p>Recording, editing, and production of podcast episodes.</p></div>
+                        <div class="st-rate__price"><span class="st-rate__label">Per Episode</span><span class="st-rate__value">50,000 to 100,000 FCFA / episode</span></div>
+                        <a class="in-link st-rate__action" href="#bookingForm">Schedule Episode Recording <span aria-hidden="true">&rarr;</span></a>
+                    </li>
+                    <li class="st-rate reveal-card">
+                        <span class="st-rate__num" aria-hidden="true">04</span>
+                        <div class="st-rate__main"><h3>Event Coverage</h3><p>Photography and videography services for conferences, product launches, and private events.</p></div>
+                        <div class="st-rate__price"><span class="st-rate__label">Scale Dependent</span><span class="st-rate__value">150,000 to 1,000,000 FCFA</span></div>
+                        <a class="in-link st-rate__action" href="#bookingForm">Request Event Quotation <span aria-hidden="true">&rarr;</span></a>
+                    </li>
+                    <li class="st-rate reveal-card">
+                        <span class="st-rate__num" aria-hidden="true">05</span>
+                        <div class="st-rate__main"><h3>Professional Headshot Sessions</h3><p>Individual and team portrait sessions.</p></div>
+                        <div class="st-rate__price"><span class="st-rate__label">Rate Status</span><span class="st-rate__value">Pricing available on request</span></div>
+                        <a class="in-link st-rate__action" href="#bookingForm">Inquire About Sessions <span aria-hidden="true">&rarr;</span></a>
+                    </li>
+                    <li class="st-rate reveal-card">
+                        <span class="st-rate__num" aria-hidden="true">06</span>
+                        <div class="st-rate__main"><h3>Training Workshops</h3><p>Instruction in content production and media skills, offered to teams and individuals.</p></div>
+                        <div class="st-rate__price"><span class="st-rate__label">Rate Status</span><span class="st-rate__value">Pricing available on request</span></div>
+                        <a class="in-link st-rate__action" href="#bookingForm">Inquire About Workshops <span aria-hidden="true">&rarr;</span></a>
+                    </li>
+                    <li class="st-rate reveal-card">
+                        <span class="st-rate__num" aria-hidden="true">07</span>
+                        <div class="st-rate__main"><h3>Creative Set Rentals</h3><p>Themed production sets available to musicians and independent content creators.</p></div>
+                        <div class="st-rate__price"><span class="st-rate__label">Rate Status</span><span class="st-rate__value">Pricing available on request</span></div>
+                        <a class="in-link st-rate__action" href="#bookingForm">Inquire About Set Availability <span aria-hidden="true">&rarr;</span></a>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <section id="portfolio" class="in-section in-section--tint st-archive">
+            <div class="dira-container">
+                <div class="in-head reveal">
+                    <p class="in-eyebrow ">Archive &amp; Media</p>
+                    <h2 class="dira-headline-lg">Production Archive</h2>
+                    <p>Prior media work produced by DIRA Content Studio, including DIRA Tech Fest coverage, product media, and community showcases.</p>
+                </div>
+                <div class="st-archive__grid">
+                    <figure class="st-archive__item reveal-card">
+                        <div class="st-archive__img"><img src="./images/photos/web/hero-2.jpg" alt="DIRA Tech Fest 2026 conference production and stage coverage" loading="lazy"></div>
+                        <figcaption><h3>DIRA Tech Fest 2026 Production</h3><p>Multi-camera conference documentation, audio recording, and main-stage keynote broadcast.</p></figcaption>
+                    </figure>
+                    <figure class="st-archive__item reveal-card">
+                        <div class="st-archive__img"><img src="./images/photos/web/hero-1.jpg" alt="DIRA technical workshop and sprint coverage" loading="lazy"></div>
+                        <figcaption><h3>Product Sprint &amp; Workshop Media</h3><p>Live sprint documentation, interview recording, and training recap media.</p></figcaption>
+                    </figure>
+                    <figure class="st-archive__item reveal-card">
+                        <div class="st-archive__img"><img src="./images/photos/web/journey.jpg" alt="Institutional media coverage and delegate presentation" loading="lazy"></div>
+                        <figcaption><h3>Institutional Engagement Media</h3><p>High-resolution official photography for ministerial and partner presentations.</p></figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+
+        <section id="bookingForm" class="in-section st-booking">
+            <div class="dira-container">
+                <div class="st-booking__card dira-form">
+                    <div class="st-booking__intro">
+                        <h2 class="dira-headline-lg">Book Content Studio Services</h2>
+                        <p>Submit an enquiry or request a quotation. Our studio production team in Bamenda will respond within one business day.</p>
+                        <div class="st-quick">
+                    <div class="st-quick__item"><svg fill="none" height="20" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="none" stroke="currentColor" stroke-width="1.3"></path>
+<circle cx="12" cy="9" fill="currentColor" r="2.2"></circle>
+</svg><div><h4>Studio Location</h4><p>AWICUL Building, Commercial Avenue<br/>Bamenda, Northwest Region, Cameroon</p></div></div>
+                    <div class="st-quick__item"><svg fill="none" height="20" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+<rect fill="none" height="14" rx="2" stroke="currentColor" stroke-width="1.2" width="18" x="3" y="5"></rect>
+<path d="M3 7l9 6 9-6" fill="none" stroke="currentColor" stroke-width="1.2"></path>
+</svg><div><h4>Direct Email</h4><p><a href="mailto:info@diracmr.com">contentstudio@diracmr.com</a></p></div></div>
+                    <div class="st-quick__item"><svg fill="none" height="20" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.86 19.86 0 0 1 3 5.18 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.72c.12.97.37 1.91.73 2.79a2 2 0 0 1-.45 2.11L9.91 12.09a16 16 0 0 0 6 6l1.47-1.47a2 2 0 0 1 2.11-.45c.88.36 1.82.61 2.79.73A2 2 0 0 1 22 16.92z" fill="none" stroke="currentColor" stroke-width="1.2"></path>
+</svg><div><h4>Studio Line</h4><p><a href="tel:+237682366472">+237 682 366 472</a></p></div></div>
+                        </div>
+                    </div>
+                    <form id="contactForm" class="st-booking__form">
+                        <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input id="name" name="name" placeholder="Your Name" required="" type="text"/>
+                        </div>
+                        <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input id="email" name="email" placeholder="Your Email" required="" type="email"/>
+                        </div>
+                        <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input id="phone" name="phone" placeholder="Your Phone (+237 ...)" type="tel"/>
+                        </div>
+                        <div class="form-group">
+                        <label for="subject">Service Required *</label>
+                        <select id="subject" name="subject" required="">
+                        <option value="">Select a service line</option>
+                        <option value="Corporate Content Retainers">Corporate Content Retainers (150,000 to 400,000 FCFA / mo)</option>
+                        <option value="Studio Rental">Studio Rental (10,000 FCFA / hr • 70,000 FCFA / day)</option>
+                        <option value="Podcast Production">Podcast Production (50,000 to 100,000 FCFA / episode)</option>
+                        <option value="Event Coverage">Event Coverage (150,000 to 1,000,000 FCFA)</option>
+                        <option value="Professional Headshot Sessions">Professional Headshot Sessions (Pricing on request)</option>
+                        <option value="Training Workshops">Training Workshops (Pricing on request)</option>
+                        <option value="Creative Set Rentals">Creative Set Rentals (Pricing on request)</option>
+                        <option value="General Studio Enquiry">General Studio Enquiry</option>
+                        </select>
+                        </div>
+                        <div class="form-group">
+                        <label for="message">Project Brief or Date Requirements *</label>
+                        <textarea id="message" name="message" placeholder="Provide details regarding your production dates, duration, or deliverable requirements..." required=""></textarea>
+                        </div>
+                        <button class="submit-btn" id="submitBtn" type="submit">
+<span class="spinner" id="spinner"></span>
+<span>Submit Booking Enquiry</span>
+</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <div class="notification success" id="successNotification">
+<svg fill="none" height="20" style="margin-right:8px;" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+<circle cx="12" cy="12" fill="none" r="9" stroke="currentColor" stroke-width="1.2"></circle>
+<path d="M7 12l3 3 7-7" fill="none" stroke="currentColor" stroke-width="1.6"></path>
+</svg>
+<span>Your enquiry has been received. Our studio team will get in touch shortly!</span>
+</div>
+        <div class="notification error" id="errorNotification">
+<svg fill="none" height="20" style="margin-right:8px;" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+<circle cx="12" cy="12" fill="none" r="9" stroke="currentColor" stroke-width="1.2"></circle>
+<path d="M12 8v5" stroke="currentColor" stroke-width="1.6"></path>
+<circle cx="12" cy="16.2" fill="currentColor" r="0.6"></circle>
+</svg>
+<span>There was an error sending your enquiry. Please try again.</span>
+</div>
+
     </main>
-
-    <!-- Notifications for Form -->
-    <div class="notification success" id="successNotification">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right:8px;">
-            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.2" fill="none"/>
-            <path d="M7 12l3 3 7-7" stroke="currentColor" stroke-width="1.6" fill="none"/>
-        </svg>
-        <span>Your enquiry has been received. Our studio team will get in touch shortly!</span>
-    </div>
-
-    <div class="notification error" id="errorNotification">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right:8px;">
-            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.2" fill="none"/>
-            <path d="M12 8v5" stroke="currentColor" stroke-width="1.6"/>
-            <circle cx="12" cy="16.2" r="0.6" fill="currentColor"/>
-        </svg>
-        <span>There was an error sending your enquiry. Please try again.</span>
-    </div>
-
-    <footer>
+<footer>
         <!-- injected from header.js -->
     </footer>
 

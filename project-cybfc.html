@@ -12,223 +12,71 @@
     <meta property="og:type" content="article">
     <meta property="og:image" content="./images/logo.jpg">
     <link rel="canonical" href="project-cybfc.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style/dira-design.css">
     <link rel="stylesheet" href="./style/header.css">
-    <link rel="stylesheet" href="./style/about.css">
     <link rel="stylesheet" href="./style/contact.css">
-    <style>
-        .case-hero {
-            padding: 4rem 1.5rem 3rem;
-            background: linear-gradient(135deg, #0F3B5A 0%, #164d75 100%);
-            color: #fff;
-            text-align: center;
-        }
-        .case-badge {
-            display: inline-block;
-            background: #eef5fa;
-            color: #0F3B5A;
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            padding: 0.3rem 0.8rem;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-        }
-        .case-hero h1 {
-            font-size: 2.5rem;
-            color: #fff;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-        .case-hero p {
-            max-width: 800px;
-            margin: 0 auto;
-            color: #e2ecf4;
-            font-size: 1.15rem;
-            line-height: 1.7;
-        }
-        .case-body {
-            max-width: 900px;
-            margin: 3rem auto;
-            padding: 0 1.5rem;
-        }
-        .case-section {
-            margin-bottom: 3rem;
-        }
-        .case-section h2 {
-            font-size: 1.75rem;
-            color: #0F3B5A;
-            margin-bottom: 1rem;
-            position: relative;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #eef5fa;
-        }
-        .case-section p {
-            font-size: 1.05rem;
-            color: #374151;
-            line-height: 1.8;
-            margin-bottom: 1.25rem;
-        }
-        .spec-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin: 2rem 0;
-        }
-        .spec-item h4 {
-            font-size: 0.85rem;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.35rem;
-        }
-        .spec-item p {
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: #0F3B5A;
-            margin: 0;
-        }
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-        .gallery-item {
-            border-radius: 8px;
-            overflow: hidden;
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-        }
-        .gallery-item .img-wrap {
-            height: 200px;
-            overflow: hidden;
-            background: #e9eef2;
-        }
-        .gallery-item .img-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .gallery-item figcaption {
-            padding: 0.75rem 1rem;
-            font-size: 0.85rem;
-            color: #4b5563;
-        }
-        .case-actions {
-            margin: 3rem 0;
-            text-align: center;
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .btn-primary {
-            background: #0F3B5A;
-            color: #fff;
-            padding: 0.75rem 1.75rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-block;
-        }
-        .btn-primary:hover { background: #164d75; }
-        .btn-secondary {
-            background: #eef5fa;
-            color: #0F3B5A;
-            padding: 0.75rem 1.75rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-block;
-        }
-        .btn-secondary:hover { background: #e0ecf5; }
-    </style>
+    <link rel="stylesheet" href="./style/inner.css">
+    <link rel="stylesheet" href="./style/pg-case.css">
 </head>
 
-<body>
-    <header>
+<body class="large-header dira-page dira-inner pg-case" data-static-bg>
+        <header>
         <!-- injected from header.js -->
     </header>
-
-    <div class="container">
-        <article>
-            <section class="case-hero">
-                <span class="case-badge">Sports &amp; Talent Showcase</span>
-                <h1>Camer Young Boyz FC</h1>
-                <p>Official sports website for football talent showcasing, player profiles, and academy operations. Designed for high performance, athlete visibility, and international scouting.</p>
+    <main id="main">
+        <article class="case">
+            <section class="case-hero dira-dark">
+                <div class="dira-container case-hero__inner reveal">
+                    <span class="case-badge dira-badge dira-badge--on-dark dira-badge--dot">Sports &amp; Talent Showcase</span>
+                    <h1 class="dira-display">Camer Young Boyz FC</h1>
+                    <p class="case-hero__lede">Official sports website for football talent showcasing, player profiles, and academy operations. Designed for high performance, athlete visibility, and international scouting.</p>
+                </div>
             </section>
-
-            <div class="case-body">
-                <div class="spec-grid">
-                    <div class="spec-item">
-                        <h4>Platform Type</h4>
-                        <p>Athletic Portal &amp; Showcase</p>
-                    </div>
-                    <div class="spec-item">
-                        <h4>Client</h4>
-                        <p>Camer Young Boyz FC</p>
-                    </div>
-                    <div class="spec-item">
-                        <h4>Status</h4>
-                        <p>Live &amp; Active</p>
-                    </div>
-                    <div class="spec-item">
-                        <h4>Live Destination</h4>
-                        <p><a href="https://cameryoungboyzfc.com/" target="_blank" rel="noopener" style="color:#0F3B5A;">cameryoungboyzfc.com</a></p>
-                    </div>
+            <div class="dira-container case-body">
+            <div class="spec-grid reveal">
+                    <div class="spec-item"><h4>Platform Type</h4><p>Athletic Portal & Showcase</p></div>
+                    <div class="spec-item"><h4>Client</h4><p>Camer Young Boyz FC</p></div>
+                    <div class="spec-item"><h4>Status</h4><p>Live & Active</p></div>
+                    <div class="spec-item"><h4>Live Destination</h4><p><a href="https://cameryoungboyzfc.com/" rel="noopener" style="color:#0F3B5A;" target="_blank">cameryoungboyzfc.com</a></p></div>
+            </div>
+            <section class="case-section reveal">
+                <h2 class="dira-headline-md">Project Context &amp; Purpose</h2>
+                <div class="case-section__body">
+<p>Camer Young Boyz FC is a football club in Cameroon dedicated to developing grassroots football talent. Young athletes frequently face challenges being noticed by international scouts without an authoritative online repository documenting verified match statistics, video footage, and roster information.</p>
+<p>DIRA developed a responsive web portal allowing the academy to publish match fixtures, player roster cards, and recruitment inquiry pathways directly to international partners.</p>
                 </div>
-
-                <section class="case-section">
-                    <h2>Project Context &amp; Purpose</h2>
-                    <p>Camer Young Boyz FC is a football club in Cameroon dedicated to developing grassroots football talent. Young athletes frequently face challenges being noticed by international scouts without an authoritative online repository documenting verified match statistics, video footage, and roster information.</p>
-                    <p>DIRA developed a responsive web portal allowing the academy to publish match fixtures, player roster cards, and recruitment inquiry pathways directly to international partners.</p>
-                </section>
-
-                <section class="case-section">
-                    <h2>Screenshots &amp; Visual Assets</h2>
-                    <div class="gallery-grid">
-                        <figure class="gallery-item">
-                            <div class="img-wrap">
-                                <img src="./images/portfolio/youngboyz0.png" alt="Camer Young Boyz FC homepage action" loading="lazy">
-                            </div>
-                            <figcaption>Club portal homepage and match highlights.</figcaption>
-                        </figure>
-
-                        <figure class="gallery-item">
-                            <div class="img-wrap">
-                                <img src="./images/portfolio/youngboyz1.png" alt="Player profiles and statistical showcase" loading="lazy">
-                            </div>
-                            <figcaption>Player profiles and athletic statistics showcase.</figcaption>
-                        </figure>
-
-                        <figure class="gallery-item">
-                            <div class="img-wrap">
-                                <img src="./images/portfolio/youngboyz2.png" alt="Academy roster and match schedule" loading="lazy">
-                            </div>
-                            <figcaption>Academy match schedule and roster updates.</figcaption>
-                        </figure>
-                    </div>
-                </section>
-
-                <div class="case-actions">
-                    <a href="https://cameryoungboyzfc.com/" target="_blank" rel="noopener" class="btn-primary">Visit cameryoungboyzfc.com &rarr;</a>
-                    <a href="portfolio.html" class="btn-secondary">&larr; Back to Portfolio</a>
+            </section>
+            <section class="case-section case-section--wide reveal">
+                <h2 class="dira-headline-md">Screenshots &amp; Visual Assets</h2>
+                <div class="case-section__body">
+<div class="gallery-grid">
+<figure class="gallery-item reveal-card"><div class="img-wrap"><img src="./images/portfolio/web/youngboyz0.webp" alt="Camer Young Boyz FC homepage action" loading="lazy"></div><figcaption>Club portal homepage and match highlights.</figcaption></figure>
+<figure class="gallery-item reveal-card"><div class="img-wrap"><img src="./images/portfolio/web/youngboyz1.webp" alt="Player profiles and statistical showcase" loading="lazy"></div><figcaption>Player profiles and athletic statistics showcase.</figcaption></figure>
+<figure class="gallery-item reveal-card"><div class="img-wrap"><img src="./images/portfolio/web/youngboyz2.webp" alt="Academy roster and match schedule" loading="lazy"></div><figcaption>Academy match schedule and roster updates.</figcaption></figure>
+</div>
                 </div>
+            </section>
+            <div class="case-actions reveal">
+                    <a href="https://cameryoungboyzfc.com/" class="dira-btn dira-btn--primary btn-primary" target="_blank" rel="['noopener']">Visit cameryoungboyzfc.com →</a>
+                    <a href="portfolio.html" class="dira-btn dira-btn--secondary btn-secondary">← Back to Portfolio</a>
+            </div>
             </div>
         </article>
 
-        <!-- Contact Section -->
-        <div class="contact-container" id="contactSection">
-            <!-- contact injected from js -->
-        </div>
-    </div>
+        <!-- General contact form (injected from js/header.js) -->
+        <section class="in-section in-contact">
+            <div class="dira-container">
+                <div class="contact-container dira-form" id="contactSection">
+                    <!-- contact injected from js -->
+                </div>
+            </div>
+        </section>
 
-    <footer>
+    </main>
+<footer>
         <!-- injected from header.js -->
     </footer>
 

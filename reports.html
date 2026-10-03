@@ -12,50 +12,72 @@
     <meta property="og:type" content="website">
     <meta property="og:image" content="./images/logo.jpg">
     <link rel="canonical" href="reports.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style/dira-design.css">
     <link rel="stylesheet" href="./style/header.css">
-    <link rel="stylesheet" href="./style/reports.css">
     <link rel="stylesheet" href="./style/contact.css">
+    <link rel="stylesheet" href="./style/inner.css">
+    <link rel="stylesheet" href="./style/pg-reports.css">
 </head>
 
-<body>
-    <header>
+<body class="large-header dira-page dira-inner pg-reports" data-static-bg>
+        <header>
         <!-- injected from header.js -->
     </header>
+    <main id="main">
 
-    <div class="container">
-        <section class="reports-hero">
-            <h6>Institutional Disclosures</h6>
-            <h1>DIRA Reports &amp; Publications</h1>
-            <p>Official records of platform delivery, engineering standards, technical training metrics, and public institutional engagements published by DIRA SAS.</p>
-        </section>
-
-        <section class="uploaded-reports-section" aria-labelledby="uploadedReportsTitle">
-            <div class="reports-section-heading">
-                <div>
-                    <h2 id="uploadedReportsTitle">Latest Published Reports</h2>
-                    <p>Reports uploaded through the DIRA content studio.</p>
+        <section class="in-hero dira-atmosphere rep-hero">
+            <div class="dira-container in-hero__grid">
+                <div class="in-hero__copy reveal">
+                    <p class="in-eyebrow ">Institutional Disclosures</p>
+                    <h1 class="dira-display">DIRA Reports &amp; Publications</h1>
+                </div>
+                <div class="in-hero__aside reveal">
+                    <p class="in-lede">Official records of platform delivery, engineering standards, technical training metrics, and public institutional engagements published by DIRA SAS.</p>
                 </div>
             </div>
-            <div class="reports-grid" id="uploadedReportsGrid">
-                <p class="reports-empty">Loading reports...</p>
+        </section>
+
+        <section class="in-section in-section--flush-top rep-library" aria-labelledby="uploadedReportsTitle">
+            <div class="dira-container">
+                <div class="rep-library__head reveal">
+                    <h2 id="uploadedReportsTitle" class="dira-headline-lg">Latest Published Reports</h2>
+                    <p>Reports uploaded through the DIRA content studio.</p>
+                </div>
+                <div id="uploadedReportsGrid" class="rep-list">
+                    <p class="reports-empty">Loading reports...</p>
+                </div>
             </div>
         </section>
 
-        <!-- Custom Report Request / Intake Banner -->
-        <section style="background: linear-gradient(135deg, #0F3B5A, #191d36); color: #fff; padding: 50px 30px; border-radius: 12px; text-align: center; margin: 0 auto 70px; max-width: 1200px;">
-            <h6 style="color: #00E6D6; letter-spacing: 2px; text-transform: uppercase; font-size: 13px; font-weight: 700; margin-bottom: 12px;">Institutional Inquiries</h6>
-            <h2 style="font-size: 30px; font-weight: 800; margin-bottom: 15px; color: #fff;">Need Custom Research or an Institutional Assessment?</h2>
-            <p style="max-width: 650px; margin: 0 auto 25px; color: #cbd5e1; font-size: 16px; line-height: 1.6;">DIRA conducts technical architecture audits, feasibility assessments, and custom software scoping for ministries, NGOs, and enterprise organizations.</p>
-            <a href="https://client-intake-form.diracmr.com" target="_blank" rel="noopener" class="report-btn report-btn-primary" style="padding: 14px 32px; font-size: 16px; display: inline-flex; width: auto; background: #00E6D6; color: #191d36; border: none; font-weight: 700;">Submit Project Scoping Request &rarr;</a>
+        <section class="in-section in-section--flush-top">
+            <div class="dira-container">
+                <div class="in-cta reveal">
+                    <div>
+                        <p class="in-eyebrow ">Institutional Inquiries</p>
+                        <h2 class="dira-headline-lg" style="margin-top:1rem;">Need Custom Research or an Institutional Assessment?</h2>
+                        <p style="margin-top:1rem;">DIRA conducts technical architecture audits, feasibility assessments, and custom software scoping for ministries, NGOs, and enterprise organizations.</p>
+                    </div>
+                    <div class="in-cta__actions">
+                        <a href="https://client-intake-form.diracmr.com" target="_blank" rel="['noopener']" class="dira-btn dira-btn--light">Submit Project Scoping Request →</a>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <!-- General contact form  -->
-        <div class="contact-container" id="contactSection">
-            <!-- contact injected from js -->
-        </div>
-    </div>
+        <!-- General contact form (injected from js/header.js) -->
+        <section class="in-section in-contact">
+            <div class="dira-container">
+                <div class="contact-container dira-form" id="contactSection">
+                    <!-- contact injected from js -->
+                </div>
+            </div>
+        </section>
 
-    <footer>
+    </main>
+<footer>
         <!-- injected from header.js -->
     </footer>
 

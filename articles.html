@@ -12,92 +12,91 @@
     <meta property="og:type" content="website">
     <meta property="og:image" content="./images/logo.jpg">
     <link rel="canonical" href="articles.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style/dira-design.css">
     <link rel="stylesheet" href="./style/header.css">
-    <link rel="stylesheet" href="./style/articles.css">
     <link rel="stylesheet" href="./style/contact.css">
+    <link rel="stylesheet" href="./style/inner.css">
+    <link rel="stylesheet" href="./style/pg-articles.css">
 </head>
 
-<body>
-    <header>
-        <!-- Injected dynamically via js/header.js -->
+<body class="large-header dira-page dira-inner pg-articles" data-static-bg>
+        <header>
+        <!-- injected from header.js -->
     </header>
+    <main id="main" class="articles-page-container">
 
-    <main class="articles-page-container">
-        <!-- Section 1: Hero Header & Newsletter Capture -->
-        <section class="articles-hero-section">
-            <!-- Eyebrow Badge -->
-            <span class="eyebrow-badge">
-                Blogs &amp; Articles
-            </span>
-
-            <!-- Main Headline -->
-            <h1 class="articles-hero-title">
-                Blogs &amp; Articles
-            </h1>
-
-            <!-- Subtitle -->
-            <p class="articles-hero-subtitle">
-                Subscribe to learn more about our engineering perspectives, operational automation, and digital strategy insights from Cameroon.
-            </p>
-
-            <!-- Enclosed Capsule Form -->
-            <form class="hero-capsule-form" id="articleNewsletterForm">
-                <input 
-                    type="email" 
-                    id="heroNewsletterEmail"
-                    placeholder="Enter your email address" 
-                    class="capsule-input"
-                    required
-                />
-                <button 
-                    type="submit" 
-                    class="capsule-button"
-                    id="heroNewsletterBtn"
-                >
+        <section class="in-hero dira-atmosphere art-hero">
+            <div class="dira-container in-hero__grid">
+                <div class="in-hero__copy reveal">
+                    <span class="eyebrow-badge dira-badge dira-badge--dot">Blogs &amp; Articles</span>
+                    <h1 class="dira-display">Blogs &amp; <span class="dira-gradient-text">Articles</span></h1>
+                    <p class="in-lede">Subscribe to learn more about our engineering perspectives, operational automation, and digital strategy insights from Cameroon.</p>
+                </div>
+                <div class="in-hero__aside art-subscribe reveal">
+                    <form class="hero-capsule-form" id="articleNewsletterForm">
+<input class="capsule-input" id="heroNewsletterEmail" placeholder="Enter your email address" required="" type="email"/>
+<button class="capsule-button" id="heroNewsletterBtn" type="submit">
                     Subscribe
                 </button>
-            </form>
-            <div id="heroNewsletterStatus" class="hero-newsletter-status" role="alert"></div>
-        </section>
-
-        <!-- Section 2: Filter Navigation & Search -->
-        <div class="articles-nav-wrapper">
-            <nav class="articles-nav-tabs" aria-label="Article topics">
-                <button type="button" class="category-filter-tab active" data-category="All">All Articles</button>
-                <button type="button" class="category-filter-tab" data-category="Systems Architecture">Systems Architecture</button>
-                <button type="button" class="category-filter-tab" data-category="Business Automation">Business Automation</button>
-                <button type="button" class="category-filter-tab" data-category="Digital Strategy">Digital Strategy</button>
-                <button type="button" class="category-filter-tab" data-category="Talent & Capacity">Talent &amp; Capacity</button>
-            </nav>
-            <div class="articles-search-capsule">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"/>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                </svg>
-                <input type="text" id="articleSearchInput" placeholder="Search articles..." aria-label="Search articles">
+</form>
+                    <div class="hero-newsletter-status" id="heroNewsletterStatus" role="alert"></div>
+                </div>
             </div>
-        </div>
-
-        <!-- Section 3: Content Grid -->
-        <div class="articles-grid" id="articlesGrid" aria-live="polite">
-            <!-- Injected dynamically from js/article-api.js -->
-        </div>
-
-        <!-- Client Intake CTA Banner -->
-        <section style="background: linear-gradient(135deg, #0F3B5A, #191d36); color: #fff; padding: 48px 30px; border-radius: 16px; text-align: center; margin: 40px auto 70px; max-width: 1200px;">
-            <span class="eyebrow-badge" style="background: rgba(254, 240, 138, 0.2); color: #FEF08A; margin-bottom: 12px;">Start an Engagement</span>
-            <h2 style="font-size: 30px; font-weight: 800; margin-bottom: 14px; color: #fff;">Have a System or Platform to Build?</h2>
-            <p style="max-width: 650px; margin: 0 auto 24px; color: #cbd5e1; font-size: 15.5px; line-height: 1.6;">Whether you require custom enterprise software, workflow automation, or an institutional digital presence, submit your requirements through our official intake portal.</p>
-            <a href="https://client-intake-form.diracmr.com" target="_blank" rel="noopener" class="capsule-button" style="display: inline-flex; text-decoration: none; padding: 12px 30px; font-size: 15px;">Start a Project With Us Today &rarr;</a>
         </section>
 
-        <!-- General Contact Form -->
-        <div class="contact-container" id="contactSection">
-            <!-- contact injected from js/header.js -->
-        </div>
-    </main>
+        <section class="in-section in-section--flush-top art-library">
+            <div class="dira-container">
+                <div class="art-toolbar reveal">
+                    <nav aria-label="Article topics" class="articles-nav-tabs">
+<button class="category-filter-tab active" data-category="All" type="button">All Articles</button>
+<button class="category-filter-tab" data-category="Systems Architecture" type="button">Systems Architecture</button>
+<button class="category-filter-tab" data-category="Business Automation" type="button">Business Automation</button>
+<button class="category-filter-tab" data-category="Digital Strategy" type="button">Digital Strategy</button>
+<button class="category-filter-tab" data-category="Talent &amp; Capacity" type="button">Talent &amp; Capacity</button>
+</nav>
+                    <div class="articles-search-capsule">
+<svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16">
+<circle cx="11" cy="11" r="8"></circle>
+<line x1="21" x2="16.65" y1="21" y2="16.65"></line>
+</svg>
+<input aria-label="Search articles" id="articleSearchInput" placeholder="Search articles..." type="text"/>
+</div>
+                </div>
+                <div id="articlesGrid" class="art-grid">
+                    <!-- Injected dynamically from js/article-api.js -->
+                </div>
+            </div>
+        </section>
 
-    <footer>
+        <section class="in-section in-section--flush-top">
+            <div class="dira-container">
+                <div class="in-cta reveal">
+                    <div>
+                        <p class="in-eyebrow in-eyebrow--light">Start an Engagement</p>
+                        <h2 class="dira-headline-lg" style="margin-top:1rem;">Have a System or Platform to Build?</h2>
+                        <p style="margin-top:1rem;">Whether you require custom enterprise software, workflow automation, or an institutional digital presence, submit your requirements through our official intake portal.</p>
+                    </div>
+                    <div class="in-cta__actions">
+                        <a href="https://client-intake-form.diracmr.com" target="_blank" rel="noopener" class="dira-btn dira-btn--light">Start a Project With Us Today →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- General contact form (injected from js/header.js) -->
+        <section class="in-section in-contact">
+            <div class="dira-container">
+                <div class="contact-container dira-form" id="contactSection">
+                    <!-- contact injected from js -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+<footer>
         <!-- Injected dynamically via js/header.js -->
     </footer>
 

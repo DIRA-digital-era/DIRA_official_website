@@ -1,3 +1,6 @@
+// Must match the mobile menu breakpoint in style/header.css (max-width: 1100px)
+const NAV_COLLAPSE_QUERY = '(max-width: 1100px)';
+
 function injectHeader(){
     const header = document.querySelector('header');
     header.innerHTML = `
@@ -5,7 +8,7 @@ function injectHeader(){
             <img src="./images/logo.jpg" alt="DIRA logo">
             <span class="logo-text">DIRA</span>
         </div>
-        <button class="hamburger" aria-label="Toggle navigation">
+        <button class="hamburger" aria-label="Toggle navigation" aria-controls="navMenu" aria-expanded="false">
             <span></span>
             <span></span>
             <span></span>
@@ -48,7 +51,7 @@ function injectFooter(){
                 <div class="footer-section">
                     <h3>DIRA</h3>
                     <p>Building Africa's digital infrastructure, from Cameroon.</p>
-                    <p style="margin-top:0.75rem; font-size:0.8rem; color:#aaa;">
+                    <p class="footer-legal">
                         DIRA SAS<br>
                         AWICUL Building, Commercial Avenue<br>
                         Bamenda, Northwest Region, Cameroon<br>
@@ -58,7 +61,7 @@ function injectFooter(){
 
                 <div class="footer-section">
                     <h3>Quick Links</h3>
-                    <ul class="footer-links" style="align-items:flex-start;">
+                    <ul class="footer-links">
                         <li><a href="index.html">Home</a></li>
                         <li><a href="about.html">About</a></li>
                         <li><a href="services.html">Services</a></li>
@@ -76,9 +79,9 @@ function injectFooter(){
 
                 <div class="footer-section">
                     <h3>Contact</h3>
-                    <p><a href="mailto:info@diracmr.com" style="color:#ccc;">info@diracmr.com</a></p>
-                    <p><a href="tel:+237682366472" style="color:#ccc;">+237 682 366 472</a></p>
-                    <div class="social-links" style="margin-top:1rem; display:flex; gap:10px; flex-wrap:wrap;">
+                    <p><a href="mailto:info@diracmr.com" class="footer-contact-link">info@diracmr.com</a></p>
+                    <p><a href="tel:+237682366472" class="footer-contact-link">+237 682 366 472</a></p>
+                    <div class="social-links" style="margin-top:1rem;">
                         <a href="https://www.facebook.com/profile.php?id=61583966202064" aria-label="Facebook" target="_blank" class="social-icon" title="Facebook">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
@@ -297,7 +300,10 @@ function toggleMenu() {
     const header = document.querySelector('header');
     const hamburger = document.querySelector('.hamburger');
     if (navMenu) navMenu.classList.toggle('active');
-    if (hamburger) hamburger.classList.toggle('active');
+    if (hamburger) {
+        hamburger.classList.toggle('active');
+        hamburger.setAttribute('aria-expanded', hamburger.classList.contains('active') ? 'true' : 'false');
+    }
     header.style.height = "fit-content";
 }
 
@@ -309,7 +315,10 @@ document.addEventListener('click', function(event) {
 
     if (header && !header.contains(event.target)) {
         if (navMenu) navMenu.classList.remove('active');
-        if (hamburger) hamburger.classList.remove('active');
+        if (hamburger) {
+            hamburger.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
+        }
         document.querySelectorAll('.dropdown-content').forEach(content => {
             content.classList.remove('active');
         });
@@ -318,8 +327,11 @@ document.addEventListener('click', function(event) {
 
 // Set active nav link based on current page
 function setActiveNavLink() {
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-    const navLinks = document.querySelectorAll('nav a');
+    let currentPage = decodeURIComponent(window.location.pathname.split('/').pop() || 'index.html');
+    // Detail pages highlight the section they belong to
+    if (currentPage.indexOf('project-') === 0) currentPage = 'portfolio.html';
+    if (currentPage === 'article.html') currentPage = 'articles.html';
+    const navLinks = document.querySelectorAll('header nav a');
 
     navLinks.forEach(link => {
         const href = link.getAttribute('href');
@@ -328,6 +340,12 @@ function setActiveNavLink() {
         } else {
             link.classList.remove('active');
         }
+    });
+
+    // Highlight the dropdown toggle when one of its pages is open
+    document.querySelectorAll('header nav .dropdown').forEach(dd => {
+        const toggle = dd.querySelector('.dropdown-toggle');
+        if (toggle) toggle.classList.toggle('active', !!dd.querySelector('a.active'));
     });
 }
 
@@ -343,7 +361,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function delegatedDropdownHandler(e) {
         const toggle = e.target.closest('.dropdown-toggle');
         if (!toggle) return;
-        if (window.matchMedia('(max-width: 768px)').matches) {
+        if (window.matchMedia(NAV_COLLAPSE_QUERY).matches) {
             e.preventDefault();
             e.stopPropagation();
             const dropdown = toggle.closest('.dropdown');
