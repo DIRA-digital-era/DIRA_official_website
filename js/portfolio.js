@@ -12,7 +12,7 @@ const projects = [
     techInfo: "Custom marketplace platform, verified property onboarding workflow, high-availability hosting, geolocation search, and secure inquiry pipelines.",
     images: [
       {
-        url: "./images/utils/development.jpg",
+        url: "./images/photos/web/dhub.png",
         alt: "DHUB verified housing marketplace platform architecture"
       },
       {
@@ -34,11 +34,7 @@ const projects = [
     techInfo: "Multi-tier membership platform, historical executive records database, project milestone tracker, event registration engine, and institutional role-based access control.",
     images: [
       {
-        url: "./images/photos/web/team-b.jpg",
-        alt: "SHESA project signing and institutional presentation"
-      },
-      {
-        url: "./images/photos/web/team-a.jpg",
+        url: "./images/photos/web/Shesa_connect.jpg",
         alt: "DIRA team presenting platform capabilities"
       }
     ]
@@ -56,11 +52,11 @@ const projects = [
     techInfo: "Accessible, responsive web architecture, structured field reporting modules, donation inquiries, and optimized mobile-first performance.",
     images: [
       {
-        url: "./images/portfolio/web/foundation0.webp",
+        url: "./images/photos/web/aswedo-1.png",
         alt: "ASWEDO Cameroon community welfare platform"
       },
       {
-        url: "./images/portfolio/web/foundation1.webp",
+        url: "./images/photos/web/aswedo-2.png",
         alt: "ASWEDO educational outreach program"
       }
     ]
@@ -125,21 +121,15 @@ const projects = [
     techInfo: "Community portal, workshop registration pipelines, resource repository, and volunteer mentorship coordination.",
     images: [
       {
-        url: "./images/portfolio/web/foundation0.webp",
+        url: "./images/photos/web/foundation0.png",
         alt: "DIRA Foundation community empowerment workshop"
       },
       {
-        url: "./images/portfolio/web/foundation1.webp",
+        url: "./images/photos/web/foundation1.png",
         alt: "DIRA Foundation digital education program"
       },
-      {
-        url: "./images/portfolio/web/foundation2.webp",
-        alt: "Community digital literacy session"
-      },
-      {
-        url: "./images/portfolio/web/foundation3.webp",
-        alt: "Hands-on technology training for young students"
-      }
+     
+      
     ]
   },
   {

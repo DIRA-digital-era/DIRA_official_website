@@ -2,14 +2,35 @@
   'use strict';
 
   function getTestimonials() {
-    const testimonials = Array.from(document.querySelectorAll('.testimonial-card')).map(card => ({
-      quote: card.querySelector('.testimonial-quote, .testimonial-text')?.textContent.trim(),
-      author: card.querySelector('.testimonial-author-box h4, .testimonial-author h4, .testimonial-author strong')?.textContent.trim() || card.querySelector('.testimonial-author')?.textContent.trim()
-    })).filter(testimonial => testimonial.quote && testimonial.author);
+    const testimonials = Array.from(document.querySelectorAll('.testimonial-card')).map(card => {
+      const imageEl = card.querySelector('img');
+      return {
+        quote: card.querySelector('.testimonial-quote, .testimonial-text')?.textContent.trim(),
+        author: card.querySelector('.testimonial-author-box h4, .testimonial-author h4, .testimonial-author strong')?.textContent.trim() || card.querySelector('.testimonial-author')?.textContent.trim(),
+        image: imageEl?.getAttribute('src') || '',
+        alt: imageEl?.getAttribute('alt') || 'DIRA testimonial image'
+      };
+    }).filter(testimonial => testimonial.quote && testimonial.author);
+
     return testimonials.length ? testimonials : [
-      { quote: 'DIRA delivered a resilient platform that consolidated our global alumni membership and digitized our verification process with flawless audit trails and zero downtime.', author: 'SHESA Connect' },
-      { quote: 'Commended as one of the most promising and technically rigorous technology initiatives encountered in Bamenda.', author: 'Institutional Partner' },
-      { quote: 'DIRA delivered practical technology that streamlined our community initiatives and eliminated manual tracking errors.', author: 'Community Platform Partner' }
+      {
+        quote: 'DIRA delivered a resilient platform that consolidated our global alumni membership and digitized our verification process with flawless audit trails and zero downtime.',
+        author: 'SHESA Connect',
+        image: './images/photos/web/team-b.jpg',
+        alt: 'DIRA team presentation'
+      },
+      {
+        quote: 'Commended as one of the most promising and technically rigorous technology initiatives encountered in Bamenda.',
+        author: 'Institutional Partner',
+        image: './images/photos/web/team-a.jpg',
+        alt: 'DIRA institutional engagement'
+      },
+      {
+        quote: 'DIRA delivered practical technology that streamlined our community initiatives and eliminated manual tracking errors.',
+        author: 'Community Platform Partner',
+        image: './images/photos/web/hero-1.jpg',
+        alt: 'DIRA community technology project'
+      }
     ];
   }
 
@@ -32,14 +53,22 @@
     toast.setAttribute('aria-hidden', 'true');
     toast.innerHTML = `
       <button class="testimonial-toast-close" type="button" aria-label="Dismiss testimonial">&times;</button>
-      <div class="testimonial-toast-label">Client feedback</div>
-      <blockquote class="testimonial-toast-quote"></blockquote>
-      <div class="testimonial-toast-author"></div>
-      <a class="testimonial-toast-cta" href="https://client-intake-form.diracmr.com" target="_blank" rel="noopener">
-        Start a Project With Us Today <span aria-hidden="true">&rarr;</span>
-      </a>`;
+      <div class="testimonial-toast-body">
+        <div class="testimonial-toast-media">
+          <img class="testimonial-toast-image" src="" alt="" />
+        </div>
+        <div class="testimonial-toast-content">
+          <div class="testimonial-toast-label">Client feedback</div>
+          <blockquote class="testimonial-toast-quote"></blockquote>
+          <div class="testimonial-toast-author"></div>
+          <a class="testimonial-toast-cta" href="https://client-intake-form.diracmr.com" target="_blank" rel="noopener">
+            Start a Project With Us Today <span aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+      </div>`;
     document.body.appendChild(toast);
 
+    const image = toast.querySelector('.testimonial-toast-image');
     const quote = toast.querySelector('.testimonial-toast-quote');
     const author = toast.querySelector('.testimonial-toast-author');
     const closeButton = toast.querySelector('.testimonial-toast-close');
@@ -62,6 +91,8 @@
       const testimonial = testimonials[testimonialIndex % testimonials.length];
       quote.textContent = testimonial.quote;
       author.textContent = testimonial.author;
+      image.src = testimonial.image;
+      image.alt = testimonial.alt;
       testimonialIndex += 1;
       toast.classList.add('is-visible');
       toast.setAttribute('aria-hidden', 'false');

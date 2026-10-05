@@ -100,13 +100,7 @@
                         <a href="services.html" class="dira-btn dira-btn--secondary">Explore Solutions</a>
                     </div>
                 </div>
-                <div class="home-hero__visual reveal">
-                    <div class="home-hero__frame hero-slideshow" aria-hidden="true">
-                        <div class="hero-slide active" style="background-image: url('./images/photos/web/hero-1.jpg');"></div>
-                        <div class="hero-slide" style="background-image: url('./images/photos/web/hero-2.jpg');"></div>
-                        <div class="hero-slide" style="background-image: url('./images/photos/web/hero-3.jpg');"></div>
-                        <div class="hero-slide" style="background-image: url('./images/photos/web/hero-4.jpg');"></div>
-                    </div>
+                <div class="home-hero__visual reveal" aria-hidden="true">
                     <span class="dira-badge dira-badge--dot dira-badge--on-dark home-hero__chip">Bamenda, Cameroon</span>
                 </div>
             </div>
@@ -150,7 +144,7 @@
             <div class="dira-container dira-grid home-intro__grid">
                 <div class="home-intro__media dira-col-6 dira-tab-6 reveal">
                     <div class="dira-media">
-                        <img src="./images/photos/web/journey.jpg" alt="DIRA team at work in Bamenda" loading="lazy" width="1400" height="1288">
+                        <img src="./images/photos/web/hero-2.jpg" alt="DIRA team at work in Bamenda" loading="lazy" width="1400" height="1288">
                     </div>
                 </div>
                 <div class="home-intro__copy dira-col-5 dira-tab-6 reveal">
@@ -292,7 +286,7 @@
                     </figure>
                     <div class="home-quote__side dira-col-5 dira-tab-6">
                         <figure class="home-quote reveal-card" style="margin:0;">
-                            <p class="home-quote__text">"Commended as one of the most promising and technically rigorous technology initiatives encountered in Bamenda, setting a new bar for regional youth-built software."</p>
+                            <p class="home-quote__text">"Commended as one of the most promising and technically rigorous technology initiatives encountered in Bamenda, setting a new bar for regional digital delivery."</p>
                             <div class="testimonial-author">
                                 <div class="author-avatar">MR</div>
                                 <div class="author-info">
@@ -403,24 +397,34 @@
         document.querySelectorAll('.stat-number[data-target]').forEach(el => counterObserver.observe(el));
     </script>
 
-    <!-- Homepage Hero Background Slideshow & Text Carousel Controller -->
+    <!-- Hero background & text carousel controller -->
     <script>
         (function initHeroRotator() {
-            // Background Image Slideshow
-            const bgSlides = document.querySelectorAll('.hero-slideshow .hero-slide');
-            let currentBgIndex = 0;
-            const bgIntervalTime = 5500;
+            const hero = document.querySelector('.home-hero');
+            const heroBackgrounds = [
+                './images/photos/web/hero-1.jpg',
+                './images/photos/web/hero-2.jpg',
+                './images/photos/web/hero-3.jpg',
+                './images/photos/web/hero-4.jpg',
+            ];
 
-            function nextBgSlide() {
-                if (!bgSlides.length) return;
-                bgSlides[currentBgIndex].classList.remove('active');
-                currentBgIndex = (currentBgIndex + 1) % bgSlides.length;
-                bgSlides[currentBgIndex].classList.add('active');
+            if (hero && heroBackgrounds.length) {
+                let activeHeroIndex = 0;
+                const heroOverlay = 'linear-gradient(90deg, rgba(11, 10, 38, 0.82) 0%, rgba(11, 10, 38, 0.72) 36%, rgba(11, 10, 38, 0.22) 100%)';
+
+                const applyHeroBackground = (index) => {
+                    const image = heroBackgrounds[index];
+                    hero.style.backgroundImage = `${heroOverlay}, url('${image}')`;
+                };
+
+                applyHeroBackground(activeHeroIndex);
+
+                setInterval(() => {
+                    activeHeroIndex = (activeHeroIndex + 1) % heroBackgrounds.length;
+                    applyHeroBackground(activeHeroIndex);
+                }, 3500);
             }
 
-            let bgTimer = setInterval(nextBgSlide, bgIntervalTime);
-
-            // 3-Pillar Text Carousel
             const textSlides = document.querySelectorAll('.hero-carousel-slide');
             const navDots = document.querySelectorAll('.hero-carousel-nav .carousel-dot');
             const carouselContainer = document.getElementById('heroCarousel');
@@ -462,24 +466,21 @@
                 }
             }
 
-            // Navigation dot clicks
             navDots.forEach(dot => {
                 dot.addEventListener('click', () => {
                     const slideIdx = parseInt(dot.getAttribute('data-slide'), 10);
                     if (!isNaN(slideIdx)) {
                         goToSlide(slideIdx);
-                        startTextTimer(); // Reset auto timer
+                        startTextTimer();
                     }
                 });
             });
 
-            // Pause rotation on hover
             if (carouselContainer) {
                 carouselContainer.addEventListener('mouseenter', stopTextTimer);
                 carouselContainer.addEventListener('mouseleave', startTextTimer);
             }
 
-            // Start auto text rotation
             startTextTimer();
         })();
     </script>

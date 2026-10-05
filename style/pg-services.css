@@ -2,6 +2,47 @@
    SERVICES: capability-oriented composition
    ========================================================================== */
 
+.pg-services .in-hero {
+    background-image: linear-gradient(90deg, rgba(11, 10, 38, 0.86) 0%, rgba(11, 10, 38, 0.78) 35%, rgba(11, 10, 38, 0.38) 100%), url('https://i.pinimg.com/736x/93/ab/0a/93ab0ae21a1be5d6901853a4fce27e7f.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #ffffff;
+}
+
+.pg-services .in-hero .in-eyebrow,
+.pg-services .in-hero .dira-display,
+.pg-services .in-hero .in-lede,
+.pg-services .in-hero .svc-index__body h3,
+.pg-services .in-hero .svc-index__body p,
+.pg-services .in-hero .svc-index__num,
+.pg-services .in-hero .svc-index__go {
+    color: #ffffff;
+    text-shadow: 0 3px 18px rgba(0, 0, 0, 0.28);
+}
+
+.pg-services .in-hero .svc-index__row {
+    border-color: rgba(255, 255, 255, 0.14);
+}
+
+.pg-services .in-hero .svc-index__num,
+.pg-services .in-hero .svc-index__go,
+.pg-services .in-hero .svc-index__body p {
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.pg-services .in-hero .dira-display,
+.pg-services .in-hero .dira-display .dira-gradient-text {
+    color: #ffffff;
+}
+
+.pg-services .in-hero .dira-gradient-text {
+    background: linear-gradient(135deg, #d8d2ff 0%, #9ed5ff 50%, #a2ffda 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
 /* Hero: service index (the six service cards as one numbered list) */
 .svc-index__list {
     list-style: none;
