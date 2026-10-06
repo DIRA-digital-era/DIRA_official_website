@@ -688,7 +688,13 @@ app.delete('/api/gallery/:id', async (request, response, next) => {
   } catch (error) { next(error); }
 });
 
-app.use(express.static(publicRoot));
+app.use(express.static(publicRoot, {
+  setHeaders: (response, filePath) => {
+    if (['gallery.js', 'testimonial-toast.js'].includes(path.basename(filePath))) {
+      response.setHeader('Cache-Control', 'no-store');
+    }
+  }
+}));
 app.use((error, request, response, next) => {
   if (error instanceof multer.MulterError || error.message.includes('File too large') || error.message.includes('Reports must be PDF')) return response.status(400).json({ error: error.message.includes('Reports') ? error.message : 'Uploaded files exceed the allowed size.' });
   if (error.message.includes('Cloudinary is not configured')) return response.status(503).json({ error: error.message });

@@ -226,87 +226,6 @@ function initializeTestimonialsCarousel() {
     startAutoplay();
 }
 
-function initializeTestimonialToast() {
-    const testimonialCards = Array.from(document.querySelectorAll('.testimonial-card'));
-    if (!testimonialCards.length || document.getElementById('testimonialToast')) return;
-
-    const toast = document.createElement('aside');
-    toast.id = 'testimonialToast';
-    toast.className = 'testimonial-toast';
-    toast.setAttribute('aria-live', 'polite');
-    toast.setAttribute('aria-hidden', 'true');
-    toast.innerHTML = `
-        <button class="testimonial-toast-close" type="button" aria-label="Dismiss testimonial">&times;</button>
-        <div class="testimonial-toast-body">
-            <div class="testimonial-toast-media">
-                <img class="testimonial-toast-image" src="" alt="" />
-            </div>
-            <div class="testimonial-toast-content">
-                <div class="testimonial-toast-label">Client feedback</div>
-                <blockquote class="testimonial-toast-quote"></blockquote>
-                <div class="testimonial-toast-author"></div>
-                <a class="testimonial-toast-cta" href="https://client-intake-form.diracmr.com" target="_blank" rel="noopener">
-                    Start a Project With Us Today <span aria-hidden="true">&rarr;</span>
-                </a>
-            </div>
-        </div>
-    `;
-    document.body.appendChild(toast);
-
-    const image = toast.querySelector('.testimonial-toast-image');
-    const quote = toast.querySelector('.testimonial-toast-quote');
-    const author = toast.querySelector('.testimonial-toast-author');
-    const closeButton = toast.querySelector('.testimonial-toast-close');
-    let testimonialIndex = 0;
-    let showTimer;
-    let hideTimer;
-
-    function showToast() {
-        const card = testimonialCards[testimonialIndex % testimonialCards.length];
-        const cardQuote = card.querySelector('.testimonial-quote');
-        const cardAuthor = card.querySelector('.testimonial-author-box h4');
-        const cardImage = card.querySelector('img');
-        if (!cardQuote || !cardAuthor) return;
-
-        quote.textContent = cardQuote.textContent.trim();
-        author.textContent = cardAuthor.textContent.trim();
-
-        if (cardImage) {
-            image.src = cardImage.src;
-            image.alt = cardImage.alt || 'DIRA testimonial image';
-        } else {
-            image.removeAttribute('src');
-            image.alt = 'DIRA testimonial image';
-        }
-
-        testimonialIndex += 1;
-        toast.classList.add('is-visible');
-        toast.setAttribute('aria-hidden', 'false');
-        clearTimeout(hideTimer);
-        hideTimer = setTimeout(() => hideToast(true), 9000);
-    }
-
-    function hideToast(scheduleNext) {
-        toast.classList.remove('is-visible');
-        toast.setAttribute('aria-hidden', 'true');
-        if (scheduleNext) scheduleToast(12000);
-    }
-
-    function scheduleToast(delay = 7000) {
-        clearTimeout(showTimer);
-        showTimer = setTimeout(() => {
-            showToast();
-        }, delay);
-    }
-
-    closeButton.addEventListener('click', () => {
-        hideToast(false);
-        scheduleToast(12000);
-    });
-
-    scheduleToast(2000);
-}
-
 // ==========================================
 // 5. EVENT LISTENERS & INITIALIZATION
 // ==========================================
@@ -315,7 +234,6 @@ document.addEventListener('DOMContentLoaded', () => {
     renderGallery();
     fetchUploadedGalleryImages();
     initializeTestimonialsCarousel();
-    initializeTestimonialToast();
 
     // Category gallery modal controls
     if (galleryModalClose) galleryModalClose.addEventListener('click', closeGalleryModal);

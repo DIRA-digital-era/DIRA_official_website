@@ -5190,7 +5190,7 @@ This document records all modifications made to the official DIRA website codeba
 
 ### About Page (`about.html`)
 - **Our Story:** Replaced generic text with approved copy describing founder Fru Allen-Brian Njimbong (Cameroon's Best Computer Science Student for 2024 GCE A-Level session), OHADA registration in Bamenda, the ventures group, and the current 9-member team.
-- **Mission Section:** Added dedicated mission statement: *DIRA exists to build the digital infrastructure institutions and businesses run on, starting from Bamenda...*
+- **Mission Section:** Added dedicated mission statement: *DIRA exists to build the digital infrastructure institutions and businesses run on, starting from Cameroon...*
 - **Values / Differentiators:** Replaced generic cards (Innovation, Partnership, Growth) with verified differentiators:
   - Named Accountability
   - Government-Tested
@@ -15398,7 +15398,7 @@ footer::before {
         <section class="mission-section">
             <h6 style="text-align:center;letter-spacing:0.1em;text-transform:uppercase;font-size:0.8rem;color:#0F3B5A;font-weight:600;margin-bottom:0.5rem;">Our Mission</h6>
             <h2>Why DIRA Exists</h2>
-            <p>DIRA exists to build the digital infrastructure institutions and businesses run on, starting from Bamenda. We design secure systems, custom platforms, and technology services for the organizations that need software they can actually trust, and we extend that same capability to the community around us through DIRA Foundation.</p>
+            <p>DIRA exists to build the digital infrastructure institutions and businesses run on, starting from Cameroon. We design secure systems, custom platforms, and technology services for the organizations that need software they can actually trust, and we extend that same capability to the community around us through DIRA Foundation.</p>
         </section>
 
         <!-- Core Pillars Section -->

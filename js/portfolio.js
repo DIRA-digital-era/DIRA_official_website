@@ -34,7 +34,7 @@ const projects = [
     techInfo: "Multi-tier membership platform, historical executive records database, project milestone tracker, event registration engine, and institutional role-based access control.",
     images: [
       {
-        url: "./images/photos/web/Shesa_connect.jpg",
+        url: "./images/photos/web/proven-execution.png",
         alt: "DIRA team presenting platform capabilities"
       }
     ]

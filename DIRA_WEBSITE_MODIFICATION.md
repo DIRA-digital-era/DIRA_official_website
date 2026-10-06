@@ -49,7 +49,7 @@ This document records all modifications made to the official DIRA website codeba
 
 ### About Page (`about.html`)
 - **Our Story:** Replaced generic text with approved copy describing founder Fru Allen-Brian Njimbong (Cameroon's Best Computer Science Student for 2024 GCE A-Level session), OHADA registration in Bamenda, the ventures group, and the current 9-member team.
-- **Mission Section:** Added dedicated mission statement: *DIRA exists to build the digital infrastructure institutions and businesses run on, starting from Bamenda...*
+- **Mission Section:** Added dedicated mission statement: *DIRA exists to build the digital infrastructure institutions and businesses run on, starting from Cameroon...*
 - **Values / Differentiators:** Replaced generic cards (Innovation, Partnership, Growth) with verified differentiators:
   - Named Accountability
   - Government-Tested

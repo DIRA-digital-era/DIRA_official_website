@@ -1,42 +1,40 @@
 (function () {
   'use strict';
 
-  function getTestimonials() {
-    const testimonials = Array.from(document.querySelectorAll('.testimonial-card')).map(card => {
+  function readTestimonials(sourceDocument, baseUrl) {
+    return Array.from(sourceDocument.querySelectorAll('#testimonialsCarousel .testimonial-card')).map(card => {
       const imageEl = card.querySelector('img');
+      const imagePath = imageEl?.getAttribute('src');
       return {
         quote: card.querySelector('.testimonial-quote, .testimonial-text')?.textContent.trim(),
         author: card.querySelector('.testimonial-author-box h4, .testimonial-author h4, .testimonial-author strong')?.textContent.trim() || card.querySelector('.testimonial-author')?.textContent.trim(),
-        image: imageEl?.getAttribute('src') || '',
+        image: imagePath ? new URL(imagePath, baseUrl).href : '',
         alt: imageEl?.getAttribute('alt') || 'DIRA testimonial image'
       };
     }).filter(testimonial => testimonial.quote && testimonial.author);
-
-    return testimonials.length ? testimonials : [
-      {
-        quote: 'DIRA delivered a resilient platform that consolidated our global alumni membership and digitized our verification process with flawless audit trails and zero downtime.',
-        author: 'SHESA Connect',
-        image: './images/photos/web/team-b.jpg',
-        alt: 'DIRA team presentation'
-      },
-      {
-        quote: 'Commended as one of the most promising and technically rigorous technology initiatives encountered in Bamenda.',
-        author: 'Institutional Partner',
-        image: './images/photos/web/team-a.jpg',
-        alt: 'DIRA institutional engagement'
-      },
-      {
-        quote: 'DIRA delivered practical technology that streamlined our community initiatives and eliminated manual tracking errors.',
-        author: 'Community Platform Partner',
-        image: './images/photos/web/hero-1.jpg',
-        alt: 'DIRA community technology project'
-      }
-    ];
   }
 
-  function initializeTestimonialToast() {
-    const testimonials = getTestimonials();
-    if (!testimonials.length || document.getElementById('testimonialToast')) return;
+  async function getTestimonials() {
+    const pageTestimonials = readTestimonials(document, document.baseURI);
+    if (pageTestimonials.length) return pageTestimonials;
+
+    const galleryUrl = new URL('./gallery.html', document.baseURI);
+    try {
+      const response = await fetch(galleryUrl, { cache: 'no-store' });
+      if (!response.ok) return [];
+
+      const galleryDocument = new DOMParser().parseFromString(await response.text(), 'text/html');
+      return readTestimonials(galleryDocument, galleryUrl.href);
+    } catch {
+      return [];
+    }
+  }
+
+  async function initializeTestimonialToast() {
+    const existingToast = document.getElementById('testimonialToast');
+    existingToast?.remove();
+    const testimonials = await getTestimonials();
+    if (!testimonials.length) return;
 
     if (!document.querySelector('link[data-testimonial-toast-style]')) {
       const stylesheet = document.createElement('link');
