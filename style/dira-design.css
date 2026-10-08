@@ -1,5 +1,5 @@
 /* ==========================================================================
-   DIRA DESIGN SYSTEM  ("Luminous Violet")
+   DIRA DESIGN SYSTEM  ("Deep Blue")
    Single source of truth for the redesign. Values come from DESIGN.md.
 
    Contents
@@ -28,49 +28,49 @@
    -------------------------------------------------------------------------- */
 :root {
     /* Brand */
-    --dira-primary: #635BFF;
-    --dira-primary-deep: #493EE5;
-    --dira-secondary: #9B51E0;
-    --dira-secondary-deep: #8135C5;
-    --dira-accent-violet: #7E42F5;
+    --dira-primary: #0F3B5A;
+    --dira-primary-deep: #071A2F;
+    --dira-secondary: #164D75;
+    --dira-secondary-deep: #123D60;
+    --dira-accent-violet: #2673A6;
 
     /* Contrast and text */
-    --dira-midnight: #0B0A26;
-    --dira-ink: #1A173B;
-    --dira-muted: #464555;
-    --dira-outline: #777587;
-    --dira-outline-variant: #C7C4D8;
-    --dira-placeholder: #8E8BA7;
+    --dira-midnight: #071A2F;
+    --dira-ink: #102A43;
+    --dira-muted: #526477;
+    --dira-outline: #718096;
+    --dira-outline-variant: #CBD5E1;
+    --dira-placeholder: #8493A5;
 
     /* Surfaces */
-    --dira-canvas: #FBFBFF;
+    --dira-canvas: #FBFDFF;
     --dira-white: #FFFFFF;
-    --dira-lavender: #F0EEFF;
-    --dira-surface-low: #F6F1FF;
-    --dira-surface: #F0EBFF;
-    --dira-surface-high: #EAE5FF;
-    --dira-surface-highest: #E4DFFF;
-    --dira-field: #F4F4FA;
+    --dira-lavender: #EAF2F8;
+    --dira-surface-low: #F4F8FB;
+    --dira-surface: #EAF2F8;
+    --dira-surface-high: #DFEBF3;
+    --dira-surface-highest: #D5E4EF;
+    --dira-field: #F4F8FB;
 
     /* On dark (midnight) surfaces */
-    --dira-on-dark: #F3EEFF;
-    --dira-on-dark-muted: rgba(243, 238, 255, 0.72);
-    --dira-on-dark-faint: rgba(243, 238, 255, 0.55);
-    --dira-inverse-primary: #C3C0FF;
+    --dira-on-dark: #EAF2F8;
+    --dira-on-dark-muted: rgba(234, 242, 248, 0.72);
+    --dira-on-dark-faint: rgba(234, 242, 248, 0.55);
+    --dira-inverse-primary: #A6D5F2;
 
     /* Semantic (only for real error states) */
     --dira-error: #BA1A1A;
     --dira-error-container: #FFDAD6;
 
     /* Gradients */
-    --dira-gradient: linear-gradient(135deg, #635BFF 0%, #9B51E0 100%);
-    --dira-gradient-button: linear-gradient(135deg, #635BFF 0%, #7E42F5 100%);
+    --dira-gradient: linear-gradient(135deg, #0F3B5A 0%, #2673A6 100%);
+    --dira-gradient-button: linear-gradient(135deg, #0F3B5A 0%, #164D75 100%);
 
     /* Borders */
-    --dira-border: rgba(99, 91, 255, 0.08);
-    --dira-border-field: rgba(99, 91, 255, 0.12);
-    --dira-border-strong: rgba(99, 91, 255, 0.20);
-    --dira-border-on-dark: rgba(195, 192, 255, 0.18);
+    --dira-border: rgba(15, 59, 90, 0.08);
+    --dira-border-field: rgba(15, 59, 90, 0.12);
+    --dira-border-strong: rgba(15, 59, 90, 0.20);
+    --dira-border-on-dark: rgba(166, 213, 242, 0.18);
 
     /* Typography */
     --dira-font: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -96,10 +96,10 @@
     --dira-radius-full: 9999px;
 
     /* Elevation */
-    --dira-shadow-1: 0 4px 20px -2px rgba(99, 91, 255, 0.06), 0 2px 6px rgba(0, 0, 0, 0.02);
-    --dira-shadow-2: 0 12px 32px -4px rgba(26, 23, 59, 0.08), 0 4px 12px rgba(99, 91, 255, 0.08);
-    --dira-shadow-3: 0 20px 40px -8px rgba(99, 91, 255, 0.22);
-    --dira-glow-button: 0 8px 20px rgba(99, 91, 255, 0.35);
+    --dira-shadow-1: 0 4px 20px -2px rgba(15, 59, 90, 0.06), 0 2px 6px rgba(0, 0, 0, 0.02);
+    --dira-shadow-2: 0 12px 32px -4px rgba(16, 42, 67, 0.08), 0 4px 12px rgba(15, 59, 90, 0.08);
+    --dira-shadow-3: 0 20px 40px -8px rgba(15, 59, 90, 0.22);
+    --dira-glow-button: 0 8px 20px rgba(15, 59, 90, 0.35);
 
     /* Control heights */
     --dira-control-h: 48px;
@@ -150,7 +150,7 @@ body.dira-page {
     }
 }
 
-/* Atmospheric bloom. Put on a section that needs the soft violet backdrop.
+/* Atmospheric bloom. Put on a section that needs the soft blue backdrop.
    Use sparingly: hero and one or two key moments, not every section. */
 .dira-atmosphere {
     position: relative;
@@ -164,8 +164,8 @@ body.dira-page {
     z-index: -1;
     pointer-events: none;
     background:
-        radial-gradient(circle at 80% 20%, rgba(99, 91, 255, 0.12) 0%, transparent 50%),
-        radial-gradient(circle at 12% 88%, rgba(155, 81, 224, 0.08) 0%, transparent 45%);
+        radial-gradient(circle at 80% 20%, rgba(15, 59, 90, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 12% 88%, rgba(22, 77, 117, 0.08) 0%, transparent 45%);
 }
 
 /* Shared font for every design-system element */
@@ -587,8 +587,8 @@ body.dira-page {
     gap: 0.5rem;
     padding: 6px 14px;
     border-radius: var(--dira-radius-full);
-    background: #F0EEFF;
-    background: rgba(99, 91, 255, 0.08);
+    background: #EAF2F8;
+    background: rgba(15, 59, 90, 0.08);
     color: var(--dira-primary);
     font-size: 11px;
     line-height: 14px;
@@ -613,7 +613,7 @@ body.dira-page {
 }
 
 .dira-badge--on-dark {
-    background: rgba(195, 192, 255, 0.12);
+    background: rgba(166, 213, 242, 0.12);
     color: var(--dira-inverse-primary);
 }
 

@@ -9994,7 +9994,7 @@ body {
                 
                 <div class="gallery-stats-strip">
                     <div class="gallery-stat-pill">
-                        <strong>8+</strong> Delivered Platforms &amp; Systems
+                        <strong>20</strong> Delivered Platforms &amp; Systems
                     </div>
                     <div class="gallery-stat-pill">
                         <strong>108+</strong> Engineers &amp; Talent Trained
@@ -15452,7 +15452,7 @@ footer::before {
 
                 <div class="stats-container">
                     <div class="stat">
-                        <div class="stat-number" data-target="8" data-suffix="+">8+</div>
+                        <div class="stat-number" data-target="20" data-suffix="">20</div>
                         <div class="stat-text">Delivered Platforms</div>
                     </div>
                     <div class="stat">
@@ -16042,7 +16042,7 @@ footer::before {
 
                 <div class="stats-container">
                     <div class="stat">
-                        <div class="stat-number" data-target="8" data-suffix="+">8+</div>
+                        <div class="stat-number" data-target="20" data-suffix="">20</div>
                         <div class="stat-text">Delivered Platforms</div>
                     </div>
                     <div class="stat">
@@ -17275,7 +17275,7 @@ injectContact();
                         <div class="stat-text" style="color:#ffffff;margin-top:0.5rem;font-weight:600;">Engineers Trained</div>
                     </div>
                     <div class="stat-item" style="text-align:center;">
-                        <div class="stat-number" data-target="8" data-suffix="+" style="font-size:2.8rem;font-weight:800;color:#00E6D6;">8+</div>
+                        <div class="stat-number" data-target="20" data-suffix="" style="font-size:2.8rem;font-weight:800;color:#00E6D6;">20</div>
                         <div class="stat-text" style="color:#ffffff;margin-top:0.5rem;font-weight:600;">Delivered Platforms</div>
                     </div>
                     <div class="stat-item" style="text-align:center;">

@@ -219,8 +219,8 @@
     inset: 0;
     pointer-events: none;
     background:
-        radial-gradient(circle at 88% 8%, rgba(99, 91, 255, 0.28) 0%, transparent 46%),
-        radial-gradient(circle at 6% 100%, rgba(155, 81, 224, 0.16) 0%, transparent 42%);
+        radial-gradient(circle at 88% 8%, rgba(15, 59, 90, 0.28) 0%, transparent 46%),
+        radial-gradient(circle at 6% 100%, rgba(22, 77, 117, 0.16) 0%, transparent 42%);
 }
 
 .in-stats__row {
@@ -238,7 +238,7 @@
 .in-stats .stat-number {
     font-size: 28px;
     font-variant-numeric: tabular-nums;
-    background-image: linear-gradient(135deg, #C3C0FF 0%, #DEB7FF 100%);
+    background-image: linear-gradient(135deg, #A6D5F2 0%, #D9EAF5 100%);
 }
 
 .in-stats .stat-text {
@@ -378,7 +378,7 @@
     z-index: -1;
     inset: 0;
     pointer-events: none;
-    background: radial-gradient(circle at 100% 0%, rgba(99, 91, 255, 0.34) 0%, transparent 55%);
+    background: radial-gradient(circle at 100% 0%, rgba(15, 59, 90, 0.34) 0%, transparent 55%);
 }
 
 .dira-inner #contactSection .contact-info h2 {
@@ -414,7 +414,7 @@
     padding: 11px;
     flex-shrink: 0;
     border-radius: 50%;
-    background: rgba(99, 91, 255, 0.28);
+    background: rgba(15, 59, 90, 0.28);
     color: var(--dira-inverse-primary);
     stroke: currentColor;
 }
@@ -465,7 +465,7 @@
 
 .dira-inner #contactSection .social-links a:hover {
     transform: translateY(-2px);
-    background: rgba(99, 91, 255, 0.32);
+    background: rgba(15, 59, 90, 0.32);
     color: #FFFFFF;
 }
 

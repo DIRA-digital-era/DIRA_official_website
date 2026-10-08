@@ -239,7 +239,7 @@
     position: absolute;
     z-index: -1;
     inset: 0;
-    background: radial-gradient(circle at 100% 0%, rgba(99, 91, 255, 0.4) 0%, transparent 55%);
+    background: radial-gradient(circle at 100% 0%, rgba(15, 59, 90, 0.4) 0%, transparent 55%);
 }
 
 .ab-record__no {
@@ -247,7 +247,7 @@
     line-height: 1;
     font-weight: 800;
     letter-spacing: -0.03em;
-    background: linear-gradient(135deg, #C3C0FF 0%, #DEB7FF 100%);
+    background: linear-gradient(135deg, #A6D5F2 0%, #D9EAF5 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
