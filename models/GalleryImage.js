@@ -8,7 +8,7 @@ const GALLERY_CATEGORIES = [
 ];
 
 const CATEGORY_LABELS = {
-  events: 'Events & Tech Fest',
+  events: 'Events',
   training: 'Training & Team',
   production: 'Studio & Media',
   platforms: 'Platforms & Systems'

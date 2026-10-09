@@ -15,7 +15,7 @@ const categoryStories = [
     {
         category: 'events',
         role: 'Community, sprints & events',
-        title: 'Events & Tech Fest',
+        title: 'Events',
         affiliation: 'DIRA community programmes, innovation sprints and public technology moments',
         narrative: 'A visual record of the people, ideas and shared momentum behind DIRA community work and Tech Fest activities.',
         context: 'Explore the events, community outreach and innovation sprint moments documented by DIRA.'
