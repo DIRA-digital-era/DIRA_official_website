@@ -130,7 +130,7 @@ robots.txt
 server.js
 services.html
 sitemap.xml
-terms of service.html
+terms-of-service.html
 training.html
 upload.html
 ```
@@ -5243,7 +5243,7 @@ This document records all modifications made to the official DIRA website codeba
 - Corrected Google Maps query to AWICUL Building.
 - Preserved existing EmailJS contact submission integration.
 
-### Legal Page (`terms of service.html`)
+### Legal Page (`terms-of-service.html`)
 - Standardized operating company name to DIRA.
 - Updated contact email, address, and legal jurisdiction under OHADA law in Cameroon.
 
@@ -12838,7 +12838,7 @@ body {
 }
 ```
 
-## File: terms of service.html
+## File: terms-of-service.html
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -12853,7 +12853,7 @@ body {
     <meta property="og:description" content="Legal terms and privacy policies governing the use of DIRA software, platforms, and services.">
     <meta property="og:type" content="website">
     <meta property="og:image" content="./images/logo.jpg">
-    <link rel="canonical" href="terms of service.html">
+    <link rel="canonical" href="terms-of-service.html">
     <link rel="stylesheet" href="./style/header.css">
     <link rel="stylesheet" href="./style/terms.css">
 </head>
@@ -16733,7 +16733,7 @@ function injectFooter(){
                         <li><a href="group.html">DIRA Group</a></li>
                         <li><a href="content-studio.html">Content Studio</a></li>
                         <li><a href="contact.html">Contact</a></li>
-                        <li><a href="terms of service.html">Terms of Service</a></li>
+                        <li><a href="terms-of-service.html">Terms of Service</a></li>
                     </ul>
                 </div>
 
@@ -17391,7 +17391,7 @@ injectContact();
                         <div class="author-avatar">AS</div>
                         <div class="author-info">
                             <h4>ASWEDO</h4>
-                            <p>Association for the Support of Women's Entrepreneurship and Development</p>
+                            <p>Aspired Women Empowerment and Development Organization</p>
                         </div>
                     </div>
                 </div>

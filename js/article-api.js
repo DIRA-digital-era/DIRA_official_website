@@ -17,6 +17,46 @@
     return element.innerHTML;
   }
 
+  function setMeta(attribute, name, content) {
+    let element = document.head.querySelector(`meta[${attribute}="${name}"]`);
+    if (!element) {
+      element = document.createElement('meta');
+      element.setAttribute(attribute, name);
+      document.head.appendChild(element);
+    }
+    element.setAttribute('content', content);
+  }
+
+  function setArticleMetadata(article) {
+    const articleUrl = new URL(window.location.href);
+    articleUrl.hash = '';
+    articleUrl.search = '';
+    articleUrl.searchParams.set('slug', article.slug);
+
+    let canonical = document.head.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.rel = 'canonical';
+      document.head.appendChild(canonical);
+    }
+    canonical.href = articleUrl.href;
+
+    const title = `${article.title} | DIRA`;
+    const description = article.excerpt || article.title;
+    const image = new URL(article.image || DEFAULT_IMAGE, window.location.href).href;
+    document.title = title;
+    setMeta('name', 'description', description);
+    setMeta('property', 'og:type', 'article');
+    setMeta('property', 'og:title', title);
+    setMeta('property', 'og:description', description);
+    setMeta('property', 'og:url', articleUrl.href);
+    setMeta('property', 'og:image', image);
+    setMeta('name', 'twitter:card', 'summary_large_image');
+    setMeta('name', 'twitter:title', title);
+    setMeta('name', 'twitter:description', description);
+    setMeta('name', 'twitter:image', image);
+  }
+
   function articleCard(article) {
     const imgUrl = article.image || DEFAULT_IMAGE;
     const slug = article.slug || '';
@@ -78,12 +118,13 @@
     if (!reader) return;
     const slug = new URLSearchParams(window.location.search).get('slug');
     if (!slug) {
+      setMeta('name', 'robots', 'noindex, nofollow');
       reader.innerHTML = `<div class="article-not-found"><h1>Article not found</h1><p>Please select an article from the articles page.</p><a class="article-back-link" href="articles.html">&larr; Browse all articles</a></div>`;
       return;
     }
     try {
       const article = await getBySlug(slug);
-      document.title = `${article.title} | DIRA`;
+      setArticleMetadata(article);
       reader.innerHTML = `
         <div class="reader-header">
           <span class="reader-badge">${escapeHtml(article.category)}</span>
@@ -105,6 +146,7 @@
         </div>
       `;
     } catch (error) {
+      setMeta('name', 'robots', 'noindex, nofollow');
       reader.innerHTML = `<div class="article-not-found"><h1>Article not found</h1><p>${escapeHtml(error.message)}</p><a class="article-back-link" href="articles.html">&larr; Browse all articles</a></div>`;
     }
   }

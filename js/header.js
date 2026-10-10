@@ -73,7 +73,7 @@ function injectFooter(){
                         <li><a href="group.html">DIRA Group</a></li>
                         <li><a href="content-studio.html">Content Studio</a></li>
                         <li><a href="contact.html">Contact</a></li>
-                        <li><a href="terms of service.html">Terms of Service</a></li>
+                        <li><a href="terms-of-service.html">Terms of Service</a></li>
                     </ul>
                 </div>
 

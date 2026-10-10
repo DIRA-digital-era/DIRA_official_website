@@ -50,7 +50,12 @@ const projects = [
     description: "A structured field-assessment programme designed to build a regional picture of digital readiness across public institutions. It examines infrastructure, records management, digital services, staff capability, and institutional practices to help identify practical priorities for more coordinated digital transformation.",
     problemSolved: "Public institutions can differ widely in connectivity, equipment, record-keeping practices, digital service capacity, and staff skills. Without a consistent evidence base, improvement efforts may miss the needs of individual offices or fail to address shared regional gaps. NW-GPIDRS is designed to provide a structured way to understand those conditions and inform better-targeted planning.",
     techInfo: "A repeatable on-site assessment framework reviews six areas: connectivity and hardware; data and records management; digital public services; inter-institutional communication; staff digital capacity; and governance and procurement readiness. Structured scoring supports individual diagnostic reporting and aggregated regional analysis, without publishing institution-specific findings.",
-    images: []
+    images: [
+      {
+        url: "./images/photos/web/DIRA WEB PHOTOS TEMPLATE - 9.PNG",
+        alt: "Northwest Government Digital Readiness Survey field assessment"
+      }
+    ]
   },
   {
     id: "nwdrs",
@@ -63,7 +68,12 @@ const projects = [
     description: "A regional assessment initiative for SMEs, cooperative financial institutions, and social-economy organizations. Its needs-first approach explores current tools, operations, skills, and adoption capacity to identify where digital solutions can deliver practical value, and where foundational improvements should come first.",
     problemSolved: "Organizations often have little reliable information about their digital capabilities, operational bottlenecks, and readiness to adopt technology. Recommending tools without understanding these conditions can lead to unsuitable investments and low adoption. NWDRS is designed to ground digital planning in each organization's actual processes, constraints, and priorities.",
     techInfo: "A structured field-assessment framework examines seven areas: connectivity and hardware; member or client records; loan and operations management; online and digital presence; financial reporting systems; staff digital literacy; and governance and readiness. Findings support practical institution-level recommendations and anonymised regional analysis, rather than a one-size-fits-all technology prescription.",
-    images: []
+    images: [
+      {
+        url: "./images/photos/web/hero-2.PNG",
+        alt: "northwest SME digital readiness survey field assessment"
+      }
+    ]
   },
   {
     id: "aswedo",

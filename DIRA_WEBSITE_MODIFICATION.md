@@ -102,7 +102,7 @@ This document records all modifications made to the official DIRA website codeba
 - Corrected Google Maps query to AWICUL Building.
 - Preserved existing EmailJS contact submission integration.
 
-### Legal Page (`terms of service.html`)
+### Legal Page (`terms-of-service.html`)
 - Standardized operating company name to DIRA.
 - Updated contact email, address, and legal jurisdiction under OHADA law in Cameroon.
 

@@ -688,6 +688,31 @@ app.delete('/api/gallery/:id', async (request, response, next) => {
   } catch (error) { next(error); }
 });
 
+app.get('/sitemap.xml', async (request, response, next) => {
+  try {
+    const sitemapPath = path.join(publicRoot, 'sitemap.xml');
+    const [sitemap, articles] = await Promise.all([
+      fsp.readFile(sitemapPath, 'utf8'),
+      Article.find({}, 'slug updatedAt').sort({ createdAt: -1 }).lean()
+    ]);
+    const closingTag = '</urlset>';
+    const closingIndex = sitemap.lastIndexOf(closingTag);
+    if (closingIndex === -1) throw new Error('The sitemap.xml file does not contain a closing urlset tag.');
+
+    const articleUrls = articles.map(article => {
+      const articleUrl = new URL('/article.html', 'https://diracmr.com');
+      articleUrl.searchParams.set('slug', article.slug);
+      const lastmod = new Date(article.updatedAt).toISOString().slice(0, 10);
+      return `  <url><loc>${articleUrl.href}</loc><lastmod>${lastmod}</lastmod></url>`;
+    }).join('\n');
+    const dynamicUrls = articleUrls ? `\n${articleUrls}\n` : '\n';
+
+    response.type('application/xml').send(
+      `${sitemap.slice(0, closingIndex)}${dynamicUrls}${sitemap.slice(closingIndex)}`
+    );
+  } catch (error) { next(error); }
+});
+
 app.use(express.static(publicRoot, {
   setHeaders: (response, filePath) => {
     if (['gallery.js', 'testimonial-toast.js'].includes(path.basename(filePath))) {
