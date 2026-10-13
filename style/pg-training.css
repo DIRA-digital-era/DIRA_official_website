@@ -182,15 +182,7 @@
     padding-left: 2.25rem;
 }
 
-.trn-steps::before {
-    content: '';
-    position: absolute;
-    left: 6px;
-    top: 0.5rem;
-    bottom: 0.5rem;
-    width: 2px;
-    background: linear-gradient(180deg, var(--dira-primary), rgba(99, 91, 255, 0.12));
-}
+
 
 .trn-step {
     position: relative;

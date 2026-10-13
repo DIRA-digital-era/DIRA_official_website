@@ -16408,7 +16408,7 @@ footer::before {
                         </svg>
                         <div>
                             <h4>Registration</h4>
-                            <p>DIRA SAS &bull; RC.BDA.2026.B-000339</p>
+                            <p>DIRA SAS &bull; RC.BDA.2026.B.000339</p>
                         </div>
                     </div>
                 </div>

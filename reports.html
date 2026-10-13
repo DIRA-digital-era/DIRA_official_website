@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="./style/contact.css">
     <link rel="stylesheet" href="./style/inner.css">
     <link rel="stylesheet" href="./style/pg-reports.css">
+    <link rel="stylesheet" href="./style/skeleton.css">
 </head>
 
 <body class="large-header dira-page dira-inner pg-reports" data-static-bg>
@@ -49,8 +50,10 @@
                     <h2 id="uploadedReportsTitle" class="dira-headline-lg">Latest Published Reports</h2>
                     <p>Reports uploaded through the DIRA content studio.</p>
                 </div>
-                <div id="uploadedReportsGrid" class="rep-list">
-                    <p class="reports-empty">Loading reports...</p>
+                <div id="uploadedReportsGrid" class="rep-list" role="region" aria-busy="true" aria-label="Published reports">
+                    <article class="skeleton-report" aria-hidden="true"><span class="skeleton skeleton-report__icon"></span><div class="skeleton-report__body"><span class="skeleton skeleton-line skeleton-line--short"></span><span class="skeleton skeleton-line skeleton-line--title"></span><span class="skeleton skeleton-line"></span><span class="skeleton skeleton-line skeleton-line--medium"></span></div><div class="skeleton-report__actions"><span class="skeleton"></span><span class="skeleton"></span></div></article>
+                    <article class="skeleton-report" aria-hidden="true"><span class="skeleton skeleton-report__icon"></span><div class="skeleton-report__body"><span class="skeleton skeleton-line skeleton-line--short"></span><span class="skeleton skeleton-line skeleton-line--title"></span><span class="skeleton skeleton-line"></span><span class="skeleton skeleton-line skeleton-line--medium"></span></div><div class="skeleton-report__actions"><span class="skeleton"></span><span class="skeleton"></span></div></article>
+                    <article class="skeleton-report" aria-hidden="true"><span class="skeleton skeleton-report__icon"></span><div class="skeleton-report__body"><span class="skeleton skeleton-line skeleton-line--short"></span><span class="skeleton skeleton-line skeleton-line--title"></span><span class="skeleton skeleton-line"></span><span class="skeleton skeleton-line skeleton-line--medium"></span></div><div class="skeleton-report__actions"><span class="skeleton"></span><span class="skeleton"></span></div></article>
                 </div>
             </div>
         </section>

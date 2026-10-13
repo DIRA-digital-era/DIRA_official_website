@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="./style/contact.css">
     <link rel="stylesheet" href="./style/inner.css">
     <link rel="stylesheet" href="./style/pg-articles.css">
+    <link rel="stylesheet" href="./style/skeleton.css">
 </head>
 
 <body class="large-header dira-page dira-inner pg-articles pg-reader" data-static-bg>
@@ -24,8 +25,23 @@
     <main id="main" class="article-reader-page">
         <div class="dira-container art-reader-wrap">
             <a class="article-back-link in-link" href="articles.html"><span aria-hidden="true">&larr;</span> Back to all articles</a>
-            <article id="articleReader" class="article-reader">
-                <div class="article-loading">Loading article...</div>
+            <article id="articleReader" class="article-reader" aria-busy="true" aria-label="Loading article">
+                <div class="skeleton-reader" aria-hidden="true">
+                    <div class="skeleton-reader__header">
+                        <span class="skeleton skeleton-reader__badge"></span>
+                        <span class="skeleton skeleton-reader__title"></span>
+                        <span class="skeleton skeleton-line skeleton-reader__meta"></span>
+                    </div>
+                    <div class="skeleton skeleton-reader__image"></div>
+                    <div class="skeleton-reader__prose">
+                        <span class="skeleton skeleton-line"></span>
+                        <span class="skeleton skeleton-line"></span>
+                        <span class="skeleton skeleton-line"></span>
+                        <span class="skeleton skeleton-line"></span>
+                        <span class="skeleton skeleton-line"></span>
+                        <span class="skeleton skeleton-line"></span>
+                    </div>
+                </div>
             </article>
         </div>
     </main>

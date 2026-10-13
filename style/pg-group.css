@@ -197,6 +197,7 @@
 }
 
 @media (max-width: 479px) {
+    
     .grp-entities {
         padding-left: 1.75rem;
     }
@@ -216,6 +217,12 @@
 
     .grp-entity__link {
         width: 100%;
+    }
+}
+
+@media (max-width: 1025px){
+    main{
+        padding: 10px;
     }
 }
 

@@ -61,9 +61,13 @@
     try {
       const reports = await getAll();
       const emptyMessage = '<p class="reports-empty">No uploaded reports yet.</p>';
+      if (grid) grid.setAttribute('aria-busy', 'false');
+      if (recentGrid) recentGrid.setAttribute('aria-busy', 'false');
       if (grid) grid.innerHTML = reports.length ? reports.map(report => reportCard(report, false)).join('') : emptyMessage;
       if (recentGrid) recentGrid.innerHTML = reports.length ? reports.slice(0, 3).map(report => reportCard(report, false)).join('') : emptyMessage;
     } catch (error) {
+      if (grid) grid.setAttribute('aria-busy', 'false');
+      if (recentGrid) recentGrid.setAttribute('aria-busy', 'false');
       if (grid) grid.innerHTML = `<p class="reports-empty">${escapeHtml(error.message)}</p>`;
       if (recentGrid) recentGrid.innerHTML = `<p class="reports-empty">${escapeHtml(error.message)}</p>`;
     }

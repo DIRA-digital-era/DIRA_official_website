@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="./style/contact.css">
     <link rel="stylesheet" href="./style/inner.css">
     <link rel="stylesheet" href="./style/pg-articles.css">
+    <link rel="stylesheet" href="./style/skeleton.css">
 </head>
 
 <body class="large-header dira-page dira-inner pg-articles" data-static-bg>
@@ -52,7 +53,7 @@
 
         <section class="in-section in-section--flush-top art-library">
             <div class="dira-container">
-                <div class="art-toolbar reveal">
+                <div class="art-toolbar reveal" style="padding-top: 20px;">
                     <nav aria-label="Article topics" class="articles-nav-tabs">
 <button class="category-filter-tab active" data-category="All" type="button">All Articles</button>
 <button class="category-filter-tab" data-category="Systems Architecture" type="button">Systems Architecture</button>
@@ -68,8 +69,10 @@
 <input aria-label="Search articles" id="articleSearchInput" placeholder="Search articles..." type="text"/>
 </div>
                 </div>
-                <div id="articlesGrid" class="art-grid">
-                    <!-- Injected dynamically from js/article-api.js -->
+                <div id="articlesGrid" class="art-grid" role="region" aria-busy="true" aria-label="Articles">
+                    <article class="skeleton-card" aria-hidden="true"><div class="skeleton skeleton-card__media"></div><div class="skeleton-card__body"><span class="skeleton skeleton-line skeleton-line--short"></span><span class="skeleton skeleton-line skeleton-line--title"></span><span class="skeleton skeleton-line"></span><span class="skeleton skeleton-line skeleton-line--medium"></span><span class="skeleton skeleton-line skeleton-line--button"></span></div></article>
+                    <article class="skeleton-card" aria-hidden="true"><div class="skeleton skeleton-card__media"></div><div class="skeleton-card__body"><span class="skeleton skeleton-line skeleton-line--short"></span><span class="skeleton skeleton-line skeleton-line--title"></span><span class="skeleton skeleton-line"></span><span class="skeleton skeleton-line skeleton-line--medium"></span><span class="skeleton skeleton-line skeleton-line--button"></span></div></article>
+                    <article class="skeleton-card" aria-hidden="true"><div class="skeleton skeleton-card__media"></div><div class="skeleton-card__body"><span class="skeleton skeleton-line skeleton-line--short"></span><span class="skeleton skeleton-line skeleton-line--title"></span><span class="skeleton skeleton-line"></span><span class="skeleton skeleton-line skeleton-line--medium"></span><span class="skeleton skeleton-line skeleton-line--button"></span></div></article>
                 </div>
             </div>
         </section>

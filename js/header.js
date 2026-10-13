@@ -25,11 +25,11 @@ function injectHeader(){
                 <a href="contact.html">CONTACT</a>
                 <div class="dropdown">
                     <button class="dropdown-toggle">
-                        DIRA GROUP <span class="dropdown-arrow">&#9660;</span>
+                        <a href="group.html">DIRA GROUP</a> <span class="dropdown-arrow">&#9660;</span>
                     </button>
                     <ul class="dropdown-content">
                         <div class="dropdown-section">Our Ventures</div>
-                        <li><a href="group.html">DIRA Group Overview</a></li>
+                        
                         <li><a href="https://dhubcmr.netlify.app/" target="_blank">DHUB</a></li>
                         <li><a href="https://dirafoundation.netlify.app" target="_blank">DIRA Foundation</a></li>
                         <li><a href="https://diratechfest.netlify.app/" target="_blank">DIRA Tech Fest</a></li>

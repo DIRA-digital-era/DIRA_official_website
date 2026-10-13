@@ -92,6 +92,7 @@
 
   function renderGrid(grid, articles) {
     if (grid) {
+      grid.setAttribute('aria-busy', 'false');
       grid.innerHTML = articles.length
         ? articles.map(articleCard).join('')
         : '<p class="article-not-found">No articles match your selection. Try a different topic or keyword.</p>';
@@ -118,6 +119,8 @@
     if (!reader) return;
     const slug = new URLSearchParams(window.location.search).get('slug');
     if (!slug) {
+      reader.setAttribute('aria-busy', 'false');
+      reader.setAttribute('aria-label', 'Article not found');
       setMeta('name', 'robots', 'noindex, nofollow');
       reader.innerHTML = `<div class="article-not-found"><h1>Article not found</h1><p>Please select an article from the articles page.</p><a class="article-back-link" href="articles.html">&larr; Browse all articles</a></div>`;
       return;
@@ -125,6 +128,8 @@
     try {
       const article = await getBySlug(slug);
       setArticleMetadata(article);
+      reader.setAttribute('aria-busy', 'false');
+      reader.setAttribute('aria-label', article.title);
       reader.innerHTML = `
         <div class="reader-header">
           <span class="reader-badge">${escapeHtml(article.category)}</span>
@@ -146,6 +151,8 @@
         </div>
       `;
     } catch (error) {
+      reader.setAttribute('aria-busy', 'false');
+      reader.setAttribute('aria-label', 'Article not found');
       setMeta('name', 'robots', 'noindex, nofollow');
       reader.innerHTML = `<div class="article-not-found"><h1>Article not found</h1><p>${escapeHtml(error.message)}</p><a class="article-back-link" href="articles.html">&larr; Browse all articles</a></div>`;
     }
@@ -213,6 +220,7 @@
     let activeCategory = 'All';
 
     setupHeroNewsletter();
+    renderArticleReader();
 
     try {
       articles = await getAll();
@@ -247,8 +255,11 @@
     } catch (error) {
       renderGrid(grid, []);
       if (grid) grid.innerHTML = `<p class="article-not-found">${escapeHtml(error.message)}</p>`;
+      if (recentGrid) {
+        recentGrid.setAttribute('aria-busy', 'false');
+        recentGrid.innerHTML = `<p class="article-not-found">${escapeHtml(error.message)}</p>`;
+      }
     }
-    renderArticleReader();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initialize); else initialize();

@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="./style/reports.css">
     <link rel="stylesheet" href="./style/contact.css">
     <link rel="stylesheet" href="./style/home.css">
+    <link rel="stylesheet" href="./style/skeleton.css">
     <link rel="preload" as="image" href="./images/photos/web/hero-1.jpg">
 
     <!-- Organization Structured Data -->
@@ -219,7 +220,7 @@
                         <div class="stat-text dira-metric__label">Engineers Trained</div>
                     </div>
                     <div class="home-stat dira-metric reveal-card stat-item">
-                        <div class="stat-number dira-metric__value dira-metric__value--gradient" data-target="20" data-suffix="">20</div>
+                        <div class="stat-number dira-metric__value dira-metric__value--gradient" data-target="20" data-suffix="+">20+</div>
                         <div class="stat-text dira-metric__label">Delivered Platforms</div>
                     </div>
                     <div class="home-stat dira-metric reveal-card stat-item">
@@ -323,8 +324,10 @@
                     </div>
                     <a href="articles.html" class="dira-btn dira-btn--secondary">View All Articles &rarr;</a>
                 </div>
-                <div class="home-articles__grid" id="recentArticlesGrid">
-                    <!-- Injected dynamically via js/article-api.js -->
+                <div class="home-articles__grid" id="recentArticlesGrid" role="region" aria-busy="true" aria-label="Recent articles">
+                    <article class="skeleton-card" aria-hidden="true"><div class="skeleton skeleton-card__media"></div><div class="skeleton-card__body"><span class="skeleton skeleton-line skeleton-line--short"></span><span class="skeleton skeleton-line skeleton-line--title"></span><span class="skeleton skeleton-line"></span><span class="skeleton skeleton-line skeleton-line--medium"></span><span class="skeleton skeleton-line skeleton-line--button"></span></div></article>
+                    <article class="skeleton-card" aria-hidden="true"><div class="skeleton skeleton-card__media"></div><div class="skeleton-card__body"><span class="skeleton skeleton-line skeleton-line--short"></span><span class="skeleton skeleton-line skeleton-line--title"></span><span class="skeleton skeleton-line"></span><span class="skeleton skeleton-line skeleton-line--medium"></span><span class="skeleton skeleton-line skeleton-line--button"></span></div></article>
+                    <article class="skeleton-card" aria-hidden="true"><div class="skeleton skeleton-card__media"></div><div class="skeleton-card__body"><span class="skeleton skeleton-line skeleton-line--short"></span><span class="skeleton skeleton-line skeleton-line--title"></span><span class="skeleton skeleton-line"></span><span class="skeleton skeleton-line skeleton-line--medium"></span><span class="skeleton skeleton-line skeleton-line--button"></span></div></article>
                 </div>
             </div>
         </section>
@@ -339,8 +342,9 @@
                     </div>
                     <a href="reports.html" class="dira-btn dira-btn--secondary">Access Document Repository &rarr;</a>
                 </div>
-                <div class="home-reports__grid" id="recentReportsGrid">
-                    <p class="reports-empty">Loading reports...</p>
+                <div class="home-reports__grid" id="recentReportsGrid" role="region" aria-busy="true" aria-label="Recent reports">
+                    <article class="skeleton-report" aria-hidden="true"><span class="skeleton skeleton-report__icon"></span><div class="skeleton-report__body"><span class="skeleton skeleton-line skeleton-line--short"></span><span class="skeleton skeleton-line skeleton-line--title"></span><span class="skeleton skeleton-line"></span></div><div class="skeleton-report__actions"><span class="skeleton"></span><span class="skeleton"></span></div></article>
+                    <article class="skeleton-report" aria-hidden="true"><span class="skeleton skeleton-report__icon"></span><div class="skeleton-report__body"><span class="skeleton skeleton-line skeleton-line--short"></span><span class="skeleton skeleton-line skeleton-line--title"></span><span class="skeleton skeleton-line"></span></div><div class="skeleton-report__actions"><span class="skeleton"></span><span class="skeleton"></span></div></article>
                 </div>
             </div>
         </section>
@@ -406,7 +410,7 @@
             const hero = document.querySelector('.home-hero');
             const heroBackgrounds = [
                 './images/photos/web/hero-1.png',
-                './images/photos/web/hero-2_1.png',
+                './images/photos/web/hero-2.jpg',
                 './images/photos/web/hero-3.jpg',
                 './images/photos/web/hero-4.jpg',
             ];
