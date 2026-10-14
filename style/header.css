@@ -739,7 +739,7 @@ footer a:focus-visible {
 .reveal {
     opacity: 0;
     transform: translateY(16px);
-    transition: opacity var(--dira-dur-slow) var(--dira-ease), transform var(--dira-dur-slow) var(--dira-ease);
+    transition: opacity var(--dira-reveal-duration) var(--dira-ease), transform var(--dira-reveal-duration) var(--dira-ease);
 }
 
 .reveal.active {
@@ -750,7 +750,7 @@ footer a:focus-visible {
 .reveal-card {
     opacity: 0;
     transform: translateY(16px);
-    transition: opacity var(--dira-dur-slow) var(--dira-ease), transform var(--dira-dur-slow) var(--dira-ease);
+    transition: opacity var(--dira-reveal-duration) var(--dira-ease), transform var(--dira-reveal-duration) var(--dira-ease);
     transition-delay: var(--delay, 0ms);
 }
 

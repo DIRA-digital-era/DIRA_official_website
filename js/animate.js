@@ -57,13 +57,13 @@ function initBackgroundAnimation() {
   // 5. Scroll Parallax Effect
   if (typeof ScrollTrigger !== 'undefined') {
       gsap.to(".blob", {
-          yPercent: -50, // Move up as user scrolls
+          yPercent: -25,
           ease: "none",
           scrollTrigger: {
               trigger: "body",
               start: "top top",
               end: "bottom bottom",
-              scrub: 1
+              scrub: 2
           }
       });
   }
@@ -109,8 +109,8 @@ function animateCards(){
   const hiddenElements = document.querySelectorAll('.reveal-card');
 
   hiddenElements.forEach((el, index) => {
-    // Stagger within a row of three (0ms, 90ms, 180ms) so no card waits long to appear
-    el.style.setProperty('--delay', `${(index % 3) * 90}ms`);
+    // Stagger cards within a row for a slower, more deliberate reveal.
+    el.style.setProperty('--delay', `${(index % 3) * 130}ms`);
     
     // This line tells the observer to watch this specific element
     observer.observe(el);
