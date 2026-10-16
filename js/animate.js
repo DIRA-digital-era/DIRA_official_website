@@ -75,12 +75,12 @@ function animategeneral(){
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('active');
-        // Optional: Stop observing after it animates once
-        // observer.unobserve(entry.target);
+        observer.unobserve(entry.target);
       }
     });
   }, {
-    threshold: 0.1 // Triggers when 10% of the element is visible
+    rootMargin: "0px 0px 80px 0px",
+    threshold: 0.05
   });
 
   // Grab all elements with the 'reveal' class and track them
@@ -102,15 +102,15 @@ function animateCards(){
       }
     });
   }, {
-    threshold: 0.1 // Trigger when 10% of the element is visible
+    rootMargin: "0px 0px 80px 0px",
+    threshold: 0.05
   });
 
   // 2. Select the elements and apply the "Stagger"
   const hiddenElements = document.querySelectorAll('.reveal-card');
 
   hiddenElements.forEach((el, index) => {
-    // Stagger cards within a row for a slower, more deliberate reveal.
-    el.style.setProperty('--delay', `${(index % 3) * 130}ms`);
+    el.style.setProperty('--delay', `${(index % 3) * 320}ms`);
     
     // This line tells the observer to watch this specific element
     observer.observe(el);

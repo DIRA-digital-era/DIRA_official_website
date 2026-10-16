@@ -18,6 +18,7 @@ const reportSchema = new mongoose.Schema(
     summary: { type: String, required: true, trim: true, maxlength: 500 },
     documentUrl: { type: String, required: true },
     storage: { type: String, enum: ['local', 'cloudinary'] },
+    cloudinaryPublicId: { type: String },
     documentName: { type: String, required: true },
     documentSize: { type: Number, required: true },
     createdAt: { type: Date, default: Date.now }

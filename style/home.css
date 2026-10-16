@@ -153,8 +153,22 @@
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
-    transition: background-image 1.2s ease-in-out, filter 1.2s ease-in-out;
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.home-hero__image-layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0;
+    transition: opacity 1.6s ease-in-out;
+}
+
+.home-hero__image-layer.is-active {
+    opacity: 1;
 }
 
 .home-hero::before {

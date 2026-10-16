@@ -5,7 +5,14 @@
   const DEFAULT_IMAGE = './images/photos/web/team-b.jpg';
 
   async function request(path, options) {
-    const response = await fetch(`${API_BASE}${path}`, options);
+    const requestOptions = { ...(options || {}) };
+    const method = (requestOptions.method || 'GET').toUpperCase();
+    if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
+      requestOptions.headers = new Headers(requestOptions.headers || {});
+      const token = sessionStorage.getItem('dira_admin_token');
+      if (token) requestOptions.headers.set('Authorization', `Bearer ${token}`);
+    }
+    const response = await fetch(`${API_BASE}${path}`, requestOptions);
     const body = response.status === 204 ? null : await response.json();
     if (!response.ok) throw new Error(body && body.error ? body.error : 'Article request failed.');
     return body;
@@ -110,9 +117,14 @@
     }
     return request('/articles', options);
   }
+  async function uploadImage(file) {
+    const data = new FormData();
+    data.append('image', file);
+    return request('/articles/images', { method: 'POST', body: data });
+  }
   async function deleteArticle(id) { return request(`/articles/${encodeURIComponent(id)}`, { method: 'DELETE' }); }
 
-  window.DiraArticles = { api: { getAll, getCustomOnly, getBySlug, createArticle, deleteArticle } };
+  window.DiraArticles = { api: { getAll, getCustomOnly, getBySlug, createArticle, uploadImage, deleteArticle } };
 
   async function renderArticleReader() {
     const reader = document.getElementById('articleReader');

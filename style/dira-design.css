@@ -110,7 +110,7 @@
     --dira-dur-fast: 160ms;
     --dira-dur: 240ms;
     --dira-dur-slow: 480ms;
-    --dira-reveal-duration: 700ms;
+    --dira-reveal-duration: 2200ms;
 }
 
 @media (min-width: 640px) {

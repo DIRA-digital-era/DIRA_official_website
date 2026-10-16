@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="./style/contact.css">
     <link rel="stylesheet" href="./style/home.css">
     <link rel="stylesheet" href="./style/skeleton.css">
-    <link rel="preload" as="image" href="./images/photos/web/hero-1.jpg">
+    <link rel="preload" as="image" href="./images/photos/web/hero-1.PNG">
 
     <!-- Organization Structured Data -->
     <script type="application/ld+json">
@@ -409,27 +409,43 @@
         (function initHeroRotator() {
             const hero = document.querySelector('.home-hero');
             const heroBackgrounds = [
-                './images/photos/web/hero-1.png',
+                './images/photos/web/hero-1.PNG',
                 './images/photos/web/hero-2.jpg',
-                './images/photos/web/hero-3.jpg',
+                './images/photos/web/hero-2_1.png',
                 './images/photos/web/hero-4.jpg',
             ];
 
             if (hero && heroBackgrounds.length) {
-                let activeHeroIndex = 0;
                 const heroOverlay = 'linear-gradient(90deg, rgba(11, 10, 38, 0.82) 0%, rgba(11, 10, 38, 0.72) 36%, rgba(11, 10, 38, 0.22) 100%)';
+                const heroImageLayers = [0, 1].map(() => {
+                    const layer = document.createElement('div');
+                    layer.className = 'home-hero__image-layer';
+                    layer.setAttribute('aria-hidden', 'true');
+                    hero.prepend(layer);
+                    return layer;
+                });
+                let activeHeroLayer = 0;
+                let activeHeroIndex = 0;
+                heroImageLayers[activeHeroLayer].style.backgroundImage = `${heroOverlay}, url('${heroBackgrounds[activeHeroIndex]}')`;
+                heroImageLayers[activeHeroLayer].classList.add('is-active');
 
-                const applyHeroBackground = (index) => {
-                    const image = heroBackgrounds[index];
-                    hero.style.backgroundImage = `${heroOverlay}, url('${image}')`;
+                const showNextHeroImage = () => {
+                    const nextHeroIndex = (activeHeroIndex + 1) % heroBackgrounds.length;
+                    const nextImage = new Image();
+                    nextImage.onload = () => {
+                        const nextHeroLayer = 1 - activeHeroLayer;
+                        heroImageLayers[nextHeroLayer].style.backgroundImage = `${heroOverlay}, url('${heroBackgrounds[nextHeroIndex]}')`;
+                        requestAnimationFrame(() => {
+                            heroImageLayers[nextHeroLayer].classList.add('is-active');
+                            heroImageLayers[activeHeroLayer].classList.remove('is-active');
+                            activeHeroLayer = nextHeroLayer;
+                            activeHeroIndex = nextHeroIndex;
+                        });
+                    };
+                    nextImage.src = heroBackgrounds[nextHeroIndex];
                 };
 
-                applyHeroBackground(activeHeroIndex);
-
-                setInterval(() => {
-                    activeHeroIndex = (activeHeroIndex + 1) % heroBackgrounds.length;
-                    applyHeroBackground(activeHeroIndex);
-                }, 3500);
+                setInterval(showNextHeroImage, 3500);
             }
 
             const textSlides = document.querySelectorAll('.hero-carousel-slide');

@@ -547,6 +547,7 @@
     max-width: 100%;
     height: auto;
     border-radius: var(--dira-radius-md);
+    margin-inline: auto;
 }
 
 .dira-inner main .reader-prose pre,

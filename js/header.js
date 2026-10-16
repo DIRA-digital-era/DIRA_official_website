@@ -24,12 +24,14 @@ function injectHeader(){
                 <a href="about.html">ABOUT</a>
                 <a href="contact.html">CONTACT</a>
                 <div class="dropdown">
-                    <button class="dropdown-toggle">
-                        <a href="group.html">DIRA GROUP</a> <span class="dropdown-arrow">&#9660;</span>
-                    </button>
-                    <ul class="dropdown-content">
+                    <div class="dropdown-heading">
+                        <a class="dropdown-toggle" href="group.html">DIRA GROUP</a>
+                        <button class="dropdown-trigger" type="button" aria-label="Toggle DIRA Group menu" aria-controls="diraGroupMenu" aria-expanded="false">
+                            <span class="dropdown-arrow" aria-hidden="true">&#9660;</span>
+                        </button>
+                    </div>
+                    <ul class="dropdown-content" id="diraGroupMenu">
                         <div class="dropdown-section">Our Ventures</div>
-                        
                         <li><a href="https://dhubcmr.netlify.app/" target="_blank">DHUB</a></li>
                         <li><a href="https://dirafoundation.netlify.app" target="_blank">DIRA Foundation</a></li>
                         <li><a href="https://diratechfest.netlify.app/" target="_blank">DIRA Tech Fest</a></li>
@@ -322,6 +324,11 @@ document.addEventListener('click', function(event) {
         document.querySelectorAll('.dropdown-content').forEach(content => {
             content.classList.remove('active');
         });
+        document.querySelectorAll('.dropdown').forEach(dropdown => {
+            dropdown.classList.remove('open');
+            const trigger = dropdown.querySelector('.dropdown-trigger');
+            if (trigger) trigger.setAttribute('aria-expanded', 'false');
+        });
     }
 });
 
@@ -344,8 +351,8 @@ function setActiveNavLink() {
 
     // Highlight the dropdown toggle when one of its pages is open
     document.querySelectorAll('header nav .dropdown').forEach(dd => {
-        const toggle = dd.querySelector('.dropdown-toggle');
-        if (toggle) toggle.classList.toggle('active', !!dd.querySelector('a.active'));
+        const link = dd.querySelector('.dropdown-toggle');
+        if (link) link.classList.toggle('active', !!dd.querySelector('.dropdown-toggle.active, .dropdown-content a.active'));
     });
 }
 
@@ -359,16 +366,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function delegatedDropdownHandler(e) {
-        const toggle = e.target.closest('.dropdown-toggle');
-        if (!toggle) return;
+        const trigger = e.target.closest('.dropdown-trigger');
+        if (!trigger) return;
         if (window.matchMedia(NAV_COLLAPSE_QUERY).matches) {
-            e.preventDefault();
             e.stopPropagation();
-            const dropdown = toggle.closest('.dropdown');
+            const dropdown = trigger.closest('.dropdown');
             if (dropdown) {
                 const content = dropdown.querySelector('.dropdown-content');
-                if (content) content.classList.toggle('active');
-                dropdown.classList.toggle('open');
+                const isOpen = dropdown.classList.toggle('open');
+                if (content) content.classList.toggle('active', isOpen);
+                trigger.setAttribute('aria-expanded', String(isOpen));
             }
         }
     }

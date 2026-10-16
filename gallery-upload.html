@@ -612,7 +612,7 @@
                 <!-- File Upload Dropzone -->
                 <div class="form-group full-width">
                     <label>
-                        Image File <span class="hint">JPEG, PNG, WEBP, GIF up to 8 MB</span>
+                        Image File <span class="hint">JPEG, PNG, WEBP, GIF up to 4 MB</span>
                     </label>
                     <div class="dropzone-container" id="dropzone">
                         <input type="file" id="imageFileInput" accept="image/jpeg,image/png,image/webp,image/gif" required>
@@ -714,8 +714,8 @@
                 showStatus('Please select a valid image file (JPEG, PNG, WEBP, or GIF).', 'error');
                 return;
             }
-            if (file.size > 8 * 1024 * 1024) {
-                showStatus('Image file exceeds the 8 MB size limit.', 'error');
+            if (file.size > 4 * 1024 * 1024) {
+                showStatus('Image file exceeds the 4 MB size limit.', 'error');
                 return;
             }
 
@@ -801,6 +801,7 @@
             try {
                 const response = await fetch(`${API_BASE}/gallery`, {
                     method: 'POST',
+                    headers: { 'Authorization': `Bearer ${sessionStorage.getItem('dira_admin_token') || ''}` },
                     body: formData
                 });
 
@@ -872,7 +873,8 @@
             if (!confirm('Are you sure you want to delete this image from Cloudinary and the gallery?')) return;
             try {
                 const response = await fetch(`${API_BASE}/gallery/${encodeURIComponent(id)}`, {
-                    method: 'DELETE'
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${sessionStorage.getItem('dira_admin_token') || ''}` }
                 });
                 if (!response.ok) throw new Error('Failed to delete image.');
                 showStatus('Image removed successfully.', 'success');

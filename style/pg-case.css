@@ -9,6 +9,17 @@
     isolation: isolate;
     overflow: hidden;
     padding-block: clamp(3rem, 8vw, 6rem) clamp(5rem, 10vw, 8rem);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.case-hero--nw-gpidrs {
+    background-image: url('../images/photos/web/DIRA WEB PHOTOS TEMPLATE - 9.PNG');
+}
+
+.case-hero--nwdrs {
+    background-image: url('../images/photos/web/minpmeesa.PNG');
 }
 
 .case-hero::before {
@@ -17,9 +28,7 @@
     z-index: -1;
     inset: 0;
     pointer-events: none;
-    background:
-        radial-gradient(circle at 85% 0%, rgba(99, 91, 255, 0.34) 0%, transparent 50%),
-        radial-gradient(circle at 5% 100%, rgba(155, 81, 224, 0.2) 0%, transparent 45%);
+    background: linear-gradient(90deg, rgba(11, 10, 38, 0.88) 0%, rgba(11, 10, 38, 0.72) 58%, rgba(11, 10, 38, 0.58) 100%);
 }
 
 .case-hero__inner {

@@ -20,32 +20,38 @@ const app = express();
 const port = Number(process.env.PORT || 3000);
 const publicRoot = __dirname;
 const reportsDirectory = path.join(publicRoot, 'reports');
+const isProduction = process.env.NODE_ENV === 'production' || process.env.NETLIFY === 'true';
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 8 * 1024 * 1024 },
+  limits: { fileSize: Number(process.env.NETLIFY ? 4 : 8) * 1024 * 1024 },
   fileFilter: (request, file, callback) => {
     if (!/^image\/(jpeg|png|webp|gif)$/.test(file.mimetype)) {
-      return callback(new Error('Images must be JPEG, PNG, WEBP, or GIF files up to 8 MB.'));
+      return callback(new Error(`Images must be JPEG, PNG, WEBP, or GIF files up to ${process.env.NETLIFY ? 4 : 8} MB.`));
     }
     callback(null, true);
   }
 });
 const reportUpload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 25 * 1024 * 1024 },
+  limits: { fileSize: Number(process.env.NETLIFY ? 4 : 25) * 1024 * 1024 },
   fileFilter: (request, file, callback) => {
-    if (file.mimetype !== 'application/pdf') return callback(new Error('Reports must be PDF files up to 25 MB.'));
+    if (file.mimetype !== 'application/pdf') return callback(new Error(`Reports must be PDF files up to ${process.env.NETLIFY ? 4 : 25} MB.`));
     callback(null, true);
   }
 });
 
-const allowedOrigins = (process.env.CORS_ORIGIN || '').split(',').map(origin => origin.trim()).filter(Boolean);
+const allowedOrigins = [
+  ...(process.env.CORS_ORIGIN || '').split(','),
+  process.env.URL,
+  process.env.DEPLOY_PRIME_URL,
+  process.env.DEPLOY_URL
+].filter(Boolean).map(origin => new URL(origin.trim()).origin);
 app.use(cors({
   origin: (origin, callback) => {
     if (
       !origin ||
       allowedOrigins.includes(origin) ||
-      process.env.NODE_ENV !== 'production' ||
+      !isProduction ||
       /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin) ||
       origin === 'null'
     ) {
@@ -141,18 +147,38 @@ async function saveReportLocally(file, slug) {
   return `/reports/${filename}`;
 }
 
+function uploadReportToCloudinary(file, slug) {
+  if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
+    throw new Error('Cloudinary is not configured. Add its credentials to the Netlify environment variables.');
+  }
+  const safeSlug = slug.toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '') || 'report';
+  const filename = `${safeSlug}-${Date.now()}.pdf`;
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream({
+      folder: 'dira/reports',
+      public_id: filename,
+      resource_type: 'raw'
+    }, (error, result) => {
+      if (error) reject(error);
+      else resolve(result);
+    });
+    stream.end(file.buffer);
+  });
+}
+
 // ── Admin auth ──────────────────────────────────────────────────────────────────
-const ADMIN_EMAIL = 'admin@diracmr.com';
-const ADMIN_PASSWORD = 'diraupload25';
-const ADMIN_TOKEN_SECRET = process.env.ADMIN_TOKEN_SECRET || crypto.randomBytes(32).toString('hex');
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || (isProduction ? '' : 'admin@diracmr.com');
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || (isProduction ? '' : 'diraupload25');
+const ADMIN_TOKEN_SECRET = process.env.ADMIN_TOKEN_SECRET || (isProduction ? '' : crypto.randomBytes(32).toString('hex'));
 // Token format: base64(payload).base64(signature)  — signed with HMAC-SHA256
 function createAdminToken() {
+  if (!ADMIN_TOKEN_SECRET) throw new Error('ADMIN_TOKEN_SECRET is not configured.');
   const payload = Buffer.from(JSON.stringify({ email: ADMIN_EMAIL, exp: Date.now() + 8 * 60 * 60 * 1000 })).toString('base64url');
   const sig = crypto.createHmac('sha256', ADMIN_TOKEN_SECRET).update(payload).digest('base64url');
   return payload + '.' + sig;
 }
 function verifyAdminToken(token) {
-  if (!token || typeof token !== 'string') return false;
+  if (!ADMIN_TOKEN_SECRET || !token || typeof token !== 'string') return false;
   const [payload, sig] = token.split('.');
   if (!payload || !sig) return false;
   const expected = crypto.createHmac('sha256', ADMIN_TOKEN_SECRET).update(payload).digest('base64url');
@@ -172,6 +198,9 @@ function requireAdmin(request, response, next) {
 }
 
 app.post('/api/admin/login', (request, response) => {
+  if (!ADMIN_EMAIL || !ADMIN_PASSWORD || !ADMIN_TOKEN_SECRET) {
+    return response.status(503).json({ error: 'Admin authentication is not configured.' });
+  }
   const email = String(request.body.email || '').trim().toLowerCase();
   const password = String(request.body.password || '');
   if (email !== ADMIN_EMAIL || password !== ADMIN_PASSWORD) {
@@ -550,7 +579,7 @@ async function sendNewArticleNotification(article) {
   }
 }
 
-app.post('/api/articles', upload.single('image'), async (request, response, next) => {
+app.post('/api/articles', requireAdmin, upload.single('image'), async (request, response, next) => {
   try {
     const { title, slug, category, author, date, readTime, excerpt, content } = request.body;
     if (!title || !slug || !date || !excerpt || !content || !CATEGORIES.includes(category)) {
@@ -585,7 +614,19 @@ app.post('/api/articles', upload.single('image'), async (request, response, next
   }
 });
 
-app.delete('/api/articles/:id', async (request, response, next) => {
+app.post('/api/articles/images', requireAdmin, upload.single('image'), async (request, response, next) => {
+  try {
+    if (!request.file) {
+      return response.status(400).json({ error: `An image file (JPEG, PNG, WEBP, GIF up to ${process.env.NETLIFY ? 4 : 8} MB) is required.` });
+    }
+    const url = await uploadToCloudinary(request.file);
+    response.status(201).json({ url });
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.delete('/api/articles/:id', requireAdmin, async (request, response, next) => {
   try {
     const article = await Article.findById(request.params.id);
     if (!article) return response.status(404).json({ error: 'Article not found.' });
@@ -601,13 +642,16 @@ app.get('/api/reports', async (request, response, next) => {
   } catch (error) { next(error); }
 });
 
-app.post('/api/reports', reportUpload.single('document'), async (request, response, next) => {
+app.post('/api/reports', requireAdmin, reportUpload.single('document'), async (request, response, next) => {
   try {
     const { title, slug, type, year, summary } = request.body;
     if (!title || !slug || !year || !summary || !REPORT_TYPES.includes(type) || !request.file) {
       return response.status(400).json({ error: 'Title, slug, type, year, summary, and a PDF document are required.' });
     }
-    const documentUrl = await saveReportLocally(request.file, slug);
+    const cloudinaryResult = process.env.NETLIFY
+      ? await uploadReportToCloudinary(request.file, slug)
+      : null;
+    const documentUrl = cloudinaryResult ? cloudinaryResult.secure_url : await saveReportLocally(request.file, slug);
     const report = await Report.create({
       title,
       slug,
@@ -615,7 +659,8 @@ app.post('/api/reports', reportUpload.single('document'), async (request, respon
       year,
       summary,
       documentUrl,
-      storage: 'local',
+      storage: cloudinaryResult ? 'cloudinary' : 'local',
+      cloudinaryPublicId: cloudinaryResult ? cloudinaryResult.public_id : undefined,
       documentName: request.file.originalname,
       documentSize: request.file.size
     });
@@ -626,7 +671,7 @@ app.post('/api/reports', reportUpload.single('document'), async (request, respon
   }
 });
 
-app.delete('/api/reports/:id', async (request, response, next) => {
+app.delete('/api/reports/:id', requireAdmin, async (request, response, next) => {
   try {
     const report = await Report.findById(request.params.id);
     if (!report) return response.status(404).json({ error: 'Report not found.' });
@@ -635,6 +680,9 @@ app.delete('/api/reports/:id', async (request, response, next) => {
       await fsp.unlink(path.join(reportsDirectory, filename)).catch(error => {
         if (error.code !== 'ENOENT') throw error;
       });
+    }
+    if (report.storage === 'cloudinary' && report.cloudinaryPublicId) {
+      await cloudinary.uploader.destroy(report.cloudinaryPublicId, { resource_type: 'raw' });
     }
     await report.deleteOne();
     response.status(204).end();
@@ -649,14 +697,14 @@ app.get('/api/gallery', async (request, response, next) => {
   } catch (error) { next(error); }
 });
 
-app.post('/api/gallery', upload.single('image'), async (request, response, next) => {
+app.post('/api/gallery', requireAdmin, upload.single('image'), async (request, response, next) => {
   try {
     const { title, category, description, aspect } = request.body;
     if (!title || !category || !description || !GALLERY_CATEGORIES.includes(category)) {
       return response.status(400).json({ error: 'Title, category, and description are required.' });
     }
     if (!request.file) {
-      return response.status(400).json({ error: 'An image file (JPEG, PNG, WEBP, GIF up to 8 MB) is required.' });
+      return response.status(400).json({ error: `An image file (JPEG, PNG, WEBP, GIF up to ${process.env.NETLIFY ? 4 : 8} MB) is required.` });
     }
     const uploadResult = await uploadImageToCloudinary(request.file, 'dira/gallery');
     const image = await GalleryImage.create({
@@ -672,7 +720,7 @@ app.post('/api/gallery', upload.single('image'), async (request, response, next)
   } catch (error) { next(error); }
 });
 
-app.delete('/api/gallery/:id', async (request, response, next) => {
+app.delete('/api/gallery/:id', requireAdmin, async (request, response, next) => {
   try {
     const image = await GalleryImage.findById(request.params.id);
     if (!image) return response.status(404).json({ error: 'Gallery image not found.' });
@@ -690,7 +738,7 @@ app.delete('/api/gallery/:id', async (request, response, next) => {
 
 app.get('/sitemap.xml', async (request, response, next) => {
   try {
-    const sitemapPath = path.join(publicRoot, 'sitemap.xml');
+    const sitemapPath = process.env.SITEMAP_PATH || path.join(publicRoot, 'sitemap.xml');
     const [sitemap, articles] = await Promise.all([
       fsp.readFile(sitemapPath, 'utf8'),
       Article.find({}, 'slug updatedAt').sort({ createdAt: -1 }).lean()

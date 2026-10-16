@@ -102,7 +102,7 @@ header nav {
 }
 
 header nav a,
-header nav .dropdown-toggle {
+header nav .dropdown-trigger {
     position: relative;
     display: inline-flex;
     align-items: center;
@@ -124,8 +124,8 @@ header nav .dropdown-toggle {
 }
 
 header nav a:hover,
-header nav .dropdown-toggle:hover,
-header nav .dropdown:focus-within > .dropdown-toggle {
+header nav .dropdown-trigger:hover,
+header nav .dropdown:focus-within > .dropdown-heading .dropdown-trigger {
     background: var(--dira-lavender);
     color: var(--dira-primary);
 }
@@ -137,7 +137,7 @@ header nav .dropdown-toggle.active {
 }
 
 header nav a:focus-visible,
-header nav .dropdown-toggle:focus-visible,
+header nav .dropdown-trigger:focus-visible,
 .hamburger:focus-visible {
     outline: 2px solid var(--dira-primary);
     outline-offset: 2px;
@@ -180,7 +180,21 @@ header nav .nav-wrapper > a[href="contact.html"]:focus-visible {
     display: inline-block;
 }
 
-.dropdown-toggle .dropdown-arrow {
+.dropdown-heading {
+    display: inline-flex;
+    align-items: center;
+}
+
+.dropdown-toggle {
+    border-radius: var(--dira-radius-full) 0 0 var(--dira-radius-full) !important;
+}
+
+header nav .dropdown-trigger {
+    padding-inline: 0.375rem 0.625rem;
+    border-radius: 0 var(--dira-radius-full) var(--dira-radius-full) 0;
+}
+
+.dropdown-trigger .dropdown-arrow {
     font-size: 8px;
     line-height: 1;
     transition: transform var(--dira-dur) var(--dira-ease);
@@ -343,13 +357,23 @@ header nav .dropdown-content a:hover {
     }
 
     header nav a,
-    header nav .dropdown-toggle {
+    .dropdown-heading {
+        display: flex;
         width: 100%;
+    }
+
+    header nav .dropdown-toggle {
+        flex: 1;
         box-sizing: border-box;
-        justify-content: space-between;
         padding: 0.75rem 1rem;
-        border-radius: var(--dira-radius);
+        border-radius: var(--dira-radius) 0 0 var(--dira-radius) !important;
         font-size: 14px;
+    }
+
+    header nav .dropdown-trigger {
+        flex: 0 0 auto;
+        padding: 0.75rem 1rem;
+        border-radius: 0 var(--dira-radius) var(--dira-radius) 0;
     }
 
     header nav .nav-wrapper > a[href="contact.html"] {
@@ -732,14 +756,13 @@ footer a:focus-visible {
 }
 
 /* ==========================================================================
-   REVEAL ANIMATIONS (behavior driven by js/animate.js, unchanged)
-   Shorter travel and tokenised easing. Content is always shown for users
-   who prefer reduced motion.
+   REVEAL ANIMATIONS (behavior driven by js/animate.js)
+   Content is always shown for users who prefer reduced motion.
    ========================================================================== */
 .reveal {
     opacity: 0;
     transform: translateY(16px);
-    transition: opacity var(--dira-reveal-duration) var(--dira-ease), transform var(--dira-reveal-duration) var(--dira-ease);
+    transition: opacity var(--dira-reveal-duration) cubic-bezier(0.22, 1, 0.36, 1), transform var(--dira-reveal-duration) cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .reveal.active {
@@ -750,7 +773,7 @@ footer a:focus-visible {
 .reveal-card {
     opacity: 0;
     transform: translateY(16px);
-    transition: opacity var(--dira-reveal-duration) var(--dira-ease), transform var(--dira-reveal-duration) var(--dira-ease);
+    transition: opacity var(--dira-reveal-duration) cubic-bezier(0.22, 1, 0.36, 1), transform var(--dira-reveal-duration) cubic-bezier(0.22, 1, 0.36, 1);
     transition-delay: var(--delay, 0ms);
 }
 
@@ -762,9 +785,16 @@ footer a:focus-visible {
 @media (prefers-reduced-motion: reduce) {
     .reveal,
     .reveal-card {
+        opacity: 0;
+        transform: translateY(4px);
+        transition: opacity 600ms ease, transform 600ms ease !important;
+        transition-delay: 0ms !important;
+    }
+
+    .reveal.active,
+    .reveal-card.active {
         opacity: 1;
         transform: none;
-        transition: none;
     }
 
     header nav,
