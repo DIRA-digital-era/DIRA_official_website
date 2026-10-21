@@ -144,7 +144,7 @@ header nav .dropdown-trigger:focus-visible,
 }
 
 /* Call to action: the Contact link keeps its destination and gets the primary button treatment */
-header nav .nav-wrapper > a[href="contact.html"] {
+header nav .nav-wrapper > a[href="/contact"] {
     margin: 0 0.5rem 0 0.25rem;
     padding: 0.5rem 1rem;
     background: var(--dira-gradient-button);
@@ -152,25 +152,25 @@ header nav .nav-wrapper > a[href="contact.html"] {
     transition: transform var(--dira-dur) var(--dira-ease), box-shadow var(--dira-dur) var(--dira-ease), filter var(--dira-dur) var(--dira-ease);
 }
 
-header nav .nav-wrapper > a[href="contact.html"]::after {
+header nav .nav-wrapper > a[href="/contact"]::after {
     content: '\2197';
     font-size: 1.05em;
     line-height: 1;
 }
 
-header nav .nav-wrapper > a[href="contact.html"]:hover,
-header nav .nav-wrapper > a[href="contact.html"].active {
+header nav .nav-wrapper > a[href="/contact"]:hover,
+header nav .nav-wrapper > a[href="/contact"].active {
     background: var(--dira-gradient-button);
     color: #FFFFFF;
 }
 
-header nav .nav-wrapper > a[href="contact.html"]:hover {
+header nav .nav-wrapper > a[href="/contact"]:hover {
     filter: brightness(1.07);
     transform: translateY(-1px);
     box-shadow: var(--dira-glow-button);
 }
 
-header nav .nav-wrapper > a[href="contact.html"]:focus-visible {
+header nav .nav-wrapper > a[href="/contact"]:focus-visible {
     outline-offset: 3px;
 }
 

@@ -84,11 +84,11 @@
             <span>${escapeHtml(readTime)}</span>
           </div>
           <h3 class="article-card-title">
-            <a href="article.html?slug=${encodeURIComponent(slug)}">${escapeHtml(article.title)}</a>
+            <a href="/article?slug=${encodeURIComponent(slug)}">${escapeHtml(article.title)}</a>
           </h3>
           <p class="article-card-excerpt">${escapeHtml(article.excerpt)}</p>
           <div class="article-card-footer">
-            <a class="article-action-link" href="article.html?slug=${encodeURIComponent(slug)}">
+            <a class="article-action-link" href="/article?slug=${encodeURIComponent(slug)}">
               View Full Article <span aria-hidden="true">&rarr;</span>
             </a>
           </div>
@@ -134,7 +134,7 @@
       reader.setAttribute('aria-busy', 'false');
       reader.setAttribute('aria-label', 'Article not found');
       setMeta('name', 'robots', 'noindex, nofollow');
-      reader.innerHTML = `<div class="article-not-found"><h1>Article not found</h1><p>Please select an article from the articles page.</p><a class="article-back-link" href="articles.html">&larr; Browse all articles</a></div>`;
+      reader.innerHTML = `<div class="article-not-found"><h1>Article not found</h1><p>Please select an article from the articles page.</p><a class="article-back-link" href="/articles">&larr; Browse all articles</a></div>`;
       return;
     }
     try {
@@ -166,7 +166,7 @@
       reader.setAttribute('aria-busy', 'false');
       reader.setAttribute('aria-label', 'Article not found');
       setMeta('name', 'robots', 'noindex, nofollow');
-      reader.innerHTML = `<div class="article-not-found"><h1>Article not found</h1><p>${escapeHtml(error.message)}</p><a class="article-back-link" href="articles.html">&larr; Browse all articles</a></div>`;
+      reader.innerHTML = `<div class="article-not-found"><h1>Article not found</h1><p>${escapeHtml(error.message)}</p><a class="article-back-link" href="/articles">&larr; Browse all articles</a></div>`;
     }
   }
 

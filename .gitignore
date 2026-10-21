@@ -3,3 +3,7 @@ dist/
 .env
 npm-debug.log*
 reports/*.pdf
+docs/
+
+# Local Netlify folder
+.netlify

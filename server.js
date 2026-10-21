@@ -274,7 +274,7 @@ function getNewsletterWelcomeHtml(email) {
                     </div>
                     
                     <div style="margin-bottom:12px;font-size:14.5px;line-height:1.5;color:#475569;">
-                      <strong style="color:#191d36;">Industry Reports:</strong> High-impact analyses and publications on the digital ecosystem in Central Africa.
+                      <strong style="color:#191d36;">Industry Reports:</strong> Reports and publications from DIRA on technology and digital services in Central Africa.
                     </div>
 
                     <div style="margin:0;font-size:14.5px;line-height:1.5;color:#475569;">
@@ -288,7 +288,7 @@ function getNewsletterWelcomeHtml(email) {
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
                 <tr>
                   <td align="center" style="padding:10px 0 25px;">
-                    <a href="https://diracmr.com/articles.html" target="_blank" style="display:inline-block;background-color:#2F80ED;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;padding:14px 32px;border-radius:8px;box-shadow:0 4px 14px rgba(47,128,237,0.35);">
+                    <a href="https://diracmr.com/articles" target="_blank" style="display:inline-block;background-color:#2F80ED;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;padding:14px 32px;border-radius:8px;box-shadow:0 4px 14px rgba(47,128,237,0.35);">
                       Explore Latest Articles &rarr;
                     </a>
                   </td>
@@ -328,7 +328,7 @@ async function sendNewsletterConfirmationEmail(email) {
     to: [email],
     subject: "Welcome to DIRA Insights – You're Subscribed!",
     html: getNewsletterWelcomeHtml(email),
-    text: `Welcome to DIRA Insights!\n\nThank you for subscribing to our newsletter. You are successfully subscribed and will receive our curated engineering insights, industry reports, and updates.\n\nExplore our latest articles: https://diracmr.com/articles.html\n\nDIRA CMR - Digital Innovation & Research Alliance`
+    text: `Welcome to DIRA Insights!\n\nThank you for subscribing to our newsletter. You are successfully subscribed and will receive our curated engineering insights, industry reports, and updates.\n\nExplore our latest articles: https://diracmr.com/articles\n\nDIRA CMR - Digital Innovation & Research Alliance`
   };
 
   try {
@@ -535,7 +535,7 @@ async function sendNewArticleNotification(article) {
 
     const from = process.env.NEWSLETTER_FROM_EMAIL || 'DIRA Insights <updates@newsletter.diracmr.com>';
     const siteUrl = (process.env.SITE_URL || 'https://diracmr.com').replace(/\/+$/, '');
-    const articleUrl = `${siteUrl}/article.html?slug=${encodeURIComponent(article.slug)}`;
+    const articleUrl = `${siteUrl}/article?slug=${encodeURIComponent(article.slug)}`;
     
     let imageUrl = article.image || '';
     if (imageUrl && !imageUrl.startsWith('http')) {
@@ -748,7 +748,7 @@ app.get('/sitemap.xml', async (request, response, next) => {
     if (closingIndex === -1) throw new Error('The sitemap.xml file does not contain a closing urlset tag.');
 
     const articleUrls = articles.map(article => {
-      const articleUrl = new URL('/article.html', 'https://diracmr.com');
+      const articleUrl = new URL('/article', 'https://diracmr.com');
       articleUrl.searchParams.set('slug', article.slug);
       const lastmod = new Date(article.updatedAt).toISOString().slice(0, 10);
       return `  <url><loc>${articleUrl.href}</loc><lastmod>${lastmod}</lastmod></url>`;

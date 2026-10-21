@@ -15,29 +15,30 @@ function injectHeader(){
         </button>
         <nav id="navMenu">
             <div class="nav-wrapper">
-                <a href="index.html">HOME</a>
-                <a href="services.html">SERVICES</a>
-                <a href="portfolio.html">PORTFOLIO</a>
-                <a href="gallery.html">GALLERY</a>
-                <a href="articles.html">ARTICLES</a>
-                <a href="training.html">TRAINING</a>
-                <a href="about.html">ABOUT</a>
-                <a href="contact.html">CONTACT</a>
+                <a href="/">HOME</a>
+                <a href="/services">SERVICES</a>
+                <a href="/portfolio">PORTFOLIO</a>
+                <a href="/gallery">GALLERY</a>
+                <a href="/articles">ARTICLES</a>
+                <a href="/training">TRAINING</a>
+                <a href="/about">ABOUT</a>
+                <a href="/contact">CONTACT</a>
                 <div class="dropdown">
                     <div class="dropdown-heading">
-                        <a class="dropdown-toggle" href="group.html">DIRA GROUP</a>
+                        <a class="dropdown-toggle" href="/group">DIRA GROUP</a>
                         <button class="dropdown-trigger" type="button" aria-label="Toggle DIRA Group menu" aria-controls="diraGroupMenu" aria-expanded="false">
                             <span class="dropdown-arrow" aria-hidden="true">&#9660;</span>
                         </button>
                     </div>
                     <ul class="dropdown-content" id="diraGroupMenu">
                         <div class="dropdown-section">Our Ventures</div>
-                        <li><a href="https://dhubcmr.netlify.app/" target="_blank">DHUB</a></li>
+                        <li><a href="https://dhubcmr.netlify.app/" target="_blank" rel="noopener">DHUB website</a></li>
+                        <li><a href="https://dhubweb.diracmr.com/" target="_blank" rel="noopener">DHUB web app</a></li>
                         <li><a href="https://dirafoundation.netlify.app" target="_blank">DIRA Foundation</a></li>
                         <li><a href="https://diratechfest.netlify.app/" target="_blank">DIRA Tech Fest</a></li>
                         <div class="dropdown-section">Production &amp; Disclosures</div>
-                        <li><a href="content-studio.html">DIRA Content Studio</a></li>
-                        <li><a href="reports.html">Reports &amp; Publications</a></li>
+                        <li><a href="/content-studio">DIRA Content Studio</a></li>
+                        <li><a href="/reports">Reports &amp; Publications</a></li>
                     </ul>
                 </div>
             </div>
@@ -52,7 +53,7 @@ function injectFooter(){
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>DIRA</h3>
-                    <p>Building Africa's digital infrastructure, from Cameroon.</p>
+                    <p>Building Africa's digital infrastructure, from Cameroon to the world.</p>
                     <p class="footer-legal">
                         DIRA SAS<br>
                         AWICUL Building, Commercial Avenue<br>
@@ -64,18 +65,18 @@ function injectFooter(){
                 <div class="footer-section">
                     <h3>Quick Links</h3>
                     <ul class="footer-links">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="services.html">Services</a></li>
-                        <li><a href="portfolio.html">Portfolio</a></li>
-                        <li><a href="gallery.html">Gallery</a></li>
-                        <li><a href="articles.html">Articles &amp; Insights</a></li>
-                        <li><a href="reports.html">Reports &amp; Publications</a></li>
-                        <li><a href="training.html">Training</a></li>
-                        <li><a href="group.html">DIRA Group</a></li>
-                        <li><a href="content-studio.html">Content Studio</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                        <li><a href="terms-of-service.html">Terms of Service</a></li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/services">Services</a></li>
+                        <li><a href="/portfolio">Portfolio</a></li>
+                        <li><a href="/gallery">Gallery</a></li>
+                        <li><a href="/articles">Articles &amp; Insights</a></li>
+                        <li><a href="/reports">Reports &amp; Publications</a></li>
+                        <li><a href="/training">Training</a></li>
+                        <li><a href="/group">DIRA Group</a></li>
+                        <li><a href="/content-studio">Content Studio</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                        <li><a href="/terms-of-service">Terms of Service</a></li>
                     </ul>
                 </div>
 
@@ -334,26 +335,26 @@ document.addEventListener('click', function(event) {
 
 // Set active nav link based on current page
 function setActiveNavLink() {
-    let currentPage = decodeURIComponent(window.location.pathname.split('/').pop() || 'index.html');
+    const pathSegment = decodeURIComponent(window.location.pathname.split('/').filter(Boolean).pop() || '');
+    let currentPage = pathSegment;
     // Detail pages highlight the section they belong to
-    if (currentPage.indexOf('project-') === 0) currentPage = 'portfolio.html';
-    if (currentPage === 'article.html') currentPage = 'articles.html';
+    if (currentPage.indexOf('project-') === 0) currentPage = 'portfolio';
+    if (currentPage === 'article') currentPage = 'articles';
     const navLinks = document.querySelectorAll('header nav a');
 
     navLinks.forEach(link => {
         const href = link.getAttribute('href');
-        if (href === currentPage || (currentPage === '' && href === 'index.html')) {
+        const linkUrl = href ? new URL(href, window.location.href) : null;
+        const linkPage = linkUrl && linkUrl.origin === window.location.origin
+            ? linkUrl.pathname.split('/').filter(Boolean).pop() || ''
+            : null;
+        if (linkPage !== null && linkPage === currentPage) {
             link.classList.add('active');
         } else {
             link.classList.remove('active');
         }
     });
 
-    // Highlight the dropdown toggle when one of its pages is open
-    document.querySelectorAll('header nav .dropdown').forEach(dd => {
-        const link = dd.querySelector('.dropdown-toggle');
-        if (link) link.classList.toggle('active', !!dd.querySelector('.dropdown-toggle.active, .dropdown-content a.active'));
-    });
 }
 
 // Wire up hamburger button

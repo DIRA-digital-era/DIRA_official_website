@@ -400,7 +400,7 @@
             <div class="field" id="fieldSlug">
                 <label for="slug">Slug <span class="hint">auto-generated, editable</span></label>
                 <input type="text" id="slug" placeholder="architecting-verifiable-digital-infrastructure">
-                <div class="slug-preview">article.html?slug=<span id="slugPreview"></span></div>
+                <div class="slug-preview">/article?slug=<span id="slugPreview"></span></div>
             </div>
 
             <div class="form-row">
@@ -456,7 +456,7 @@
             </div>
 
             <div class="form-actions">
-                <a href="articles.html" class="btn btn-ghost" id="cancelLink">Cancel</a>
+                <a href="/articles" class="btn btn-ghost" id="cancelLink">Cancel</a>
                 <button type="submit" class="btn btn-primary" id="publishBtn">Publish Article</button>
             </div>
         </form>
@@ -593,7 +593,7 @@
             document.getElementById('excerptLabel').textContent = isReport ? 'Summary' : 'Excerpt';
             document.getElementById('excerpt').placeholder = isReport ? 'A short description shown on the report card.' : 'One or two sentences shown on the article card.';
             publishBtn.textContent = isReport ? 'Publish Report' : 'Publish Article';
-            cancelLink.href = isReport ? 'reports.html' : 'articles.html';
+            cancelLink.href = isReport ? '/reports' : '/articles';
         }
         contentType.addEventListener('change', updateContentType);
         updateContentType();
@@ -701,7 +701,7 @@
                     if (imageInput.files[0]) formData.append('image', imageInput.files[0]);
                 }
                 const saved = isReport ? await window.DiraReports.api.createReport(formData) : await window.DiraArticles.api.createArticle(formData);
-                const destination = isReport ? 'reports.html' : 'articles.html';
+                const destination = isReport ? '/reports' : '/articles';
                 showBanner('success', `Published. <a href="${destination}" style="color:inherit;text-decoration:underline;">view it on the ${isReport ? 'Reports' : 'Articles'} page</a>.`);
                 document.getElementById('statusBanner').innerHTML = `Published. <a href="${destination}" style="color:inherit;text-decoration:underline;">view it on the ${isReport ? 'Reports' : 'Articles'} page</a>.`;
                 document.getElementById('uploadForm').reset();
@@ -741,7 +741,7 @@
                         <div class="ui-meta">${escapeHtml(a.category)} &middot; ${escapeHtml(a.date)}</div>
                     </div>
                     <div class="ui-actions">
-                        <a class="btn btn-ghost btn-sm" href="article.html?slug=${encodeURIComponent(a.slug)}">View</a>
+                        <a class="btn btn-ghost btn-sm" href="/article?slug=${encodeURIComponent(a.slug)}">View</a>
                         <button class="btn btn-danger btn-sm delete-btn" data-id="${a.id}" data-title="${escapeHtml(a.title)}">Delete</button>
                     </div>
                 </div>

@@ -1,6 +1,35 @@
 (function () {
   'use strict';
 
+  const TOAST_STATE_KEY = 'dira_testimonial_toast_state_v1';
+  const INITIAL_DELAY_MS = 15000;
+  const FIRST_BACKOFF_MS = 2 * 60 * 1000;
+  const MAX_BACKOFF_MS = 30 * 60 * 1000;
+
+  function readToastState() {
+    try {
+      const savedState = JSON.parse(localStorage.getItem(TOAST_STATE_KEY) || 'null');
+      if (
+        savedState &&
+        Number.isInteger(savedState.shows) &&
+        Number.isFinite(savedState.nextAt)
+      ) {
+        return savedState;
+      }
+    } catch {
+      // Storage can be unavailable in restricted browsing contexts.
+    }
+    return { shows: 0, nextAt: 0 };
+  }
+
+  function saveToastState(state) {
+    try {
+      localStorage.setItem(TOAST_STATE_KEY, JSON.stringify(state));
+    } catch {
+      // Keep the toast functional for this page even when storage is unavailable.
+    }
+  }
+
   function readTestimonials(sourceDocument, baseUrl) {
     return Array.from(sourceDocument.querySelectorAll('#testimonialsCarousel .testimonial-card')).map(card => {
       const imageEl = card.querySelector('img');
@@ -18,7 +47,7 @@
     const pageTestimonials = readTestimonials(document, document.baseURI);
     if (pageTestimonials.length) return pageTestimonials;
 
-    const galleryUrl = new URL('./gallery.html', document.baseURI);
+    const galleryUrl = new URL('./gallery', document.baseURI);
     try {
       const response = await fetch(galleryUrl, { cache: 'no-store' });
       if (!response.ok) return [];
@@ -71,6 +100,7 @@
     const author = toast.querySelector('.testimonial-toast-author');
     const closeButton = toast.querySelector('.testimonial-toast-close');
     let testimonialIndex = 0;
+    const toastState = readToastState();
     let showTimer;
     let hideTimer;
 
@@ -80,26 +110,56 @@
     }
 
     function hideToast() {
+      if (toast.contains(document.activeElement)) return;
       toast.classList.remove('is-visible');
       toast.setAttribute('aria-hidden', 'true');
-      scheduleToast(12000);
+      scheduleToast(Math.max(INITIAL_DELAY_MS, toastState.nextAt - Date.now()));
+    }
+
+    function requestHide() {
+      if (toast.contains(document.activeElement)) {
+        const hideAfterFocusLeaves = event => {
+          if (!toast.contains(event.relatedTarget)) {
+            toast.removeEventListener('focusout', hideAfterFocusLeaves);
+            hideToast();
+          }
+        };
+        toast.addEventListener('focusout', hideAfterFocusLeaves);
+        return;
+      }
+      hideToast();
     }
 
     function showToast() {
+      if (toastState.nextAt > Date.now()) {
+        scheduleToast(toastState.nextAt - Date.now());
+        return;
+      }
+
       const testimonial = testimonials[testimonialIndex % testimonials.length];
       quote.textContent = testimonial.quote;
       author.textContent = testimonial.author;
       image.src = testimonial.image;
       image.alt = testimonial.alt;
       testimonialIndex += 1;
+      toastState.shows += 1;
+      const backoff = Math.min(
+        FIRST_BACKOFF_MS * (2 ** Math.min(toastState.shows - 1, 20)),
+        MAX_BACKOFF_MS
+      );
+      toastState.nextAt = Date.now() + backoff;
+      saveToastState(toastState);
       toast.classList.add('is-visible');
       toast.setAttribute('aria-hidden', 'false');
       clearTimeout(hideTimer);
-      hideTimer = setTimeout(hideToast, 9000);
+      hideTimer = setTimeout(requestHide, 8000);
     }
 
-    closeButton.addEventListener('click', hideToast);
-    scheduleToast(2000);
+    closeButton.addEventListener('click', () => {
+      closeButton.blur();
+      hideToast();
+    });
+    scheduleToast(Math.max(INITIAL_DELAY_MS, toastState.nextAt - Date.now()));
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initializeTestimonialToast);

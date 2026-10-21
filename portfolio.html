@@ -19,8 +19,8 @@
     />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://diracmr.com/images/logo.jpg" />
-    <link rel="canonical" href="https://diracmr.com/portfolio.html" />
-    <meta property="og:url" content="https://diracmr.com/portfolio.html">
+    <link rel="canonical" href="https://diracmr.com/portfolio" />
+    <meta property="og:url" content="https://diracmr.com/portfolio">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content="https://diracmr.com/images/logo.jpg">
     <!-- Using custom SVG icons; removed FontAwesome to avoid generic icons -->
@@ -49,10 +49,10 @@
                     <label class="pf-jump__label" for="category">Jump to Project:</label>
                     <select class="pf-select" id="category" onchange="if (this.value) location.hash = this.value;">
 <option value="">-- All Projects --</option>
-<option value="#dhub">DHUB (Flagship Housing Marketplace)</option>
+<option value="#dhub">DHUB (Property and Booking Software)</option>
 <option value="#shesa">SHESA Connect (Alumni Platform)</option>
-<option value="#nw-gpidrs">NW-GPIDRS (Public-Sector Digital Readiness)</option>
-<option value="#nwdrs">NWDRS (SME Digital Readiness)</option>
+<option value="#nw-gpidrs">Northwest Government and Public Institutions Digital Readiness Survey (NW-GPIDRS)</option>
+<option value="#nwdrs">Northwest Digital Readiness Survey (NWDRS)</option>
 <option value="#aswedo">ASWEDO Cameroon (Nonprofit Portal)</option>
 <option value="#marketplace">
             Pan-African Marketplace (Commercial)
@@ -89,9 +89,9 @@
 <h2 class="modal-title" id="modalTitle">Project Title</h2>
 <div class="modal-section-title">Overview</div>
 <p class="modal-text" id="modalDesc"></p>
-<div class="modal-section-title">The Problem Solved</div>
+<div class="modal-section-title" id="modalProblemSection">The Problem Solved</div>
 <p class="modal-text" id="modalProblem"></p>
-<div class="modal-section-title">Approach &amp; Outputs</div>
+<div class="modal-section-title" id="modalTechSection">Approach &amp; Outputs</div>
 <p class="modal-text" id="modalTech"></p>
 <div class="modal-actions" id="modalActions"></div>
 </div>

@@ -117,13 +117,13 @@
                 <div class="dira-newsletter-header">
                     <div class="dira-newsletter-badge">DIRA INSIGHTS</div>
                     <h2 id="newsletter-title">Stay Ahead in Tech &amp; Digital Innovation</h2>
-                    <p>Get exclusive monthly insights on custom software, systems architecture, digital transformation, and tech events across Central Africa.</p>
+                    <p>Get technology news, practical tips, fresh ideas and conversations about the wider tech ecosystem from DIRA.</p>
                 </div>
 
                 <div id="newsletter-form-container">
                     <form id="diraNewsletterForm" class="dira-newsletter-form">
                         <div class="dira-input-group">
-                            <input type="email" id="diraNewsletterEmail" name="email" placeholder="Enter your business email" required autocomplete="email">
+                            <input type="email" id="diraNewsletterEmail" name="email" placeholder="Enter your email address" required autocomplete="email">
                             <button type="submit" class="dira-newsletter-submit">
                                 <span>Subscribe</span>
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -131,7 +131,7 @@
                                 </svg>
                             </button>
                         </div>
-                        <p class="dira-newsletter-disclaimer">Actionable engineering &amp; enterprise strategy only. Unsubscribe anytime.</p>
+                        <p class="dira-newsletter-disclaimer">Tech insights, practical tips and ecosystem perspectives. Unsubscribe anytime.</p>
                     </form>
                 </div>
 

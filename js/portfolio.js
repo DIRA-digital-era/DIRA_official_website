@@ -2,22 +2,23 @@ const projects = [
   {
     id: "dhub",
     title: "DHUB",
-    category: "Flagship Product",
-    tags: ["Flagship Product", "PropTech", "Verified Marketplace"],
+    category: "Property Management Software",
+    tags: ["Property Management", "Rental Marketplace", "Bookings"],
     status: "Live & Operating",
-    caseStudyPage: "project-dhub.html",
-    link: "https://dhubcmr.netlify.app/",
-    description: "Cameroon's verified housing marketplace. Search, book, and pay securely, with every listing checked before it goes live.",
-    problemSolved: "Finding safe, verified student and residential housing in Cameroon has historically been plagued by unverified brokers, duplicate listings, and fraudulent advance deposits. DHUB solves this by creating a closed-loop marketplace where agents and listings are physically verified before publication, paired with transparent booking workflows.",
-    techInfo: "Custom marketplace platform, verified property onboarding workflow, high-availability hosting, geolocation search, and secure inquiry pipelines.",
+    caseStudyPage: "/project-dhub",
+    link: "https://dhubweb.diracmr.com/",
+    infoLink: "https://dhubcmr.netlify.app/",
+    description: "Cameroon's premier housing app and property management software as a service (SaaS) for rentals (single rooms, studios, apartments, hotels and guest houses), landlords and property operators.",
+    problemSolved: "DHUB brings rental search and booking together with property-management tools for individual landlords, property businesses, university hostels, hotels, and guest houses.",
+    techInfo: "Available on Google Play and the web.",
     images: [
       {
         url: "./images/photos/web/dhub.png",
-        alt: "DHUB verified housing marketplace platform architecture"
+        alt: "DHUB property management and rental platform"
       },
       {
         url: "./images/utils/cloud.jpg",
-        alt: "DHUB property management infrastructure"
+        alt: "DHUB property management software"
       }
     ]
   },
@@ -25,31 +26,28 @@ const projects = [
     id: "shesa",
     title: "SHESA Connect",
     category: "Institutional Platform",
-    tags: ["Institutional Platform", "Alumni Network", "Governance"],
-    status: "Delivered & Presented",
-    caseStudyPage: "project-shesa.html",
+    tags: ["Institutional Platform", "Project Delivery"],
+    caseStudyPage: "/project-shesa",
     link: "https://shesaconnect.com",
-    description: "SHESA Connect is a full membership platform built for SHESA's alumni network: events, leadership records, project tracking, and a media gallery in one system. It's the largest completed platform engagement in DIRA's portfolio to date, and has been presented directly to senior government officials including Minister Delegates at MINEPAT and MINREX.",
-    problemSolved: "Global alumni networks with thousands of members across multiple chapters frequently suffer from scattered member databases, untracked development projects, and fractured communication channels. SHESA Connect centralized verified membership registers, historical executive records, chapter project funding, and institutional media in a single secure environment.",
-    techInfo: "Multi-tier membership platform, historical executive records database, project milestone tracker, event registration engine, and institutional role-based access control.",
+    description: "DIRA delivered SHESA Connect for the SHESA alumni network.",
     images: [
       {
         url: "./images/photos/web/proven-execution.png",
-        alt: "DIRA team presenting platform capabilities"
+        alt: "DIRA team at work"
       }
     ]
   },
   {
     id: "nw-gpidrs",
-    title: "Northwest Government Digital Readiness Survey (NW-GPIDRS)",
+    title: "Northwest Government and Public Institutions Digital Readiness Survey (NW-GPIDRS)",
     category: "Regional Assessment Programme",
     tags: ["Public Sector", "Digital Readiness", "Regional Research"],
     status: "Regional Fieldwork",
-    caseStudyPage: "project-nw-gpidrs.html",
+    caseStudyPage: "/project-nw-gpidrs",
     caseStudyLabel: "View Details",
-    description: "DIRA is assessing infrastructure, records management, digital services, staff capability, and institutional practices across public institutions to map regional digital readiness and identify practical priorities.",
-    problemSolved: "Public institutions can differ widely in connectivity, equipment, record-keeping practices, digital service capacity, and staff skills. NW-GPIDRS is documenting these conditions to support better-targeted regional planning.",
-    techInfo: "A repeatable on-site assessment framework reviews six areas: connectivity and hardware; data and records management; digital public services; inter-institutional communication; staff digital capacity; and governance and procurement readiness. Structured scoring supports individual diagnostic reporting and aggregated regional analysis, without publishing institution-specific findings.",
+    description: "Through a government-endorsed institutional partnership, DIRA assesses public-sector infrastructure, records, digital services and staff capacity across the North West Region.",
+    problemSolved: "DIRA reviews connectivity, equipment, records, digital services and staff capacity to identify practical technology priorities for public institutions.",
+    techInfo: "The programme runs for six to eight months, with an investment of over 40 million XAF committed by the DIRA Group.",
     images: [
       {
         url: "./images/photos/web/DIRA WEB PHOTOS TEMPLATE - 9.PNG",
@@ -59,15 +57,15 @@ const projects = [
   },
   {
     id: "nwdrs",
-    title: "Northwest SME Digital Readiness Survey (NWDRS)",
+    title: "Northwest Digital Readiness Survey (NWDRS)",
     category: "Regional Assessment Programme",
-    tags: ["SME Support", "Digital Readiness", "Needs-First Assessment"],
+    tags: ["Small Business Support", "Digital Readiness", "Needs-First Assessment"],
     status: "Regional Fieldwork",
-    caseStudyPage: "project-nwdrs.html",
+    caseStudyPage: "/project-nwdrs",
     caseStudyLabel: "View Details",
-    description: "DIRA is working with SMEs, cooperative financial institutions, and social-economy organizations to assess their tools, operations, skills, and readiness, then identify practical digital improvements.",
-    problemSolved: "Organizations often have little reliable information about their digital capabilities, operational bottlenecks, and readiness to adopt technology. NWDRS documents each organization's processes, constraints, and priorities to support suitable digital planning.",
-    techInfo: "A structured field-assessment framework examines seven areas: connectivity and hardware; member or client records; loan and operations management; online and digital presence; financial reporting systems; staff digital literacy; and governance and readiness. Findings support practical institution-level recommendations and anonymised regional analysis, rather than a one-size-fits-all technology prescription.",
+    description: "DIRA's government-endorsed digital readiness programme assesses technology and operational needs across microfinance institutions, credit unions, SMEs and other organisations.",
+    problemSolved: "DIRA assesses records, loan and operational workflows, financial reporting, connectivity and staff skills to identify technology gaps before recommending practical improvements.",
+    techInfo: "The programme runs for eight months, with an investment of over 70 million XAF committed by the DIRA Group.",
     images: [
       {
         url: "./images/photos/web/DIRA WEB PHOTOS TEMPLATE (6).png",
@@ -81,11 +79,11 @@ const projects = [
     category: "NGO & Community",
     tags: ["NGO Portal", "Community Development", "Non-Profit"],
     status: "Live & Active",
-    caseStudyPage: "project-aswedo.html",
+    caseStudyPage: "/project-aswedo",
     link: "https://aswedo.org",
-    description: "Official web platform for the Association for the Welfare of the Disadvantaged and Vulnerable (ASWEDO Cameroon), supporting community development, women empowerment, and educational outreach.",
-    problemSolved: "Grassroots humanitarian organizations need credible, transparent digital portals to communicate their field activities to international partners, donors, and regulatory bodies without costly proprietary maintenance overhead.",
-    techInfo: "Accessible, responsive web architecture, structured field reporting modules, donation inquiries, and optimized mobile-first performance.",
+    description: "DIRA built the website for Aspired Women Empowerment and Development Organization (ASWEDO), a Cameroon-based nonprofit organization.",
+    problemSolved: "The website gives visitors information about ASWEDO and its programmes, with a direct way to contact the organization.",
+    techInfo: "Responsive pages for organization and programme information, with a contact route.",
     images: [
       {
         url: "./images/photos/web/aswedo-1.png",
@@ -99,23 +97,21 @@ const projects = [
   },
   {
     id: "marketplace",
-    title: "Pan-African Multi-Vendor Marketplace",
-    category: "Commercial Platform",
-    tags: ["Enterprise Platform", "E-Commerce", "Multi-Vendor"],
-    status: "Delivered (Client Redacted)",
-    caseStudyPage: "project-marketplace.html",
+    title: "Pan-African Commerce Platform",
+    category: "Commerce Platform",
+    tags: ["E-Commerce", "Digital Marketplace"],
+    status: "Portfolio Project",
+    caseStudyPage: "/project-marketplace",
     link: "",
-    description: "A high-capacity multi-vendor marketplace platform built for cross-border African commerce, engineered for multi-currency handling and verified merchant catalogs. (Details redacted in accordance with commercial confidentiality agreements).",
-    problemSolved: "Cross-border African commerce involves complex currency conversions, high transaction abandonment due to untrusted sellers, and friction in reconciling vendor settlements. This platform engineered automated vendor vetting, transaction escrow, and multi-currency pricing to secure trust between buyers and sellers.",
-    techInfo: "Multi-tenant merchant dashboards, distributed transaction logging, automated vendor audit verification, and resilient catalog search.",
+    description: "DIRA developed a digital marketplace platform for commerce across African markets.",
     images: [
       {
         url: "./images/utils/Wavy_Bus-19_Single-05.jpg",
-        alt: "Pan-African multi-vendor platform architecture"
+        alt: "Illustrative image for a digital commerce platform"
       },
       {
         url: "./images/utils/security.jpg",
-        alt: "Secure multi-currency transaction escrow"
+        alt: "Illustrative image for digital commerce"
       }
     ]
   },
@@ -125,11 +121,11 @@ const projects = [
     category: "Sports & Talent",
     tags: ["External Client", "Sports", "Talent Showcase"],
     status: "Live",
-    caseStudyPage: "project-cybfc.html",
+    caseStudyPage: "/project-cybfc",
     link: "https://cameryoungboyzfc.com/",
-    description: "Official sports website for talent showcasing. Designed for high performance, athlete visibility, and international scout recruitment.",
-    problemSolved: "Talented young footballers in Cameroon often lack an authoritative digital repository of verified statistics, tournament footage, and scout contact channels, limiting their exposure to international academies.",
-    techInfo: "Fast-loading media showcase, individual athlete statistical cards, responsive match calendar, and secure scouting inquiry integration.",
+    description: "Website for Camer Young Boyz FC featuring club information, player profiles, fixtures and academy roster details.",
+    problemSolved: "The website provides a place to publish club updates, player information and match fixtures.",
+    techInfo: "Club pages, player profiles, fixtures and academy roster information.",
     images: [
       {
         url: "./images/portfolio/web/youngboyz0.webp",
@@ -152,9 +148,9 @@ const projects = [
     tags: ["Philanthropy", "Digital Literacy", "Community"],
     status: "Live & Active",
     link: "https://dirafoundation.netlify.app",
-    description: "The philanthropic and pro-bono technology arm of the DIRA Group, providing digital literacy training, cybersecurity workshops, and technical support to nonprofits across Cameroon.",
-    problemSolved: "Addresses systemic barriers to technology education in secondary schools and grassroots organizations through subsidized bootcamps, equipment donations, and open educational resources.",
-    techInfo: "Community portal, workshop registration pipelines, resource repository, and volunteer mentorship coordination.",
+    description: "DIRA Foundation focuses on digital literacy training, cybersecurity workshops and technology support for nonprofits in Cameroon.",
+    problemSolved: "The Foundation runs programmes that introduce technology education in schools and community organisations.",
+    techInfo: "Its website shares programme information, resources and volunteer opportunities.",
     images: [
       {
         url: "./images/photos/web/foundation0.png",
@@ -175,9 +171,9 @@ const projects = [
     tags: ["Educational", "Scholarship Portal"],
     status: "Live",
     link: "https://open-dreams.org",
-    description: "Educational consultancy and scholarship portal providing resources and mentoring pipelines for high-achieving low-income students seeking international academic opportunities.",
-    problemSolved: "Streamlines international college preparation, standardized testing resources, and volunteer mentor coordination for underprivileged African scholars.",
-    techInfo: "Educational resource delivery architecture, scholar alumni profiles, and university partnership showcase.",
+    description: "Education and scholarship portal with information for students applying to international universities.",
+    problemSolved: "The site brings together college preparation resources, test information and mentoring for African students.",
+    techInfo: "Student resources, scholar profiles and university partnership information.",
     images: [
       {
         url: "./images/portfolio/web/opendreams.webp",
@@ -201,8 +197,8 @@ const projects = [
     status: "Prototype / Research Stage",
     link: "https://agrichainproject-by-dira.netlify.app",
     description: "An experimental agricultural supply chain prototype exploring tamper-evident record keeping and provenance tracking for smallholder farmers in Cameroon.",
-    problemSolved: "Explores methods to prevent product adulteration and provide verifiable batch origin data to agricultural exporters.",
-    techInfo: "Experimental immutable batch logging, distributor verification dashboard, and decentralized record proofs.",
+    problemSolved: "The prototype explores ways to record and review the origin of agricultural batches.",
+    techInfo: "Prototype features include batch records and a distributor dashboard for reviewing provenance information.",
     images: [
       {
         url: "./images/portfolio/web/agrichain0.webp",
@@ -266,8 +262,17 @@ function openCaseStudyModal(projectId) {
   document.getElementById('modalBadge').textContent = p.category || p.tags[0] || 'Project';
   document.getElementById('modalTitle').textContent = p.title;
   document.getElementById('modalDesc').textContent = p.description;
-  document.getElementById('modalProblem').textContent = p.problemSolved || 'Details provided upon request.';
-  document.getElementById('modalTech').textContent = p.techInfo || 'Built with custom platform architecture.';
+  const modalProblem = document.getElementById('modalProblem');
+  const modalProblemSection = document.getElementById('modalProblemSection');
+  modalProblem.hidden = !p.problemSolved;
+  modalProblemSection.hidden = !p.problemSolved;
+  if (p.problemSolved) modalProblem.textContent = p.problemSolved;
+
+  const modalTech = document.getElementById('modalTech');
+  const modalTechSection = document.getElementById('modalTechSection');
+  modalTech.hidden = !p.techInfo;
+  modalTechSection.hidden = !p.techInfo;
+  if (p.techInfo) modalTech.textContent = p.techInfo;
   
   const actionsContainer = document.getElementById('modalActions');
   actionsContainer.innerHTML = '';
@@ -284,8 +289,17 @@ function openCaseStudyModal(projectId) {
     liveBtn.target = '_blank';
     liveBtn.rel = 'noopener';
     liveBtn.className = 'modal-btn-primary modal-btn-primary--live';
-    liveBtn.textContent = 'Visit Live Platform';
+    liveBtn.textContent = p.id === 'dhub' ? 'Open DHUB web app' : 'Visit Live Platform';
     actionsContainer.appendChild(liveBtn);
+  }
+  if (p.infoLink) {
+    const infoBtn = document.createElement('a');
+    infoBtn.href = p.infoLink;
+    infoBtn.target = '_blank';
+    infoBtn.rel = 'noopener';
+    infoBtn.className = 'modal-btn-primary';
+    infoBtn.textContent = 'Visit DHUB website';
+    actionsContainer.appendChild(infoBtn);
   }
   const closeBtn = document.createElement('button');
   closeBtn.type = 'button';
@@ -340,7 +354,10 @@ function injectProjects() {
     const tagsHtml = project.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
 
     const liveLinkHtml = project.link ? `
-      <a href="${project.link}" class="card-link" target="_blank" rel="noopener">Visit Live</a>
+      <a href="${project.link}" class="card-link" target="_blank" rel="noopener">${project.id === 'dhub' ? 'Open DHUB web app' : 'Visit Live'}</a>
+    ` : '';
+    const infoLinkHtml = project.infoLink ? `
+      <a href="${project.infoLink}" class="card-link" target="_blank" rel="noopener">DHUB website</a>
     ` : '';
 
     card.innerHTML = `
@@ -363,6 +380,7 @@ function injectProjects() {
         ${project.caseStudyPage ? `<a href="${project.caseStudyPage}" class="btn-case-study">${project.caseStudyLabel || 'Case Study'} &rarr;</a>` : `<button type="button" class="btn-case-study" onclick="openCaseStudyModal('${project.id}')">View Details</button>`}
         <button type="button" class="btn-case-study btn-case-study--ghost" onclick="openCaseStudyModal('${project.id}')">Overview</button>
         ${liveLinkHtml}
+        ${infoLinkHtml}
       </div>
     `;
 

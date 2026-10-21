@@ -711,7 +711,7 @@
 
 @media (min-width: 1025px) {
     .home-stats__row {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: var(--dira-gutter);
     }
 
@@ -755,6 +755,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 1.25rem;
+    grid-column: 1 / -1;
 }
 
 .home-cta .home-eyebrow {
