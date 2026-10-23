@@ -220,11 +220,50 @@ app.get('/api/health', (request, response) => {
   response.json({ ok: true, database: mongoose.connection.readyState === 1 });
 });
 
+const NEWSLETTER_UNSUBSCRIBE_SECRET = process.env.NEWSLETTER_UNSUBSCRIBE_SECRET || (isProduction ? '' : crypto.randomBytes(32).toString('hex'));
+
+function createUnsubscribeToken(email) {
+  const normalizedEmail = String(email || '').trim().toLowerCase();
+  if (!normalizedEmail || !NEWSLETTER_UNSUBSCRIBE_SECRET) return '';
+  const payload = Buffer.from(JSON.stringify({
+    email: normalizedEmail,
+    exp: Date.now() + (30 * 24 * 60 * 60 * 1000)
+  })).toString('base64url');
+  const sig = crypto.createHmac('sha256', NEWSLETTER_UNSUBSCRIBE_SECRET).update(payload).digest('base64url');
+  return `${payload}.${sig}`;
+}
+
+function verifyUnsubscribeToken(token, email) {
+  if (!NEWSLETTER_UNSUBSCRIBE_SECRET || !token || typeof token !== 'string') return false;
+  const [payload, sig] = token.split('.');
+  if (!payload || !sig) return false;
+  const expectedSig = crypto.createHmac('sha256', NEWSLETTER_UNSUBSCRIBE_SECRET).update(payload).digest('base64url');
+  const sigBuf = Buffer.from(sig);
+  const expectedBuf = Buffer.from(expectedSig);
+  if (sigBuf.length !== expectedBuf.length || !crypto.timingSafeEqual(sigBuf, expectedBuf)) return false;
+  try {
+    const decoded = JSON.parse(Buffer.from(payload, 'base64url').toString());
+    const normalizedEmail = String(email || '').trim().toLowerCase();
+    return decoded.email === normalizedEmail && Date.now() < decoded.exp;
+  } catch (error) {
+    return false;
+  }
+}
+
+function buildNewsletterUnsubscribeUrl(email, siteUrl = process.env.SITE_URL || 'https://diracmr.com') {
+  const baseUrl = String(siteUrl || 'https://diracmr.com').replace(/\/+$/, '');
+  const normalizedEmail = String(email || '').trim().toLowerCase();
+  const token = createUnsubscribeToken(normalizedEmail);
+  const params = new URLSearchParams({ email: normalizedEmail, token });
+  return `${baseUrl}/api/newsletter/unsubscribe?${params.toString()}`;
+}
+
 function escapeEmailHtml(str) {
   return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 function getNewsletterWelcomeHtml(email) {
+  const unsubscribeUrl = buildNewsletterUnsubscribeUrl(email);
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -233,7 +272,7 @@ function getNewsletterWelcomeHtml(email) {
   <title>Welcome to DIRA Insights</title>
 </head>
 <body style="margin:0;padding:0;background-color:#0f172a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1e293b;-webkit-font-smoothing:antialiased;">
-  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#0f172a;padding:40px 15px;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#0f172a;padding:5px 5px;">
     <tr>
       <td align="center">
         <!-- Main Card -->
@@ -241,8 +280,8 @@ function getNewsletterWelcomeHtml(email) {
           
           <!-- Header Banner -->
           <tr>
-            <td style="background:#191d36;padding:36px 40px;text-align:center;border-bottom:3px solid #2F80ED;">
-              <div style="display:inline-block;padding:5px 14px;background:rgba(47,128,237,0.2);border:1px solid rgba(47,128,237,0.4);border-radius:20px;color:#00E6D6;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;">
+            <td style="background:#191d36;padding:10px 10px;text-align:center;border-bottom:3px solid #2F80ED;">
+              <div style="display:inline-block;padding:5px 5px;background:rgba(47,128,237,0.2);border:1px solid rgba(47,128,237,0.4);border-radius:20px;color:#00E6D6;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;">
                 DIRA INSIGHTS
               </div>
               <h1 style="color:#ffffff;margin:0;font-size:26px;font-weight:800;letter-spacing:-0.5px;line-height:1.2;">
@@ -253,7 +292,7 @@ function getNewsletterWelcomeHtml(email) {
 
           <!-- Body Content -->
           <tr>
-            <td style="padding:40px 40px 30px;">
+            <td style="padding:15px 15px 15px;">
               <p style="font-size:16px;line-height:1.6;color:#334155;margin:0 0 20px;">
                 Hello,
               </p>
@@ -270,7 +309,7 @@ function getNewsletterWelcomeHtml(email) {
                     </h3>
                     
                     <div style="margin-bottom:12px;font-size:14.5px;line-height:1.5;color:#475569;">
-                      <strong style="color:#191d36;"> Technical Breakthroughs:</strong> In-depth articles on custom software, system architectures, and cloud automation.
+                      <strong style="color:#191d36;">Technical Breakthroughs:</strong> In-depth articles on custom software, system architectures, and cloud automation.
                     </div>
                     
                     <div style="margin-bottom:12px;font-size:14.5px;line-height:1.5;color:#475569;">
@@ -278,7 +317,7 @@ function getNewsletterWelcomeHtml(email) {
                     </div>
 
                     <div style="margin:0;font-size:14.5px;line-height:1.5;color:#475569;">
-                      <strong style="color:#191d36;" Early Announcements:</strong> Priority access to training sessions, tech workshops, and community events.
+                      <strong style="color:#191d36;">Early Announcements:</strong> Priority access to training sessions, tech workshops, and community events.
                     </div>
                   </td>
                 </tr>
@@ -287,9 +326,16 @@ function getNewsletterWelcomeHtml(email) {
               <!-- Call to Action -->
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
                 <tr>
-                  <td align="center" style="padding:10px 0 25px;">
+                  <td align="center" style="padding:10px 0 10px;">
                     <a href="https://diracmr.com/articles" target="_blank" style="display:inline-block;background-color:#2F80ED;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;padding:14px 32px;border-radius:8px;box-shadow:0 4px 14px rgba(47,128,237,0.35);">
                       Explore Latest Articles &rarr;
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" style="padding:0 0 20px;">
+                    <a href="${unsubscribeUrl}" target="_blank" style="display:inline-block;border:1px solid #fecaca;background-color:#fff1f2;color:#b91c1c;text-decoration:none;font-size:13px;font-weight:700;padding:11px 20px;border-radius:8px;">
+                      Unsubscribe
                     </a>
                   </td>
                 </tr>
@@ -307,6 +353,7 @@ function getNewsletterWelcomeHtml(email) {
               
               <p style="margin:0;font-size:12px;color:#94a3b8;line-height:1.5;">
                 You received this email because <strong>${escapeEmailHtml(email)}</strong> was subscribed to the DIRA newsletter.<br>
+                You can unsubscribe at any time: <a href="${unsubscribeUrl}" style="color:#2F80ED;text-decoration:none;">Manage subscription</a><br>
                 &copy; ${new Date().getFullYear()} DIRA. All rights reserved.
               </p>
             </td>
@@ -350,6 +397,11 @@ app.post('/api/newsletter/subscribe', async (request, response, next) => {
       return response.status(503).json({ error: 'Newsletter service is not configured yet.' });
     }
 
+    const existingSubscriber = await Subscriber.findOne({ email }).lean();
+    if (existingSubscriber && existingSubscriber.status === 'active') {
+      return response.status(409).json({ error: 'This email is already subscribed to DIRA Insights.' });
+    }
+
     let resendAudienceResult = null;
     if (process.env.RESEND_AUDIENCE_ID) {
       try {
@@ -365,8 +417,16 @@ app.post('/api/newsletter/subscribe', async (request, response, next) => {
       const ip = getClientIp(request);
       await Subscriber.findOneAndUpdate(
         { email },
-        { email, ip, clientId, userAgent: request.headers['user-agent'] || '', source, status: 'active', subscribedAt: new Date() },
-        { upsert: true, new: true }
+        {
+          email,
+          ip,
+          clientId,
+          userAgent: request.headers['user-agent'] || '',
+          source,
+          status: 'active',
+          subscribedAt: existingSubscriber && existingSubscriber.subscribedAt ? existingSubscriber.subscribedAt : new Date()
+        },
+        { upsert: true, new: true, setDefaultsOnInsert: true }
       );
     } catch (dbErr) {
       console.warn('Could not save subscriber to MongoDB:', dbErr.message);
@@ -388,6 +448,30 @@ app.post('/api/newsletter/subscribe', async (request, response, next) => {
   } catch (error) { next(error); }
 });
 
+app.get('/api/newsletter/unsubscribe', async (request, response, next) => {
+  try {
+    const email = String(request.query.email || '').trim().toLowerCase();
+    const token = String(request.query.token || '');
+
+    if (!email || !verifyUnsubscribeToken(token, email)) {
+      return response.status(400).type('html').send(`<!DOCTYPE html><html><head><title>Invalid unsubscribe link</title></head><body style="font-family:sans-serif;padding:40px;color:#334155;">This unsubscribe link is invalid or expired.</body></html>`);
+    }
+
+    const subscriber = await Subscriber.findOne({ email }).lean();
+    if (!subscriber) {
+      return response.status(404).type('html').send(`<!DOCTYPE html><html><head><title>Already unsubscribed</title></head><body style="font-family:sans-serif;padding:40px;color:#334155;">This address is not currently subscribed to DIRA Insights.</body></html>`);
+    }
+
+    await Subscriber.updateOne({ email }, { status: 'unsubscribed' });
+
+    response.type('html').send(`<!DOCTYPE html><html><head><title>Unsubscribed</title></head><body style="font-family:sans-serif;padding:40px;background:#f8fafc;color:#0f172a;display:flex;align-items:center;justify-content:center;min-height:100vh;">
+      <div style="max-width:520px;background:#fff;border-radius:12px;padding:32px;border:1px solid #e2e8f0;box-shadow:0 10px 30px rgba(15,23,42,.08);">
+        <h2 style="margin:0 0 12px;color:#0f172a;">You’ve been unsubscribed</h2>
+        <p style="margin:0;line-height:1.6;color:#475569;">${escapeEmailHtml(email)} will no longer receive DIRA Insights updates.</p>
+      </div>
+    </body></html>`);
+  } catch (error) { next(error); }
+});
 
 app.get('/api/newsletter/check', async (request, response, next) => {
   try {

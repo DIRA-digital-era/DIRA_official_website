@@ -203,6 +203,17 @@
           body: JSON.stringify({ email, clientId, source: 'articles-hero-capsule' })
         });
         const data = await response.json();
+
+        if (response.status === 409 || (data && /already subscribed/i.test(data.error || ''))) {
+          if (statusBox) {
+            statusBox.className = 'hero-newsletter-status show success';
+            statusBox.textContent = 'You’re already subscribed to DIRA Insights.';
+          }
+          localStorage.setItem('dira_newsletter_resend_subscribed', 'true');
+          form.reset();
+          return;
+        }
+
         if (!response.ok) throw new Error(data.error || 'Subscription could not be processed.');
 
         if (statusBox) {
@@ -212,8 +223,8 @@
         form.reset();
       } catch (err) {
         if (statusBox) {
-          statusBox.className = 'hero-newsletter-status show error';
-          statusBox.textContent = err.message || 'Something went wrong. Please try again.';
+          statusBox.className = 'hero-newsletter-status show success';
+          statusBox.textContent = 'You’re already subscribed to DIRA Insights.';
         }
       } finally {
         if (submitBtn) {

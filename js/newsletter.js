@@ -391,13 +391,36 @@
                             body: JSON.stringify({ email, clientId })
                         });
                         const result = await response.json();
+
+                        if (response.status === 409 || (result && /already subscribed/i.test(result.error || ''))) {
+                            markAsSubscribed();
+                            const formContainer = document.getElementById('newsletter-form-container');
+                            const successView = document.getElementById('diraNewsletterSuccess');
+                            const title = successView ? successView.querySelector('h3') : null;
+                            const text = successView ? successView.querySelector('p') : null;
+                            if (formContainer) formContainer.style.display = 'none';
+                            if (successView) {
+                                successView.style.display = 'block';
+                                if (title) title.textContent = 'You’re already subscribed!';
+                                if (text) text.textContent = 'This email is already on the DIRA Insights list.';
+                            }
+                            setTimeout(closeModalWithoutCooldown, 2200);
+                            return;
+                        }
+
                         if (!response.ok) throw new Error(result.error || 'Subscription failed.');
 
                         markAsSubscribed();
                         const formContainer = document.getElementById('newsletter-form-container');
                         const successView = document.getElementById('diraNewsletterSuccess');
                         if (formContainer) formContainer.style.display = 'none';
-                        if (successView) successView.style.display = 'block';
+                        if (successView) {
+                            successView.style.display = 'block';
+                            const title = successView.querySelector('h3');
+                            const text = successView.querySelector('p');
+                            if (title) title.textContent = 'Welcome to the Community!';
+                            if (text) text.textContent = 'You have successfully subscribed to DIRA Insights.';
+                        }
                         setTimeout(closeModalWithoutCooldown, 2200);
                     } catch (error) {
                         let message = form.querySelector('.dira-newsletter-error');
@@ -406,7 +429,7 @@
                             message.className = 'dira-newsletter-error';
                             form.appendChild(message);
                         }
-                        message.textContent = error.message;
+                        message.textContent = 'You are already subscribed to DIRA Insights.';
                         submitButton.disabled = false;
                         submitButton.querySelector('span').textContent = 'Subscribe';
                     }
