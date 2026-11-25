@@ -374,9 +374,11 @@ const SIGNUPS_PER_IP_PER_HOUR = 3;
 const MIN_FORM_MS = 1500;   // people take longer than this to type an address
 
 // Cloudflare Turnstile: a free, mostly invisible human check shown only in the subscribe
-// forms. Active when TURNSTILE_SITE_KEY and TURNSTILE_SECRET_KEY are set in Netlify.
+// forms. The site key is public (it is sent to every visitor's browser), so it lives here;
+// the check switches on once TURNSTILE_SECRET_KEY is set in Netlify.
+const TURNSTILE_SITE_KEY = process.env.TURNSTILE_SITE_KEY || '0x4AAAAAAGTLhzx1L9ITRxYI';
 function turnstileEnabled() {
-  return !!(process.env.TURNSTILE_SITE_KEY && process.env.TURNSTILE_SECRET_KEY);
+  return !!(TURNSTILE_SITE_KEY && process.env.TURNSTILE_SECRET_KEY);
 }
 
 async function verifyTurnstile(token, ip) {
@@ -396,7 +398,7 @@ async function verifyTurnstile(token, ip) {
 // The subscribe forms ask for the public site key here, so no key lives in the page code.
 app.get('/api/newsletter/config', (request, response) => {
   response.set('Cache-Control', 'no-store');
-  response.json({ turnstileSiteKey: turnstileEnabled() ? process.env.TURNSTILE_SITE_KEY : '' });
+  response.json({ turnstileSiteKey: turnstileEnabled() ? TURNSTILE_SITE_KEY : '' });
 });
 
 // Why a sign-up looks automated, or '' when it looks like a person.
