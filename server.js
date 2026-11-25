@@ -696,7 +696,7 @@ async function sendArticleNewsletterBatch(article) {
   const textContent = `New Article from DIRA Insights\n\n${article.title}\nCategory: ${article.category}\nBy ${article.author} | ${article.readTime}\n\n${article.excerpt}\n\nRead the full article here:\n${articleUrl}\n\n---\nDIRA CMR - Digital Innovation & Research Alliance\n${siteUrl}`;
   const subject = `New on DIRA Insights: ${article.title}`;
 
-  const payload = batch.filter(s => s.email).map(({ email, unsubscribeToken }) => {
+  const toPayload = subscribers => subscribers.filter(s => s.email).map(({ email, unsubscribeToken }) => {
     const unsubscribeUrl = getUnsubscribeUrl(unsubscribeToken);
     return {
       from,
@@ -710,26 +710,34 @@ async function sendArticleNewsletterBatch(article) {
     };
   });
 
-  let result;
-  try {
-    result = await resendRequest('/emails/batch', payload);
-  } catch (err) {
-    console.error('Newsletter batch could not reach Resend:', err.message);
-    return { error: 'Could not reach the email service. Try again.', sent: article.newsletterSent || 0, total };
-  }
-  if (result.statusCode < 200 || result.statusCode >= 300) {
-    const reason = (result.body && (result.body.message || result.body.error)) || `status ${result.statusCode}`;
-    console.error('Resend refused newsletter batch:', reason);
-    if (result.statusCode === 429 && /quota/i.test(JSON.stringify(result.body || {}))) {
-      return { error: 'The daily email limit on the Resend plan has been reached. Use "Resume emailing" tomorrow to send to the rest.', quota: true, sent: article.newsletterSent || 0, total };
+  // Resend refuses a whole batch once it would pass the plan's daily limit (100 a day on
+  // the free plan). Step down to 10, then 1, so the day's remaining allowance is still
+  // used; only when even one email is refused do we stop until tomorrow.
+  const sizes = [...new Set([batch.length, Math.min(10, batch.length), 1])];
+  let accepted = null;
+  for (const size of sizes) {
+    const slice = batch.slice(0, size);
+    let result;
+    try {
+      result = await resendRequest('/emails/batch', toPayload(slice));
+    } catch (err) {
+      console.error('Newsletter batch could not reach Resend:', err.message);
+      return { error: 'Could not reach the email service. Try again.', sent: article.newsletterSent || 0, total };
     }
-    return { error: `The email service refused the batch: ${reason}`, sent: article.newsletterSent || 0, total };
+    if (result.statusCode >= 200 && result.statusCode < 300) { accepted = slice; break; }
+    const reason = (result.body && (result.body.message || result.body.error)) || `status ${result.statusCode}`;
+    const isQuota = result.statusCode === 429 && /quota/i.test(JSON.stringify(result.body || {}));
+    console.error('Resend refused newsletter batch:', reason);
+    if (!isQuota) return { error: `The email service refused the batch: ${reason}`, sent: article.newsletterSent || 0, total };
+  }
+  if (!accepted) {
+    return { error: `The daily email limit on the Resend plan has been reached (${article.newsletterSent || 0} of ${total} sent). Use "Resume emailing" tomorrow to send to the rest.`, quota: true, sent: article.newsletterSent || 0, total };
   }
 
-  article.newsletterCursor = batch[batch.length - 1]._id;
-  article.newsletterSent = (article.newsletterSent || 0) + batch.length;
+  article.newsletterCursor = accepted[accepted.length - 1]._id;
+  article.newsletterSent = (article.newsletterSent || 0) + accepted.length;
   article.newsletterTotal = total;
-  const done = remaining <= batch.length;
+  const done = remaining <= accepted.length;
   if (done) {
     article.notifiedAt = new Date();
     article.newsletterPending = false;
@@ -789,6 +797,15 @@ app.post('/api/articles/:id/newsletter', requireAdmin, async (request, response,
     }
     try {
       if (article.status === 'draft') return response.status(400).json({ error: 'Publish the article before emailing subscribers.' });
+      // "Re-send to subscribers": start a fresh round for an article already emailed
+      // (for example after an important edit). Everyone on the list receives it again.
+      if (request.query.restart === '1') {
+        article.notifiedAt = undefined;
+        article.newsletterCursor = undefined;
+        article.newsletterSent = 0;
+        article.newsletterTotal = 0;
+        article.newsletterPending = true;
+      }
       if (!article.notifiedAt && !article.newsletterPending) article.newsletterPending = true;
       const result = await sendArticleNewsletterBatch(article);
       response.status(result.error ? 502 : 200).json(result);

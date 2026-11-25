@@ -137,9 +137,9 @@
     return request(`/articles/${encodeURIComponent(id)}`, { method: 'PUT', body: data });
   }
   // Sends the next batch of the article email; returns { sent, total, done } or throws.
-  async function sendNewsletterBatch(id) {
+  async function sendNewsletterBatch(id, restart) {
     const token = sessionStorage.getItem('dira_admin_token');
-    const response = await fetch(`${API_BASE}/articles/${encodeURIComponent(id)}/newsletter`, {
+    const response = await fetch(`${API_BASE}/articles/${encodeURIComponent(id)}/newsletter${restart ? '?restart=1' : ''}`, {
       method: 'POST',
       headers: token ? { Authorization: `Bearer ${token}` } : {}
     });

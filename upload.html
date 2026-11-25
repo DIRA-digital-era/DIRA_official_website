@@ -671,7 +671,7 @@
             if (alreadySent || alreadyLive) {
                 notifyInput.checked = false;
                 notifyInput.disabled = true;
-                text.textContent = alreadySent ? 'Subscribers were already emailed about this article. Edits are not re-sent.' : 'This article is already live. Edits are not emailed to subscribers.';
+                text.textContent = alreadySent ? 'Subscribers were already emailed. To email this update, save, then use "Re-send to subscribers" in the list below.' : 'This article is already live. Edits are not emailed; use "Email subscribers" in the list below.';
             } else {
                 notifyInput.disabled = false;
                 text.textContent = statusSelect.value === 'draft' ? 'Email subscribers later, when this draft is published' : 'Email subscribers when this article goes live';
@@ -862,7 +862,7 @@
 
         // ---- Newsletter sending: one small batch per request, with progress ----
         let newsletterRunning = false;
-        async function runNewsletter(articleId, title, baseMessage) {
+        async function runNewsletter(articleId, title, baseMessage, restart) {
             if (newsletterRunning) return;
             newsletterRunning = true;
             const banner = document.getElementById('statusBanner');
@@ -872,7 +872,8 @@
             let busyRetries = 0;
             try {
                 for (let i = 0; i < 500; i++) {
-                    const result = await window.DiraArticles.api.sendNewsletterBatch(articleId);
+                    // Only the first request of a re-send restarts the round; the rest continue it.
+                    const result = await window.DiraArticles.api.sendNewsletterBatch(articleId, restart && i === 0);
                     if (result.busy) {
                         if (++busyRetries > 10) throw new Error('Another send is still running. Try again in a minute.');
                         await new Promise(resolve => setTimeout(resolve, 3000));
@@ -887,8 +888,8 @@
                 }
             } catch (error) {
                 const p = error.progress || {};
-                const progress = p.total ? ` (${p.sent || 0} of ${p.total} sent)` : '';
-                show('error', `Emailing stopped${progress}: ${error.message} Use "Resume emailing" in the list below to continue. Nobody receives it twice.`);
+                const progress = p.total && !p.quota ? ` (${p.sent || 0} of ${p.total} sent)` : '';
+                show('error', p.quota ? error.message : `Emailing stopped${progress}: ${error.message} Use "Resume emailing" in the list below to continue. Nobody receives it twice.`);
             } finally {
                 newsletterRunning = false;
                 loadUploadedList();
@@ -992,6 +993,7 @@
                         <a class="btn btn-ghost btn-sm" href="/articles/${encodeURIComponent(a.slug)}">${a.status === 'draft' ? 'Preview' : 'View'}</a>
                         <button type="button" class="btn btn-ghost btn-sm edit-btn" data-id="${a.id}">Edit</button>
                         ${a.status !== 'draft' && !a.notifiedAt ? `<button type="button" class="btn btn-ghost btn-sm email-btn" data-id="${a.id}">${a.newsletterSent ? `Resume emailing (${a.newsletterSent}/${a.newsletterTotal})` : 'Email subscribers'}</button>` : ''}
+                        ${a.status !== 'draft' && a.notifiedAt ? `<button type="button" class="btn btn-ghost btn-sm resend-btn" data-id="${a.id}">Re-send to subscribers</button>` : ''}
                         <button class="btn btn-danger btn-sm delete-btn" data-id="${a.id}" data-title="${escapeHtml(a.title)}">Delete</button>
                     </div>
                 </div>
@@ -1013,6 +1015,14 @@
                         : `Email "${article.title}" to all subscribers now?`;
                     if (!window.confirm(question)) return;
                     runNewsletter(article.id, article.title, '');
+                });
+            });
+            wrap.querySelectorAll('.resend-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const article = loadedArticles.find(item => item.id === btn.dataset.id);
+                    if (!article || newsletterRunning) return;
+                    if (!window.confirm(`Send "${article.title}" to all subscribers again?\n\nEveryone on the list will receive it a second time. Use this only after an important update.`)) return;
+                    runNewsletter(article.id, article.title, '', true);
                 });
             });
             if (editingId) wrap.querySelectorAll('.uploaded-item').forEach(el => el.classList.toggle('is-editing', el.dataset.id === editingId));
