@@ -1097,9 +1097,111 @@ app.get('/sitemap.xml', async (request, response, next) => {
   } catch (error) { next(error); }
 });
 
-// Clean article URLs: /articles/<slug> serves the article reader.
-app.get('/articles/:slug', (request, response) => {
-  response.sendFile(path.join(publicRoot, 'article.html'));
+// Clean article URLs: /articles/<slug> serves the article reader with the article's title,
+// description and image already in the page. WhatsApp, LinkedIn, Facebook and X read these
+// tags to build link preview cards and do not run JavaScript, so they must be in the HTML.
+let articleTemplate = null;
+function readArticleTemplate() {
+  if (!articleTemplate) {
+    articleTemplate = fs.readFileSync(process.env.ARTICLE_TEMPLATE_PATH || path.join(publicRoot, 'article.html'), 'utf8');
+  }
+  return articleTemplate;
+}
+
+function escapeAttr(value) {
+  return String(value == null ? '' : value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// Cloudinary can resize on the fly: a 1200x630 JPEG is the size every preview card expects
+// and stays small enough for WhatsApp (which skips large images).
+function shareImageUrl(image) {
+  const siteUrl = getSiteUrl();
+  if (!image) return `${siteUrl}/images/photos/IMG_9933.jpg`;
+  if (/^https?:\/\/res\.cloudinary\.com\/.+\/image\/upload\//.test(image)) {
+    return image.replace('/image/upload/', '/image/upload/c_fill,g_auto,w_1200,h_630,q_auto,f_jpg/');
+  }
+  if (/^https?:\/\//.test(image)) return image;
+  return `${siteUrl}/${image.replace(/^\.?\/+/, '')}`;
+}
+
+function articleHead(article) {
+  const siteUrl = getSiteUrl();
+  const url = `${siteUrl}/articles/${encodeURIComponent(article.slug)}`;
+  const title = article.seoTitle || `${article.title} | DIRA`;
+  const description = article.seoDescription || article.excerpt || article.title;
+  const image = shareImageUrl(article.image);
+  const alt = article.imageAlt || article.title;
+  const published = article.publishedAt || article.createdAt;
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: article.title,
+    description,
+    image: [image],
+    datePublished: published ? new Date(published).toISOString() : undefined,
+    dateModified: article.updatedAt ? new Date(article.updatedAt).toISOString() : undefined,
+    author: { '@type': 'Organization', name: article.author || 'DIRA' },
+    publisher: { '@type': 'Organization', name: 'DIRA', logo: { '@type': 'ImageObject', url: `${siteUrl}/images/logo.jpg` } },
+    mainEntityOfPage: url,
+    articleSection: article.category,
+    keywords: (article.tags || []).join(', ') || undefined
+  };
+  const tags = [
+    `<title>${escapeAttr(title)}</title>`,
+    `<meta name="description" content="${escapeAttr(description)}">`,
+    `<link rel="canonical" href="${escapeAttr(url)}">`,
+    `<meta property="og:type" content="article">`,
+    `<meta property="og:site_name" content="DIRA">`,
+    `<meta property="og:title" content="${escapeAttr(title)}">`,
+    `<meta property="og:description" content="${escapeAttr(description)}">`,
+    `<meta property="og:url" content="${escapeAttr(url)}">`,
+    `<meta property="og:image" content="${escapeAttr(image)}">`,
+    `<meta property="og:image:secure_url" content="${escapeAttr(image)}">`,
+    `<meta property="og:image:width" content="1200">`,
+    `<meta property="og:image:height" content="630">`,
+    `<meta property="og:image:alt" content="${escapeAttr(alt)}">`,
+    `<meta name="twitter:card" content="summary_large_image">`,
+    `<meta name="twitter:title" content="${escapeAttr(title)}">`,
+    `<meta name="twitter:description" content="${escapeAttr(description)}">`,
+    `<meta name="twitter:image" content="${escapeAttr(image)}">`,
+    `<meta name="twitter:image:alt" content="${escapeAttr(alt)}">`,
+    published ? `<meta property="article:published_time" content="${new Date(published).toISOString()}">` : '',
+    article.updatedAt ? `<meta property="article:modified_time" content="${new Date(article.updatedAt).toISOString()}">` : '',
+    article.category ? `<meta property="article:section" content="${escapeAttr(article.category)}">` : '',
+    ...(article.tags || []).map(tag => `<meta property="article:tag" content="${escapeAttr(tag)}">`),
+    `<script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, '\\u003c')}</script>`
+  ];
+  return tags.filter(Boolean).map(tag => `    ${tag}`).join('\n');
+}
+
+function renderArticlePage(head) {
+  return readArticleTemplate()
+    .replace(/<title>[\s\S]*?<\/title>\s*/i, '')
+    .replace(/<meta\s+name="description"[^>]*>\s*/i, '')
+    .replace(/(<base href="\/">)/i, `$1\n${head}`);
+}
+
+app.get('/articles/:slug', async (request, response, next) => {
+  try {
+    const slug = String(request.params.slug || '').toLowerCase();
+    let article = await Article.findOne({ slug, ...PUBLISHED_FILTER }).lean();
+    if (!article) {
+      // An old slug moves permanently to the article's current address.
+      const moved = await Article.findOne({ previousSlugs: slug, ...PUBLISHED_FILTER }).lean();
+      if (moved) return response.redirect(301, `/articles/${encodeURIComponent(moved.slug)}`);
+    }
+    response.type('html');
+    if (!article) {
+      // Unknown or draft: the page script shows "not found" (or the draft, for an admin).
+      response.set('Cache-Control', 'no-store');
+      return response.status(200).send(renderArticlePage('    <title>Article | DIRA Insights</title>\n    <meta name="robots" content="noindex">'));
+    }
+    // Browsers revalidate; Netlify's CDN may keep the page for 5 minutes, so an edit shows
+    // in previews within a few minutes.
+    response.set('Cache-Control', 'public, max-age=0, must-revalidate');
+    response.set('Netlify-CDN-Cache-Control', 'public, s-maxage=300, stale-while-revalidate=86400');
+    response.send(renderArticlePage(articleHead(article)));
+  } catch (error) { next(error); }
 });
 // Old links (/article?slug=...) move permanently to the clean address.
 app.get(['/article', '/article.html'], (request, response, next) => {

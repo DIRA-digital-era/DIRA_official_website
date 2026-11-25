@@ -1,5 +1,6 @@
 process.env.NETLIFY = 'true';
 process.env.SITEMAP_PATH = require('path').join(process.cwd(), 'sitemap.xml');
+process.env.ARTICLE_TEMPLATE_PATH = require('path').join(process.cwd(), 'article.html');
 
 const mongoose = require('mongoose');
 const serverless = require('serverless-http');

@@ -7,7 +7,7 @@
   node_bundler = "esbuild"
 
 [functions.api]
-  included_files = ["sitemap.xml"]
+  included_files = ["sitemap.xml", "article.html"]
 
 [[redirects]]
   from = "/sitemap.xml"
@@ -40,10 +40,11 @@
   to = "/articles"
   status = 301
 
-# Clean article URLs: /articles/<slug> is served by the article reader page.
+# Clean article URLs: /articles/<slug> is rendered by the server with the article's title,
+# description and image in the page, so shared links show a preview card.
 [[redirects]]
   from = "/articles/*"
-  to = "/article.html"
+  to = "/.netlify/functions/api/articles/:splat"
   status = 200
 
 [[redirects]]
