@@ -48,8 +48,8 @@
     }
     canonical.href = articleUrl.href;
 
-    const title = `${article.title} | DIRA`;
-    const description = article.excerpt || article.title;
+    const title = article.seoTitle || `${article.title} | DIRA`;
+    const description = article.seoDescription || article.excerpt || article.title;
     const image = new URL(article.image || DEFAULT_IMAGE, window.location.href).href;
     document.title = title;
     setMeta('name', 'description', description);
@@ -62,6 +62,14 @@
     setMeta('name', 'twitter:title', title);
     setMeta('name', 'twitter:description', description);
     setMeta('name', 'twitter:image', image);
+    if (article.publishedAt) setMeta('property', 'article:published_time', new Date(article.publishedAt).toISOString());
+    if (article.updatedAt) setMeta('property', 'article:modified_time', new Date(article.updatedAt).toISOString());
+    if (article.category) setMeta('property', 'article:section', article.category);
+    if (article.status === 'draft') setMeta('name', 'robots', 'noindex, nofollow');
+    // Keep the address bar on the current slug if the reader arrived through an old one.
+    if (article.slug && new URLSearchParams(window.location.search).get('slug') !== article.slug) {
+      window.history.replaceState(null, '', articleUrl.pathname + articleUrl.search);
+    }
   }
 
   function articleCard(article) {
@@ -74,7 +82,7 @@
     return `
       <article class="article-card">
         <div class="article-img-wrap">
-          <img src="${escapeHtml(imgUrl)}" alt="${escapeHtml(article.title)}" onerror="this.src='${DEFAULT_IMAGE}'" loading="lazy">
+          <img src="${escapeHtml(imgUrl)}" alt="${escapeHtml(article.imageAlt || article.title)}" onerror="this.src='${DEFAULT_IMAGE}'" loading="lazy">
           <span class="article-card-badge">${escapeHtml(category)}</span>
         </div>
         <div class="article-card-body">
@@ -106,9 +114,17 @@
     }
   }
 
+  function adminHeaders() {
+    const token = sessionStorage.getItem('dira_admin_token');
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  }
   async function getAll() { return request('/articles'); }
-  async function getCustomOnly() { return getAll(); }
-  async function getBySlug(slug) { return request(`/articles/${encodeURIComponent(slug)}`); }
+  // Content studio: includes drafts when signed in.
+  async function getCustomOnly() { return request('/articles?drafts=1', { headers: adminHeaders(), cache: 'no-store' }); }
+  async function getBySlug(slug) { return request(`/articles/${encodeURIComponent(slug)}`, { headers: adminHeaders() }); }
+  async function updateArticle(id, data) {
+    return request(`/articles/${encodeURIComponent(id)}`, { method: 'PUT', body: data });
+  }
   async function createArticle(data) {
     const options = { method: 'POST', body: data };
     if (!(data instanceof FormData)) {
@@ -124,7 +140,7 @@
   }
   async function deleteArticle(id) { return request(`/articles/${encodeURIComponent(id)}`, { method: 'DELETE' }); }
 
-  window.DiraArticles = { api: { getAll, getCustomOnly, getBySlug, createArticle, uploadImage, deleteArticle } };
+  window.DiraArticles = { api: { getAll, getCustomOnly, getBySlug, createArticle, updateArticle, uploadImage, deleteArticle } };
 
   async function renderArticleReader() {
     const reader = document.getElementById('articleReader');
@@ -142,7 +158,11 @@
       setArticleMetadata(article);
       reader.setAttribute('aria-busy', 'false');
       reader.setAttribute('aria-label', article.title);
+      const draftNote = article.status === 'draft'
+        ? '<div class="reader-draft-note" style="margin:0 0 16px;padding:10px 14px;border-radius:8px;background:#FEF3C7;color:#92400E;font-size:14px;font-weight:600;">Draft preview. Only signed-in admins can see this article.</div>'
+        : '';
       reader.innerHTML = `
+        ${draftNote}
         <div class="reader-header">
           <span class="reader-badge">${escapeHtml(article.category)}</span>
           <h1>${escapeHtml(article.title)}</h1>
@@ -155,7 +175,7 @@
           </div>
         </div>
         <div class="reader-featured-img">
-          <img src="${escapeHtml(article.image || DEFAULT_IMAGE)}" alt="${escapeHtml(article.title)}" onerror="this.src='${DEFAULT_IMAGE}'">
+          <img src="${escapeHtml(article.image || DEFAULT_IMAGE)}" alt="${escapeHtml(article.imageAlt || article.title)}" onerror="this.src='${DEFAULT_IMAGE}'">
         </div>
         <div class="reader-prose">${article.content}</div>
         <div class="reader-tags">

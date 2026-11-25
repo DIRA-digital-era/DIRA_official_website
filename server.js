@@ -506,17 +506,33 @@ app.get('/api/newsletter/check', async (request, response, next) => {
   } catch (error) { next(error); }
 });
 
+const PUBLISHED_FILTER = { status: { $ne: 'draft' } };
+
+function isAdminRequest(request) {
+  const auth = request.headers['authorization'] || '';
+  return auth.startsWith('Bearer ') && verifyAdminToken(auth.slice(7));
+}
+
 app.get('/api/articles', async (request, response, next) => {
   try {
-    const filter = request.query.category && request.query.category !== 'All' ? { category: request.query.category } : {};
+    // Drafts are only listed for a signed-in admin who asks for them (the content studio).
+    const withDrafts = request.query.drafts === '1' && isAdminRequest(request);
+    const filter = withDrafts ? {} : { ...PUBLISHED_FILTER };
+    if (request.query.category && request.query.category !== 'All') filter.category = request.query.category;
     const articles = await Article.find(filter).sort({ createdAt: -1 });
+    if (withDrafts) response.set('Cache-Control', 'no-store');
     response.json(articles.map(toClient));
   } catch (error) { next(error); }
 });
 
 app.get('/api/articles/:slug', async (request, response, next) => {
   try {
-    const article = await Article.findOne({ slug: request.params.slug });
+    const slug = String(request.params.slug || '').toLowerCase();
+    let article = await Article.findOne({ slug, ...PUBLISHED_FILTER });
+    // A link to an old slug still opens the article after the slug was edited.
+    if (!article) article = await Article.findOne({ previousSlugs: slug, ...PUBLISHED_FILTER });
+    // Admins can preview drafts.
+    if (!article && isAdminRequest(request)) article = await Article.findOne({ slug });
     if (!article) return response.status(404).json({ error: 'Article not found.' });
     response.json(toClient(article));
   } catch (error) { next(error); }
@@ -707,12 +723,52 @@ async function sendNewArticleNotification(article) {
   }
 }
 
+function cleanArticleContent(content) {
+  return sanitizeHtml(content, {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
+    allowedAttributes: { ...sanitizeHtml.defaults.allowedAttributes, img: ['src', 'alt', 'width', 'height'] }
+  });
+}
+
+function cleanSlug(value) {
+  return String(value || '').toLowerCase().trim()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function readSeoFields(body) {
+  return {
+    imageAlt: String(body.imageAlt || '').trim().slice(0, 200),
+    seoTitle: String(body.seoTitle || '').trim().slice(0, 70),
+    seoDescription: String(body.seoDescription || '').trim().slice(0, 170)
+  };
+}
+
+// Subscribers are emailed once, at the moment an article is first published,
+// unless the admin unticks "Email subscribers". Editing a live article never re-sends.
+async function notifyIfFirstPublish(article, wantsNotify, justPublished) {
+  if (!justPublished || article.status === 'draft' || article.notifiedAt || !wantsNotify) return null;
+  const newsletter = await sendNewArticleNotification(article);
+  if (newsletter && newsletter.sent > 0) {
+    article.notifiedAt = new Date();
+    await article.save();
+  }
+  return newsletter;
+}
+
 app.post('/api/articles', requireAdmin, upload.single('image'), async (request, response, next) => {
   try {
-    const { title, slug, category, author, date, readTime, excerpt, content } = request.body;
+    const { title, category, author, date, readTime, excerpt, content } = request.body;
+    const slug = cleanSlug(request.body.slug || title);
     if (!title || !slug || !date || !excerpt || !content || !CATEGORIES.includes(category)) {
       return response.status(400).json({ error: 'Title, slug, category, date, excerpt, and content are required.' });
     }
+    if (await Article.exists({ previousSlugs: slug })) {
+      return response.status(409).json({ error: 'This slug was used by another article before. Choose a different slug.' });
+    }
+    const status = request.body.status === 'draft' ? 'draft' : 'published';
     const image = request.file ? await uploadToCloudinary(request.file) : './images/photos/IMG_9933.jpg';
     const article = await Article.create({
       title,
@@ -723,16 +779,68 @@ app.post('/api/articles', requireAdmin, upload.single('image'), async (request, 
       readTime: readTime || '4 min read',
       image,
       excerpt,
-      content: sanitizeHtml(content, { allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']), allowedAttributes: { ...sanitizeHtml.defaults.allowedAttributes, img: ['src', 'alt', 'width', 'height'] } }),
-      tags: parseTags(request.body.tags)
+      content: cleanArticleContent(content),
+      tags: parseTags(request.body.tags),
+      ...readSeoFields(request.body),
+      status,
+      publishedAt: status === 'published' ? new Date() : undefined
     });
 
     // Send the newsletter before replying. On Netlify the function stops once it has
     // replied, so a background send after the response would be cut off.
-    const newsletter = await sendNewArticleNotification(article);
+    const newsletter = await notifyIfFirstPublish(article, request.body.notify !== 'false', status === 'published');
     response.status(201).json({ ...toClient(article), newsletter });
   } catch (error) {
     if (error.code === 11000) return response.status(409).json({ error: 'An article with this slug already exists.' });
+    next(error);
+  }
+});
+
+app.put('/api/articles/:id', requireAdmin, upload.single('image'), async (request, response, next) => {
+  try {
+    if (!mongoose.isValidObjectId(request.params.id)) return response.status(404).json({ error: 'Article not found.' });
+    const article = await Article.findById(request.params.id);
+    if (!article) return response.status(404).json({ error: 'Article not found.' });
+
+    const { title, category, author, date, readTime, excerpt, content } = request.body;
+    const slug = cleanSlug(request.body.slug || article.slug);
+    if (!title || !slug || !date || !excerpt || !content || !CATEGORIES.includes(category)) {
+      return response.status(400).json({ error: 'Title, slug, category, date, excerpt, and content are required.' });
+    }
+
+    if (slug !== article.slug) {
+      const taken = await Article.exists({ _id: { $ne: article._id }, $or: [{ slug }, { previousSlugs: slug }] });
+      if (taken) return response.status(409).json({ error: 'Another article already uses this slug.' });
+      if (article.status !== 'draft' && !article.previousSlugs.includes(article.slug)) {
+        article.previousSlugs.push(article.slug);
+      }
+      article.previousSlugs = article.previousSlugs.filter(s => s !== slug);
+      article.slug = slug;
+    }
+
+    Object.assign(article, {
+      title,
+      category,
+      author: author || 'DIRA Team',
+      date,
+      readTime: readTime || article.readTime || '4 min read',
+      excerpt,
+      content: cleanArticleContent(content),
+      tags: parseTags(request.body.tags),
+      ...readSeoFields(request.body)
+    });
+    if (request.file) article.image = await uploadToCloudinary(request.file);
+
+    const status = request.body.status === 'draft' ? 'draft' : 'published';
+    const justPublished = status === 'published' && article.status === 'draft';
+    if (justPublished) article.publishedAt = new Date();
+    article.status = status;
+
+    await article.save();
+    const newsletter = await notifyIfFirstPublish(article, request.body.notify !== 'false', justPublished);
+    response.json({ ...toClient(article), newsletter });
+  } catch (error) {
+    if (error.code === 11000) return response.status(409).json({ error: 'Another article already uses this slug.' });
     next(error);
   }
 });
@@ -864,7 +972,7 @@ app.get('/sitemap.xml', async (request, response, next) => {
     const sitemapPath = process.env.SITEMAP_PATH || path.join(publicRoot, 'sitemap.xml');
     const [sitemap, articles] = await Promise.all([
       fsp.readFile(sitemapPath, 'utf8'),
-      Article.find({}, 'slug updatedAt').sort({ createdAt: -1 }).lean()
+      Article.find(PUBLISHED_FILTER, 'slug updatedAt').sort({ createdAt: -1 }).lean()
     ]);
     const closingTag = '</urlset>';
     const closingIndex = sitemap.lastIndexOf(closingTag);

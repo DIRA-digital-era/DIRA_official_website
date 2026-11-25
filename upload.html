@@ -339,6 +339,22 @@
             font-family: inherit;
         }
         .admin-logout-btn:hover { background: #b91c1c; }
+        .seo-panel { margin-top: 8px; padding: 20px; border: 1px solid rgba(99, 91, 255, 0.18); border-radius: 14px; background: #FAFAFF; }
+        .seo-panel h3 { margin: 0 0 4px; font-size: 16px; }
+        .seo-panel .sub { margin: 0 0 16px; font-size: 13px; color: #64748b; }
+        .serp-preview { margin-top: 6px; padding: 14px 16px; border-radius: 10px; background: #fff; border: 1px solid #e2e8f0; font-family: Arial, sans-serif; }
+        .serp-url { font-size: 12px; color: #202124; margin-bottom: 2px; word-break: break-all; }
+        .serp-title { font-size: 18px; line-height: 1.3; color: #1a0dab; margin-bottom: 3px; }
+        .serp-desc { font-size: 13px; line-height: 1.5; color: #4d5156; }
+        .char-count.over { color: #b91c1c; font-weight: 700; }
+        .check-row { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; }
+        .check-row input { width: auto; margin-top: 3px; }
+        .edit-banner { display: none; margin-bottom: 18px; padding: 12px 16px; border-radius: 10px; background: #EEF2FF; color: #3730a3; font-size: 14px; font-weight: 600; }
+        .edit-banner.show { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+        .ui-badge { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: .03em; vertical-align: middle; }
+        .ui-badge.draft { background: #FEF3C7; color: #92400E; }
+        .ui-badge.live { background: #DCFCE7; color: #166534; }
+        .uploaded-item.is-editing { outline: 2px solid #635BFF; }
         </style>
 </head>
 
@@ -358,6 +374,11 @@
         </div>
 
         <div class="status-banner" id="statusBanner"></div>
+
+        <div class="edit-banner" id="editBanner">
+            <span id="editBannerText">Editing an article.</span>
+            <button type="button" class="btn btn-ghost btn-sm" id="exitEditBtn">Stop editing</button>
+        </div>
 
         <form class="upload-form" id="uploadForm" novalidate>
             <div class="field">
@@ -434,6 +455,12 @@
                 <label for="image">Featured image <span class="hint">JPEG, PNG, WEBP, or GIF, up to 4 MB</span></label>
                 <input type="file" id="image" accept="image/jpeg,image/png,image/webp,image/gif">
                 <div class="img-preview-wrap"><img id="imgPreview" alt="Featured image preview"></div>
+                <div class="hint" id="imageKeepHint" hidden>Leave empty to keep the current image.</div>
+            </div>
+
+            <div class="field" id="fieldImageAlt">
+                <label for="imageAlt">Image description <span class="hint">alt text for screen readers and Google Images</span></label>
+                <input type="text" id="imageAlt" maxlength="200" placeholder="DIRA delegation and SHESACCU management at the working session">
             </div>
 
             <div class="field report-only" id="fieldDocument" hidden>
@@ -453,6 +480,41 @@
                 <input type="file" id="inlineImageInput" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
                 <div class="inline-image-status" id="inlineImageStatus" role="status" aria-live="polite"></div>
                 <div class="field-error" id="contentError">Article content can't be empty.</div>
+            </div>
+
+            <div class="seo-panel" id="fieldSeo">
+                <h3>Search &amp; sharing</h3>
+                <p class="sub">Optional. When left empty, the title and excerpt are used.</p>
+                <div class="field">
+                    <label for="seoTitle">SEO title <span class="char-count" id="seoTitleCount">0 / 60</span></label>
+                    <input type="text" id="seoTitle" maxlength="70" placeholder="Shown in Google results and link previews">
+                </div>
+                <div class="field">
+                    <label for="seoDescription">Meta description <span class="char-count" id="seoDescCount">0 / 160</span></label>
+                    <textarea id="seoDescription" maxlength="170" rows="2" placeholder="One or two sentences for Google and social link previews"></textarea>
+                </div>
+                <div class="field">
+                    <label>Google preview</label>
+                    <div class="serp-preview">
+                        <div class="serp-url" id="serpUrl">diracmr.com › article</div>
+                        <div class="serp-title" id="serpTitle">Article title | DIRA</div>
+                        <div class="serp-desc" id="serpDesc">The excerpt or meta description appears here.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row" id="fieldPublishing">
+                <div class="field">
+                    <label for="status">Status</label>
+                    <select id="status">
+                        <option value="published">Published (live on the site)</option>
+                        <option value="draft">Draft (hidden, admins only)</option>
+                    </select>
+                </div>
+                <div class="field" id="fieldNotify">
+                    <label>Newsletter</label>
+                    <label class="check-row" for="notify"><input type="checkbox" id="notify" checked> <span id="notifyText">Email subscribers when this article goes live</span></label>
+                </div>
             </div>
 
             <div class="form-actions">
@@ -570,7 +632,7 @@
 
         const contentType = document.getElementById('contentType');
         const reportOnlyFields = document.querySelectorAll('.report-only');
-        const articleOnlyFields = [document.getElementById('fieldAuthor'), document.getElementById('fieldDate'), document.getElementById('fieldReadTime'), document.getElementById('fieldTags'), document.getElementById('fieldImage'), document.getElementById('fieldContent')];
+        const articleOnlyFields = [document.getElementById('fieldAuthor'), document.getElementById('fieldDate'), document.getElementById('fieldReadTime'), document.getElementById('fieldTags'), document.getElementById('fieldImage'), document.getElementById('fieldImageAlt'), document.getElementById('fieldContent'), document.getElementById('fieldSeo'), document.getElementById('fieldPublishing')];
         const categoryField = document.getElementById('fieldCategory');
         const categoryLabel = categoryField.querySelector('label');
         const categorySelect = document.getElementById('category');
@@ -582,6 +644,61 @@
         const publishBtn = document.getElementById('publishBtn');
         const cancelLink = document.getElementById('cancelLink');
 
+        // ---- Edit state, status and SEO helpers ----
+        let editingId = null;
+        let editingArticle = null;
+        let loadedArticles = [];
+        const statusSelect = document.getElementById('status');
+        const notifyInput = document.getElementById('notify');
+        const seoTitleInput = document.getElementById('seoTitle');
+        const seoDescInput = document.getElementById('seoDescription');
+        const imageAltInput = document.getElementById('imageAlt');
+
+        function updateButtonLabel() {
+            if (contentType.value === 'report') { publishBtn.textContent = 'Publish Report'; return; }
+            if (editingId) {
+                publishBtn.textContent = editingArticle && editingArticle.status === 'draft' && statusSelect.value === 'published' ? 'Publish Article' : 'Save Changes';
+                return;
+            }
+            publishBtn.textContent = statusSelect.value === 'draft' ? 'Save Draft' : 'Publish Article';
+        }
+
+        function updateNotifyField() {
+            const alreadyLive = editingArticle && editingArticle.status !== 'draft';
+            const alreadySent = editingArticle && editingArticle.notifiedAt;
+            const field = document.getElementById('fieldNotify');
+            const text = document.getElementById('notifyText');
+            if (alreadySent || alreadyLive) {
+                notifyInput.checked = false;
+                notifyInput.disabled = true;
+                text.textContent = alreadySent ? 'Subscribers were already emailed about this article. Edits are not re-sent.' : 'This article is already live. Edits are not emailed to subscribers.';
+            } else {
+                notifyInput.disabled = false;
+                text.textContent = statusSelect.value === 'draft' ? 'Email subscribers later, when this draft is published' : 'Email subscribers when this article goes live';
+            }
+            field.hidden = false;
+        }
+
+        function setCount(el, countEl, ideal) {
+            const n = el.value.length;
+            countEl.textContent = `${n} / ${ideal}`;
+            countEl.classList.toggle('over', n > ideal);
+        }
+
+        function updateSeoPreview() {
+            setCount(seoTitleInput, document.getElementById('seoTitleCount'), 60);
+            setCount(seoDescInput, document.getElementById('seoDescCount'), 160);
+            const title = seoTitleInput.value.trim() || ((titleInput.value.trim() || 'Article title') + ' | DIRA');
+            const desc = seoDescInput.value.trim() || document.getElementById('excerpt').value.trim() || 'The excerpt or meta description appears here.';
+            const slug = slugInput.value.trim() || slugify(titleInput.value) || '';
+            document.getElementById('serpTitle').textContent = title.length > 62 ? title.slice(0, 60) + '…' : title;
+            document.getElementById('serpDesc').textContent = desc.length > 162 ? desc.slice(0, 160) + '…' : desc;
+            document.getElementById('serpUrl').textContent = 'diracmr.com › article' + (slug ? ' › ' + slug : '');
+        }
+
+        statusSelect.addEventListener('change', () => { updateButtonLabel(); updateNotifyField(); });
+        [seoTitleInput, seoDescInput, titleInput, slugInput, document.getElementById('excerpt')].forEach(el => el.addEventListener('input', updateSeoPreview));
+
         function updateContentType() {
             const isReport = contentType.value === 'report';
             reportOnlyFields.forEach(field => { field.hidden = !isReport; });
@@ -592,8 +709,8 @@
             document.getElementById('uploadDescription').textContent = isReport ? 'Publish a PDF report or publication to the DIRA Reports & Publications page.' : 'Publish an article directly into the Articles & Insights page.';
             document.getElementById('excerptLabel').textContent = isReport ? 'Summary' : 'Excerpt';
             document.getElementById('excerpt').placeholder = isReport ? 'A short description shown on the report card.' : 'One or two sentences shown on the article card.';
-            publishBtn.textContent = isReport ? 'Publish Report' : 'Publish Article';
             cancelLink.href = isReport ? '/reports' : '/articles';
+            updateButtonLabel();
         }
         contentType.addEventListener('change', updateContentType);
         updateContentType();
@@ -665,17 +782,104 @@
             return Math.max(1, Math.round(words / 200)) + ' min read';
         }
 
+        // ---- Reset / edit mode ----
+        function resetForm() {
+            document.getElementById('uploadForm').reset();
+            quill.setContents([]);
+            inlineImageStatus.textContent = '';
+            delete inlineImageStatus.dataset.state;
+            slugManuallyEdited = false;
+            imgPreview.style.display = 'none';
+            imgPreview.removeAttribute('src');
+            document.getElementById('date').value = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+            reportYearInput.value = new Date().getFullYear();
+            document.getElementById('excerptCount').textContent = '0 / 240';
+            slugPreview.textContent = '';
+            statusSelect.value = 'published';
+            notifyInput.checked = true;
+            ['fieldTitle', 'fieldExcerpt', 'fieldReportYear', 'fieldDocument'].forEach(id => document.getElementById(id).classList.remove('invalid'));
+            document.getElementById('contentError').style.display = 'none';
+            updateSeoPreview();
+            updateNotifyField();
+            updateButtonLabel();
+        }
+
+        function exitEditMode() {
+            editingId = null;
+            editingArticle = null;
+            contentType.disabled = false;
+            document.getElementById('editBanner').classList.remove('show');
+            document.getElementById('imageKeepHint').hidden = true;
+            document.querySelectorAll('.uploaded-item.is-editing').forEach(el => el.classList.remove('is-editing'));
+            resetForm();
+            updateContentType();
+        }
+
+        function startEdit(article) {
+            clearBanner();
+            editingId = article.id;
+            editingArticle = article;
+            contentType.value = 'article';
+            contentType.disabled = true;
+            updateContentType();
+
+            titleInput.value = article.title || '';
+            categorySelect.value = article.category;
+            slugInput.value = article.slug || '';
+            slugPreview.textContent = article.slug || '';
+            slugManuallyEdited = true;
+            document.getElementById('author').value = article.author || 'DIRA Team';
+            document.getElementById('date').value = article.date || '';
+            document.getElementById('readTime').value = article.readTime || '';
+            document.getElementById('tags').value = (article.tags || []).join(', ');
+            excerptInput.value = article.excerpt || '';
+            document.getElementById('excerptCount').textContent = `${excerptInput.value.length} / 240`;
+            imageAltInput.value = article.imageAlt || '';
+            seoTitleInput.value = article.seoTitle || '';
+            seoDescInput.value = article.seoDescription || '';
+            statusSelect.value = article.status === 'draft' ? 'draft' : 'published';
+            quill.setContents([]);
+            quill.clipboard.dangerouslyPasteHTML(0, article.content || '', 'silent');
+            imageInput.value = '';
+            if (article.image) { imgPreview.src = article.image; imgPreview.style.display = 'block'; }
+            document.getElementById('imageKeepHint').hidden = false;
+
+            document.getElementById('uploadHeading').textContent = 'Edit Article';
+            document.getElementById('uploadDescription').textContent = 'Update this article. Changes appear on the site as soon as you save.';
+            document.getElementById('editBannerText').textContent = `Editing: ${article.title}`;
+            document.getElementById('editBanner').classList.add('show');
+            document.querySelectorAll('.uploaded-item').forEach(el => el.classList.toggle('is-editing', el.dataset.id === article.id));
+            updateSeoPreview();
+            updateNotifyField();
+            updateButtonLabel();
+            window.scrollTo({ top: document.querySelector('.upload-hero').offsetTop, behavior: 'smooth' });
+        }
+
+        document.getElementById('exitEditBtn').addEventListener('click', exitEditMode);
+        cancelLink.addEventListener('click', (e) => {
+            if (editingId) { e.preventDefault(); exitEditMode(); }
+        });
+
+        function newsletterNote(saved) {
+            const n = saved && saved.newsletter;
+            if (!n) return '';
+            if (n.error) return ` Subscribers could not be emailed: ${n.error}`;
+            if (!n.total) return ' No subscribers to email yet.';
+            return ` Emailed ${n.sent} of ${n.total} subscriber${n.total === 1 ? '' : 's'}.`;
+        }
+
         // ---- Submit ----
         document.getElementById('uploadForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             clearBanner();
             if (!validate()) {
-                showBanner('error', contentType.value === 'report' ? 'Please fill in the report title, year and summary, and select a PDF no larger than 4 MB.' : 'Please fill in the title, excerpt and content before publishing.');
+                showBanner('error', contentType.value === 'report' ? 'Please fill in the report title, year and summary, and select a PDF no larger than 4 MB.' : 'Please fill in the title, excerpt and content before saving.');
                 return;
             }
 
+            const labelBefore = publishBtn.textContent;
             publishBtn.disabled = true;
-            publishBtn.textContent = 'Publishing...';
+            publishBtn.textContent = editingId ? 'Saving...' : (statusSelect.value === 'draft' ? 'Saving...' : 'Publishing...');
 
             const tagsRaw = document.getElementById('tags').value.trim();
             const readTimeVal = document.getElementById('readTime').value.trim() || estimateReadTime(quill.root.innerHTML);
@@ -698,35 +902,49 @@
                     formData.append('excerpt', excerptInput.value.trim());
                     formData.append('content', quill.root.innerHTML);
                     formData.append('tags', tagsRaw);
+                    formData.append('imageAlt', imageAltInput.value.trim());
+                    formData.append('seoTitle', seoTitleInput.value.trim());
+                    formData.append('seoDescription', seoDescInput.value.trim());
+                    formData.append('status', statusSelect.value);
+                    formData.append('notify', notifyInput.checked && !notifyInput.disabled ? 'true' : 'false');
                     if (imageInput.files[0]) formData.append('image', imageInput.files[0]);
                 }
-                const saved = isReport ? await window.DiraReports.api.createReport(formData) : await window.DiraArticles.api.createArticle(formData);
-                const destination = isReport ? '/reports' : '/articles';
-                showBanner('success', `Published. <a href="${destination}" style="color:inherit;text-decoration:underline;">view it on the ${isReport ? 'Reports' : 'Articles'} page</a>.`);
-                document.getElementById('statusBanner').innerHTML = `Published. <a href="${destination}" style="color:inherit;text-decoration:underline;">view it on the ${isReport ? 'Reports' : 'Articles'} page</a>.`;
-                document.getElementById('uploadForm').reset();
-                quill.setContents([]);
-                inlineImageStatus.textContent = '';
-                delete inlineImageStatus.dataset.state;
-                slugManuallyEdited = false;
-                imgPreview.style.display = 'none';
-                document.getElementById('date').value = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-                reportYearInput.value = new Date().getFullYear();
-                document.getElementById('excerptCount').textContent = '0 / 240';
+
+                let saved;
+                let message;
+                if (isReport) {
+                    saved = await window.DiraReports.api.createReport(formData);
+                    message = 'Published. <a href="/reports" style="color:inherit;text-decoration:underline;">View it on the Reports page</a>.';
+                } else {
+                    saved = editingId
+                        ? await window.DiraArticles.api.updateArticle(editingId, formData)
+                        : await window.DiraArticles.api.createArticle(formData);
+                    const link = `/article?slug=${encodeURIComponent(saved.slug)}`;
+                    const wasDraft = editingArticle && editingArticle.status === 'draft';
+                    const verb = saved.status === 'draft' ? (editingId ? 'Draft saved.' : 'Saved as a draft.') : (editingId && !wasDraft ? 'Changes saved.' : 'Published.');
+                    const linkText = saved.status === 'draft' ? 'Preview the draft' : 'View the article';
+                    message = `${verb} <a href="${link}" style="color:inherit;text-decoration:underline;">${linkText}</a>.${escapeHtml(newsletterNote(saved))}`;
+                }
+                showBanner('success', '');
+                document.getElementById('statusBanner').innerHTML = message;
+                if (editingId) exitEditMode(); else resetForm();
                 loadUploadedList();
                 loadUploadedReports();
             } catch (err) {
-                showBanner('error', err.message || 'Something went wrong while publishing. Please try again.');
+                showBanner('error', err.message || 'Something went wrong while saving. Please try again.');
+                publishBtn.textContent = labelBefore;
             } finally {
                 publishBtn.disabled = false;
-                publishBtn.textContent = 'Publish Article';
+                updateButtonLabel();
             }
         });
 
         // ---- Uploaded articles list ----
         async function loadUploadedList() {
             const wrap = document.getElementById('uploadedList');
-            const custom = await window.DiraArticles.api.getCustomOnly();
+            let custom = [];
+            try { custom = await window.DiraArticles.api.getCustomOnly(); } catch (error) { custom = []; }
+            loadedArticles = custom;
 
             if (!custom.length) {
                 wrap.innerHTML = '<div class="uploaded-empty">Nothing uploaded yet. Articles you publish above will appear here.</div>';
@@ -737,15 +955,24 @@
                 <div class="uploaded-item" data-id="${a.id}">
                     <img src="${a.image}" alt="${escapeHtml(a.title)}" onerror="this.style.visibility='hidden'">
                     <div class="ui-body">
-                        <div class="ui-title">${escapeHtml(a.title)}</div>
+                        <div class="ui-title">${escapeHtml(a.title)}<span class="ui-badge ${a.status === 'draft' ? 'draft' : 'live'}">${a.status === 'draft' ? 'Draft' : 'Live'}</span></div>
                         <div class="ui-meta">${escapeHtml(a.category)} &middot; ${escapeHtml(a.date)}</div>
                     </div>
                     <div class="ui-actions">
-                        <a class="btn btn-ghost btn-sm" href="/article?slug=${encodeURIComponent(a.slug)}">View</a>
+                        <a class="btn btn-ghost btn-sm" href="/article?slug=${encodeURIComponent(a.slug)}">${a.status === 'draft' ? 'Preview' : 'View'}</a>
+                        <button type="button" class="btn btn-ghost btn-sm edit-btn" data-id="${a.id}">Edit</button>
                         <button class="btn btn-danger btn-sm delete-btn" data-id="${a.id}" data-title="${escapeHtml(a.title)}">Delete</button>
                     </div>
                 </div>
             `).join('');
+
+            wrap.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const article = loadedArticles.find(item => item.id === btn.dataset.id);
+                    if (article) startEdit(article);
+                });
+            });
+            if (editingId) wrap.querySelectorAll('.uploaded-item').forEach(el => el.classList.toggle('is-editing', el.dataset.id === editingId));
 
             wrap.querySelectorAll('.delete-btn').forEach(btn => {
                 btn.addEventListener('click', () => openDeleteModal(btn.dataset.id, btn.dataset.title));
@@ -783,11 +1010,15 @@
         document.getElementById('confirmDelete').addEventListener('click', async () => {
             if (!pendingDeleteId) return;
             await window.DiraArticles.api.deleteArticle(pendingDeleteId);
+            if (editingId === pendingDeleteId) exitEditMode();
             document.getElementById('deleteModal').classList.remove('show');
             pendingDeleteId = null;
             loadUploadedList();
         });
 
+        updateSeoPreview();
+        updateNotifyField();
+        updateButtonLabel();
         loadUploadedList();
         loadUploadedReports();
     </script>

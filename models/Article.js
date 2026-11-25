@@ -18,7 +18,17 @@ const articleSchema = new mongoose.Schema(
     image: { type: String, default: './images/photos/IMG_9933.jpg' },
     excerpt: { type: String, required: true, trim: true, maxlength: 300 },
     content: { type: String, required: true },
-    tags: { type: [String], default: [] }
+    tags: { type: [String], default: [] },
+    imageAlt: { type: String, trim: true, maxlength: 200, default: '' },
+    seoTitle: { type: String, trim: true, maxlength: 70, default: '' },
+    seoDescription: { type: String, trim: true, maxlength: 170, default: '' },
+    // Articles created before drafts existed have no status and count as published.
+    status: { type: String, enum: ['draft', 'published'], default: 'published', index: true },
+    publishedAt: { type: Date },
+    // Set once subscribers have been emailed, so later edits never re-send.
+    notifiedAt: { type: Date },
+    // Old slugs keep working after a slug is changed.
+    previousSlugs: { type: [String], default: [], index: true }
   },
   { timestamps: true, collection: 'dira_articles' }
 );
@@ -38,7 +48,14 @@ articleSchema.methods.toClientJSON = function toClientJSON() {
     excerpt: this.excerpt,
     content: this.content,
     tags: this.tags,
-    createdAt: this.createdAt
+    imageAlt: this.imageAlt || '',
+    seoTitle: this.seoTitle || '',
+    seoDescription: this.seoDescription || '',
+    status: this.status || 'published',
+    publishedAt: this.publishedAt,
+    notifiedAt: this.notifiedAt,
+    createdAt: this.createdAt,
+    updatedAt: this.updatedAt
   };
 };
 
