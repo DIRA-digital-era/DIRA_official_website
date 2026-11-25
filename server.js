@@ -12,7 +12,7 @@ const mongoose = require('mongoose');
 const { v2: cloudinary } = require('cloudinary');
 const { Article, CATEGORIES } = require('./models/Article');
 const { Report, REPORT_TYPES } = require('./models/Report');
-const { Subscriber } = require('./models/Subscriber');
+const { Subscriber, newUnsubscribeToken } = require('./models/Subscriber');
 const { GalleryImage, GALLERY_CATEGORIES, CATEGORY_LABELS, ASPECT_RATIOS } = require('./models/GalleryImage');
 
 const crypto = require('crypto');
@@ -87,13 +87,13 @@ function parseTags(value) {
   return String(value || '').split(',').map(tag => tag.trim()).filter(Boolean);
 }
 
-function resendRequest(pathname, payload) {
+function resendRequest(pathname, payload, method = 'POST') {
   return new Promise((resolve, reject) => {
     const request = https.request({
       hostname: 'api.resend.com',
       family: 4,
       path: pathname,
-      method: 'POST',
+      method,
       headers: {
         Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
         'Content-Type': 'application/json'
@@ -224,7 +224,27 @@ function escapeEmailHtml(str) {
   return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-function getNewsletterWelcomeHtml(email) {
+function getSiteUrl() {
+  return (process.env.SITE_URL || 'https://diracmr.com').replace(/\/+$/, '');
+}
+
+function getNewsletterFrom() {
+  return process.env.NEWSLETTER_FROM_EMAIL || 'DIRA Insights <updates@newsletter.diracmr.com>';
+}
+
+function getUnsubscribeUrl(token) {
+  return `${getSiteUrl()}/api/newsletter/unsubscribe?token=${encodeURIComponent(token)}`;
+}
+
+// RFC 8058 one-click unsubscribe headers (expected by Gmail and Yahoo for bulk mail)
+function getUnsubscribeHeaders(unsubscribeUrl) {
+  return {
+    'List-Unsubscribe': `<${unsubscribeUrl}>`,
+    'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click'
+  };
+}
+
+function getNewsletterWelcomeHtml(email, unsubscribeUrl) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -278,7 +298,7 @@ function getNewsletterWelcomeHtml(email) {
                     </div>
 
                     <div style="margin:0;font-size:14.5px;line-height:1.5;color:#475569;">
-                      <strong style="color:#191d36;" Early Announcements:</strong> Priority access to training sessions, tech workshops, and community events.
+                      <strong style="color:#191d36;">Early Announcements:</strong> Priority access to training sessions, tech workshops, and community events.
                     </div>
                   </td>
                 </tr>
@@ -307,7 +327,7 @@ function getNewsletterWelcomeHtml(email) {
               
               <p style="margin:0;font-size:12px;color:#94a3b8;line-height:1.5;">
                 You received this email because <strong>${escapeEmailHtml(email)}</strong> was subscribed to the DIRA newsletter.<br>
-                &copy; ${new Date().getFullYear()} DIRA. All rights reserved.
+                <a href="${unsubscribeUrl}" style="color:#64748b;text-decoration:underline;">Unsubscribe</a> &bull; &copy; ${new Date().getFullYear()} DIRA. All rights reserved.
               </p>
             </td>
           </tr>
@@ -320,15 +340,16 @@ function getNewsletterWelcomeHtml(email) {
 </html>`;
 }
 
-async function sendNewsletterConfirmationEmail(email) {
+async function sendNewsletterConfirmationEmail(email, unsubscribeToken) {
   if (!process.env.RESEND_API_KEY) return null;
-  const from = process.env.NEWSLETTER_FROM_EMAIL || 'DIRA Insights <updates@newsletter.diracmr.com>';
+  const unsubscribeUrl = getUnsubscribeUrl(unsubscribeToken);
   const payload = {
-    from,
+    from: getNewsletterFrom(),
     to: [email],
     subject: "Welcome to DIRA Insights – You're Subscribed!",
-    html: getNewsletterWelcomeHtml(email),
-    text: `Welcome to DIRA Insights!\n\nThank you for subscribing to our newsletter. You are successfully subscribed and will receive our curated engineering insights, industry reports, and updates.\n\nExplore our latest articles: https://diracmr.com/articles\n\nDIRA CMR - Digital Innovation & Research Alliance`
+    html: getNewsletterWelcomeHtml(email, unsubscribeUrl),
+    text: `Welcome to DIRA Insights!\n\nThank you for subscribing to our newsletter. You are successfully subscribed and will receive our curated engineering insights, industry reports, and updates.\n\nExplore our latest articles: ${getSiteUrl()}/articles\n\nDIRA CMR - Digital Innovation & Research Alliance\n\nUnsubscribe: ${unsubscribeUrl}`,
+    headers: getUnsubscribeHeaders(unsubscribeUrl)
   };
 
   try {
@@ -344,58 +365,143 @@ app.post('/api/newsletter/subscribe', async (request, response, next) => {
   try {
     const email = String(request.body.email || '').trim().toLowerCase();
     const clientId = String(request.body.clientId || '').trim();
-    const source = String(request.body.source || 'unknown').trim();
+    const source = String(request.body.source || 'popup').trim();
     if (!/^\S+@\S+\.\S+$/.test(email)) return response.status(400).json({ error: 'Enter a valid email address.' });
     if (!process.env.RESEND_API_KEY) {
       return response.status(503).json({ error: 'Newsletter service is not configured yet.' });
     }
 
-    let resendAudienceResult = null;
+    const details = { ip: getClientIp(request), userAgent: request.headers['user-agent'] || '' };
+    if (clientId) details.clientId = clientId;
+
+    // Save first. If the subscriber cannot be stored, they would never receive articles,
+    // so report the failure instead of showing a false success.
+    let subscriber;
+    let isNew = false;
+    try {
+      subscriber = await Subscriber.findOne({ email });
+      if (subscriber && subscriber.status === 'active') {
+        // Already subscribed: refresh details only, no second welcome email.
+        Object.assign(subscriber, details);
+        if (!subscriber.unsubscribeToken) subscriber.unsubscribeToken = newUnsubscribeToken();
+        await subscriber.save();
+        return response.status(200).json({ ok: true, alreadySubscribed: true, emailSent: false });
+      }
+      if (subscriber) {
+        // Previously unsubscribed: reactivate.
+        Object.assign(subscriber, details, { status: 'active', subscribedAt: new Date(), unsubscribedAt: undefined, source });
+        if (!subscriber.unsubscribeToken) subscriber.unsubscribeToken = newUnsubscribeToken();
+        await subscriber.save();
+      } else {
+        subscriber = await Subscriber.create({ email, source, ...details });
+      }
+      isNew = true;
+    } catch (dbErr) {
+      if (dbErr.code === 11000) {
+        // Two submissions raced; the other one created the record.
+        return response.status(200).json({ ok: true, alreadySubscribed: true, emailSent: false });
+      }
+      console.error('Could not save subscriber to MongoDB:', dbErr.message);
+      return response.status(500).json({ error: 'We could not save your subscription. Please try again in a moment.' });
+    }
+
     if (process.env.RESEND_AUDIENCE_ID) {
       try {
-        const resendResponse = await resendRequest(`/audiences/${encodeURIComponent(process.env.RESEND_AUDIENCE_ID)}/contacts`, { email, unsubscribed: false });
-        resendAudienceResult = resendResponse.body;
+        await resendRequest(`/audiences/${encodeURIComponent(process.env.RESEND_AUDIENCE_ID)}/contacts`, { email, unsubscribed: false });
       } catch (err) {
         console.warn('Could not add contact to Resend audience:', err.message);
       }
     }
 
-    // Upsert subscriber record in MongoDB
-    try {
-      const ip = getClientIp(request);
-      await Subscriber.findOneAndUpdate(
-        { email },
-        { email, ip, clientId, userAgent: request.headers['user-agent'] || '', source, status: 'active', subscribedAt: new Date() },
-        { upsert: true, new: true }
-      );
-    } catch (dbErr) {
-      console.warn('Could not save subscriber to MongoDB:', dbErr.message);
-    }
-
-    // Send confirmation welcome email from newsletter.diracmr.com
+    // Welcome email goes only to new or reactivated subscribers.
     let emailResult = null;
-    try {
-      emailResult = await sendNewsletterConfirmationEmail(email);
-    } catch (mailErr) {
-      console.warn('Confirmation email dispatch warning:', mailErr.message);
+    if (isNew) {
+      try {
+        emailResult = await sendNewsletterConfirmationEmail(email, subscriber.unsubscribeToken);
+      } catch (mailErr) {
+        console.warn('Confirmation email dispatch warning:', mailErr.message);
+      }
     }
 
     response.status(201).json({
       ok: true,
-      id: (resendAudienceResult && resendAudienceResult.id) || (emailResult && emailResult.body && emailResult.body.id) || null,
+      alreadySubscribed: false,
       emailSent: !!(emailResult && emailResult.statusCode >= 200 && emailResult.statusCode < 300)
     });
   } catch (error) { next(error); }
 });
 
+function getUnsubscribePageHtml(title, message, formHtml = '') {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>${escapeEmailHtml(title)} | DIRA Insights</title>
+</head>
+<body style="margin:0;padding:40px 16px;background:#f8fafc;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1e293b;">
+  <div style="max-width:480px;margin:0 auto;background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;padding:36px 32px;text-align:center;">
+    <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;color:#2F80ED;margin-bottom:12px;">DIRA INSIGHTS</div>
+    <h1 style="font-size:22px;margin:0 0 12px;color:#111827;">${escapeEmailHtml(title)}</h1>
+    <p style="font-size:15px;line-height:1.6;color:#475569;margin:0 0 24px;">${message}</p>
+    ${formHtml}
+    <p style="margin:24px 0 0;font-size:13px;"><a href="${getSiteUrl()}" style="color:#2F80ED;text-decoration:none;">Back to diracmr.com</a></p>
+  </div>
+</body>
+</html>`;
+}
+
+// GET shows a confirmation button, so link scanners that open URLs in emails
+// cannot unsubscribe people by accident. POST performs the unsubscribe and also
+// serves mail providers' one-click requests (RFC 8058).
+app.get('/api/newsletter/unsubscribe', async (request, response, next) => {
+  try {
+    const token = String(request.query.token || '').trim();
+    const subscriber = token ? await Subscriber.findOne({ unsubscribeToken: token }).lean() : null;
+    response.set('Cache-Control', 'no-store');
+    if (!subscriber) {
+      return response.status(404).type('html').send(getUnsubscribePageHtml('Link not recognised', 'This unsubscribe link is invalid or has expired. If you keep receiving emails, write to <a href="mailto:contact@diracmr.com">contact@diracmr.com</a>.'));
+    }
+    if (subscriber.status === 'unsubscribed') {
+      return response.type('html').send(getUnsubscribePageHtml('You are unsubscribed', `${escapeEmailHtml(subscriber.email)} will not receive further DIRA Insights emails.`));
+    }
+    const form = `<form method="post" action="?token=${encodeURIComponent(token)}"><button type="submit" style="background:#2F80ED;color:#ffffff;border:0;border-radius:8px;padding:12px 28px;font-size:15px;font-weight:600;cursor:pointer;">Unsubscribe</button></form>`;
+    response.type('html').send(getUnsubscribePageHtml('Unsubscribe from DIRA Insights?', `${escapeEmailHtml(subscriber.email)} will stop receiving new article emails.`, form));
+  } catch (error) { next(error); }
+});
+
+app.post('/api/newsletter/unsubscribe', async (request, response, next) => {
+  try {
+    const token = String(request.query.token || request.body.token || '').trim();
+    const subscriber = token ? await Subscriber.findOne({ unsubscribeToken: token }) : null;
+    response.set('Cache-Control', 'no-store');
+    if (!subscriber) {
+      return response.status(404).type('html').send(getUnsubscribePageHtml('Link not recognised', 'This unsubscribe link is invalid or has expired.'));
+    }
+    if (subscriber.status !== 'unsubscribed') {
+      subscriber.status = 'unsubscribed';
+      subscriber.unsubscribedAt = new Date();
+      await subscriber.save();
+      if (process.env.RESEND_API_KEY && process.env.RESEND_AUDIENCE_ID) {
+        try {
+          await resendRequest(`/audiences/${encodeURIComponent(process.env.RESEND_AUDIENCE_ID)}/contacts/${encodeURIComponent(subscriber.email)}`, { unsubscribed: true }, 'PATCH');
+        } catch (err) {
+          console.warn('Could not mark Resend contact as unsubscribed:', err.message);
+        }
+      }
+    }
+    response.type('html').send(getUnsubscribePageHtml('You are unsubscribed', `${escapeEmailHtml(subscriber.email)} will not receive further DIRA Insights emails. You can subscribe again at any time on diracmr.com.`));
+  } catch (error) { next(error); }
+});
 
 app.get('/api/newsletter/check', async (request, response, next) => {
   try {
+    // Match on this browser's client ID only. Matching on IP address hid the popup
+    // for everyone sharing a network (an office, a campus) once one person subscribed.
     const clientId = String(request.query.clientId || '').trim();
-    const ip = getClientIp(request);
-    if (!clientId && !ip) return response.json({ subscribed: false });
-    const query = clientId ? { $or: [{ clientId }, { ip }] } : { ip };
-    const existing = await Subscriber.findOne(query).lean();
+    if (!clientId) return response.json({ subscribed: false });
+    const existing = await Subscriber.findOne({ clientId, status: 'active' }).lean();
     response.json({ subscribed: !!existing, status: existing ? existing.status : null });
   } catch (error) { next(error); }
 });
@@ -507,6 +613,7 @@ function getNewArticleEmailHtml(article, articleUrl, imageUrl, siteUrl) {
             <td style="background-color:#f8fafc;padding:24px 36px;border-top:1px solid #e2e8f0;text-align:center;">
               <p style="margin:0;font-size:11.5px;color:#94a3b8;line-height:1.5;">
                 You are receiving this update because {{RECIPIENT_EMAIL}} is subscribed to DIRA Insights.<br>
+                <a href="{{UNSUBSCRIBE_URL}}" style="color:#64748b;text-decoration:underline;">Unsubscribe</a> &bull;
                 Visit our website at <a href="${siteUrl}" style="color:#2F80ED;text-decoration:none;">${siteUrl.replace(/^https?:\/\//, '')}</a> &bull; &copy; ${new Date().getFullYear()} DIRA.
               </p>
             </td>
@@ -521,48 +628,69 @@ function getNewArticleEmailHtml(article, articleUrl, imageUrl, siteUrl) {
 }
 
 async function sendNewArticleNotification(article) {
-  if (!process.env.RESEND_API_KEY) return { total: 0, sent: 0 };
-  
+  if (!process.env.RESEND_API_KEY) return { total: 0, sent: 0, error: 'Newsletter service is not configured.' };
+
   try {
-    const subscribers = await Subscriber.find({ status: 'active' }).select('email').lean();
-    if (!subscribers || subscribers.length === 0) {
+    const subscribers = await Subscriber.find({ status: 'active' }).select('email unsubscribeToken').lean();
+
+    // Older records may predate unsubscribe tokens; give them one now.
+    const missing = subscribers.filter(s => !s.unsubscribeToken);
+    if (missing.length) {
+      missing.forEach(s => { s.unsubscribeToken = newUnsubscribeToken(); });
+      await Subscriber.bulkWrite(missing.map(s => ({
+        updateOne: { filter: { _id: s._id }, update: { $set: { unsubscribeToken: s.unsubscribeToken } } }
+      })));
+    }
+
+    // One email per address, even if duplicate records exist from before the unique index.
+    const seen = new Set();
+    const recipients = subscribers.filter(s => {
+      if (!s.email || seen.has(s.email)) return false;
+      seen.add(s.email);
+      return true;
+    });
+    if (recipients.length === 0) {
       console.log('No active subscribers found in MongoDB to notify.');
       return { total: 0, sent: 0 };
     }
+    console.log(`Sending new article notification for "${article.title}" to ${recipients.length} subscriber(s)...`);
 
-    const emails = subscribers.map(s => s.email).filter(Boolean);
-    console.log(`Sending new article notification for "${article.title}" to ${emails.length} subscriber(s)...`);
-
-    const from = process.env.NEWSLETTER_FROM_EMAIL || 'DIRA Insights <updates@newsletter.diracmr.com>';
-    const siteUrl = (process.env.SITE_URL || 'https://diracmr.com').replace(/\/+$/, '');
+    const from = getNewsletterFrom();
+    const siteUrl = getSiteUrl();
     const articleUrl = `${siteUrl}/article?slug=${encodeURIComponent(article.slug)}`;
-    
+
     let imageUrl = article.image || '';
     if (imageUrl && !imageUrl.startsWith('http')) {
       imageUrl = `${siteUrl}/${imageUrl.replace(/^\.?\/+/, '')}`;
     }
 
     const htmlTemplate = getNewArticleEmailHtml(article, articleUrl, imageUrl, siteUrl);
-    const textContent = `New Article from DIRA Insights!\n\n${article.title}\nCategory: ${article.category}\nBy ${article.author} | ${article.readTime}\n\n${article.excerpt}\n\nRead the full article here:\n${articleUrl}\n\n---\nDIRA CMR - Digital Innovation & Research Alliance\nhttps://diracmr.com`;
-    const subject = `‼️Important: ${article.title}`;
+    const textContent = `New Article from DIRA Insights\n\n${article.title}\nCategory: ${article.category}\nBy ${article.author} | ${article.readTime}\n\n${article.excerpt}\n\nRead the full article here:\n${articleUrl}\n\n---\nDIRA CMR - Digital Innovation & Research Alliance\n${siteUrl}`;
+    const subject = `New on DIRA Insights: ${article.title}`;
 
     const BATCH_SIZE = 100;
     let sentCount = 0;
 
-    for (let i = 0; i < emails.length; i += BATCH_SIZE) {
-      const batchEmails = emails.slice(i, i + BATCH_SIZE);
-      const batchPayload = batchEmails.map(recipientEmail => ({
-        from,
-        to: [recipientEmail],
-        subject,
-        html: htmlTemplate.replace(/{{RECIPIENT_EMAIL}}/g, escapeEmailHtml(recipientEmail)),
-        text: textContent
-      }));
+    for (let i = 0; i < recipients.length; i += BATCH_SIZE) {
+      const batch = recipients.slice(i, i + BATCH_SIZE);
+      const batchPayload = batch.map(({ email, unsubscribeToken }) => {
+        const unsubscribeUrl = getUnsubscribeUrl(unsubscribeToken);
+        return {
+          from,
+          to: [email],
+          subject,
+          html: htmlTemplate
+            .replace(/{{RECIPIENT_EMAIL}}/g, escapeEmailHtml(email))
+            .replace(/{{UNSUBSCRIBE_URL}}/g, unsubscribeUrl),
+          text: `${textContent}\n\nUnsubscribe: ${unsubscribeUrl}`,
+          headers: getUnsubscribeHeaders(unsubscribeUrl)
+        };
+      });
 
       try {
         const batchRes = await resendRequest('/emails/batch', batchPayload);
         if (batchRes.statusCode >= 200 && batchRes.statusCode < 300) {
-          sentCount += batchEmails.length;
+          sentCount += batch.length;
         } else {
           console.warn('Batch email warning:', batchRes.body);
         }
@@ -571,8 +699,8 @@ async function sendNewArticleNotification(article) {
       }
     }
 
-    console.log(`Article broadcast complete: ${sentCount}/${emails.length} notification emails sent.`);
-    return { total: emails.length, sent: sentCount };
+    console.log(`Article broadcast complete: ${sentCount}/${recipients.length} notification emails sent.`);
+    return { total: recipients.length, sent: sentCount };
   } catch (err) {
     console.error('Failed to notify subscribers about new article:', err.message);
     return { total: 0, sent: 0, error: err.message };
@@ -599,15 +727,10 @@ app.post('/api/articles', requireAdmin, upload.single('image'), async (request, 
       tags: parseTags(request.body.tags)
     });
 
-    // Respond immediately to the uploader
-    response.status(201).json(toClient(article));
-
-    // Asynchronously notify all newsletter subscribers in the background
-    setImmediate(() => {
-      sendNewArticleNotification(article).catch(err => {
-        console.error('Background newsletter notification error:', err.message);
-      });
-    });
+    // Send the newsletter before replying. On Netlify the function stops once it has
+    // replied, so a background send after the response would be cut off.
+    const newsletter = await sendNewArticleNotification(article);
+    response.status(201).json({ ...toClient(article), newsletter });
   } catch (error) {
     if (error.code === 11000) return response.status(409).json({ error: 'An article with this slug already exists.' });
     next(error);

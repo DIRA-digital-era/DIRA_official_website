@@ -1,4 +1,9 @@
+const crypto = require('crypto');
 const mongoose = require('mongoose');
+
+function newUnsubscribeToken() {
+  return crypto.randomBytes(24).toString('hex');
+}
 
 const subscriberSchema = new mongoose.Schema({
   email: {
@@ -24,6 +29,19 @@ const subscriberSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  source: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  unsubscribeToken: {
+    type: String,
+    index: true,
+    default: newUnsubscribeToken
+  },
+  unsubscribedAt: {
+    type: Date
+  },
   status: {
     type: String,
     enum: ['active', 'unsubscribed'],
@@ -39,4 +57,4 @@ const subscriberSchema = new mongoose.Schema({
 
 const Subscriber = mongoose.models.Subscriber || mongoose.model('Subscriber', subscriberSchema);
 
-module.exports = { Subscriber };
+module.exports = { Subscriber, newUnsubscribeToken };

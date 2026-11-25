@@ -4,7 +4,7 @@
  *
  * Features:
  * - Checks localStorage for 'dira_newsletter_resend_subscribed'.
- * - Checks backend MongoDB for IP and Client ID to prevent popup for existing subscribers.
+ * - Checks backend MongoDB for this browser's Client ID to prevent popup for existing subscribers.
  * - Exponential backoff on dismissal: each exit progressively increases cooldown before next show.
  * - Captures IP address and client token on subscription.
  */
@@ -396,6 +396,10 @@
                         markAsSubscribed();
                         const formContainer = document.getElementById('newsletter-form-container');
                         const successView = document.getElementById('diraNewsletterSuccess');
+                        if (successView && result.alreadySubscribed) {
+                            successView.querySelector('h3').textContent = 'You\'re Already Subscribed';
+                            successView.querySelector('p').textContent = 'This email is already on the DIRA Insights list. New articles will keep arriving in your inbox.';
+                        }
                         if (formContainer) formContainer.style.display = 'none';
                         if (successView) successView.style.display = 'block';
                         setTimeout(closeModalWithoutCooldown, 2200);
