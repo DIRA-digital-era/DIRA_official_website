@@ -421,7 +421,7 @@
             <div class="field" id="fieldSlug">
                 <label for="slug">Slug <span class="hint">auto-generated, editable</span></label>
                 <input type="text" id="slug" placeholder="architecting-verifiable-digital-infrastructure">
-                <div class="slug-preview">/article?slug=<span id="slugPreview"></span></div>
+                <div class="slug-preview">/articles/<span id="slugPreview"></span></div>
             </div>
 
             <div class="form-row">
@@ -693,7 +693,7 @@
             const slug = slugInput.value.trim() || slugify(titleInput.value) || '';
             document.getElementById('serpTitle').textContent = title.length > 62 ? title.slice(0, 60) + '…' : title;
             document.getElementById('serpDesc').textContent = desc.length > 162 ? desc.slice(0, 160) + '…' : desc;
-            document.getElementById('serpUrl').textContent = 'diracmr.com › article' + (slug ? ' › ' + slug : '');
+            document.getElementById('serpUrl').textContent = 'diracmr.com › articles' + (slug ? ' › ' + slug : '');
         }
 
         statusSelect.addEventListener('change', () => { updateButtonLabel(); updateNotifyField(); });
@@ -919,7 +919,7 @@
                     saved = editingId
                         ? await window.DiraArticles.api.updateArticle(editingId, formData)
                         : await window.DiraArticles.api.createArticle(formData);
-                    const link = `/article?slug=${encodeURIComponent(saved.slug)}`;
+                    const link = `/articles/${encodeURIComponent(saved.slug)}`;
                     const wasDraft = editingArticle && editingArticle.status === 'draft';
                     const verb = saved.status === 'draft' ? (editingId ? 'Draft saved.' : 'Saved as a draft.') : (editingId && !wasDraft ? 'Changes saved.' : 'Published.');
                     const linkText = saved.status === 'draft' ? 'Preview the draft' : 'View the article';
@@ -959,7 +959,7 @@
                         <div class="ui-meta">${escapeHtml(a.category)} &middot; ${escapeHtml(a.date)}</div>
                     </div>
                     <div class="ui-actions">
-                        <a class="btn btn-ghost btn-sm" href="/article?slug=${encodeURIComponent(a.slug)}">${a.status === 'draft' ? 'Preview' : 'View'}</a>
+                        <a class="btn btn-ghost btn-sm" href="/articles/${encodeURIComponent(a.slug)}">${a.status === 'draft' ? 'Preview' : 'View'}</a>
                         <button type="button" class="btn btn-ghost btn-sm edit-btn" data-id="${a.id}">Edit</button>
                         <button class="btn btn-danger btn-sm delete-btn" data-id="${a.id}" data-title="${escapeHtml(a.title)}">Delete</button>
                     </div>

@@ -681,7 +681,7 @@ async function sendNewArticleNotification(article) {
 
     const from = getNewsletterFrom();
     const siteUrl = getSiteUrl();
-    const articleUrl = `${siteUrl}/article?slug=${encodeURIComponent(article.slug)}`;
+    const articleUrl = `${siteUrl}/articles/${encodeURIComponent(article.slug)}`;
 
     let imageUrl = article.image || '';
     if (imageUrl && !imageUrl.startsWith('http')) {
@@ -987,8 +987,7 @@ app.get('/sitemap.xml', async (request, response, next) => {
     if (closingIndex === -1) throw new Error('The sitemap.xml file does not contain a closing urlset tag.');
 
     const articleUrls = articles.map(article => {
-      const articleUrl = new URL('/article', 'https://diracmr.com');
-      articleUrl.searchParams.set('slug', article.slug);
+      const articleUrl = new URL(`/articles/${encodeURIComponent(article.slug)}`, 'https://diracmr.com');
       const lastmod = new Date(article.updatedAt).toISOString().slice(0, 10);
       return `  <url><loc>${articleUrl.href}</loc><lastmod>${lastmod}</lastmod></url>`;
     }).join('\n');
@@ -998,6 +997,17 @@ app.get('/sitemap.xml', async (request, response, next) => {
       `${sitemap.slice(0, closingIndex)}${dynamicUrls}${sitemap.slice(closingIndex)}`
     );
   } catch (error) { next(error); }
+});
+
+// Clean article URLs: /articles/<slug> serves the article reader.
+app.get('/articles/:slug', (request, response) => {
+  response.sendFile(path.join(publicRoot, 'article.html'));
+});
+// Old links (/article?slug=...) move permanently to the clean address.
+app.get(['/article', '/article.html'], (request, response, next) => {
+  const slug = String(request.query.slug || '').trim();
+  if (!slug) return next();
+  response.redirect(301, `/articles/${encodeURIComponent(slug)}`);
 });
 
 app.use(express.static(publicRoot, {

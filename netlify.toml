@@ -14,6 +14,38 @@
   to = "/.netlify/functions/api/sitemap.xml"
   status = 200
 
+# Old article links (/article?slug=...) move permanently to /articles/<slug>.
+[[redirects]]
+  from = "/article"
+  query = {slug = ":slug"}
+  to = "/articles/:slug"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/article.html"
+  query = {slug = ":slug"}
+  to = "/articles/:slug"
+  status = 301
+  force = true
+
+# /articles is the articles list; keep it (and /articles/) on the list page.
+[[redirects]]
+  from = "/articles"
+  to = "/articles.html"
+  status = 200
+
+[[redirects]]
+  from = "/articles/"
+  to = "/articles"
+  status = 301
+
+# Clean article URLs: /articles/<slug> is served by the article reader page.
+[[redirects]]
+  from = "/articles/*"
+  to = "/article.html"
+  status = 200
+
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/api/api/:splat"

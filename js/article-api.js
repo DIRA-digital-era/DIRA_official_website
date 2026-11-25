@@ -35,10 +35,7 @@
   }
 
   function setArticleMetadata(article) {
-    const articleUrl = new URL(window.location.href);
-    articleUrl.hash = '';
-    articleUrl.search = '';
-    articleUrl.searchParams.set('slug', article.slug);
+    const articleUrl = new URL(articlePath(article.slug), window.location.origin);
 
     let canonical = document.head.querySelector('link[rel="canonical"]');
     if (!canonical) {
@@ -66,10 +63,24 @@
     if (article.updatedAt) setMeta('property', 'article:modified_time', new Date(article.updatedAt).toISOString());
     if (article.category) setMeta('property', 'article:section', article.category);
     if (article.status === 'draft') setMeta('name', 'robots', 'noindex, nofollow');
-    // Keep the address bar on the current slug if the reader arrived through an old one.
-    if (article.slug && new URLSearchParams(window.location.search).get('slug') !== article.slug) {
-      window.history.replaceState(null, '', articleUrl.pathname + articleUrl.search);
+    // Show the clean address (/articles/<slug>) even when the reader arrived through
+    // an old /article?slug= link or a slug that has since been changed.
+    if (window.location.pathname + window.location.search !== articleUrl.pathname) {
+      window.history.replaceState(null, '', articleUrl.pathname + window.location.hash);
     }
+  }
+
+  function articlePath(slug) {
+    return `/articles/${encodeURIComponent(slug || '')}`;
+  }
+
+  // Slug from /articles/<slug>, or from an old /article?slug=<slug> link.
+  function currentSlug() {
+    const match = window.location.pathname.match(/^\/articles\/([^/]+)\/?$/);
+    if (match) {
+      try { return decodeURIComponent(match[1]); } catch (error) { return match[1]; }
+    }
+    return new URLSearchParams(window.location.search).get('slug');
   }
 
   function articleCard(article) {
@@ -92,11 +103,11 @@
             <span>${escapeHtml(readTime)}</span>
           </div>
           <h3 class="article-card-title">
-            <a href="/article?slug=${encodeURIComponent(slug)}">${escapeHtml(article.title)}</a>
+            <a href="${articlePath(slug)}">${escapeHtml(article.title)}</a>
           </h3>
           <p class="article-card-excerpt">${escapeHtml(article.excerpt)}</p>
           <div class="article-card-footer">
-            <a class="article-action-link" href="/article?slug=${encodeURIComponent(slug)}">
+            <a class="article-action-link" href="${articlePath(slug)}">
               View Full Article <span aria-hidden="true">&rarr;</span>
             </a>
           </div>
@@ -145,7 +156,7 @@
   async function renderArticleReader() {
     const reader = document.getElementById('articleReader');
     if (!reader) return;
-    const slug = new URLSearchParams(window.location.search).get('slug');
+    const slug = currentSlug();
     if (!slug) {
       reader.setAttribute('aria-busy', 'false');
       reader.setAttribute('aria-label', 'Article not found');
