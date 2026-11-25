@@ -13,6 +13,7 @@ const { v2: cloudinary } = require('cloudinary');
 const { Article, CATEGORIES } = require('./models/Article');
 const { Report, REPORT_TYPES } = require('./models/Report');
 const { Subscriber, newUnsubscribeToken } = require('./models/Subscriber');
+const { isValidEmail, inboxKey, suspicionReason } = require('./lib/email-quality');
 const { GalleryImage, GALLERY_CATEGORIES, CATEGORY_LABELS, ASPECT_RATIOS } = require('./models/GalleryImage');
 
 const crypto = require('crypto');
@@ -369,73 +370,129 @@ async function sendNewsletterConfirmationEmail(email, unsubscribeToken) {
   }
 }
 
+function getConfirmEmailHtml(confirmUrl) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Confirm your subscription</title></head>
+<body style="margin:0;padding:0;background:#f8fafc;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1e293b;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="padding:24px 12px;">
+    <tr><td align="center">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:520px;background:#ffffff;border:1px solid #e2e8f0;border-radius:14px;">
+        <tr><td style="padding:32px 28px;">
+          <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;color:#2F80ED;margin-bottom:10px;">DIRA INSIGHTS</div>
+          <h1 style="font-size:22px;margin:0 0 14px;color:#111827;">Confirm your subscription</h1>
+          <p style="font-size:15px;line-height:1.6;color:#334155;margin:0 0 24px;">Someone, hopefully you, asked to receive DIRA Insights at this address. Click the button to confirm and start receiving new articles.</p>
+          <p style="margin:0 0 24px;"><a href="${confirmUrl}" style="display:inline-block;background:#2F80ED;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;padding:13px 28px;border-radius:8px;">Confirm subscription</a></p>
+          <p style="font-size:13px;line-height:1.6;color:#64748b;margin:0;">If you did not sign up, ignore this email. You will not be added and will not hear from us again.</p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+}
+
+const CONFIRM_RESEND_AFTER_MS = 60 * 60 * 1000;      // re-send a confirmation at most once an hour
+const CONFIRM_VALID_MS = 7 * 24 * 60 * 60 * 1000;   // confirmation links work for 7 days
+const SIGNUPS_PER_IP_PER_HOUR = 3;
+const MIN_FORM_MS = 1500;                           // people take longer than this to type an address
+
+async function sendSubscribeConfirmation(subscriber) {
+  if (!process.env.RESEND_API_KEY) return null;
+  const confirmUrl = `${getSiteUrl()}/api/newsletter/confirm?token=${encodeURIComponent(subscriber.confirmToken)}`;
+  try {
+    return await resendRequest('/emails', {
+      from: getNewsletterFrom(),
+      to: [subscriber.email],
+      subject: 'Confirm your DIRA Insights subscription',
+      html: getConfirmEmailHtml(confirmUrl),
+      text: `Confirm your DIRA Insights subscription\n\nSomeone, hopefully you, asked to receive DIRA Insights at this address. Confirm here:\n${confirmUrl}\n\nIf you did not sign up, ignore this email. You will not be added.`
+    });
+  } catch (err) {
+    console.warn('Could not send confirmation email:', err.message);
+    return null;
+  }
+}
+
+// Why a sign-up looks automated, or '' when it looks like a person.
+function botSignal(request) {
+  const body = request.body || {};
+  if (String(body.website || '').trim()) return 'honeypot field filled';
+  const elapsed = Number(body.elapsedMs);
+  if (!Number.isFinite(elapsed)) return 'no form timing (direct API call)';
+  if (elapsed < MIN_FORM_MS) return 'form submitted too fast';
+  const ua = String(request.headers['user-agent'] || '').trim();
+  if (!ua || ua.startsWith('"')) return 'malformed browser signature';
+  return '';
+}
+
 app.post('/api/newsletter/subscribe', async (request, response, next) => {
   try {
     const email = String(request.body.email || '').trim().toLowerCase();
     const clientId = String(request.body.clientId || '').trim();
-    const source = String(request.body.source || 'popup').trim();
-    if (!/^\S+@\S+\.\S+$/.test(email)) return response.status(400).json({ error: 'Enter a valid email address.' });
+    const source = String(request.body.source || 'popup').trim().slice(0, 60);
+    if (!isValidEmail(email)) return response.status(400).json({ error: 'Enter a valid email address.' });
     if (!process.env.RESEND_API_KEY) {
       return response.status(503).json({ error: 'Newsletter service is not configured yet.' });
     }
 
-    const details = { ip: getClientIp(request), userAgent: request.headers['user-agent'] || '' };
-    if (clientId) details.clientId = clientId;
+    // Automated or suspicious sign-ups get the same answer as a real one, so a bot cannot
+    // tell it was blocked, but nothing is stored and no email is sent.
+    const looksLikeBot = botSignal(request) || suspicionReason(email);
+    if (looksLikeBot) {
+      console.warn(`Newsletter sign-up ignored (${looksLikeBot}).`);
+      return response.status(200).json({ ok: true, pending: true });
+    }
 
-    // Save first. If the subscriber cannot be stored, they would never receive articles,
-    // so report the failure instead of showing a false success.
+    const ip = getClientIp(request);
+    const details = { ip, userAgent: request.headers['user-agent'] || '' };
+    if (clientId) details.clientId = clientId;
+    const key = inboxKey(email);
+
     let subscriber;
-    let isNew = false;
     try {
-      subscriber = await Subscriber.findOne({ email });
+      subscriber = await Subscriber.findOne({ $or: [{ email }, { inboxKey: key }] });
       if (subscriber && subscriber.status === 'active') {
-        // Already subscribed: refresh details only, no second welcome email.
         Object.assign(subscriber, details);
         if (!subscriber.unsubscribeToken) subscriber.unsubscribeToken = newUnsubscribeToken();
+        if (!subscriber.inboxKey) subscriber.inboxKey = key;
         await subscriber.save();
-        return response.status(200).json({ ok: true, alreadySubscribed: true, emailSent: false });
+        return response.status(200).json({ ok: true, alreadySubscribed: true });
       }
+
+      if (!subscriber) {
+        const recent = ip ? await Subscriber.countDocuments({ ip, createdAt: { $gt: new Date(Date.now() - 60 * 60 * 1000) } }) : 0;
+        if (recent >= SIGNUPS_PER_IP_PER_HOUR) {
+          return response.status(429).json({ error: 'Too many sign-ups from this network. Please try again later.' });
+        }
+      }
+
+      const now = new Date();
+      const recentlySent = subscriber && subscriber.status === 'pending' && subscriber.confirmSentAt &&
+        now - subscriber.confirmSentAt < CONFIRM_RESEND_AFTER_MS;
+      if (recentlySent) return response.status(200).json({ ok: true, pending: true });
+
       if (subscriber) {
-        // Previously unsubscribed: reactivate.
-        Object.assign(subscriber, details, { status: 'active', subscribedAt: new Date(), unsubscribedAt: undefined, source });
-        if (!subscriber.unsubscribeToken) subscriber.unsubscribeToken = newUnsubscribeToken();
-        await subscriber.save();
+        // pending again, previously unsubscribed, or excluded by the clean-up: confirm by email
+        Object.assign(subscriber, details, { status: 'pending', source, inboxKey: key });
       } else {
-        subscriber = await Subscriber.create({ email, source, ...details });
+        subscriber = new Subscriber({ email, source, inboxKey: key, status: 'pending', ...details });
       }
-      isNew = true;
+      subscriber.confirmToken = newUnsubscribeToken();
+      subscriber.confirmSentAt = now;
+      if (!subscriber.unsubscribeToken) subscriber.unsubscribeToken = newUnsubscribeToken();
+      await subscriber.save();
     } catch (dbErr) {
-      if (dbErr.code === 11000) {
-        // Two submissions raced; the other one created the record.
-        return response.status(200).json({ ok: true, alreadySubscribed: true, emailSent: false });
-      }
+      if (dbErr.code === 11000) return response.status(200).json({ ok: true, pending: true });
       console.error('Could not save subscriber to MongoDB:', dbErr.message);
       return response.status(500).json({ error: 'We could not save your subscription. Please try again in a moment.' });
     }
 
-    if (process.env.RESEND_AUDIENCE_ID) {
-      try {
-        await resendRequest(`/audiences/${encodeURIComponent(process.env.RESEND_AUDIENCE_ID)}/contacts`, { email, unsubscribed: false });
-      } catch (err) {
-        console.warn('Could not add contact to Resend audience:', err.message);
-      }
+    const sent = await sendSubscribeConfirmation(subscriber);
+    if (!sent || sent.statusCode < 200 || sent.statusCode >= 300) {
+      return response.status(502).json({ error: 'We could not send the confirmation email. Please try again later.' });
     }
-
-    // Welcome email goes only to new or reactivated subscribers.
-    let emailResult = null;
-    if (isNew) {
-      try {
-        emailResult = await sendNewsletterConfirmationEmail(email, subscriber.unsubscribeToken);
-      } catch (mailErr) {
-        console.warn('Confirmation email dispatch warning:', mailErr.message);
-      }
-    }
-
-    response.status(201).json({
-      ok: true,
-      alreadySubscribed: false,
-      emailSent: !!(emailResult && emailResult.statusCode >= 200 && emailResult.statusCode < 300)
-    });
+    response.status(201).json({ ok: true, pending: true });
   } catch (error) { next(error); }
 });
 
@@ -459,6 +516,56 @@ function getUnsubscribePageHtml(title, message, formHtml = '') {
 </body>
 </html>`;
 }
+
+// Confirmation link: GET shows a button and changes nothing (email security scanners open
+// every link, which would otherwise confirm addresses bots signed up); POST confirms.
+async function findConfirmable(token) {
+  if (!token) return null;
+  return Subscriber.findOne({ confirmToken: token });
+}
+
+app.get('/api/newsletter/confirm', async (request, response, next) => {
+  try {
+    const token = String(request.query.token || '').trim();
+    const subscriber = await findConfirmable(token);
+    response.set('Cache-Control', 'no-store');
+    if (subscriber && subscriber.status === 'active') {
+      return response.type('html').send(getUnsubscribePageHtml('You are subscribed', `${escapeEmailHtml(subscriber.email)} is on the DIRA Insights list. New articles will arrive in your inbox.`));
+    }
+    if (!subscriber || subscriber.status !== 'pending' || !subscriber.confirmSentAt || Date.now() - subscriber.confirmSentAt > CONFIRM_VALID_MS) {
+      return response.status(404).type('html').send(getUnsubscribePageHtml('Link expired', 'This confirmation link is invalid or has expired. Subscribe again on diracmr.com to get a new one.'));
+    }
+    const form = `<form method="post" action="?token=${encodeURIComponent(token)}"><button type="submit" style="background:#2F80ED;color:#ffffff;border:0;border-radius:8px;padding:12px 28px;font-size:15px;font-weight:600;cursor:pointer;">Confirm subscription</button></form>`;
+    response.type('html').send(getUnsubscribePageHtml('Confirm your subscription', `Receive new DIRA Insights articles at ${escapeEmailHtml(subscriber.email)}.`, form));
+  } catch (error) { next(error); }
+});
+
+app.post('/api/newsletter/confirm', async (request, response, next) => {
+  try {
+    const token = String(request.query.token || request.body.token || '').trim();
+    const subscriber = await findConfirmable(token);
+    response.set('Cache-Control', 'no-store');
+    if (!subscriber || (subscriber.status !== 'pending' && subscriber.status !== 'active') ||
+        (subscriber.status === 'pending' && (!subscriber.confirmSentAt || Date.now() - subscriber.confirmSentAt > CONFIRM_VALID_MS))) {
+      return response.status(404).type('html').send(getUnsubscribePageHtml('Link expired', 'This confirmation link is invalid or has expired. Subscribe again on diracmr.com to get a new one.'));
+    }
+    if (subscriber.status === 'pending') {
+      subscriber.status = 'active';
+      subscriber.confirmedAt = new Date();
+      subscriber.subscribedAt = subscriber.confirmedAt;
+      subscriber.unsubscribedAt = undefined;
+      if (!subscriber.unsubscribeToken) subscriber.unsubscribeToken = newUnsubscribeToken();
+      await subscriber.save();
+      if (process.env.RESEND_AUDIENCE_ID) {
+        try {
+          await resendRequest(`/audiences/${encodeURIComponent(process.env.RESEND_AUDIENCE_ID)}/contacts`, { email: subscriber.email, unsubscribed: false });
+        } catch (err) { console.warn('Could not add contact to Resend audience:', err.message); }
+      }
+      await sendNewsletterConfirmationEmail(subscriber.email, subscriber.unsubscribeToken);
+    }
+    response.type('html').send(getUnsubscribePageHtml('Welcome to DIRA Insights', `${escapeEmailHtml(subscriber.email)} is confirmed. New articles will arrive in your inbox.`, `<a href="${getSiteUrl()}/articles" style="display:inline-block;background:#2F80ED;color:#ffffff;text-decoration:none;border-radius:8px;padding:12px 28px;font-size:15px;font-weight:600;">Read the latest articles</a>`));
+  } catch (error) { next(error); }
+});
 
 // GET shows a confirmation button, so link scanners that open URLs in emails
 // cannot unsubscribe people by accident. POST performs the unsubscribe and also
@@ -696,7 +803,8 @@ async function sendArticleNewsletterBatch(article) {
   const textContent = `New Article from DIRA Insights\n\n${article.title}\nCategory: ${article.category}\nBy ${article.author} | ${article.readTime}\n\n${article.excerpt}\n\nRead the full article here:\n${articleUrl}\n\n---\nDIRA CMR - Digital Innovation & Research Alliance\n${siteUrl}`;
   const subject = `New on DIRA Insights: ${article.title}`;
 
-  const toPayload = subscribers => subscribers.filter(s => s.email).map(({ email, unsubscribeToken }) => {
+  // Invalid addresses are skipped: Resend rejects a whole batch if one address is invalid.
+  const toPayload = subscribers => subscribers.filter(s => isValidEmail(s.email)).map(({ email, unsubscribeToken }) => {
     const unsubscribeUrl = getUnsubscribeUrl(unsubscribeToken);
     return {
       from,
@@ -717,6 +825,7 @@ async function sendArticleNewsletterBatch(article) {
   let accepted = null;
   for (const size of sizes) {
     const slice = batch.slice(0, size);
+    if (!toPayload(slice).length) { accepted = slice; break; } // only invalid addresses: nothing to send
     let result;
     try {
       result = await resendRequest('/emails/batch', toPayload(slice));

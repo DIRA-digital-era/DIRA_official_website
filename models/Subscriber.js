@@ -42,10 +42,22 @@ const subscriberSchema = new mongoose.Schema({
   unsubscribedAt: {
     type: Date
   },
+  confirmToken: {
+    type: String,
+    index: true
+  },
+  confirmSentAt: { type: Date },
+  confirmedAt: { type: Date },
+  // Gmail ignores dots and "+tags": the same inbox under another spelling is one subscriber.
+  inboxKey: { type: String, index: true },
+  excludedReason: { type: String },
+  excludedAt: { type: Date },
   status: {
     type: String,
-    enum: ['active', 'unsubscribed'],
-    default: 'active'
+    // pending: signed up, has not clicked the confirmation link yet (gets no articles)
+    // excluded: removed from mailings by the list clean-up (bot sign-ups); never deleted
+    enum: ['pending', 'active', 'unsubscribed', 'excluded'],
+    default: 'pending'
   },
   subscribedAt: {
     type: Date,

@@ -124,6 +124,7 @@
                     <form id="diraNewsletterForm" class="dira-newsletter-form">
                         <div class="dira-input-group">
                             <input type="email" id="diraNewsletterEmail" name="email" placeholder="Enter your email address" required autocomplete="email">
+                            <input type="text" name="website" id="diraNewsletterWebsite" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px;opacity:0;">
                             <button type="submit" class="dira-newsletter-submit">
                                 <span>Subscribe</span>
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -388,7 +389,12 @@
                         const response = await fetch(`${API_BASE}/newsletter/subscribe`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ email, clientId })
+                            body: JSON.stringify({
+                                email,
+                                clientId,
+                                website: (document.getElementById('diraNewsletterWebsite') || {}).value || '',
+                                elapsedMs: modalShownAt ? Date.now() - modalShownAt : 0
+                            })
                         });
                         const result = await response.json();
 
@@ -418,10 +424,10 @@
                             successView.style.display = 'block';
                             const title = successView.querySelector('h3');
                             const text = successView.querySelector('p');
-                            if (title) title.textContent = 'Welcome to the Community!';
-                            if (text) text.textContent = 'You have successfully subscribed to DIRA Insights.';
+                            if (title) title.textContent = 'Check your inbox';
+                            if (text) text.textContent = 'We sent you a confirmation email. Click the button in it to start receiving DIRA Insights. Check your spam folder if you do not see it.';
                         }
-                        setTimeout(closeModalWithoutCooldown, 2200);
+                        setTimeout(closeModalWithoutCooldown, 6000);
                     } catch (error) {
                         let message = form.querySelector('.dira-newsletter-error');
                         if (!message) {
@@ -438,9 +444,11 @@
         }
     }
 
+    let modalShownAt = 0;
     function showModal() {
         if (isSubscribedLocal()) return;
         injectNewsletterModal();
+        modalShownAt = Date.now();
         const modal = document.getElementById('dira-newsletter-modal');
         if (modal) {
             modal.classList.add('is-active');

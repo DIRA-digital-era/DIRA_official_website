@@ -223,6 +223,13 @@
     const submitBtn = document.getElementById('heroNewsletterBtn');
     const statusBox = document.getElementById('heroNewsletterStatus');
     if (!form || !emailInput) return;
+    const formReadyAt = Date.now();
+    // Hidden field people never see; form-filling bots tend to fill it.
+    const honeypot = document.createElement('input');
+    Object.assign(honeypot, { type: 'text', name: 'website', tabIndex: -1, autocomplete: 'off' });
+    honeypot.setAttribute('aria-hidden', 'true');
+    honeypot.style.cssText = 'position:absolute;left:-10000px;width:1px;height:1px;opacity:0;';
+    form.appendChild(honeypot);
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -247,7 +254,7 @@
         const response = await fetch(`${API_BASE}/newsletter/subscribe`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, clientId, source: 'articles-hero-capsule' })
+          body: JSON.stringify({ email, clientId, source: 'articles-hero-capsule', website: honeypot.value, elapsedMs: Date.now() - formReadyAt })
         });
         const data = await response.json();
 
@@ -265,7 +272,7 @@
 
         if (statusBox) {
           statusBox.className = 'hero-newsletter-status show success';
-          statusBox.textContent = 'Thanks for subscribing! You will receive our latest articles and updates.';
+          statusBox.textContent = 'Almost done: check your inbox and click the confirmation link to start receiving articles.';
         }
         form.reset();
       } catch (err) {
