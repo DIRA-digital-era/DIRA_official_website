@@ -370,49 +370,34 @@ async function sendNewsletterConfirmationEmail(email, unsubscribeToken) {
   }
 }
 
-function getConfirmEmailHtml(confirmUrl) {
-  return `<!DOCTYPE html>
-<html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Confirm your subscription</title></head>
-<body style="margin:0;padding:0;background:#f8fafc;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1e293b;">
-  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="padding:24px 12px;">
-    <tr><td align="center">
-      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:520px;background:#ffffff;border:1px solid #e2e8f0;border-radius:14px;">
-        <tr><td style="padding:32px 28px;">
-          <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;color:#2F80ED;margin-bottom:10px;">DIRA INSIGHTS</div>
-          <h1 style="font-size:22px;margin:0 0 14px;color:#111827;">Confirm your subscription</h1>
-          <p style="font-size:15px;line-height:1.6;color:#334155;margin:0 0 24px;">Someone, hopefully you, asked to receive DIRA Insights at this address. Click the button to confirm and start receiving new articles.</p>
-          <p style="margin:0 0 24px;"><a href="${confirmUrl}" style="display:inline-block;background:#2F80ED;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;padding:13px 28px;border-radius:8px;">Confirm subscription</a></p>
-          <p style="font-size:13px;line-height:1.6;color:#64748b;margin:0;">If you did not sign up, ignore this email. You will not be added and will not hear from us again.</p>
-        </td></tr>
-      </table>
-    </td></tr>
-  </table>
-</body>
-</html>`;
+const SIGNUPS_PER_IP_PER_HOUR = 3;
+const MIN_FORM_MS = 1500;   // people take longer than this to type an address
+
+// Cloudflare Turnstile: a free, mostly invisible human check shown only in the subscribe
+// forms. Active when TURNSTILE_SITE_KEY and TURNSTILE_SECRET_KEY are set in Netlify.
+function turnstileEnabled() {
+  return !!(process.env.TURNSTILE_SITE_KEY && process.env.TURNSTILE_SECRET_KEY);
 }
 
-const CONFIRM_RESEND_AFTER_MS = 60 * 60 * 1000;      // re-send a confirmation at most once an hour
-const CONFIRM_VALID_MS = 7 * 24 * 60 * 60 * 1000;   // confirmation links work for 7 days
-const SIGNUPS_PER_IP_PER_HOUR = 3;
-const MIN_FORM_MS = 1500;                           // people take longer than this to type an address
-
-async function sendSubscribeConfirmation(subscriber) {
-  if (!process.env.RESEND_API_KEY) return null;
-  const confirmUrl = `${getSiteUrl()}/api/newsletter/confirm?token=${encodeURIComponent(subscriber.confirmToken)}`;
+async function verifyTurnstile(token, ip) {
+  if (!token) return false;
   try {
-    return await resendRequest('/emails', {
-      from: getNewsletterFrom(),
-      to: [subscriber.email],
-      subject: 'Confirm your DIRA Insights subscription',
-      html: getConfirmEmailHtml(confirmUrl),
-      text: `Confirm your DIRA Insights subscription\n\nSomeone, hopefully you, asked to receive DIRA Insights at this address. Confirm here:\n${confirmUrl}\n\nIf you did not sign up, ignore this email. You will not be added.`
-    });
+    const form = new URLSearchParams({ secret: process.env.TURNSTILE_SECRET_KEY, response: token });
+    if (ip) form.set('remoteip', ip);
+    const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', { method: 'POST', body: form });
+    const data = await res.json();
+    return !!data.success;
   } catch (err) {
-    console.warn('Could not send confirmation email:', err.message);
-    return null;
+    console.warn('Turnstile check could not be completed:', err.message);
+    return false;
   }
 }
+
+// The subscribe forms ask for the public site key here, so no key lives in the page code.
+app.get('/api/newsletter/config', (request, response) => {
+  response.set('Cache-Control', 'no-store');
+  response.json({ turnstileSiteKey: turnstileEnabled() ? process.env.TURNSTILE_SITE_KEY : '' });
+});
 
 // Why a sign-up looks automated, or '' when it looks like a person.
 function botSignal(request) {
@@ -436,15 +421,19 @@ app.post('/api/newsletter/subscribe', async (request, response, next) => {
       return response.status(503).json({ error: 'Newsletter service is not configured yet.' });
     }
 
-    // Automated or suspicious sign-ups get the same answer as a real one, so a bot cannot
-    // tell it was blocked, but nothing is stored and no email is sent.
+    // Automated or suspicious sign-ups get a normal-looking answer, so a bot cannot tell it
+    // was blocked, but nothing is stored and no email is sent.
     const looksLikeBot = botSignal(request) || suspicionReason(email);
     if (looksLikeBot) {
       console.warn(`Newsletter sign-up ignored (${looksLikeBot}).`);
-      return response.status(200).json({ ok: true, pending: true });
+      return response.status(201).json({ ok: true, alreadySubscribed: false, emailSent: true });
     }
 
     const ip = getClientIp(request);
+    if (turnstileEnabled() && !(await verifyTurnstile(String(request.body.turnstileToken || ''), ip))) {
+      return response.status(400).json({ error: 'Please complete the quick check below the email box, then try again.', turnstile: true });
+    }
+
     const details = { ip, userAgent: request.headers['user-agent'] || '' };
     if (clientId) details.clientId = clientId;
     const key = inboxKey(email);
@@ -453,46 +442,45 @@ app.post('/api/newsletter/subscribe', async (request, response, next) => {
     try {
       subscriber = await Subscriber.findOne({ $or: [{ email }, { inboxKey: key }] });
       if (subscriber && subscriber.status === 'active') {
+        // Already subscribed: refresh details only, no second welcome email.
         Object.assign(subscriber, details);
         if (!subscriber.unsubscribeToken) subscriber.unsubscribeToken = newUnsubscribeToken();
         if (!subscriber.inboxKey) subscriber.inboxKey = key;
         await subscriber.save();
-        return response.status(200).json({ ok: true, alreadySubscribed: true });
+        return response.status(200).json({ ok: true, alreadySubscribed: true, emailSent: false });
       }
-
       if (!subscriber) {
         const recent = ip ? await Subscriber.countDocuments({ ip, createdAt: { $gt: new Date(Date.now() - 60 * 60 * 1000) } }) : 0;
         if (recent >= SIGNUPS_PER_IP_PER_HOUR) {
           return response.status(429).json({ error: 'Too many sign-ups from this network. Please try again later.' });
         }
-      }
-
-      const now = new Date();
-      const recentlySent = subscriber && subscriber.status === 'pending' && subscriber.confirmSentAt &&
-        now - subscriber.confirmSentAt < CONFIRM_RESEND_AFTER_MS;
-      if (recentlySent) return response.status(200).json({ ok: true, pending: true });
-
-      if (subscriber) {
-        // pending again, previously unsubscribed, or excluded by the clean-up: confirm by email
-        Object.assign(subscriber, details, { status: 'pending', source, inboxKey: key });
+        subscriber = new Subscriber({ email, source, inboxKey: key, ...details });
       } else {
-        subscriber = new Subscriber({ email, source, inboxKey: key, status: 'pending', ...details });
+        // Previously unsubscribed or excluded: subscribing again reactivates.
+        Object.assign(subscriber, details, { source, inboxKey: key, unsubscribedAt: undefined });
       }
-      subscriber.confirmToken = newUnsubscribeToken();
-      subscriber.confirmSentAt = now;
+      subscriber.status = 'active';
+      subscriber.subscribedAt = new Date();
       if (!subscriber.unsubscribeToken) subscriber.unsubscribeToken = newUnsubscribeToken();
       await subscriber.save();
     } catch (dbErr) {
-      if (dbErr.code === 11000) return response.status(200).json({ ok: true, pending: true });
+      if (dbErr.code === 11000) return response.status(200).json({ ok: true, alreadySubscribed: true, emailSent: false });
       console.error('Could not save subscriber to MongoDB:', dbErr.message);
       return response.status(500).json({ error: 'We could not save your subscription. Please try again in a moment.' });
     }
 
-    const sent = await sendSubscribeConfirmation(subscriber);
-    if (!sent || sent.statusCode < 200 || sent.statusCode >= 300) {
-      return response.status(502).json({ error: 'We could not send the confirmation email. Please try again later.' });
+    if (process.env.RESEND_AUDIENCE_ID) {
+      try {
+        await resendRequest(`/audiences/${encodeURIComponent(process.env.RESEND_AUDIENCE_ID)}/contacts`, { email, unsubscribed: false });
+      } catch (err) { console.warn('Could not add contact to Resend audience:', err.message); }
     }
-    response.status(201).json({ ok: true, pending: true });
+
+    const emailResult = await sendNewsletterConfirmationEmail(email, subscriber.unsubscribeToken);
+    response.status(201).json({
+      ok: true,
+      alreadySubscribed: false,
+      emailSent: !!(emailResult && emailResult.statusCode >= 200 && emailResult.statusCode < 300)
+    });
   } catch (error) { next(error); }
 });
 
@@ -516,56 +504,6 @@ function getUnsubscribePageHtml(title, message, formHtml = '') {
 </body>
 </html>`;
 }
-
-// Confirmation link: GET shows a button and changes nothing (email security scanners open
-// every link, which would otherwise confirm addresses bots signed up); POST confirms.
-async function findConfirmable(token) {
-  if (!token) return null;
-  return Subscriber.findOne({ confirmToken: token });
-}
-
-app.get('/api/newsletter/confirm', async (request, response, next) => {
-  try {
-    const token = String(request.query.token || '').trim();
-    const subscriber = await findConfirmable(token);
-    response.set('Cache-Control', 'no-store');
-    if (subscriber && subscriber.status === 'active') {
-      return response.type('html').send(getUnsubscribePageHtml('You are subscribed', `${escapeEmailHtml(subscriber.email)} is on the DIRA Insights list. New articles will arrive in your inbox.`));
-    }
-    if (!subscriber || subscriber.status !== 'pending' || !subscriber.confirmSentAt || Date.now() - subscriber.confirmSentAt > CONFIRM_VALID_MS) {
-      return response.status(404).type('html').send(getUnsubscribePageHtml('Link expired', 'This confirmation link is invalid or has expired. Subscribe again on diracmr.com to get a new one.'));
-    }
-    const form = `<form method="post" action="?token=${encodeURIComponent(token)}"><button type="submit" style="background:#2F80ED;color:#ffffff;border:0;border-radius:8px;padding:12px 28px;font-size:15px;font-weight:600;cursor:pointer;">Confirm subscription</button></form>`;
-    response.type('html').send(getUnsubscribePageHtml('Confirm your subscription', `Receive new DIRA Insights articles at ${escapeEmailHtml(subscriber.email)}.`, form));
-  } catch (error) { next(error); }
-});
-
-app.post('/api/newsletter/confirm', async (request, response, next) => {
-  try {
-    const token = String(request.query.token || request.body.token || '').trim();
-    const subscriber = await findConfirmable(token);
-    response.set('Cache-Control', 'no-store');
-    if (!subscriber || (subscriber.status !== 'pending' && subscriber.status !== 'active') ||
-        (subscriber.status === 'pending' && (!subscriber.confirmSentAt || Date.now() - subscriber.confirmSentAt > CONFIRM_VALID_MS))) {
-      return response.status(404).type('html').send(getUnsubscribePageHtml('Link expired', 'This confirmation link is invalid or has expired. Subscribe again on diracmr.com to get a new one.'));
-    }
-    if (subscriber.status === 'pending') {
-      subscriber.status = 'active';
-      subscriber.confirmedAt = new Date();
-      subscriber.subscribedAt = subscriber.confirmedAt;
-      subscriber.unsubscribedAt = undefined;
-      if (!subscriber.unsubscribeToken) subscriber.unsubscribeToken = newUnsubscribeToken();
-      await subscriber.save();
-      if (process.env.RESEND_AUDIENCE_ID) {
-        try {
-          await resendRequest(`/audiences/${encodeURIComponent(process.env.RESEND_AUDIENCE_ID)}/contacts`, { email: subscriber.email, unsubscribed: false });
-        } catch (err) { console.warn('Could not add contact to Resend audience:', err.message); }
-      }
-      await sendNewsletterConfirmationEmail(subscriber.email, subscriber.unsubscribeToken);
-    }
-    response.type('html').send(getUnsubscribePageHtml('Welcome to DIRA Insights', `${escapeEmailHtml(subscriber.email)} is confirmed. New articles will arrive in your inbox.`, `<a href="${getSiteUrl()}/articles" style="display:inline-block;background:#2F80ED;color:#ffffff;text-decoration:none;border-radius:8px;padding:12px 28px;font-size:15px;font-weight:600;">Read the latest articles</a>`));
-  } catch (error) { next(error); }
-});
 
 // GET shows a confirmation button, so link scanners that open URLs in emails
 // cannot unsubscribe people by accident. POST performs the unsubscribe and also

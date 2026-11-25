@@ -20,6 +20,60 @@
     const MAX_INTERVAL_MS = 7 * 24 * 60 * 60 * 1000; // Max 7 days
     
     const API_BASE = window.DIRA_API_BASE || (window.location.protocol === 'file:' ? 'http://localhost:3000/api' : '/api');
+
+    // Cloudflare Turnstile human check, loaded only when a subscribe form is shown.
+    // If the site has no Turnstile key configured, forms work without it.
+    const Turnstile = (function () {
+        let configPromise = null;
+        let scriptPromise = null;
+        function siteKey() {
+            if (!configPromise) {
+                configPromise = fetch(`${API_BASE}/newsletter/config`)
+                    .then(r => (r.ok ? r.json() : {}))
+                    .then(c => c.turnstileSiteKey || '')
+                    .catch(() => '');
+            }
+            return configPromise;
+        }
+        function loadScript() {
+            if (!scriptPromise) {
+                scriptPromise = new Promise((resolve, reject) => {
+                    const s = document.createElement('script');
+                    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+                    s.async = true;
+                    s.onload = () => resolve(window.turnstile);
+                    s.onerror = reject;
+                    document.head.appendChild(s);
+                });
+            }
+            return scriptPromise;
+        }
+        // Renders the check into `container`; returns { token(), reset() }.
+        async function mount(container) {
+            const state = { token: '', widgetId: null };
+            const key = await siteKey();
+            if (!key || !container) return { enabled: false, token: () => '', reset() {} };
+            try {
+                const ts = await loadScript();
+                state.widgetId = ts.render(container, {
+                    sitekey: key,
+                    appearance: 'interaction-only',
+                    callback: t => { state.token = t; },
+                    'expired-callback': () => { state.token = ''; },
+                    'error-callback': () => { state.token = ''; }
+                });
+            } catch (e) {
+                return { enabled: false, token: () => '', reset() {} };
+            }
+            return {
+                enabled: true,
+                token: () => state.token,
+                reset() { state.token = ''; try { window.turnstile.reset(state.widgetId); } catch (e) {} }
+            };
+        }
+        return { mount };
+    })();
+    window.DiraTurnstile = Turnstile;
     let popupTimer = null;
 
     function getOrCreateClientId() {
@@ -132,6 +186,7 @@
                                 </svg>
                             </button>
                         </div>
+                        <div id="diraNewsletterTurnstile" style="margin-top:10px;"></div>
                         <p class="dira-newsletter-disclaimer">Tech insights, practical tips and ecosystem perspectives. Unsubscribe anytime.</p>
                     </form>
                 </div>
@@ -386,6 +441,10 @@
                     submitButton.disabled = true;
                     submitButton.querySelector('span').textContent = 'Subscribing...';
                     try {
+                        const check = popupCheck ? await popupCheck : null;
+                        if (check && check.enabled && !check.token()) {
+                            throw new Error('One moment: finishing a quick security check. Please press Subscribe again.');
+                        }
                         const response = await fetch(`${API_BASE}/newsletter/subscribe`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
@@ -393,10 +452,12 @@
                                 email,
                                 clientId,
                                 website: (document.getElementById('diraNewsletterWebsite') || {}).value || '',
-                                elapsedMs: modalShownAt ? Date.now() - modalShownAt : 0
+                                elapsedMs: modalShownAt ? Date.now() - modalShownAt : 0,
+                                turnstileToken: check ? check.token() : ''
                             })
                         });
                         const result = await response.json();
+                        if (check) check.reset();
 
                         if ((result && result.alreadySubscribed) || response.status === 409) {
                             markAsSubscribed();
@@ -424,10 +485,10 @@
                             successView.style.display = 'block';
                             const title = successView.querySelector('h3');
                             const text = successView.querySelector('p');
-                            if (title) title.textContent = 'Check your inbox';
-                            if (text) text.textContent = 'We sent you a confirmation email. Click the button in it to start receiving DIRA Insights. Check your spam folder if you do not see it.';
+                            if (title) title.textContent = 'Welcome to the Community!';
+                            if (text) text.textContent = 'You have successfully subscribed to DIRA Insights.';
                         }
-                        setTimeout(closeModalWithoutCooldown, 6000);
+                        setTimeout(closeModalWithoutCooldown, 2200);
                     } catch (error) {
                         let message = form.querySelector('.dira-newsletter-error');
                         if (!message) {
@@ -445,10 +506,12 @@
     }
 
     let modalShownAt = 0;
+    let popupCheck = null;
     function showModal() {
         if (isSubscribedLocal()) return;
         injectNewsletterModal();
         modalShownAt = Date.now();
+        if (!popupCheck) popupCheck = Turnstile.mount(document.getElementById('diraNewsletterTurnstile'));
         const modal = document.getElementById('dira-newsletter-modal');
         if (modal) {
             modal.classList.add('is-active');

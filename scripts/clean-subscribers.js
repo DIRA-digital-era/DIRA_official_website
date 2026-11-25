@@ -2,9 +2,10 @@
 //
 //   node scripts/clean-subscribers.js report.csv          dry run: writes the review file, changes nothing
 //   node scripts/clean-subscribers.js report.csv --apply  marks the flagged subscribers "excluded"
+//   node scripts/clean-subscribers.js report.csv --delete permanently deletes them (no undo)
 //
-// Flagged subscribers are never deleted. "excluded" means they stop receiving emails;
-// setting status back to "active" restores one.
+// "excluded" means they stop receiving emails; setting status back to "active" restores one.
+// --delete removes them from the database and the Resend audience for good.
 require('dotenv').config();
 const fs = require('fs');
 const mongoose = require('mongoose');
@@ -21,6 +22,7 @@ function suspiciousClient(userAgent) {
 
 const [reportPath, flag] = process.argv.slice(2);
 const apply = flag === '--apply';
+const remove = flag === '--delete';
 if (!reportPath) {
   console.error('Usage: node scripts/clean-subscribers.js <report.csv> [--apply]');
   process.exit(1);
@@ -72,8 +74,23 @@ if (!reportPath) {
     }));
     const result = ops.length ? await Subscriber.bulkWrite(ops) : { modifiedCount: 0 };
     console.log(`Marked excluded: ${result.modifiedCount}`);
+  } else if (remove) {
+    const doomed = subscribers.filter(s => flagged.has(String(s._id)));
+    const result = await Subscriber.deleteMany({ _id: { $in: doomed.map(s => s._id) }, status: 'active' });
+    console.log(`Deleted from database: ${result.deletedCount}`);
+    if (process.env.RESEND_API_KEY && process.env.RESEND_AUDIENCE_ID) {
+      let removed = 0;
+      for (const s of doomed) {
+        const res = await fetch(`https://api.resend.com/audiences/${encodeURIComponent(process.env.RESEND_AUDIENCE_ID)}/contacts/${encodeURIComponent(s.email)}`, {
+          method: 'DELETE', headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}` }
+        }).catch(() => null);
+        if (res && res.ok) removed++;
+        await new Promise(r => setTimeout(r, 120)); // stay under Resend's 10 requests a second
+      }
+      console.log(`Removed from Resend audience: ${removed} (others were not in it, or the key cannot manage contacts)`);
+    }
   } else {
-    console.log('Dry run: nothing changed. Re-run with --apply to exclude the flagged subscribers.');
+    console.log('Dry run: nothing changed. Re-run with --apply to exclude, or --delete to remove for good.');
   }
   await mongoose.disconnect();
 })().catch(error => { console.error(error.message); process.exit(1); });

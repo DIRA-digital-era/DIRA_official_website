@@ -230,6 +230,15 @@
     honeypot.setAttribute('aria-hidden', 'true');
     honeypot.style.cssText = 'position:absolute;left:-10000px;width:1px;height:1px;opacity:0;';
     form.appendChild(honeypot);
+    // Human check, loaded the first time someone starts typing an address.
+    const checkBox = document.createElement('div');
+    checkBox.style.marginTop = '10px';
+    form.insertAdjacentElement('afterend', checkBox);
+    let heroCheck = null;
+    const startCheck = () => {
+      if (!heroCheck && window.DiraTurnstile) heroCheck = window.DiraTurnstile.mount(checkBox);
+    };
+    emailInput.addEventListener('focus', startCheck, { once: true });
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -248,15 +257,21 @@
       }
 
       try {
+        startCheck();
+        const check = heroCheck ? await heroCheck : null;
+        if (check && check.enabled && !check.token()) {
+          throw new Error('One moment: finishing a quick security check. Please press Subscribe again.');
+        }
         const clientId = localStorage.getItem('dira_newsletter_client_id') || ('client_' + Math.random().toString(36).substring(2, 12));
         localStorage.setItem('dira_newsletter_client_id', clientId);
 
         const response = await fetch(`${API_BASE}/newsletter/subscribe`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, clientId, source: 'articles-hero-capsule', website: honeypot.value, elapsedMs: Date.now() - formReadyAt })
+          body: JSON.stringify({ email, clientId, source: 'articles-hero-capsule', website: honeypot.value, elapsedMs: Date.now() - formReadyAt, turnstileToken: check ? check.token() : '' })
         });
         const data = await response.json();
+        if (check) check.reset();
 
         if ((data && data.alreadySubscribed) || response.status === 409) {
           if (statusBox) {
@@ -272,7 +287,7 @@
 
         if (statusBox) {
           statusBox.className = 'hero-newsletter-status show success';
-          statusBox.textContent = 'Almost done: check your inbox and click the confirmation link to start receiving articles.';
+          statusBox.textContent = 'Thanks for subscribing! You will receive our latest articles and updates.';
         }
         form.reset();
       } catch (err) {
