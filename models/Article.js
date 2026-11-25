@@ -28,7 +28,14 @@ const articleSchema = new mongoose.Schema(
     // Set once subscribers have been emailed, so later edits never re-send.
     notifiedAt: { type: Date },
     // Old slugs keep working after a slug is changed.
-    previousSlugs: { type: [String], default: [], index: true }
+    previousSlugs: { type: [String], default: [], index: true },
+    // Newsletter progress. Emails go out in small batches (one request each) so no
+    // single request runs into Netlify's function time limit.
+    newsletterPending: { type: Boolean, default: false },
+    newsletterCursor: { type: mongoose.Schema.Types.ObjectId },
+    newsletterSent: { type: Number, default: 0 },
+    newsletterTotal: { type: Number, default: 0 },
+    newsletterLockedUntil: { type: Date }
   },
   { timestamps: true, collection: 'dira_articles' }
 );
@@ -54,6 +61,9 @@ articleSchema.methods.toClientJSON = function toClientJSON() {
     status: this.status || 'published',
     publishedAt: this.publishedAt,
     notifiedAt: this.notifiedAt,
+    newsletterPending: !!this.newsletterPending,
+    newsletterSent: this.newsletterSent || 0,
+    newsletterTotal: this.newsletterTotal || 0,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt
   };

@@ -136,6 +136,22 @@
   async function updateArticle(id, data) {
     return request(`/articles/${encodeURIComponent(id)}`, { method: 'PUT', body: data });
   }
+  // Sends the next batch of the article email; returns { sent, total, done } or throws.
+  async function sendNewsletterBatch(id) {
+    const token = sessionStorage.getItem('dira_admin_token');
+    const response = await fetch(`${API_BASE}/articles/${encodeURIComponent(id)}/newsletter`, {
+      method: 'POST',
+      headers: token ? { Authorization: `Bearer ${token}` } : {}
+    });
+    const body = await response.json().catch(() => ({}));
+    if (response.status === 409 && body.busy) return { busy: true };
+    if (!response.ok) {
+      const error = new Error(body.error || 'Emailing subscribers failed.');
+      error.progress = body;
+      throw error;
+    }
+    return body;
+  }
   async function createArticle(data) {
     const options = { method: 'POST', body: data };
     if (!(data instanceof FormData)) {
@@ -151,7 +167,7 @@
   }
   async function deleteArticle(id) { return request(`/articles/${encodeURIComponent(id)}`, { method: 'DELETE' }); }
 
-  window.DiraArticles = { api: { getAll, getCustomOnly, getBySlug, createArticle, updateArticle, uploadImage, deleteArticle } };
+  window.DiraArticles = { api: { getAll, getCustomOnly, getBySlug, createArticle, updateArticle, sendNewsletterBatch, uploadImage, deleteArticle } };
 
   async function renderArticleReader() {
     const reader = document.getElementById('articleReader');

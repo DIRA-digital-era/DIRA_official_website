@@ -860,12 +860,39 @@
             if (editingId) { e.preventDefault(); exitEditMode(); }
         });
 
-        function newsletterNote(saved) {
-            const n = saved && saved.newsletter;
-            if (!n) return '';
-            if (n.error) return ` Subscribers could not be emailed: ${n.error}`;
-            if (!n.total) return ' No subscribers to email yet.';
-            return ` Emailed ${n.sent} of ${n.total} subscriber${n.total === 1 ? '' : 's'}.`;
+        // ---- Newsletter sending: one small batch per request, with progress ----
+        let newsletterRunning = false;
+        async function runNewsletter(articleId, title, baseMessage) {
+            if (newsletterRunning) return;
+            newsletterRunning = true;
+            const banner = document.getElementById('statusBanner');
+            const prefix = baseMessage ? baseMessage + ' ' : '';
+            const show = (type, text) => { banner.className = `status-banner show ${type}`; banner.innerHTML = prefix + escapeHtml(text); };
+            show('success', `Emailing subscribers about "${title}"... keep this page open.`);
+            let busyRetries = 0;
+            try {
+                for (let i = 0; i < 500; i++) {
+                    const result = await window.DiraArticles.api.sendNewsletterBatch(articleId);
+                    if (result.busy) {
+                        if (++busyRetries > 10) throw new Error('Another send is still running. Try again in a minute.');
+                        await new Promise(resolve => setTimeout(resolve, 3000));
+                        continue;
+                    }
+                    busyRetries = 0;
+                    if (result.done) {
+                        show('success', result.total ? `Emailed ${result.sent} of ${result.total} subscribers about "${title}".` : 'No subscribers to email yet.');
+                        break;
+                    }
+                    show('success', `Emailing subscribers about "${title}": ${result.sent} of ${result.total} sent... keep this page open.`);
+                }
+            } catch (error) {
+                const p = error.progress || {};
+                const progress = p.total ? ` (${p.sent || 0} of ${p.total} sent)` : '';
+                show('error', `Emailing stopped${progress}: ${error.message} Use "Resume emailing" in the list below to continue. Nobody receives it twice.`);
+            } finally {
+                newsletterRunning = false;
+                loadUploadedList();
+            }
         }
 
         // ---- Submit ----
@@ -923,13 +950,16 @@
                     const wasDraft = editingArticle && editingArticle.status === 'draft';
                     const verb = saved.status === 'draft' ? (editingId ? 'Draft saved.' : 'Saved as a draft.') : (editingId && !wasDraft ? 'Changes saved.' : 'Published.');
                     const linkText = saved.status === 'draft' ? 'Preview the draft' : 'View the article';
-                    message = `${verb} <a href="${link}" style="color:inherit;text-decoration:underline;">${linkText}</a>.${escapeHtml(newsletterNote(saved))}`;
+                    message = `${verb} <a href="${link}" style="color:inherit;text-decoration:underline;">${linkText}</a>.`;
                 }
                 showBanner('success', '');
                 document.getElementById('statusBanner').innerHTML = message;
                 if (editingId) exitEditMode(); else resetForm();
                 loadUploadedList();
                 loadUploadedReports();
+                if (!isReport && saved.newsletter && saved.newsletter.pending) {
+                    runNewsletter(saved.id, saved.title, message);
+                }
             } catch (err) {
                 showBanner('error', err.message || 'Something went wrong while saving. Please try again.');
                 publishBtn.textContent = labelBefore;
@@ -961,6 +991,7 @@
                     <div class="ui-actions">
                         <a class="btn btn-ghost btn-sm" href="/articles/${encodeURIComponent(a.slug)}">${a.status === 'draft' ? 'Preview' : 'View'}</a>
                         <button type="button" class="btn btn-ghost btn-sm edit-btn" data-id="${a.id}">Edit</button>
+                        ${a.status !== 'draft' && !a.notifiedAt ? `<button type="button" class="btn btn-ghost btn-sm email-btn" data-id="${a.id}">${a.newsletterSent ? `Resume emailing (${a.newsletterSent}/${a.newsletterTotal})` : 'Email subscribers'}</button>` : ''}
                         <button class="btn btn-danger btn-sm delete-btn" data-id="${a.id}" data-title="${escapeHtml(a.title)}">Delete</button>
                     </div>
                 </div>
@@ -970,6 +1001,18 @@
                 btn.addEventListener('click', () => {
                     const article = loadedArticles.find(item => item.id === btn.dataset.id);
                     if (article) startEdit(article);
+                });
+            });
+            wrap.querySelectorAll('.email-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const article = loadedArticles.find(item => item.id === btn.dataset.id);
+                    if (!article || newsletterRunning) return;
+                    const resuming = article.newsletterSent > 0;
+                    const question = resuming
+                        ? `Continue emailing "${article.title}" to the subscribers who have not received it yet?`
+                        : `Email "${article.title}" to all subscribers now?`;
+                    if (!window.confirm(question)) return;
+                    runNewsletter(article.id, article.title, '');
                 });
             });
             if (editingId) wrap.querySelectorAll('.uploaded-item').forEach(el => el.classList.toggle('is-editing', el.dataset.id === editingId));

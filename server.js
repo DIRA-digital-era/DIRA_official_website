@@ -651,84 +651,92 @@ function getNewArticleEmailHtml(article, articleUrl, imageUrl, siteUrl) {
 </html>`;
 }
 
-async function sendNewArticleNotification(article) {
-  if (!process.env.RESEND_API_KEY) return { total: 0, sent: 0, error: 'Newsletter service is not configured.' };
+const NEWSLETTER_CHUNK = 50;
 
-  try {
-    const subscribers = await Subscriber.find({ status: 'active' }).select('email unsubscribeToken').lean();
+// Sends the next batch of an article email: the next 50 active subscribers after the
+// article's cursor, in a single Resend batch call. One call takes a couple of seconds,
+// well inside Netlify's function time limit; the upload page calls it until done.
+// The cursor only moves after Resend accepts a batch, so a failed batch can be retried
+// without anyone receiving the email twice.
+async function sendArticleNewsletterBatch(article) {
+  if (!process.env.RESEND_API_KEY) return { error: 'Newsletter service is not configured.' };
+  if (article.notifiedAt) return { done: true, sent: article.newsletterSent || 0, total: article.newsletterTotal || 0 };
 
-    // Older records may predate unsubscribe tokens; give them one now.
-    const missing = subscribers.filter(s => !s.unsubscribeToken);
-    if (missing.length) {
-      missing.forEach(s => { s.unsubscribeToken = newUnsubscribeToken(); });
-      await Subscriber.bulkWrite(missing.map(s => ({
-        updateOne: { filter: { _id: s._id }, update: { $set: { unsubscribeToken: s.unsubscribeToken } } }
-      })));
-    }
+  const filter = { status: 'active' };
+  if (article.newsletterCursor) filter._id = { $gt: article.newsletterCursor };
+  const [batch, remaining] = await Promise.all([
+    Subscriber.find(filter).sort({ _id: 1 }).limit(NEWSLETTER_CHUNK).select('email unsubscribeToken').lean(),
+    Subscriber.countDocuments(filter)
+  ]);
+  const total = (article.newsletterSent || 0) + remaining;
 
-    // One email per address, even if duplicate records exist from before the unique index.
-    const seen = new Set();
-    const recipients = subscribers.filter(s => {
-      if (!s.email || seen.has(s.email)) return false;
-      seen.add(s.email);
-      return true;
-    });
-    if (recipients.length === 0) {
-      console.log('No active subscribers found in MongoDB to notify.');
-      return { total: 0, sent: 0 };
-    }
-    console.log(`Sending new article notification for "${article.title}" to ${recipients.length} subscriber(s)...`);
-
-    const from = getNewsletterFrom();
-    const siteUrl = getSiteUrl();
-    const articleUrl = `${siteUrl}/articles/${encodeURIComponent(article.slug)}`;
-
-    let imageUrl = article.image || '';
-    if (imageUrl && !imageUrl.startsWith('http')) {
-      imageUrl = `${siteUrl}/${imageUrl.replace(/^\.?\/+/, '')}`;
-    }
-
-    const htmlTemplate = getNewArticleEmailHtml(article, articleUrl, imageUrl, siteUrl);
-    const textContent = `New Article from DIRA Insights\n\n${article.title}\nCategory: ${article.category}\nBy ${article.author} | ${article.readTime}\n\n${article.excerpt}\n\nRead the full article here:\n${articleUrl}\n\n---\nDIRA CMR - Digital Innovation & Research Alliance\n${siteUrl}`;
-    const subject = `New on DIRA Insights: ${article.title}`;
-
-    const BATCH_SIZE = 100;
-    let sentCount = 0;
-
-    for (let i = 0; i < recipients.length; i += BATCH_SIZE) {
-      const batch = recipients.slice(i, i + BATCH_SIZE);
-      const batchPayload = batch.map(({ email, unsubscribeToken }) => {
-        const unsubscribeUrl = getUnsubscribeUrl(unsubscribeToken);
-        return {
-          from,
-          to: [email],
-          subject,
-          html: htmlTemplate
-            .replace(/{{RECIPIENT_EMAIL}}/g, escapeEmailHtml(email))
-            .replace(/{{UNSUBSCRIBE_URL}}/g, unsubscribeUrl),
-          text: `${textContent}\n\nUnsubscribe: ${unsubscribeUrl}`,
-          headers: getUnsubscribeHeaders(unsubscribeUrl)
-        };
-      });
-
-      try {
-        const batchRes = await resendRequest('/emails/batch', batchPayload);
-        if (batchRes.statusCode >= 200 && batchRes.statusCode < 300) {
-          sentCount += batch.length;
-        } else {
-          console.warn('Batch email warning:', batchRes.body);
-        }
-      } catch (batchErr) {
-        console.error('Batch send error for chunk:', batchErr.message);
-      }
-    }
-
-    console.log(`Article broadcast complete: ${sentCount}/${recipients.length} notification emails sent.`);
-    return { total: recipients.length, sent: sentCount };
-  } catch (err) {
-    console.error('Failed to notify subscribers about new article:', err.message);
-    return { total: 0, sent: 0, error: err.message };
+  if (!batch.length) {
+    article.notifiedAt = new Date();
+    article.newsletterPending = false;
+    article.newsletterTotal = total;
+    await article.save();
+    return { done: true, sent: article.newsletterSent || 0, total };
   }
+
+  // Older records may predate unsubscribe tokens; give them one now.
+  const missing = batch.filter(s => !s.unsubscribeToken);
+  if (missing.length) {
+    missing.forEach(s => { s.unsubscribeToken = newUnsubscribeToken(); });
+    await Subscriber.bulkWrite(missing.map(s => ({
+      updateOne: { filter: { _id: s._id }, update: { $set: { unsubscribeToken: s.unsubscribeToken } } }
+    })));
+  }
+
+  const from = getNewsletterFrom();
+  const siteUrl = getSiteUrl();
+  const articleUrl = `${siteUrl}/articles/${encodeURIComponent(article.slug)}`;
+  let imageUrl = article.image || '';
+  if (imageUrl && !imageUrl.startsWith('http')) imageUrl = `${siteUrl}/${imageUrl.replace(/^\.?\/+/, '')}`;
+  const htmlTemplate = getNewArticleEmailHtml(article, articleUrl, imageUrl, siteUrl);
+  const textContent = `New Article from DIRA Insights\n\n${article.title}\nCategory: ${article.category}\nBy ${article.author} | ${article.readTime}\n\n${article.excerpt}\n\nRead the full article here:\n${articleUrl}\n\n---\nDIRA CMR - Digital Innovation & Research Alliance\n${siteUrl}`;
+  const subject = `New on DIRA Insights: ${article.title}`;
+
+  const payload = batch.filter(s => s.email).map(({ email, unsubscribeToken }) => {
+    const unsubscribeUrl = getUnsubscribeUrl(unsubscribeToken);
+    return {
+      from,
+      to: [email],
+      subject,
+      html: htmlTemplate
+        .replace(/{{RECIPIENT_EMAIL}}/g, escapeEmailHtml(email))
+        .replace(/{{UNSUBSCRIBE_URL}}/g, unsubscribeUrl),
+      text: `${textContent}\n\nUnsubscribe: ${unsubscribeUrl}`,
+      headers: getUnsubscribeHeaders(unsubscribeUrl)
+    };
+  });
+
+  let result;
+  try {
+    result = await resendRequest('/emails/batch', payload);
+  } catch (err) {
+    console.error('Newsletter batch could not reach Resend:', err.message);
+    return { error: 'Could not reach the email service. Try again.', sent: article.newsletterSent || 0, total };
+  }
+  if (result.statusCode < 200 || result.statusCode >= 300) {
+    const reason = (result.body && (result.body.message || result.body.error)) || `status ${result.statusCode}`;
+    console.error('Resend refused newsletter batch:', reason);
+    if (result.statusCode === 429 && /quota/i.test(JSON.stringify(result.body || {}))) {
+      return { error: 'The daily email limit on the Resend plan has been reached. Use "Resume emailing" tomorrow to send to the rest.', quota: true, sent: article.newsletterSent || 0, total };
+    }
+    return { error: `The email service refused the batch: ${reason}`, sent: article.newsletterSent || 0, total };
+  }
+
+  article.newsletterCursor = batch[batch.length - 1]._id;
+  article.newsletterSent = (article.newsletterSent || 0) + batch.length;
+  article.newsletterTotal = total;
+  const done = remaining <= batch.length;
+  if (done) {
+    article.notifiedAt = new Date();
+    article.newsletterPending = false;
+  }
+  await article.save();
+  console.log(`Newsletter "${article.slug}": ${article.newsletterSent}/${total} sent.`);
+  return { done, sent: article.newsletterSent, total };
 }
 
 function cleanArticleContent(content) {
@@ -754,17 +762,41 @@ function readSeoFields(body) {
   };
 }
 
-// Subscribers are emailed once, at the moment an article is first published,
-// unless the admin unticks "Email subscribers". Editing a live article never re-sends.
+// Subscribers are emailed once, when an article is first published, unless the admin
+// unticks "Email subscribers". Publishing only queues the email; the upload page then
+// sends it batch by batch through /api/articles/:id/newsletter. Edits never re-send.
 async function notifyIfFirstPublish(article, wantsNotify, justPublished) {
   if (!justPublished || article.status === 'draft' || article.notifiedAt || !wantsNotify) return null;
-  const newsletter = await sendNewArticleNotification(article);
-  if (newsletter && newsletter.sent > 0) {
-    article.notifiedAt = new Date();
-    await article.save();
-  }
-  return newsletter;
+  article.newsletterPending = true;
+  await article.save();
+  return { pending: true, sent: 0, total: await Subscriber.countDocuments({ status: 'active' }) };
 }
+
+app.post('/api/articles/:id/newsletter', requireAdmin, async (request, response, next) => {
+  try {
+    if (!mongoose.isValidObjectId(request.params.id)) return response.status(404).json({ error: 'Article not found.' });
+    const now = new Date();
+    // Claim the article for this batch so a double click cannot send the same batch twice.
+    const article = await Article.findOneAndUpdate(
+      { _id: request.params.id, $or: [{ newsletterLockedUntil: { $exists: false } }, { newsletterLockedUntil: null }, { newsletterLockedUntil: { $lt: now } }] },
+      { $set: { newsletterLockedUntil: new Date(now.getTime() + 30000) } },
+      { new: true }
+    );
+    if (!article) {
+      const exists = await Article.exists({ _id: request.params.id });
+      if (!exists) return response.status(404).json({ error: 'Article not found.' });
+      return response.status(409).json({ busy: true, error: 'A batch is already being sent. Wait a moment.' });
+    }
+    try {
+      if (article.status === 'draft') return response.status(400).json({ error: 'Publish the article before emailing subscribers.' });
+      if (!article.notifiedAt && !article.newsletterPending) article.newsletterPending = true;
+      const result = await sendArticleNewsletterBatch(article);
+      response.status(result.error ? 502 : 200).json(result);
+    } finally {
+      await Article.updateOne({ _id: article._id }, { $unset: { newsletterLockedUntil: 1 } });
+    }
+  } catch (error) { next(error); }
+});
 
 app.post('/api/articles', requireAdmin, upload.single('image'), async (request, response, next) => {
   try {
